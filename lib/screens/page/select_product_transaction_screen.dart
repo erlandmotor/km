@@ -91,20 +91,22 @@ class _SelectProductTransactionScreenState extends State<SelectProductTransactio
                                           locator.get<TransactionService>().payNow(
                                             snapshot.data!.data![index].kodeproduk!, 
                                             tujuan, 
-                                            pin, locator.get<UserAppidCubit>().state.userAppId.appId
+                                            pin, 
+                                            "0",
+                                            locator.get<UserAppidCubit>().state.userAppId.appId
                                           ).then((value) {
                                             if(value.success!) {
 
                                             } else {
                                               locator.get<LocalNotificationService>().showLocalNotification(title: "Hello Notification", body: "It Works");
                                               context.pop();
-                                              // showDynamicSnackBar(
-                                              //   context, 
-                                              //   LineIcons.exclamationTriangle, 
-                                              //   "ERROR", 
-                                              //   value.msg!, 
-                                              //   Colors.red
-                                              // );
+                                              showDynamicSnackBar(
+                                                context, 
+                                                LineIcons.exclamationTriangle, 
+                                                "ERROR", 
+                                                value.msg!, 
+                                                Colors.red
+                                              );
                                             }
                                           }).catchError((e) {
                                             context.pop();

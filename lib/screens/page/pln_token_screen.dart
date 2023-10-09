@@ -1,22 +1,30 @@
 import "package:adamulti_mobile_clone_new/components/check_identity_container.dart";
 import "package:adamulti_mobile_clone_new/components/container_gradient_background.dart";
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
-import "package:adamulti_mobile_clone_new/components/custom_regular_appbar.dart";
+import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/product_item_component.dart";
-import "package:adamulti_mobile_clone_new/components/regular_textfield_component.dart";
+import "package:adamulti_mobile_clone_new/components/transaction_check_form_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/product_response.dart";
+import "package:adamulti_mobile_clone_new/services/local_notification_service.dart";
 import "package:adamulti_mobile_clone_new/services/product_service.dart";
+import "package:adamulti_mobile_clone_new/services/transaction_service.dart";
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:flutter_spinkit/flutter_spinkit.dart";
+import "package:go_router/go_router.dart";
 import "package:line_icons/line_icons.dart";
 
 class PlnTokenScreen extends StatefulWidget {
-  const PlnTokenScreen({ super.key, required this.operatorId, required this.operatorName });
+  const PlnTokenScreen({ super.key, required this.operatorId, required this.operatorName,
+  required this.kodeProduk });
 
   final String operatorId;
   final String operatorName;
+  final String kodeProduk;
 
   @override
   State<PlnTokenScreen> createState() => _PlnTokenScreenState();
@@ -33,6 +41,7 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final checkIdentityCubit = context.read<CheckIdentityCubit>();
     return Scaffold(
       body: SafeArea(
         child: ContainerGradientBackground(
@@ -41,7 +50,30 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
               CustomContainerAppBar(
                 title: widget.operatorName,
               ),
-              const CheckIdentityContainer(),
+              CheckIdentityContainer(
+                identityController: identityController,
+                onCheck: () {
+                  checkIdentityCubit.updateState(true, checkIdentityCubit.state.result);
+
+                  locator.get<TransactionService>().checkIdentity(
+                    widget.kodeProduk, 
+                    identityController.text, 
+                    "5", 
+                    locator.get<UserAppidCubit>().state.userAppId.appId
+                  ).then((value) {
+                    checkIdentityCubit.updateState(false, value);
+                  }).catchError((e) {
+                    checkIdentityCubit.updateState(false, checkIdentityCubit.state.result);
+                    showDynamicSnackBar(
+                      context, 
+                      LineIcons.exclamationTriangle, 
+                      "ERROR", 
+                      e.toString(), 
+                      Colors.red
+                    );
+                  });
+                },
+              ),
               const SizedBox(height: 8,),
               Expanded(
                 child: Container(
@@ -68,7 +100,79 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                                 title: widget.operatorName,
                                 productName: snapshot.data!.data![index].namaproduk!, 
                                 onTap: () {
-                                  
+                                  if(identityController.text.isEmpty) {
+                                    showDynamicSnackBar(
+                                      context, 
+                                      LineIcons.exclamationTriangle, 
+                                      "ERROR", 
+                                      "ID Pelanggan harus diisi terlebih dahulu.", 
+                                      Colors.red
+                                    );
+                                  } else {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(18),
+                                          topRight: Radius.circular(18)
+                                        )
+                                      ),  
+                                      builder: (context) {
+                                        return TransactionCheckFormComponent(
+                                          operatorName: snapshot.data!.data![index].namaoperator!, 
+                                          productName: snapshot.data!.data![index].namaproduk!, 
+                                          productPrice: snapshot.data!.data![index].hargajual!, 
+                                          userIdentity: identityController.text, 
+                                          onSubmit: (pin) {
+                                            showDialog(
+                                              barrierDismissible: false,
+                                              context: context, 
+                                              builder: (context) => const Center(
+                                                child: SpinKitFadingCircle(
+                                                  color: Colors.white,
+                                                  size: 128,
+                                                ),
+                                              )
+                                            );
+
+                                            locator.get<TransactionService>().payNow(
+                                              snapshot.data!.data![index].kodeproduk!, 
+                                              identityController.text, 
+                                              pin,
+                                              "0", 
+                                              locator.get<UserAppidCubit>().state.userAppId.appId
+                                            ).then((value) {
+                                              if(value.success!) {
+
+                                              } else {
+                                                locator.get<LocalNotificationService>().showLocalNotification(title: "Hello Notification", body: "It Works");
+                                                context.pop();
+                                                showDynamicSnackBar(
+                                                  context, 
+                                                  LineIcons.exclamationTriangle, 
+                                                  "ERROR", 
+                                                  value.msg!, 
+                                                  Colors.red
+                                                );
+                                              }
+                                            }).catchError((e) {
+                                              context.pop();
+                                              context.pop();
+
+                                              showDynamicSnackBar(
+                                                context, 
+                                                LineIcons.exclamationTriangle, 
+                                                "ERROR", 
+                                                e.toString(), 
+                                                Colors.red
+                                              );
+                                            });                                            
+                                          }
+                                        );
+                                      }
+                                    );
+                                  }
                                 },
                                 price: snapshot.data!.data![index].hargajual!.toString(),
                                 productCode: snapshot.data!.data![index].kodeproduk!,

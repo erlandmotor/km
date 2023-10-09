@@ -9,42 +9,33 @@ import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
 
-class TransactionFormComponent extends StatefulWidget {
+class TransactionCheckFormComponent extends StatefulWidget {
 
-  const TransactionFormComponent({ super.key,
-  required this.operatorName, required this.productName, required this.productPrice,
+  const TransactionCheckFormComponent({ super.key,
+  required this.operatorName, required this.productName, required this.productPrice, required this.userIdentity,
   required this.onSubmit });
 
   final String operatorName;
   final String productName;
+  final String userIdentity;
   final int productPrice;
   final Function onSubmit;
 
   @override
-  State<TransactionFormComponent> createState() => _TransactionFormComponentState();
+  State<TransactionCheckFormComponent> createState() => _TransactionCheckFormComponentState();
 }
 
-class _TransactionFormComponentState extends State<TransactionFormComponent> {
+class _TransactionCheckFormComponentState extends State<TransactionCheckFormComponent> {
 
-  final identityController = TextEditingController();
   final pinController = TextEditingController();
-
-  var identityNumber = "";
 
   @override
   void initState() {
     super.initState();
-
-    identityController.addListener(() {
-      setState(() {
-        identityNumber = identityController.text;
-      });
-    });
   }
 
   @override
   void dispose() {
-    identityController.dispose();
     pinController.dispose();
     super.dispose();
   }
@@ -88,14 +79,6 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
             // const SizedBox(height: 8,),
             // const DashedSeparator(),
             const SizedBox(height: 18,),
-            RegularTextFieldComponent(
-              label: "No. Tujuan / ID Pelanggan", 
-              controller: identityController, 
-              validationMessage: "ID Pelanggan Harus Diisi.",
-              prefixIcon: LineIcons.identificationCard,
-              isObsecure: false,
-            ),
-            const SizedBox(height: 8,),
             RegularTextFieldComponent(
               label: "PIN", 
               controller: pinController, 
@@ -233,7 +216,7 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                     ),
                     TableCell(
                       child: AutoSizeText(
-                        identityNumber,
+                        widget.userIdentity,
                         maxLines: 1,
                         maxFontSize: 14,
                         style: GoogleFonts.inter(
@@ -298,7 +281,7 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
               label: "Bayar Sekarang", 
               buttonColor: kMainThemeColor, 
               onPressed: () {
-                if(identityController.text.isEmpty || pinController.text.isEmpty) {
+                if(pinController.text.isEmpty) {
                   showDynamicSnackBar(
                     context, 
                     LineIcons.exclamationTriangle, 
@@ -307,7 +290,7 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                     Colors.red
                   );
                 } else {
-                  widget.onSubmit(identityController.text, pinController.text);
+                  widget.onSubmit(pinController.text);
                 }
               }, 
               width: size.width, 

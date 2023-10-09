@@ -180,9 +180,8 @@ class HomeScreen extends StatelessWidget {
                   height: size.height * 0.025,
                 ),
                 Container(
-                  constraints:
-                      const BoxConstraints(maxHeight: double.infinity),
                   padding: const EdgeInsets.all(12),
+                  color: Colors.white,
                   width: size.width,
                   child: FutureBuilder<List<MainMenuMobile>>(
                     future: locator.get<BackOfficeService>().getMainMenuMobile(),
@@ -204,6 +203,40 @@ class HomeScreen extends StatelessWidget {
                                 if(snapshot.data![i].type == "PLN") {
                                   context.pushNamed("pln-main");
                                 }
+
+                                if(snapshot.data![i].type == "SINGLE PPOB") {
+                                  context.pushNamed("check-before-transaction", extra: {
+                                    "operatorName": snapshot.data![i].name,
+                                    "kodeproduk": snapshot.data![i].operatorid
+                                  });
+                                }
+
+                                if(snapshot.data![i].type == "DOUBLE OPERATOR PPOB") {
+                                  context.pushNamed("select-operator-double-ppob", extra: {
+                                    "operatorName": snapshot.data![i].name,
+                                    "operatorId": snapshot.data![i].operatorid
+                                  });
+                                }
+
+                                if(snapshot.data![i].type == "TRIPLE OPERATOR PPOB") {
+                                  context.pushNamed("select-operator-triple-ppob", extra: {
+                                    "operatorName": snapshot.data![i].name,
+                                    "operatorId": snapshot.data![i].operatorid
+                                  });
+                                }
+
+                                if(snapshot.data![i].type == "DOUBLE PRODUCT PPOB") {
+                                  context.pushNamed("select-product", extra: {
+                                    "operatorName": snapshot.data![i].name,
+                                    "operatorId": snapshot.data![i].operatorid
+                                  });
+                                }
+
+                                if(snapshot.data![i].type == "SELECT OPERATOR THEN PRODUCT") {
+                                  context.pushNamed("select-operator", extra: {
+                                    "operatorName": snapshot.data![i].operatorid
+                                  });
+                                }
                               }, 
                               menuColor: HexColor(snapshot.data![i].containercolor!).withOpacity(0.5)
                             )
@@ -216,11 +249,21 @@ class HomeScreen extends StatelessWidget {
                   )
                 ),
                 SizedBox(
-                  height: size.height * 0.025,
+                  height: size.height * 0.05,
                 ),
-                HomeCarousel(),
-                SizedBox(
+                Container(
+                  color: Colors.white,
+                  child: HomeCarousel(),
+                ),
+                Container(
                   height: size.height * 0.025,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 0,
+                      color: Colors.white
+                    ),
+                    color: Colors.white
+                  ),
                 ),
               ],
             )

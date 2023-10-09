@@ -8,23 +8,26 @@ import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 
-class PlnMainScreen extends StatelessWidget {
+class SelectOperatorTriplePpobScreen extends StatelessWidget {
 
-  const PlnMainScreen({ super.key });
+  const SelectOperatorTriplePpobScreen({ super.key, required this.operatorName, required this.operatorId });
 
-@override
+  final String operatorName;
+  final String operatorId;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: ContainerGradientBackground(
           child: Column(
             children: [
-              const CustomContainerAppBar(title: "Listrik"),
+              CustomContainerAppBar(title: operatorName),
               Expanded(
                 child: Container(
                   decoration: kContainerLightDecoration,
                   child: FutureBuilder<List<SettingKategoriResponse>>(
-                  future: locator.get<BackOfficeService>().getSettingKategoriByKategori("PLN"),
+                  future: locator.get<BackOfficeService>().getSettingKategoriByKategori(operatorId),
                   builder: (context, snapshot) {
                     if(snapshot.connectionState == ConnectionState.done) {
                       if(snapshot.hasError) {
@@ -42,18 +45,10 @@ class PlnMainScreen extends StatelessWidget {
                               imageUrl: "$baseUrlAuth/files/setting-kategori/image/${snapshot.data![index].image!}", 
                               title: snapshot.data![index].title!, 
                               onTap: () {
-                                if(snapshot.data![index].name! == "PLN TOKEN") {
-                                  context.pushNamed("pln-token", extra: {
-                                    "operatorName": snapshot.data![index].title!,
-                                    "operatorId": "37",
-                                    "kodeproduk": snapshot.data![index].kodeproduk
-                                  });
-                                } else {
-                                  context.pushNamed("check-before-transaction", extra: {
-                                    "operatorName": snapshot.data![index].title!,
-                                    "kodeproduk": snapshot.data![index].kodeproduk
-                                  });
-                                }
+                                context.pushNamed("select-product", extra: {
+                                  "operatorName": snapshot.data![index].name,
+                                  "operatorId": snapshot.data![index].kodeproduk
+                                });
                               }
                             );
                           },

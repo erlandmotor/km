@@ -1,39 +1,39 @@
 import "package:adamulti_mobile_clone_new/components/container_gradient_background.dart";
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
-import "package:adamulti_mobile_clone_new/components/operator_item_component.dart";
+import "package:adamulti_mobile_clone_new/components/product_item_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
-import "package:adamulti_mobile_clone_new/model/operator_response.dart";
+import "package:adamulti_mobile_clone_new/model/product_response.dart";
 import "package:adamulti_mobile_clone_new/services/product_service.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 
-class SelectOperatorScreen extends StatefulWidget {
+class SelectProductScreen extends StatelessWidget {
 
-  const SelectOperatorScreen({ super.key, required this.operatorName });
+  const SelectProductScreen({ super.key, required this.operatorName, required this.operatorId });
 
   final String operatorName;
+  final String operatorId;
 
-  @override
-  State<SelectOperatorScreen> createState() => _PulsaSelectOperatorScreenState();
-}
-
-class _PulsaSelectOperatorScreenState extends State<SelectOperatorScreen> {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: SafeArea(
         child: ContainerGradientBackground(
           child: Column(
             children: [
-              CustomContainerAppBar(title: widget.operatorName),
+              CustomContainerAppBar(
+                title: operatorName,
+              ),
               Expanded(
                 child: Container(
                   decoration: kContainerLightDecoration,
-                  child: FutureBuilder<OperatorResponse>(
-                    future: locator.get<ProductService>().getOperatorByBackoffice(widget.operatorName, locator.get<UserAppidCubit>().state.userAppId.appId),
+                  child: FutureBuilder<ProductResponse>(
+                    future: locator.get<ProductService>().getProductByOperator(
+                      locator.get<UserAppidCubit>().state.userAppId.appId, 
+                      operatorId
+                    ),
                     builder: (context, snapshot) {
                       if(snapshot.connectionState == ConnectionState.done) {
                         if(snapshot.hasError) {
@@ -43,24 +43,28 @@ class _PulsaSelectOperatorScreenState extends State<SelectOperatorScreen> {
                         } else {
                           return ListView.separated(
                             padding: const EdgeInsets.all(8),
-                            itemCount: snapshot.data!.data!.length,
                             itemBuilder: (context, index) {
-                              return OperatorItemComponent(
-                                operatorName: widget.operatorName, 
+                              return ProductItemComponent(
+                                operatorName: operatorName, 
                                 operatorColor: kMainLightThemeColor, 
-                                imageUrl: snapshot.data!.data![index].imgurl!, 
-                                title: snapshot.data!.data![index].namaoperator!, 
+                                imageUrl: operatorName.contains("PDAM") ? snapshot.data!.data![index].imgurloperator! : snapshot.data!.data![index].imgurl!, 
+                                title: operatorName,
+                                productName: snapshot.data!.data![index].namaproduk!, 
                                 onTap: () {
-                                  context.pushNamed("select-product-transaction", extra: {
-                                    "operatorName": snapshot.data!.data![index].namaoperator!,
-                                    "operatorId": snapshot.data!.data![index].idoperator.toString()
+                                  context.pushNamed("check-before-transaction", extra: {
+                                    "operatorName": snapshot.data!.data![index].namaoperator,
+                                    "kodeproduk": snapshot.data!.data![index].kodeproduk
                                   });
-                                }
+                                },
+                                price: snapshot.data!.data![index].hargajual!.toString(),
+                                productCode: snapshot.data!.data![index].kodeproduk!,
+                                description: snapshot.data!.data![index].keterangan!,
                               );
-                            },
+                            }, 
                             separatorBuilder: (context, index) {
                               return const SizedBox(height: 8,);
-                            },
+                            }, 
+                            itemCount: snapshot.data!.data!.length
                           );
                         }
                       } else {
@@ -70,10 +74,10 @@ class _PulsaSelectOperatorScreenState extends State<SelectOperatorScreen> {
                       }
                     },
                   ),
-                )
+                ),
               )
             ],
-          ),
+          )
         ),
       ),
     );

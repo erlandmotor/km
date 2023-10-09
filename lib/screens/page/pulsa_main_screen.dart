@@ -8,15 +8,13 @@ import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 
-class PulsaMainScreen extends StatefulWidget {
+class PulsaMainScreen extends StatelessWidget {
 
-  const PulsaMainScreen({ super.key });
+  const PulsaMainScreen({ super.key, required this.title, required this.operatorName });
 
-  @override
-  State<PulsaMainScreen> createState() => _PulsaMainScreenState();
-}
+  final String title;
+  final String operatorName;
 
-class _PulsaMainScreenState extends State<PulsaMainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -9,7 +9,7 @@ class TransactionService {
   final _dio = Dio();
 
   Future<TransactionResponse> payNow(String kodeProduk, String tujuan,
-  String pin, String uuid) async {
+  String pin, String jenis, String uuid) async {
     final decodeTokenResult = await locator.get<JwtService>().decodeToken();
     
     final idtrx = generateRandomString(8);
@@ -20,6 +20,7 @@ class TransactionService {
       "idtrx": idtrx,
       "pin": pin,
       "tujuan": tujuan,
+      "jenis": jenis
     }, options: Options(
       headers: {
         'Content-Type': 'application/json',

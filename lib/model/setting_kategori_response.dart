@@ -4,6 +4,7 @@ class SettingKategoriResponse {
   final String? title;
   final String? image;
   final String? kategori;
+  final String? kodeproduk;
   final String? createdAt;
   final String? updatedAt;
 
@@ -13,6 +14,7 @@ class SettingKategoriResponse {
     this.title,
     this.image,
     this.kategori,
+    this.kodeproduk,
     this.createdAt,
     this.updatedAt,
   });
@@ -23,6 +25,7 @@ class SettingKategoriResponse {
       title = json['title'] as String?,
       image = json['image'] as String?,
       kategori = json['kategori'] as String?,
+      kodeproduk = json['kodeproduk'] as String?,
       createdAt = json['created_at'] as String?,
       updatedAt = json['updated_at'] as String?;
 
@@ -32,6 +35,7 @@ class SettingKategoriResponse {
     'title' : title,
     'image' : image,
     'kategori' : kategori,
+    'kodeproduk' : kodeproduk,
     'created_at' : createdAt,
     'updated_at' : updatedAt
   };

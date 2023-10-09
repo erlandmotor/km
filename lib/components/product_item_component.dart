@@ -48,19 +48,22 @@ class ProductItemComponent extends StatelessWidget {
                   ClipPath(
                     clipper: ArcClipper(),
                     child: Container(
-                      padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8, right: 20),
+                      padding: const EdgeInsets.all(8),
                       width: size.width * 0.6,
                       decoration: BoxDecoration(
                         color: operatorColor,
                       ),
-                      child: AutoSizeText(
-                        operatorName,
-                        maxFontSize: 14,
-                        maxLines: 1,
-                        style: GoogleFonts.inter(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 2, bottom: 2, left: 2, right: 10),
+                        child: AutoSizeText(
+                          operatorName,
+                          maxFontSize: 14,
+                          maxLines: 1,
+                          style: GoogleFonts.inter(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white
+                          ),
                         ),
                       ),
                     ),
@@ -122,7 +125,7 @@ class ProductItemComponent extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 8,),
-                        AutoSizeText(FormatCurrency.convertToIdr(int.parse(price), 0), 
+                        if(int.parse(price) > 0) AutoSizeText(FormatCurrency.convertToIdr(int.parse(price), 0), 
                         maxFontSize: 16,
                         maxLines: 2,
                         style: GoogleFonts.inter(

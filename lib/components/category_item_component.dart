@@ -1,5 +1,6 @@
 import "package:adamulti_mobile_clone_new/components/ribbon_clipper.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:auto_size_text/auto_size_text.dart";
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
@@ -28,7 +29,6 @@ class CategoryItemComponent extends StatelessWidget {
         color: Colors.white,
         surfaceTintColor: Colors.white,
         child: Container(
-          height: 120,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18)
           ),
@@ -43,16 +43,21 @@ class CategoryItemComponent extends StatelessWidget {
                     clipper: ArcClipper(),
                     child: Container(
                       padding: const EdgeInsets.all(8),
-                      width: size.width * 0.36,
+                      width: size.width * 0.5,
                       decoration: BoxDecoration(
                         color: categoryColor,
                       ),
-                      child: Text(
-                        categoryName,
-                        style: GoogleFonts.inter(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 2, bottom: 2, left: 2, right: 10),
+                        child: AutoSizeText(
+                          categoryName,
+                          maxLines: 1,
+                          maxFontSize: 14,
+                          style: GoogleFonts.inter(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white
+                          ),
                         ),
                       ),
                     ),
