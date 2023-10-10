@@ -13,6 +13,7 @@ import 'package:adamulti_mobile_clone_new/screens/page/select_operator_screen.da
 import "package:adamulti_mobile_clone_new/screens/page/select_operator_triple_ppob_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/select_product_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/select_product_transaction_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/webview_screen.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 
@@ -41,10 +42,20 @@ GoRouter screenRouter() {
             name: "pulsa-main",
             builder: (context, state) {
               final extra = state.extra as Map<dynamic, dynamic>;
-              final operatorName = extra["operatorName"] as String;
+              final operatorId = extra["operatorId"] as String;
               final title = extra["title"] as String;
-              return PulsaMainScreen(title: title, operatorName: operatorName,);
+              return PulsaMainScreen(title: title, operatorId: operatorId,);
             },
+          ),
+          GoRoute(
+            path: "web-view",
+            name: "web-view",
+            builder: (context, state) {
+              final extra = state.extra as Map<dynamic, dynamic>;
+              final operatorId = extra["operatorId"] as String;
+              final title = extra["title"] as String;
+              return WebviewScreen(title: title, operatorId: operatorId,);
+            }
           ),
           GoRoute(
             path: "pln-main",

@@ -10,10 +10,10 @@ import "package:go_router/go_router.dart";
 
 class PulsaMainScreen extends StatelessWidget {
 
-  const PulsaMainScreen({ super.key, required this.title, required this.operatorName });
+  const PulsaMainScreen({ super.key, required this.title, required this.operatorId });
 
   final String title;
-  final String operatorName;
+  final String operatorId;
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +22,12 @@ class PulsaMainScreen extends StatelessWidget {
         child: ContainerGradientBackground(
           child: Column(
             children: [
-              const CustomContainerAppBar(title: "Pulsa dan Paket Data"),
+              CustomContainerAppBar(title: title),
               Expanded(
                 child: Container(
                   decoration: kContainerLightDecoration,
                   child: FutureBuilder<List<SettingKategoriResponse>>(
-                  future: locator.get<BackOfficeService>().getSettingKategoriByKategori("PULSA"),
+                  future: locator.get<BackOfficeService>().getSettingKategoriByKategori(operatorId),
                   builder: (context, snapshot) {
                     if(snapshot.connectionState == ConnectionState.done) {
                       if(snapshot.hasError) {
