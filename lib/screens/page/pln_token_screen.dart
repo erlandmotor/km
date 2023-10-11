@@ -120,10 +120,8 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                                       ),  
                                       builder: (context) {
                                         return TransactionCheckFormComponent(
-                                          operatorName: snapshot.data!.data![index].namaoperator!, 
-                                          productName: snapshot.data!.data![index].namaproduk!, 
-                                          productPrice: snapshot.data!.data![index].hargajual!, 
-                                          userIdentity: identityController.text, 
+                                          response: checkIdentityCubit.state.result.msg!, 
+                                          productPrice: snapshot.data!.data![index].hargajual!,
                                           onSubmit: (pin) {
                                             showDialog(
                                               barrierDismissible: false,

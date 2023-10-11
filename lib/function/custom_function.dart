@@ -29,3 +29,10 @@ String generateRandomString(int len) {
   const chars = '1234567890';
   return List.generate(len, (index) => chars[r.nextInt(chars.length)]).join();
 }
+
+String convertTotalResponseWithNumberFormatted(String response, String totalPay) {
+  final formattedTotalPay = FormatCurrency.convertToIdr(int.parse(totalPay), 0);
+
+  final convertedResponse = response.replaceAll(totalPay, formattedTotalPay);
+  return convertedResponse;
+}

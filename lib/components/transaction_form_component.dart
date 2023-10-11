@@ -65,255 +65,258 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
         ),
         padding: const EdgeInsets.all(18),
         width: size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text("Konfirmasi Transaksi", style: GoogleFonts.inter(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600
-                ),),
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }, 
-                  icon: const Icon(LineIcons.times, color: Colors.black,)
-                )
-              ],
-            ),
-            // const SizedBox(height: 8,),
-            // const DashedSeparator(),
-            const SizedBox(height: 18,),
-            RegularTextFieldComponent(
-              label: "No. Tujuan / ID Pelanggan", 
-              controller: identityController, 
-              validationMessage: "ID Pelanggan Harus Diisi.",
-              prefixIcon: LineIcons.identificationCard,
-              isObsecure: false,
-            ),
-            const SizedBox(height: 8,),
-            RegularTextFieldComponent(
-              label: "PIN", 
-              controller: pinController, 
-              validationMessage: "PIN Harus Diisi.",
-              prefixIcon: LineIcons.key,
-              isObsecure: true,
-            ),
-            const SizedBox(height: 18,),
-            const DashedSeparator(),
-            const SizedBox(height: 18,),
-            Text("Detail Transaksi", style: GoogleFonts.inter(
-              fontSize: 16,
-              fontWeight: FontWeight.w600
-            ),),
-            const SizedBox(height: 8,),
-            Table(
-              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-              columnWidths: const {
-                0: FixedColumnWidth(80),
-                1: FixedColumnWidth(15),
-                2: FlexColumnWidth()
-              },
-              children: [
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: AutoSizeText(
-                        "Operator", 
-                        maxFontSize: 14,
-                        maxLines: 1,
-                        style: GoogleFonts.inter(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xff7f8fa6)
-                      ),),
-                    ),
-                    TableCell(
-                      child: Text(":", style: GoogleFonts.inter(
-                        fontSize: 14,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500
-                      ),)
-                    ),
-                    TableCell(
-                      child: AutoSizeText(
-                        widget.operatorName,
-                        maxLines: 1,
-                        maxFontSize: 14,
-                        style: GoogleFonts.inter(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text("Konfirmasi Transaksi", style: GoogleFonts.inter(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600
+                  ),),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }, 
+                    icon: const Icon(LineIcons.times, color: Colors.black,)
+                  )
+                ],
+              ),
+              // const SizedBox(height: 8,),
+              // const DashedSeparator(),
+              const SizedBox(height: 18,),
+              RegularTextFieldComponent(
+                label: "No. Tujuan / ID Pelanggan", 
+                controller: identityController, 
+                validationMessage: "ID Pelanggan Harus Diisi.",
+                prefixIcon: LineIcons.identificationCard,
+                isObsecure: false,
+              ),
+              const SizedBox(height: 8,),
+              RegularTextFieldComponent(
+                label: "PIN", 
+                controller: pinController, 
+                validationMessage: "PIN Harus Diisi.",
+                prefixIcon: LineIcons.key,
+                isObsecure: true,
+              ),
+              const SizedBox(height: 18,),
+              const DashedSeparator(),
+              const SizedBox(height: 18,),
+              Text("Detail Transaksi", style: GoogleFonts.inter(
+                fontSize: 16,
+                fontWeight: FontWeight.w600
+              ),),
+              const SizedBox(height: 8,),
+              Table(
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                columnWidths: const {
+                  0: FixedColumnWidth(80),
+                  1: FixedColumnWidth(15),
+                  2: FlexColumnWidth()
+                },
+                children: [
+                  TableRow(
+                    children: [
+                      TableCell(
+                        child: AutoSizeText(
+                          "Operator", 
+                          maxFontSize: 14,
+                          maxLines: 1,
+                          style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xff7f8fa6)
+                        ),),
+                      ),
+                      TableCell(
+                        child: Text(":", style: GoogleFonts.inter(
+                          fontSize: 14,
                           color: Colors.black,
-                          fontWeight: FontWeight.w700
-                        ),
+                          fontWeight: FontWeight.w500
+                        ),)
+                      ),
+                      TableCell(
+                        child: AutoSizeText(
+                          widget.operatorName,
+                          maxLines: 1,
+                          maxFontSize: 14,
+                          style: GoogleFonts.inter(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700
+                          ),
+                        )
                       )
-                    )
-                  ]
-                ),
-                const TableRow(
-                  children: [
-                    TableCell(
-                      child: SizedBox(height: 8,)
-                    ),
-                    TableCell(
-                      child: SizedBox(height: 8,)
-                    ),
-                    TableCell(
-                      child: SizedBox(height: 8,)
-                    ),
-                  ]
-                ),
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: AutoSizeText(
-                        "Produk", 
-                        maxFontSize: 14,
-                        maxLines: 1,
-                        style: GoogleFonts.inter(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xff7f8fa6)
-                      ),),
-                    ),
-                    TableCell(
-                      child: Text(":", style: GoogleFonts.inter(
-                        fontSize: 14,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500
-                      ),)
-                    ),
-                    TableCell(
-                      child: AutoSizeText(
-                        widget.productName,
-                        maxLines: 1,
-                        maxFontSize: 14,
-                        style: GoogleFonts.inter(
+                    ]
+                  ),
+                  const TableRow(
+                    children: [
+                      TableCell(
+                        child: SizedBox(height: 8,)
+                      ),
+                      TableCell(
+                        child: SizedBox(height: 8,)
+                      ),
+                      TableCell(
+                        child: SizedBox(height: 8,)
+                      ),
+                    ]
+                  ),
+                  TableRow(
+                    children: [
+                      TableCell(
+                        child: AutoSizeText(
+                          "Produk", 
+                          maxFontSize: 14,
+                          maxLines: 1,
+                          style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xff7f8fa6)
+                        ),),
+                      ),
+                      TableCell(
+                        child: Text(":", style: GoogleFonts.inter(
+                          fontSize: 14,
                           color: Colors.black,
-                          fontWeight: FontWeight.w700
-                        ),
-                      )
-                    ),
-                  ]
-                ),
-                const TableRow(
-                  children: [
-                    TableCell(
-                      child: SizedBox(height: 8,)
-                    ),
-                    TableCell(
-                      child: SizedBox(height: 8,)
-                    ),
-                    TableCell(
-                      child: SizedBox(height: 8,)
-                    ),
-                  ]
-                ),
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: AutoSizeText(
-                        "No. Tujuan", 
-                        maxFontSize: 14,
-                        maxLines: 1,
-                        style: GoogleFonts.inter(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xff7f8fa6)
-                      ),),
-                    ),
-                    TableCell(
-                      child: Text(":", style: GoogleFonts.inter(
-                        fontSize: 14,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500
-                      ),)
-                    ),
-                    TableCell(
-                      child: AutoSizeText(
-                        identityNumber,
-                        maxLines: 1,
-                        maxFontSize: 14,
-                        style: GoogleFonts.inter(
+                          fontWeight: FontWeight.w500
+                        ),)
+                      ),
+                      TableCell(
+                        child: AutoSizeText(
+                          widget.productName,
+                          maxLines: 1,
+                          maxFontSize: 14,
+                          style: GoogleFonts.inter(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700
+                          ),
+                        )
+                      ),
+                    ]
+                  ),
+                  const TableRow(
+                    children: [
+                      TableCell(
+                        child: SizedBox(height: 8,)
+                      ),
+                      TableCell(
+                        child: SizedBox(height: 8,)
+                      ),
+                      TableCell(
+                        child: SizedBox(height: 8,)
+                      ),
+                    ]
+                  ),
+                  TableRow(
+                    children: [
+                      TableCell(
+                        child: AutoSizeText(
+                          "No. Tujuan", 
+                          maxFontSize: 14,
+                          maxLines: 1,
+                          style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xff7f8fa6)
+                        ),),
+                      ),
+                      TableCell(
+                        child: Text(":", style: GoogleFonts.inter(
+                          fontSize: 14,
                           color: Colors.black,
-                          fontWeight: FontWeight.w700
-                        ),
-                      )
-                    ),
-                  ]
-                ),
-                const TableRow(
-                  children: [
-                    TableCell(
-                      child: SizedBox(height: 8,)
-                    ),
-                    TableCell(
-                      child: SizedBox(height: 8,)
-                    ),
-                    TableCell(
-                      child: SizedBox(height: 8,)
-                    ),
-                  ]
-                ),
-                TableRow(
-                  children: [
-                    TableCell(
-                      child: AutoSizeText("Harga", 
-                      maxFontSize: 14,
-                      maxLines: 1,
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xff7f8fa6)
-                      ),),
-                    ),
-                    TableCell(
-                      child: Text(":", style: GoogleFonts.inter(
-                        fontSize: 14,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500
-                      ),)
-                    ),
-                    TableCell(
-                      child: AutoSizeText(
-                        FormatCurrency.convertToIdr(widget.productPrice, 0),
-                        maxLines: 1,
+                          fontWeight: FontWeight.w500
+                        ),)
+                      ),
+                      TableCell(
+                        child: AutoSizeText(
+                          identityNumber,
+                          maxLines: 1,
+                          maxFontSize: 14,
+                          style: GoogleFonts.inter(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700
+                          ),
+                        )
+                      ),
+                    ]
+                  ),
+                  const TableRow(
+                    children: [
+                      TableCell(
+                        child: SizedBox(height: 8,)
+                      ),
+                      TableCell(
+                        child: SizedBox(height: 8,)
+                      ),
+                      TableCell(
+                        child: SizedBox(height: 8,)
+                      ),
+                    ]
+                  ),
+                  TableRow(
+                    children: [
+                      TableCell(
+                        child: AutoSizeText("Harga", 
                         maxFontSize: 14,
+                        maxLines: 1,
                         style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xff7f8fa6)
+                        ),),
+                      ),
+                      TableCell(
+                        child: Text(":", style: GoogleFonts.inter(
+                          fontSize: 14,
                           color: Colors.black,
-                          fontWeight: FontWeight.w700
-                        ),
-                      )
-                    ),
-                  ]
-                ),
-              ],
-            ),
-            const SizedBox(height: 18,),
-            const DashedSeparator(),
-            const SizedBox(height: 18,),
-            DynamicSizeButtonComponent(
-              label: "Bayar Sekarang", 
-              buttonColor: kMainThemeColor, 
-              onPressed: () {
-                if(identityController.text.isEmpty || pinController.text.isEmpty) {
-                  showDynamicSnackBar(
-                    context, 
-                    LineIcons.exclamationTriangle, 
-                    "ERROR", 
-                    "ID Pelanggan atau PIN harus diisi terlebih dahulu sebelum melakukan pembayaran.", 
-                    Colors.red
-                  );
-                } else {
-                  widget.onSubmit(identityController.text, pinController.text);
-                }
-              }, 
-              width: size.width, 
-              height: 50
-            )
-          ],
+                          fontWeight: FontWeight.w500
+                        ),)
+                      ),
+                      TableCell(
+                        child: AutoSizeText(
+                          FormatCurrency.convertToIdr(widget.productPrice, 0),
+                          maxLines: 1,
+                          maxFontSize: 14,
+                          style: GoogleFonts.inter(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700
+                          ),
+                        )
+                      ),
+                    ]
+                  ),
+                ],
+              ),
+              const SizedBox(height: 18,),
+              const DashedSeparator(),
+              const SizedBox(height: 18,),
+              DynamicSizeButtonComponent(
+                label: "Bayar Sekarang", 
+                buttonColor: kMainThemeColor, 
+                onPressed: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  if(identityController.text.isEmpty || pinController.text.isEmpty) {
+                    showDynamicSnackBar(
+                      context, 
+                      LineIcons.exclamationTriangle, 
+                      "ERROR", 
+                      "ID Pelanggan atau PIN harus diisi terlebih dahulu sebelum melakukan pembayaran.", 
+                      Colors.red
+                    );
+                  } else {
+                    widget.onSubmit(identityController.text, pinController.text);
+                  }
+                }, 
+                width: size.width, 
+                height: 50
+              )
+            ],
+          ),
         ),
       ),
     );
