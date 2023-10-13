@@ -1,8 +1,8 @@
+import "package:adamulti_mobile_clone_new/components/check_text_field_component.dart";
 import "package:adamulti_mobile_clone_new/components/container_gradient_background.dart";
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/loading_button_component.dart";
-import "package:adamulti_mobile_clone_new/components/regular_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/components/transaction_check_form_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
@@ -12,6 +12,7 @@ import "package:adamulti_mobile_clone_new/services/local_notification_service.da
 import "package:adamulti_mobile_clone_new/services/transaction_service.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:flutter_contacts/flutter_contacts.dart";
 import "package:flutter_spinkit/flutter_spinkit.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
@@ -59,14 +60,45 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                   padding: const EdgeInsets.all(18),
                   child: Column(
                     children: [
-                      RegularTextFieldComponent(
-                        label: "Masukkan ID Pelanggan", 
-                        controller: identityController, 
-                        validationMessage: "ID Pelanggan harus diisi.", 
-                        prefixIcon: LineIcons.identificationCardAlt, 
-                        isObsecure: false
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Expanded(child: CheckTextFieldComponent(
+                            label: "Masukkan ID Pelanggan", 
+                            hint: "Conth: 123456",
+                            controller: identityController, 
+                            validationMessage: "ID Pelanggan harus diisi.", 
+                          ),),
+                          const SizedBox(width: 6,),
+                          IconButton.filled(
+                            iconSize: 28,
+                            padding: const EdgeInsets.all(12),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green
+                            ),
+                            onPressed: () {
+                              FlutterContacts.requestPermission().then((value) async {
+                                if(value) {
+                                  final contacts = await FlutterContacts.openExternalPick();
+                                  if(contacts != null) {
+                                    identityController.text = contacts.phones[0].number;
+                                  }
+                                } else {
+                                  showDynamicSnackBar(
+                                    context, 
+                                    LineIcons.exclamationTriangle, 
+                                    "ERROR", 
+                                    "Anda harus mengizinkan applikasi untuk mengakses kontak anda.", 
+                                    Colors.red
+                                  );
+                                }
+                              });
+                            }, 
+                            icon: const Icon(Icons.contact_phone_outlined)
+                          )
+                        ],
                       ),
-                      const SizedBox(height: 8,),
+                      const SizedBox(height: 12,),
                       BlocBuilder<CheckIdentityCubit, CheckIdentityState>(
                         builder: (_, state) {
                           return Column(
@@ -132,17 +164,26 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                                                   locator.get<UserAppidCubit>().state.userAppId.appId
                                                 ).then((value) {
                                                   if(value.success!) {
-
-                                                  } else {
-                                                    locator.get<LocalNotificationService>().showLocalNotification(title: "Hello Notification", body: "It Works");
                                                     context.pop();
-                                                    showDynamicSnackBar(
-                                                      context, 
-                                                      LineIcons.exclamationTriangle, 
-                                                      "ERROR", 
-                                                      value.msg!, 
-                                                      Colors.red
+                                                    context.pop();
+
+                                                    locator.get<LocalNotificationService>().showLocalNotification(
+                                                      title: "Transaksi ${value.produk!}", 
+                                                      body: value.msg!
                                                     );
+                                                  } else {
+                                                    locator.get<LocalNotificationService>().showLocalNotification(
+                                                      title: "Transaksi ${value.produk!}", 
+                                                      body: value.msg!
+                                                    );
+                                                    context.pop();
+                                                    // showDynamicSnackBar(
+                                                    //   context, 
+                                                    //   LineIcons.exclamationTriangle, 
+                                                    //   "ERROR", 
+                                                    //   value.msg!, 
+                                                    //   Colors.red
+                                                    // );
                                                   }
                                                 }).catchError((e) {
                                                   context.pop();
@@ -161,7 +202,6 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                                           }
                                         );
                                       }
-
 
                                     }).catchError((e) {
                                       checkIdentityCubit.updateState(false, checkIdentityCubit.state.result);

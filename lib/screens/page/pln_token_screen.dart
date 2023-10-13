@@ -3,7 +3,7 @@ import "package:adamulti_mobile_clone_new/components/container_gradient_backgrou
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/product_item_component.dart";
-import "package:adamulti_mobile_clone_new/components/transaction_check_form_component.dart";
+import "package:adamulti_mobile_clone_new/components/transaction_pln_token_form_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
@@ -43,157 +43,178 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
   Widget build(BuildContext context) {
     final checkIdentityCubit = context.read<CheckIdentityCubit>();
     return Scaffold(
-      body: SafeArea(
-        child: ContainerGradientBackground(
-          child: Column(
-            children: [
-              CustomContainerAppBar(
-                title: widget.operatorName,
-              ),
-              CheckIdentityContainer(
-                identityController: identityController,
-                onCheck: () {
-                  checkIdentityCubit.updateState(true, checkIdentityCubit.state.result);
-
-                  locator.get<TransactionService>().checkIdentity(
-                    widget.kodeProduk, 
-                    identityController.text, 
-                    "5", 
-                    locator.get<UserAppidCubit>().state.userAppId.appId
-                  ).then((value) {
-                    checkIdentityCubit.updateState(false, value);
-                  }).catchError((e) {
-                    checkIdentityCubit.updateState(false, checkIdentityCubit.state.result);
-                    showDynamicSnackBar(
-                      context, 
-                      LineIcons.exclamationTriangle, 
-                      "ERROR", 
-                      e.toString(), 
-                      Colors.red
-                    );
-                  });
-                },
-              ),
-              const SizedBox(height: 8,),
-              Expanded(
-                child: Container(
-                  decoration: kContainerLightDecoration,
-                  child: FutureBuilder<ProductResponse>(
-                    future: locator.get<ProductService>().getProductByOperator(
-                      locator.get<UserAppidCubit>().state.userAppId.appId, 
-                      widget.operatorId
-                    ),
-                    builder: (context, snapshot) {
-                      if(snapshot.connectionState == ConnectionState.done) {
-                        if(snapshot.hasError) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else {
-                          return ListView.separated(
-                            padding: const EdgeInsets.all(8),
-                            itemBuilder: (context, index) {
-                              return ProductItemComponent(
-                                operatorName: widget.operatorName, 
-                                operatorColor: kMainLightThemeColor, 
-                                imageUrl: snapshot.data!.data![index].imgurloperator!, 
-                                title: widget.operatorName,
-                                productName: snapshot.data!.data![index].namaproduk!, 
-                                onTap: () {
-                                  if(identityController.text.isEmpty) {
-                                    showDynamicSnackBar(
-                                      context, 
-                                      LineIcons.exclamationTriangle, 
-                                      "ERROR", 
-                                      "ID Pelanggan harus diisi terlebih dahulu.", 
-                                      Colors.red
-                                    );
-                                  } else {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(18),
-                                          topRight: Radius.circular(18)
-                                        )
-                                      ),  
-                                      builder: (context) {
-                                        return TransactionCheckFormComponent(
-                                          response: checkIdentityCubit.state.result.msg!, 
-                                          productPrice: snapshot.data!.data![index].hargajual!,
-                                          onSubmit: (pin) {
-                                            showDialog(
-                                              barrierDismissible: false,
-                                              context: context, 
-                                              builder: (context) => const Center(
-                                                child: SpinKitFadingCircle(
-                                                  color: Colors.white,
-                                                  size: 128,
-                                                ),
-                                              )
-                                            );
-
-                                            locator.get<TransactionService>().payNow(
-                                              snapshot.data!.data![index].kodeproduk!, 
-                                              identityController.text, 
-                                              pin,
-                                              "0", 
-                                              locator.get<UserAppidCubit>().state.userAppId.appId
-                                            ).then((value) {
-                                              if(value.success!) {
-
-                                              } else {
-                                                locator.get<LocalNotificationService>().showLocalNotification(title: "Hello Notification", body: "It Works");
+      body: GestureDetector(
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        child: SafeArea(
+          child: ContainerGradientBackground(
+            child: Column(
+              children: [
+                CustomContainerAppBar(
+                  title: widget.operatorName,
+                ),
+                CheckIdentityContainer(
+                  identityController: identityController,
+                  onCheck: () {
+                    checkIdentityCubit.updateState(true, checkIdentityCubit.state.result);
+      
+                    locator.get<TransactionService>().checkIdentity(
+                      widget.kodeProduk, 
+                      identityController.text, 
+                      "5", 
+                      locator.get<UserAppidCubit>().state.userAppId.appId
+                    ).then((value) {
+                      checkIdentityCubit.updateState(false, value);
+                    }).catchError((e) {
+                      checkIdentityCubit.updateState(false, checkIdentityCubit.state.result);
+                      showDynamicSnackBar(
+                        context, 
+                        LineIcons.exclamationTriangle, 
+                        "ERROR", 
+                        e.toString(), 
+                        Colors.red
+                      );
+                    });
+                  },
+                ),
+                const SizedBox(height: 8,),
+                Expanded(
+                  child: Container(
+                    decoration: kContainerLightDecoration,
+                    child: FutureBuilder<ProductResponse>(
+                      future: locator.get<ProductService>().getProductByOperator(
+                        locator.get<UserAppidCubit>().state.userAppId.appId, 
+                        widget.operatorId
+                      ),
+                      builder: (context, snapshot) {
+                        if(snapshot.connectionState == ConnectionState.done) {
+                          if(snapshot.hasError) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else {
+                            return ListView.separated(
+                              padding: const EdgeInsets.all(8),
+                              itemBuilder: (context, index) {
+                                return ProductItemComponent(
+                                  operatorName: widget.operatorName, 
+                                  operatorColor: kMainLightThemeColor, 
+                                  imageUrl: snapshot.data!.data![index].imgurloperator!, 
+                                  title: widget.operatorName,
+                                  productName: snapshot.data!.data![index].namaproduk!, 
+                                  onTap: () {
+                                    if(identityController.text.isEmpty) {
+                                      showDynamicSnackBar(
+                                        context, 
+                                        LineIcons.exclamationTriangle, 
+                                        "ERROR", 
+                                        "ID Pelanggan harus diisi terlebih dahulu.", 
+                                        Colors.red
+                                      );
+                                    } else {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        isScrollControlled: true,
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(18),
+                                            topRight: Radius.circular(18)
+                                          )
+                                        ),  
+                                        builder: (context) {
+                                          return TransactionPlnTokenFormComponent( 
+                                            identityNumber: identityController.text,
+                                            operatorName: snapshot.data!.data![index].namaoperator!,
+                                            productName: snapshot.data!.data![index].namaproduk!,
+                                            productPrice: snapshot.data!.data![index].hargajual!,
+                                            onSubmit: (pin) {
+                                              showDialog(
+                                                barrierDismissible: false,
+                                                context: context, 
+                                                builder: (context) => const Center(
+                                                  child: SpinKitFadingCircle(
+                                                    color: Colors.white,
+                                                    size: 128,
+                                                  ),
+                                                )
+                                              );
+      
+                                              locator.get<TransactionService>().payNow(
+                                                snapshot.data!.data![index].kodeproduk!, 
+                                                identityController.text, 
+                                                pin,
+                                                "0", 
+                                                locator.get<UserAppidCubit>().state.userAppId.appId
+                                              ).then((value) {
+                                                if(value.success!) {
+                                                  identityController.clear();
+                                                  context.pop();
+                                                  context.pop();
+                                                  // showDynamicSnackBar(
+                                                  //   context, 
+                                                  //   LineIcons.infoCircle, 
+                                                  //   "SUKSES", 
+                                                  //   "Transaksi ${snapshot.data!.data![index].namaproduk} berhasil dilakukan.", 
+                                                  //   Colors.lightBlue
+                                                  // );
+                                                  locator.get<LocalNotificationService>().showLocalNotification(
+                                                    title: "Transaksi ${snapshot.data!.data![index].namaproduk}", 
+                                                    body: "Transaksi ${snapshot.data!.data![index].namaproduk} berhasil dilakukan."
+                                                  );
+                                                } else {
+                                                  locator.get<LocalNotificationService>().showLocalNotification(title: "Transaksi ${snapshot.data!.data![index].namaproduk}", 
+                                                  body: value.msg!);
+                                                  context.pop();
+                                                  // showDynamicSnackBar(
+                                                  //   context, 
+                                                  //   LineIcons.exclamationTriangle, 
+                                                  //   "ERROR", 
+                                                  //   value.msg!, 
+                                                  //   Colors.red
+                                                  // );
+                                                }
+                                              }).catchError((e) {
                                                 context.pop();
+                                                context.pop();
+      
                                                 showDynamicSnackBar(
                                                   context, 
                                                   LineIcons.exclamationTriangle, 
                                                   "ERROR", 
-                                                  value.msg!, 
+                                                  e.toString(), 
                                                   Colors.red
                                                 );
-                                              }
-                                            }).catchError((e) {
-                                              context.pop();
-                                              context.pop();
-
-                                              showDynamicSnackBar(
-                                                context, 
-                                                LineIcons.exclamationTriangle, 
-                                                "ERROR", 
-                                                e.toString(), 
-                                                Colors.red
-                                              );
-                                            });                                            
-                                          }
-                                        );
-                                      }
-                                    );
-                                  }
-                                },
-                                price: snapshot.data!.data![index].hargajual!.toString(),
-                                productCode: snapshot.data!.data![index].kodeproduk!,
-                                description: snapshot.data!.data![index].keterangan!,
-                              );
-                            }, 
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(height: 8,);
-                            }, 
-                            itemCount: snapshot.data!.data!.length
+                                              });                                            
+                                            }
+                                          );
+                                        }
+                                      );
+                                    }
+                                  },
+                                  price: snapshot.data!.data![index].hargajual!.toString(),
+                                  productCode: snapshot.data!.data![index].kodeproduk!,
+                                  description: snapshot.data!.data![index].keterangan!,
+                                );
+                              }, 
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(height: 8,);
+                              }, 
+                              itemCount: snapshot.data!.data!.length
+                            );
+                          }
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
                           );
                         }
-                      } else {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                    },
+                      },
+                    ),
                   ),
-                ),
-              )
-            ],
-          )
+                )
+              ],
+            )
+          ),
         ),
       ),
     );

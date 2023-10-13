@@ -42,101 +42,106 @@ class _TransactionCheckFormComponentState extends State<TransactionCheckFormComp
     Size size = MediaQuery.of(context).size;
     
 
-    return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(18),
-            topRight: Radius.circular(18)
-          )
-        ),
-        padding: const EdgeInsets.all(18),
-        width: size.width,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text("Konfirmasi Transaksi", style: GoogleFonts.inter(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600
-                  ),),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }, 
-                    icon: const Icon(LineIcons.times, color: Colors.black,)
-                  )
-                ],
-              ),
-              // const SizedBox(height: 8,),
-              // const DashedSeparator(),
-              const SizedBox(height: 8,),
-              const DashedSeparator(),
-              const SizedBox(height: 8,),
-              Container(
-                width: size.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.lightBlue,
-                ),
-                padding: const EdgeInsets.all(8),
-                child: Row(
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Padding(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(18),
+              topRight: Radius.circular(18)
+            )
+          ),
+          padding: const EdgeInsets.all(18),
+          width: size.width,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Icon(LineIcons.infoCircle, color: Colors.white,
-                    size: 32,),
-                    const SizedBox(width: 8,),
-                    Flexible(
-                      child: Text(
-                        "  ${convertTotalResponseWithNumberFormatted(widget.response, widget.productPrice.toString())}", style: GoogleFonts.inter(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white
-                        ),
-                      ),
-                    ),
+                    Text("Konfirmasi Transaksi", style: GoogleFonts.inter(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600
+                    ),),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }, 
+                      icon: const Icon(LineIcons.times, color: Colors.black,)
+                    )
                   ],
                 ),
-              ),
-              const SizedBox(height: 8,),
-              const DashedSeparator(),
-              const SizedBox(height: 18,),
-              RegularTextFieldComponent(
-                label: "PIN", 
-                controller: pinController, 
-                validationMessage: "PIN Harus Diisi.",
-                prefixIcon: LineIcons.key,
-                isObsecure: true,
-              ),
-              const SizedBox(height: 18,),
-              DynamicSizeButtonComponent(
-                label: "Bayar Sekarang", 
-                buttonColor: kMainThemeColor, 
-                onPressed: () {
-                  FocusManager.instance.primaryFocus?.unfocus();
-                  if(pinController.text.isEmpty) {
-                    showDynamicSnackBar(
-                      context, 
-                      LineIcons.exclamationTriangle, 
-                      "ERROR", 
-                      "ID Pelanggan atau PIN harus diisi terlebih dahulu sebelum melakukan pembayaran.", 
-                      Colors.red
-                    );
-                  } else {
-                    widget.onSubmit(pinController.text);
-                  }
-                }, 
-                width: size.width, 
-                height: 50
-              )
-            ],
+                // const SizedBox(height: 8,),
+                // const DashedSeparator(),
+                const SizedBox(height: 8,),
+                const DashedSeparator(),
+                const SizedBox(height: 8,),
+                Container(
+                  width: size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.lightBlue,
+                  ),
+                  padding: const EdgeInsets.all(8),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Icon(LineIcons.infoCircle, color: Colors.white,
+                      size: 32,),
+                      const SizedBox(width: 8,),
+                      Flexible(
+                        child: Text(
+                          "  ${convertTotalResponseWithNumberFormatted(widget.response, widget.productPrice.toString())}", style: GoogleFonts.inter(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 8,),
+                const DashedSeparator(),
+                const SizedBox(height: 18,),
+                RegularTextFieldComponent(
+                  label: "PIN", 
+                  controller: pinController, 
+                  validationMessage: "PIN Harus Diisi.",
+                  prefixIcon: LineIcons.key,
+                  isObsecure: true,
+                ),
+                const SizedBox(height: 18,),
+                DynamicSizeButtonComponent(
+                  label: "Bayar Sekarang", 
+                  buttonColor: kMainThemeColor, 
+                  onPressed: () {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    if(pinController.text.isEmpty) {
+                      showDynamicSnackBar(
+                        context, 
+                        LineIcons.exclamationTriangle, 
+                        "ERROR", 
+                        "ID Pelanggan atau PIN harus diisi terlebih dahulu sebelum melakukan pembayaran.", 
+                        Colors.red
+                      );
+                    } else {
+                      widget.onSubmit(pinController.text);
+                    }
+                  }, 
+                  width: size.width, 
+                  height: 50
+                )
+              ],
+            ),
           ),
         ),
       ),

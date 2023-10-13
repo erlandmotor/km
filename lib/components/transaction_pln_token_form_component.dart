@@ -1,4 +1,3 @@
-import "package:adamulti_mobile_clone_new/components/check_text_field_component.dart";
 import "package:adamulti_mobile_clone_new/components/dashed_separator.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
@@ -7,46 +6,36 @@ import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
-import "package:flutter_contacts/flutter_contacts.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
 
-class TransactionFormComponent extends StatefulWidget {
+class TransactionPlnTokenFormComponent extends StatefulWidget {
 
-  const TransactionFormComponent({ super.key,
+  const TransactionPlnTokenFormComponent({ super.key, required this.identityNumber,
   required this.operatorName, required this.productName, required this.productPrice,
   required this.onSubmit });
 
+  final String identityNumber;
   final String operatorName;
   final String productName;
   final int productPrice;
   final Function onSubmit;
 
   @override
-  State<TransactionFormComponent> createState() => _TransactionFormComponentState();
+  State<TransactionPlnTokenFormComponent> createState() => _TransactionPlnTokenFormComponentState();
 }
 
-class _TransactionFormComponentState extends State<TransactionFormComponent> {
+class _TransactionPlnTokenFormComponentState extends State<TransactionPlnTokenFormComponent> {
 
-  final identityController = TextEditingController();
   final pinController = TextEditingController();
-
-  var identityNumber = "";
 
   @override
   void initState() {
     super.initState();
-
-    identityController.addListener(() {
-      setState(() {
-        identityNumber = identityController.text;
-      });
-    });
   }
 
   @override
   void dispose() {
-    identityController.dispose();
     pinController.dispose();
     super.dispose();
   }
@@ -95,47 +84,6 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                 // const SizedBox(height: 8,),
                 // const DashedSeparator(),
                 const SizedBox(height: 18,),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Expanded(
-                        child: CheckTextFieldComponent(
-                        label: "Masukkan ID Pelanggan / No. HP", 
-                        hint: "Conth: 123456",
-                        controller: identityController, 
-                        validationMessage: "ID Pelanggan harus diisi.", 
-                      ),
-                    ),
-                    const SizedBox(width: 6,),
-                    IconButton.filled(
-                      iconSize: 28,
-                      padding: const EdgeInsets.all(12),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green
-                      ),
-                      onPressed: () {
-                        FlutterContacts.requestPermission().then((value) async {
-                          if(value) {
-                            final contacts = await FlutterContacts.openExternalPick();
-                            if(contacts != null) {
-                              identityController.text = contacts.phones[0].number;
-                            }
-                          } else {
-                            showDynamicSnackBar(
-                              context, 
-                              LineIcons.exclamationTriangle, 
-                              "ERROR", 
-                              "Anda harus mengizinkan applikasi untuk mengakses kontak anda.", 
-                              Colors.red
-                            );
-                          }
-                        });
-                      }, 
-                      icon: const Icon(Icons.contact_phone_outlined)
-                    )
-                  ],
-                ),
-                const SizedBox(height: 8,),
                 RegularTextFieldComponent(
                   label: "PIN", 
                   controller: pinController, 
@@ -273,7 +221,7 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                         ),
                         TableCell(
                           child: AutoSizeText(
-                            identityNumber,
+                            widget.identityNumber,
                             maxLines: 1,
                             maxFontSize: 14,
                             style: GoogleFonts.inter(
@@ -339,7 +287,7 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                   buttonColor: kMainThemeColor, 
                   onPressed: () {
                     FocusManager.instance.primaryFocus?.unfocus();
-                    if(identityController.text.isEmpty || pinController.text.isEmpty) {
+                    if(pinController.text.isEmpty) {
                       showDynamicSnackBar(
                         context, 
                         LineIcons.exclamationTriangle, 
@@ -348,7 +296,7 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                         Colors.red
                       );
                     } else {
-                      widget.onSubmit(identityController.text, pinController.text);
+                      widget.onSubmit(pinController.text);
                     }
                   }, 
                   width: size.width, 

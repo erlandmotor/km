@@ -71,184 +71,174 @@ class _WebviewScreenState extends State<WebviewScreen> {
           CustomPopupMenu(
               controller: popupMenuController,
               menuBuilder: () => Container(
-                    width: size.width * 0.9,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(18)),
-                    padding: const EdgeInsets.all(18),
-                    child: IntrinsicWidth(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          RegularTextFieldComponent(
-                              label: "Kode Pembayaran",
-                              controller: kodePembayaranController,
-                              validationMessage: "Kode pembayaran harus diisi.",
-                              prefixIcon: LineIcons.barcode,
-                              isObsecure: false),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          BlocProvider(
-                            create: (context2) => CheckIdentityCubit(),
-                            child: Builder(
-                              builder: (context3) {
-                                final checkIdentityCubit =
-                                context3.read<CheckIdentityCubit>();
+                width: size.width * 0.9,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(18)
+                ),
+                padding: const EdgeInsets.all(18),
+                child: IntrinsicWidth(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      RegularTextFieldComponent(
+                          label: "Kode Pembayaran",
+                          controller: kodePembayaranController,
+                          validationMessage: "Kode pembayaran harus diisi.",
+                          prefixIcon: LineIcons.barcode,
+                          isObsecure: false
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      BlocProvider(
+                        create: (context2) => CheckIdentityCubit(),
+                        child: Builder(
+                          builder: (context3) {
+                            final checkIdentityCubit = context3.read<CheckIdentityCubit>();
 
-                                return BlocBuilder<CheckIdentityCubit, CheckIdentityState>(
-                                  builder: (context, state) {
-                                    return LoadingButtonComponent(
-                                        label: "Proses",
-                                        buttonColor: kMainLightThemeColor,
-                                        onPressed: () {
-                                          if (kodePembayaranController
-                                              .text.isEmpty) {
-                                            showDynamicSnackBar(
-                                                context,
-                                                LineIcons.exclamationTriangle,
-                                                "ERROR",
-                                                "ID Pelanggan harus diisi telebih dahulu.",
-                                                Colors.red);
-                                          } else {
-                                            checkIdentityCubit.updateState(
-                                                true,
-                                                checkIdentityCubit
-                                                    .state.result);
-                                            locator.get<TransactionService>()
-                                                .checkIdentity(
-                                                  kodeProduk,
-                                                  kodePembayaranController
-                                                      .text,
-                                                  "5",
-                                                  locator
-                                                      .get<UserAppidCubit>()
-                                                      .state
-                                                      .userAppId
-                                                      .appId
+                            return BlocBuilder<CheckIdentityCubit, CheckIdentityState>(
+                              builder: (context, state) {
+                                return LoadingButtonComponent(
+                                    label: "Proses",
+                                    buttonColor: kMainLightThemeColor,
+                                    onPressed: () {
+                                      if (kodePembayaranController.text.isEmpty) {
+                                        showDynamicSnackBar(
+                                          context,
+                                          LineIcons.exclamationTriangle,
+                                          "ERROR",
+                                          "ID Pelanggan harus diisi telebih dahulu.",
+                                          Colors.red
+                                        );
+                                      } else {
+                                        checkIdentityCubit.updateState(
+                                          true,
+                                          checkIdentityCubit.state.result
+                                        );
+                                        locator.get<TransactionService>()
+                                        .checkIdentity(
+                                          kodeProduk,
+                                          kodePembayaranController.text,
+                                          "5",
+                                          locator
+                                              .get<UserAppidCubit>()
+                                              .state
+                                              .userAppId
+                                              .appId
+                                        ).then((value) {
+                                          checkIdentityCubit.updateState(
+                                              false, value);
+                                          if (value.success!) {
+                                            popupMenuController.hideMenu();
+                                            final splittedMessage = value.msg!.split("HARGA").removeLast();
+                                            final splittedHarga = splittedMessage.split("ADMIN");
+                                            final parsedTotalPay = splittedHarga[0].replaceAll(RegExp(r"\D"), "");
+
+                                            showModalBottomSheet(
+                                              context: context,
+                                              isScrollControlled: true,
+                                              shape: const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(18),
+                                                  topRight: Radius.circular(18)
                                                 )
-                                              .then((value) {
-                                              checkIdentityCubit.updateState(
-                                                  false, value);
-                                              if (value.success!) {
-                                                popupMenuController.hideMenu();
-                                                final splittedMessage = value.msg!.split("HARGA").removeLast();
-                                                final splittedHarga = splittedMessage.split("ADMIN");
-                                                final parsedTotalPay = splittedHarga[0].replaceAll(RegExp(r"\D"), "");
+                                              ),
+                                              builder: (context) {
+                                                return TransactionCheckFormComponent(
+                                                  response: value.msg!,
+                                                  productPrice: int.parse(parsedTotalPay),
+                                                  onSubmit: (pin) {
+                                                    showDialog(
+                                                      barrierDismissible: false,
+                                                      context: context,
+                                                      builder: (context) =>
+                                                      const Center(
+                                                        child:
+                                                            SpinKitFadingCircle(
+                                                          color:
+                                                              Colors.white,
+                                                          size:
+                                                              128,
+                                                        ),
+                                                      )
+                                                    );
 
-                                                showModalBottomSheet(
-                                                    context: context,
-                                                    isScrollControlled: true,
-                                                    shape: const RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                                topLeft: Radius
-                                                                    .circular(
-                                                                        18),
-                                                                topRight: Radius
-                                                                    .circular(
-                                                                        18))),
-                                                    builder: (context) {
-                                                      return TransactionCheckFormComponent(
-                                                          response: value.msg!,
-                                                          productPrice: int.parse(parsedTotalPay),
-                                                          onSubmit: (pin) {
-                                                            showDialog(
-                                                                barrierDismissible:
-                                                                    false,
-                                                                context:
-                                                                    context,
-                                                                builder:
-                                                                    (context) =>
-                                                                        const Center(
-                                                                          child:
-                                                                              SpinKitFadingCircle(
-                                                                            color:
-                                                                                Colors.white,
-                                                                            size:
-                                                                                128,
-                                                                          ),
-                                                                        ));
+                                                    locator.get<TransactionService>().payNow(
+                                                      kodeProduk,
+                                                      kodePembayaranController.text,
+                                                      pin,
+                                                      "6",
+                                                      locator.get<UserAppidCubit>().state.userAppId.appId
+                                                      ).then((value) {
+                                                        if (value.success!) {
+                                                          context.pop();
+                                                          context.pop();
+                                                          locator.get<LocalNotificationService>().showLocalNotification(
+                                                            title: "Transaksi ${value.produk!}",
+                                                            body: "Transaksi ${value.produk!} berhasil dilakukan."
+                                                          );
+                                                        } else {
+                                                          locator.get<LocalNotificationService>().showLocalNotification(
+                                                            title: "Transaksi ${value.produk!}",
+                                                            body: value.msg!
+                                                          );
+                                                          context.pop();
+                                                          // showDynamicSnackBar(
+                                                          //   context,
+                                                          //   LineIcons.exclamationTriangle,
+                                                          //   "ERROR",
+                                                          //   value.msg!,
+                                                          //   Colors.red
+                                                          // );
+                                                        }
+                                                      }
+                                                    ).catchError((e) {
+                                                      context.pop();
+                                                      context.pop();
 
-                                                            locator
-                                                                .get<
-                                                                    TransactionService>()
-                                                                .payNow(
-                                                                    kodeProduk,
-                                                                    kodePembayaranController
-                                                                        .text,
-                                                                    pin,
-                                                                    "6",
-                                                                    locator
-                                                                        .get<
-                                                                            UserAppidCubit>()
-                                                                        .state
-                                                                        .userAppId
-                                                                        .appId)
-                                                                .then((value) {
-                                                              if (value
-                                                                  .success!) {
-                                                              } else {
-                                                                locator
-                                                                    .get<
-                                                                        LocalNotificationService>()
-                                                                    .showLocalNotification(
-                                                                        title:
-                                                                            "Hello Notification",
-                                                                        body:
-                                                                            "It Works");
-                                                                context.pop();
-                                                                showDynamicSnackBar(
-                                                                    context,
-                                                                    LineIcons
-                                                                        .exclamationTriangle,
-                                                                    "ERROR",
-                                                                    value.msg!,
-                                                                    Colors.red);
-                                                              }
-                                                            }).catchError((e) {
-                                                              context.pop();
-                                                              context.pop();
-
-                                                              showDynamicSnackBar(
-                                                                  context,
-                                                                  LineIcons
-                                                                      .exclamationTriangle,
-                                                                  "ERROR",
-                                                                  e.toString(),
-                                                                  Colors.red);
-                                                            });
-                                                          });
-                                                    });
+                                                      showDynamicSnackBar(
+                                                        context,
+                                                        LineIcons.exclamationTriangle,
+                                                        "ERROR",
+                                                        e.toString(),
+                                                        Colors.red
+                                                      );
+                                                    }
+                                                  );
+                                                  }
+                                                );
                                               }
-                                            }).catchError((e) {
-                                              checkIdentityCubit.updateState(
-                                                false,
-                                                checkIdentityCubit.state.result
-                                              );
-                                              showDynamicSnackBar(
-                                                context,
-                                                LineIcons.exclamationTriangle,
-                                                "ERROR",
-                                                e.toString(),
-                                                Colors.red
-                                              );
-                                            });
+                                            );
                                           }
-                                        },
-                                        width: size.width,
-                                        height: 50,
-                                        isLoading: state.isLoading
-                                    );
-                                  },
+                                        }).catchError((e) {
+                                          checkIdentityCubit.updateState(
+                                            false,
+                                            checkIdentityCubit.state.result
+                                          );
+                                          showDynamicSnackBar(
+                                            context,
+                                            LineIcons.exclamationTriangle,
+                                            "ERROR",
+                                            e.toString(),
+                                            Colors.red
+                                          );
+                                        });
+                                      }
+                                    },
+                                    width: size.width,
+                                    height: 50,
+                                    isLoading: state.isLoading
                                 );
                               },
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+                            );
+                          },
+                        ),
+                      )
+                    ],
                   ),
+                ),
+              ),
               pressType: PressType.singleClick,
               verticalMargin: 10,
               horizontalMargin: 10,

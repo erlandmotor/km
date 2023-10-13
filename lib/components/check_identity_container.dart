@@ -1,10 +1,11 @@
+import "package:adamulti_mobile_clone_new/components/check_text_field_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/loading_button_component.dart";
-import "package:adamulti_mobile_clone_new/components/regular_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:flutter_contacts/flutter_contacts.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
 
@@ -26,12 +27,45 @@ class CheckIdentityContainer extends StatelessWidget {
         padding: const EdgeInsets.all(18),
         child: Column(
           children: [
-            RegularTextFieldComponent(
-              label: "Check ID Pelanggan", 
-              controller: identityController, 
-              validationMessage: "ID Pelanggan harus diisi.", 
-              prefixIcon: LineIcons.identificationCardAlt, 
-              isObsecure: false
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(
+                    child: CheckTextFieldComponent(
+                    label: "Masukkan ID Pelanggan", 
+                    hint: "Conth: 123456",
+                    controller: identityController, 
+                    validationMessage: "ID Pelanggan harus diisi.", 
+                  ),
+                ),
+                const SizedBox(width: 6,),
+                IconButton.filled(
+                  iconSize: 28,
+                  padding: const EdgeInsets.all(12),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green
+                  ),
+                  onPressed: () {
+                    FlutterContacts.requestPermission().then((value) async {
+                      if(value) {
+                        final contacts = await FlutterContacts.openExternalPick();
+                        if(contacts != null) {
+                          identityController.text = contacts.phones[0].number;
+                        }
+                      } else {
+                        showDynamicSnackBar(
+                          context, 
+                          LineIcons.exclamationTriangle, 
+                          "ERROR", 
+                          "Anda harus mengizinkan applikasi untuk mengakses kontak anda.", 
+                          Colors.red
+                        );
+                      }
+                    });
+                  }, 
+                  icon: const Icon(Icons.contact_phone_outlined)
+                )
+              ],
             ),
             const SizedBox(height: 8,),
             BlocBuilder<CheckIdentityCubit, CheckIdentityState>(

@@ -96,17 +96,32 @@ class _SelectProductTransactionScreenState extends State<SelectProductTransactio
                                             locator.get<UserAppidCubit>().state.userAppId.appId
                                           ).then((value) {
                                             if(value.success!) {
-
-                                            } else {
-                                              locator.get<LocalNotificationService>().showLocalNotification(title: "Hello Notification", body: "It Works");
                                               context.pop();
-                                              showDynamicSnackBar(
-                                                context, 
-                                                LineIcons.exclamationTriangle, 
-                                                "ERROR", 
-                                                value.msg!, 
-                                                Colors.red
+                                              context.pop();
+                                              // showDynamicSnackBar(
+                                              //   context, 
+                                              //   LineIcons.infoCircle, 
+                                              //   "SUKSES", 
+                                              //   "Transaksi ${snapshot.data!.data![index].namaproduk} berhasil dilakukan.", 
+                                              //   Colors.lightBlue
+                                              // );
+                                              locator.get<LocalNotificationService>().showLocalNotification(
+                                                title: "Transaksi ${snapshot.data!.data![index].namaproduk}", 
+                                                body: "Transaksi ${snapshot.data!.data![index].namaproduk} berhasil dilakukan."
                                               );
+                                            } else {
+                                              locator.get<LocalNotificationService>().showLocalNotification(
+                                                title: "Transaksi ${snapshot.data!.data![index].namaproduk}", 
+                                                body: value.msg!
+                                              );
+                                              context.pop();
+                                              // showDynamicSnackBar(
+                                              //   context, 
+                                              //   LineIcons.exclamationTriangle, 
+                                              //   "ERROR", 
+                                              //   value.msg!, 
+                                              //   Colors.red
+                                              // );
                                             }
                                           }).catchError((e) {
                                             context.pop();
