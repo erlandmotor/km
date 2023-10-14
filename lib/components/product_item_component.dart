@@ -5,6 +5,7 @@ import "package:auto_size_text/auto_size_text.dart";
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:responsive_sizer/responsive_sizer.dart";
 
 class ProductItemComponent extends StatelessWidget {
 
@@ -24,7 +25,6 @@ class ProductItemComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
 
     return GestureDetector(
       onTap: () {
@@ -38,7 +38,7 @@ class ProductItemComponent extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18)
           ),
-          width: size.width,
+          width: 100.w,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -49,7 +49,7 @@ class ProductItemComponent extends StatelessWidget {
                     clipper: ArcClipper(),
                     child: Container(
                       padding: const EdgeInsets.all(8),
-                      width: size.width * 0.6,
+                      width: 60.w,
                       decoration: BoxDecoration(
                         color: operatorColor,
                       ),
@@ -107,7 +107,7 @@ class ProductItemComponent extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(
-                          width: size.width * 0.44,
+                          width: 44.w,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

@@ -22,7 +22,7 @@ class SelectOperatorTriplePpobScreen extends StatelessWidget {
         child: ContainerGradientBackground(
           child: Column(
             children: [
-              CustomContainerAppBar(title: operatorName),
+              CustomContainerAppBar(title: operatorName, height: 90,),
               Expanded(
                 child: Container(
                   decoration: kContainerLightDecoration,

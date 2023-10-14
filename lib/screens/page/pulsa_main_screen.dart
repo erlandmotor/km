@@ -22,7 +22,7 @@ class PulsaMainScreen extends StatelessWidget {
         child: ContainerGradientBackground(
           child: Column(
             children: [
-              CustomContainerAppBar(title: title),
+              CustomContainerAppBar(title: title, height: 90,),
               Expanded(
                 child: Container(
                   decoration: kContainerLightDecoration,

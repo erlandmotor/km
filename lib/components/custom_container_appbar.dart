@@ -2,19 +2,20 @@ import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
+import "package:responsive_sizer/responsive_sizer.dart";
 
 class CustomContainerAppBar extends StatelessWidget {
-  const CustomContainerAppBar({ super.key, required this.title });
+  const CustomContainerAppBar({ super.key, required this.title, required this.height });
 
   final String title;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    
+
     return Container(
-      width: size.width,
-      height: size.height * 0.14,
+      width: 100.w,
+      height: height,
       padding: const EdgeInsets.all(18),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -37,7 +38,7 @@ class CustomContainerAppBar extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                width: size.width * 0.18,
+                width: 18.w,
               ),
               Flexible(
                 child: Text(title, style: GoogleFonts.inter(

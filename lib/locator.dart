@@ -6,6 +6,7 @@ import "package:adamulti_mobile_clone_new/services/jwt_service.dart";
 import "package:adamulti_mobile_clone_new/services/local_notification_service.dart";
 import "package:adamulti_mobile_clone_new/services/product_service.dart";
 import "package:adamulti_mobile_clone_new/services/secure_storage.dart";
+import "package:adamulti_mobile_clone_new/services/topup_service.dart";
 import "package:adamulti_mobile_clone_new/services/transaction_service.dart";
 import "package:get_it/get_it.dart";
 
@@ -21,4 +22,5 @@ void setupLocator() {
   locator.registerLazySingleton(() => ProductService());
   locator.registerLazySingleton(() => TransactionService());
   locator.registerLazySingleton(() => LocalNotificationService());
+  locator.registerLazySingleton(() => TopupService());
 }

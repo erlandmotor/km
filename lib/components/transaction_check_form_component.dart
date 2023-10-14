@@ -7,6 +7,7 @@ import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
+import "package:responsive_sizer/responsive_sizer.dart";
 
 class TransactionCheckFormComponent extends StatefulWidget {
 
@@ -39,8 +40,6 @@ class _TransactionCheckFormComponentState extends State<TransactionCheckFormComp
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    
 
     return GestureDetector(
       onTap: () {
@@ -57,7 +56,7 @@ class _TransactionCheckFormComponentState extends State<TransactionCheckFormComp
             )
           ),
           padding: const EdgeInsets.all(18),
-          width: size.width,
+          width: 100.w,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +84,7 @@ class _TransactionCheckFormComponentState extends State<TransactionCheckFormComp
                 const DashedSeparator(),
                 const SizedBox(height: 8,),
                 Container(
-                  width: size.width,
+                  width: 100.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     color: Colors.lightBlue,
@@ -113,6 +112,7 @@ class _TransactionCheckFormComponentState extends State<TransactionCheckFormComp
                 const DashedSeparator(),
                 const SizedBox(height: 18,),
                 RegularTextFieldComponent(
+                  hint: "Masukkan PIN Anda.",
                   label: "PIN", 
                   controller: pinController, 
                   validationMessage: "PIN Harus Diisi.",
@@ -137,7 +137,7 @@ class _TransactionCheckFormComponentState extends State<TransactionCheckFormComp
                       widget.onSubmit(pinController.text);
                     }
                   }, 
-                  width: size.width, 
+                  width: 100.w, 
                   height: 50
                 )
               ],

@@ -10,6 +10,7 @@ import "package:flutter/material.dart";
 import "package:flutter_contacts/flutter_contacts.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
+import "package:responsive_sizer/responsive_sizer.dart";
 
 class TransactionFormComponent extends StatefulWidget {
 
@@ -53,8 +54,6 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -70,7 +69,7 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
             )
           ),
           padding: const EdgeInsets.all(18),
-          width: size.width,
+          width: 100.w,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,8 +107,8 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                     ),
                     const SizedBox(width: 6,),
                     IconButton.filled(
-                      iconSize: 28,
-                      padding: const EdgeInsets.all(12),
+                      iconSize: 24,
+                      padding: const EdgeInsets.all(8),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green
                       ),
@@ -138,6 +137,7 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                 const SizedBox(height: 8,),
                 RegularTextFieldComponent(
                   label: "PIN", 
+                  hint: "Masukkan PIN Anda.",
                   controller: pinController, 
                   validationMessage: "PIN Harus Diisi.",
                   prefixIcon: LineIcons.key,
@@ -351,7 +351,7 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                       widget.onSubmit(identityController.text, pinController.text);
                     }
                   }, 
-                  width: size.width, 
+                  width: 100.w, 
                   height: 50
                 )
               ],

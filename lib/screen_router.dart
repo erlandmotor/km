@@ -13,6 +13,7 @@ import 'package:adamulti_mobile_clone_new/screens/page/select_operator_screen.da
 import "package:adamulti_mobile_clone_new/screens/page/select_operator_triple_ppob_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/select_product_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/select_product_transaction_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/topup/topup_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/webview_screen.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
@@ -160,6 +161,13 @@ GoRouter screenRouter() {
                 ], 
                 child: CheckBeforeTransactionScreen(kodeProduk: kodeProduk, operatorName: operatorName,)
               );
+            }
+          ),
+          GoRoute(
+            path: "topup-main",
+            name: "topup-main",
+            builder: (context, state) {
+              return const TopupMainScreen(); 
             }
           )
         ]

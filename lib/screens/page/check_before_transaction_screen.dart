@@ -17,6 +17,7 @@ import "package:flutter_spinkit/flutter_spinkit.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
+import "package:responsive_sizer/responsive_sizer.dart";
 
 class CheckBeforeTransactionScreen extends StatefulWidget {
 
@@ -43,8 +44,6 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
   Widget build(BuildContext context) {
 
     final checkIdentityCubit = context.read<CheckIdentityCubit>();
-
-    Size size = MediaQuery.of(context).size;
     
     return Scaffold(
       body: SafeArea(
@@ -53,6 +52,7 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
             children: [
               CustomContainerAppBar(
                 title: widget.operatorName,
+                height: 90,
               ),
               Expanded(
                 child: Container(
@@ -215,13 +215,13 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                                     });
                                   }
                                 }, 
-                                width: size.width, 
+                                width: 100.w, 
                                 height: 50, 
                                 isLoading: state.isLoading
                               ),
                               const SizedBox(height: 8,),
                               if(state.result.success != null && state.result.success! == false) Container(
-                                width: size.width,
+                                width: 100.w,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                   color: Colors.red,

@@ -16,6 +16,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebviewScreen extends StatefulWidget {
@@ -62,7 +63,6 @@ class _WebviewScreenState extends State<WebviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -71,7 +71,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
           CustomPopupMenu(
               controller: popupMenuController,
               menuBuilder: () => Container(
-                width: size.width * 0.9,
+                width: 90.w,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(18)
@@ -83,6 +83,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                     children: [
                       RegularTextFieldComponent(
                           label: "Kode Pembayaran",
+                          hint: "Contoh : 12345",
                           controller: kodePembayaranController,
                           validationMessage: "Kode pembayaran harus diisi.",
                           prefixIcon: LineIcons.barcode,
@@ -226,7 +227,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                         });
                                       }
                                     },
-                                    width: size.width,
+                                    width: 100.w,
                                     height: 50,
                                     isLoading: state.isLoading
                                 );

@@ -25,6 +25,7 @@ class SelectProductScreen extends StatelessWidget {
             children: [
               CustomContainerAppBar(
                 title: operatorName,
+                height: 90,
               ),
               Expanded(
                 child: Container(

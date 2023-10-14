@@ -28,7 +28,7 @@ class _PulsaSelectOperatorScreenState extends State<SelectOperatorScreen> {
         child: ContainerGradientBackground(
           child: Column(
             children: [
-              CustomContainerAppBar(title: widget.operatorName),
+              CustomContainerAppBar(title: widget.operatorName, height: 90,),
               Expanded(
                 child: Container(
                   decoration: kContainerLightDecoration,

@@ -2,6 +2,7 @@ import "package:auto_size_text/auto_size_text.dart";
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:responsive_sizer/responsive_sizer.dart";
 
 class LayananComponent extends StatelessWidget {
 
@@ -15,9 +16,9 @@ class LayananComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+
     return Container(
-      width: size.width * 0.2,
+      width: 20.w,
       padding: const EdgeInsets.all(6),
       child: GestureDetector(
         onTap: () {

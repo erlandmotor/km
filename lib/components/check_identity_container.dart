@@ -8,6 +8,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_contacts/flutter_contacts.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
+import "package:responsive_sizer/responsive_sizer.dart";
 
 class CheckIdentityContainer extends StatelessWidget {
   const CheckIdentityContainer({super.key, required this.identityController,
@@ -18,13 +19,12 @@ class CheckIdentityContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
 
     return Card(
       surfaceTintColor: Colors.white,
       color: Colors.white,
       child: Container(
-        padding: const EdgeInsets.all(18),
+        padding: const EdgeInsets.all(8),
         child: Column(
           children: [
             Row(
@@ -40,8 +40,8 @@ class CheckIdentityContainer extends StatelessWidget {
                 ),
                 const SizedBox(width: 6,),
                 IconButton.filled(
-                  iconSize: 28,
-                  padding: const EdgeInsets.all(12),
+                  iconSize: 24,
+                  padding: const EdgeInsets.all(8),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green
                   ),
@@ -88,13 +88,13 @@ class CheckIdentityContainer extends StatelessWidget {
                           onCheck();
                         }
                       }, 
-                      width: size.width, 
+                      width: 100.w, 
                       height: 50, 
                       isLoading: state.isLoading
                     ),
                     const SizedBox(height: 8,),
                     state.result.msg != null ? Container(
-                      width: size.width,
+                      width: 100.w,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color: state.result.success! == true ? Colors.green : Colors.red,
@@ -109,7 +109,7 @@ class CheckIdentityContainer extends StatelessWidget {
                           Flexible(
                             child: Text(
                               state.result.msg!, style: GoogleFonts.inter(
-                                fontSize: 14,
+                                fontSize: state.result.success! == true ? 12 : 14,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
                               ),

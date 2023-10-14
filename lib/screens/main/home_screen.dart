@@ -13,13 +13,13 @@ import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:responsive_sizer/responsive_sizer.dart";
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
 
     return Container(
       decoration: const BoxDecoration(
@@ -46,11 +46,11 @@ class HomeScreen extends StatelessWidget {
             Column(
               children: [
                 SizedBox(
-                  height: size.height * 0.26,
+                  height: 26.h,
                 ),
                 Container(
-                  width: size.width,
-                  height: size.height * 0.74,
+                  width: 100.w,
+                  height: 74.h,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(8),
-                      width: size.width * 0.4,
+                      width: 40.w,
                       child: BlocBuilder<AuthenticatedCubit, AuthenticatedState>(
                         builder: (context, state) {
                           return Column(
@@ -100,7 +100,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      width: size.width * 0.28,
+                      width: 28.w,
                       padding: const EdgeInsets.all(2),
                       decoration: const BoxDecoration(
                           color: Color(0xff6a89cc),
@@ -133,7 +133,7 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  height: size.height * 0.05,
+                  height: 5.h,
                 ),
                 BlocBuilder<AuthenticatedCubit, AuthenticatedState>(
                   builder: (context, state) {
@@ -143,7 +143,7 @@ class HomeScreen extends StatelessWidget {
                   },
                 ),
                 SizedBox(
-                  height: size.height * 0.025,
+                  height: 2.5.h,
                 ),
                 Card(
                   surfaceTintColor: Colors.white,
@@ -151,45 +151,51 @@ class HomeScreen extends StatelessWidget {
                   elevation: 2,
                   child: Container(
                     padding: const EdgeInsets.all(12),
-                    width: size.width * 0.88,
+                    width: 88.w,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SaldoActionComponent(
-                            icon: Icons.account_balance_wallet_rounded,
-                            label: "Top Up",
-                            onTapAction: () {}),
+                          icon: Icons.account_balance_wallet_rounded,
+                          label: "Top Up",
+                          onTapAction: () {
+                            context.pushNamed("topup-main");
+                          }
+                        ),
                         SaldoActionComponent(
-                            icon: Icons.send_to_mobile_rounded,
-                            label: "Transfer",
-                            onTapAction: () {}),
+                          icon: Icons.send_to_mobile_rounded,
+                          label: "Transfer",
+                          onTapAction: () {}
+                        ),
                         SaldoActionComponent(
-                            icon: LineIcons.gifts,
-                            label: "Reward",
-                            onTapAction: () {}),
+                          icon: LineIcons.gifts,
+                          label: "Reward",
+                          onTapAction: () {}
+                        ),
                         SaldoActionComponent(
-                            icon: LineIcons.wavyMoneyBill,
-                            label: "Komisi ",
-                            onTapAction: () {}),
+                          icon: LineIcons.wavyMoneyBill,
+                          label: "Komisi ",
+                          onTapAction: () {}
+                        ),
                       ],
                     ),
                   ),
                 ),
                 SizedBox(
-                  height: size.height * 0.025,
+                  height: 2.5.h,
                 ),
                 Container(
                   padding: const EdgeInsets.all(12),
                   color: Colors.white,
-                  width: size.width,
+                  width: 100.w,
                   child: FutureBuilder<List<MainMenuMobile>>(
                     future: locator.get<BackOfficeService>().getMainMenuMobile(),
                     builder: (context, snapshot) {
                       if(snapshot.connectionState == ConnectionState.done) {
                         return Wrap(
                           alignment: WrapAlignment.start,
-                          spacing: size.width * 0.04,
+                          spacing: 4.w,
                           runSpacing: 12,
                           children: [
                             for(var i = 0; i < snapshot.data!.length; i++) LayananComponent(
@@ -259,14 +265,14 @@ class HomeScreen extends StatelessWidget {
                   )
                 ),
                 SizedBox(
-                  height: size.height * 0.05,
+                  height: 5.h,
                 ),
                 Container(
                   color: Colors.white,
                   child: HomeCarousel(),
                 ),
                 Container(
-                  height: size.height * 0.025,
+                  height: 2.5.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       width: 0,

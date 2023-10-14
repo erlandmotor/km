@@ -4,6 +4,7 @@ import "package:auto_size_text/auto_size_text.dart";
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:responsive_sizer/responsive_sizer.dart";
 
 class OperatorItemComponent extends StatelessWidget {
 
@@ -18,7 +19,6 @@ class OperatorItemComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
 
     return GestureDetector(
       onTap: () {
@@ -29,7 +29,7 @@ class OperatorItemComponent extends StatelessWidget {
         color: Colors.white,
         surfaceTintColor: Colors.white,
         child: SizedBox(
-          width: size.width,
+          width: 100.w,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -40,7 +40,7 @@ class OperatorItemComponent extends StatelessWidget {
                     clipper: ArcClipper(),
                     child: Container(
                       padding: const EdgeInsets.all(8),
-                      width: size.width * 0.5,
+                      width: 50.w,
                       decoration: BoxDecoration(
                         color: operatorColor,
                       ),

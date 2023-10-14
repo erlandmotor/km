@@ -8,6 +8,7 @@ import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
+import "package:responsive_sizer/responsive_sizer.dart";
 
 class TransactionPlnTokenFormComponent extends StatefulWidget {
 
@@ -42,7 +43,6 @@ class _TransactionPlnTokenFormComponentState extends State<TransactionPlnTokenFo
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
 
     return GestureDetector(
       onTap: () {
@@ -59,7 +59,7 @@ class _TransactionPlnTokenFormComponentState extends State<TransactionPlnTokenFo
             )
           ),
           padding: const EdgeInsets.all(18),
-          width: size.width,
+          width: 100.w,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +85,8 @@ class _TransactionPlnTokenFormComponentState extends State<TransactionPlnTokenFo
                 // const DashedSeparator(),
                 const SizedBox(height: 18,),
                 RegularTextFieldComponent(
-                  label: "PIN", 
+                  label: "PIN",
+                  hint: "Masukkan PIN Anda.", 
                   controller: pinController, 
                   validationMessage: "PIN Harus Diisi.",
                   prefixIcon: LineIcons.key,
@@ -299,7 +300,7 @@ class _TransactionPlnTokenFormComponentState extends State<TransactionPlnTokenFo
                       widget.onSubmit(pinController.text);
                     }
                   }, 
-                  width: size.width, 
+                  width: 100.w, 
                   height: 50
                 )
               ],

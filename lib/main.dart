@@ -8,6 +8,7 @@ import 'package:adamulti_mobile_clone_new/services/local_notification_service.da
 import 'package:adamulti_mobile_clone_new/services/secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,13 +56,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'ADAMULTI MOBILE',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      routerConfig: screenRouter(),
+    return ResponsiveSizer(
+      builder: (context, orientation, deviceType) {
+        return MaterialApp.router(
+          title: 'ADAMULTI MOBILE',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
+          routerConfig: screenRouter(),
+        );
+      }
     );
   }
 }

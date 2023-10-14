@@ -19,7 +19,7 @@ class PlnMainScreen extends StatelessWidget {
         child: ContainerGradientBackground(
           child: Column(
             children: [
-              const CustomContainerAppBar(title: "Listrik"),
+              const CustomContainerAppBar(title: "Listrik", height: 90,),
               Expanded(
                 child: Container(
                   decoration: kContainerLightDecoration,

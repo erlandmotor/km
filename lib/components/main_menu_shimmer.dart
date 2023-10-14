@@ -1,5 +1,6 @@
 import "package:adamulti_mobile_clone_new/components/layanan_component.dart";
 import "package:flutter/material.dart";
+import "package:responsive_sizer/responsive_sizer.dart";
 import "package:shimmer/shimmer.dart";
 
 class MainMenuShimmer extends StatelessWidget {
@@ -10,11 +11,10 @@ class MainMenuShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
+    
     return Wrap(
       alignment: WrapAlignment.start,
-      spacing: size.width * 0.04,
+      spacing: 4.w,
       runSpacing: 12,
       children: [
         for(var i = 0; i < dataLength; i++)   Shimmer.fromColors(

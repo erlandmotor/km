@@ -36,6 +36,7 @@ class _SelectProductTransactionScreenState extends State<SelectProductTransactio
             children: [
               CustomContainerAppBar(
                 title: widget.operatorName,
+                height: 90,
               ),
               Expanded(
                 child: Container(
