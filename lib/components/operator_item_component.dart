@@ -25,7 +25,6 @@ class OperatorItemComponent extends StatelessWidget {
         onTap();
       },
       child: Card(
-        elevation: 2,
         color: Colors.white,
         surfaceTintColor: Colors.white,
         child: SizedBox(

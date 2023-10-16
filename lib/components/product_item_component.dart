@@ -31,7 +31,6 @@ class ProductItemComponent extends StatelessWidget {
         onTap();
       },
       child: Card(
-        elevation: 2,
         color: Colors.white,
         surfaceTintColor: Colors.white,
         child: Container(
@@ -127,7 +126,7 @@ class ProductItemComponent extends StatelessWidget {
                         const SizedBox(width: 8,),
                         if(int.parse(price) > 0) AutoSizeText(FormatCurrency.convertToIdr(int.parse(price), 0), 
                         maxFontSize: 16,
-                        maxLines: 2,
+                        maxLines: 1,
                         style: GoogleFonts.inter(
                           color: kSecondaryColor,
                           fontWeight: FontWeight.w700
