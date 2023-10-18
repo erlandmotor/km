@@ -1,4 +1,3 @@
-import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";

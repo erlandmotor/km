@@ -21,35 +21,40 @@ class _TransaksiHistoryTabState extends State<TransaksiHistoryTab> {
 
   final scrollController = ScrollController();
 
-  var startOfDate = "";
-  var endOfDate = "";
-
   @override
   void initState() {
-    final now = DateTime.now();
-    final lastDayOfMonth = DateTime(now.year, now.month + 1, 0);
-    startOfDate = "2023-07-01";
-    endOfDate = DateFormat("y-MM-d").format(lastDayOfMonth);
-
     final historyTransaksiCubit = context.read<HistoryTransaksiCubit>();
-
     locator.get<HistoryService>().getHistoryTransaksi(
       locator.get<UserAppidCubit>().state.userAppId.appId, 
       "10", 
-      "", 
-      historyTransaksiCubit.state.currentPage, 
-      startOfDate, 
-      endOfDate
+      historyTransaksiCubit.term, 
+      historyTransaksiCubit.currentPage.toString(), 
+      DateFormat("y-MM-dd").format(historyTransaksiCubit.listOfCurrentDateTime[0]!), 
+      DateFormat("y-MM-dd").format(historyTransaksiCubit.listOfCurrentDateTime[1]!)
     ).then((value) {
       historyTransaksiCubit.updateState(
-        historyTransaksiCubit.state.currentPage, 
         value.data!, 
         false
       );
     });
 
     scrollController.addListener(() {
-      
+      if(scrollController.position.maxScrollExtent == scrollController.offset) {
+        historyTransaksiCubit.currentPage += 1;
+        locator.get<HistoryService>().getHistoryTransaksi(
+          locator.get<UserAppidCubit>().state.userAppId.appId, 
+          "10", 
+          historyTransaksiCubit.term, 
+          historyTransaksiCubit.currentPage.toString(), 
+          DateFormat("y-MM-dd").format(historyTransaksiCubit.listOfCurrentDateTime[0]!), 
+          DateFormat("y-MM-dd").format(historyTransaksiCubit.listOfCurrentDateTime[1]!)
+        ).then((value) {
+          historyTransaksiCubit.updateState(
+            [...historyTransaksiCubit.state.dataList, ...value.data!], 
+            false
+          );
+        });
+      }
     });
     super.initState();
   }
@@ -73,7 +78,7 @@ class _TransaksiHistoryTabState extends State<TransaksiHistoryTab> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset("assets/no_data.png"),
+                  Image.asset("assets/no-data.jpg"),
                   const SizedBox(height: 10,),
                   Text("Tidak Ada Data Transaksi", style: GoogleFonts.inter(
                     fontSize: 22,
@@ -85,18 +90,28 @@ class _TransaksiHistoryTabState extends State<TransaksiHistoryTab> {
             );
           } else {
             return ListView.separated(
+              controller: scrollController,
               itemBuilder: (context, index) {
-                return HistoryTransaksiItemComponent(
-                  kodeTujuan: state.dataList[index].kodetujuan!, 
-                  amount: state.dataList[index].harga!, 
-                  sn: state.dataList[index].sn!, 
-                  waktu: state.dataList[index].waktu!, 
-                  statusText: state.dataList[index].statustext!, 
-                  statusTransaksi: state.dataList[index].statustransaksi!.toString()
-                );
+                if(index < state.dataList.length) {
+                  return HistoryTransaksiItemComponent(
+                    kodeTujuan: state.dataList[index].kodetujuan!, 
+                    amount: state.dataList[index].harga!, 
+                    sn: state.dataList[index].sn!, 
+                    waktu: state.dataList[index].waktu!, 
+                    statusText: state.dataList[index].statustext!, 
+                    statusTransaksi: state.dataList[index].statustransaksi!.toString()
+                  );
+                } else {
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 32),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
               }, 
               separatorBuilder: (context, index) {
-                return const SizedBox(height: 8,);
+                return const SizedBox(height: 6,);
               }, 
               itemCount: state.dataList.length  
             );

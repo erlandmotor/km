@@ -6,12 +6,24 @@ part 'history_transaksi_state.dart';
 
 class HistoryTransaksiCubit extends Cubit<HistoryTransaksiState> {
   HistoryTransaksiCubit() : super(const HistoryTransaksiInitial(
-    currentPageState: "1",
     dataListState: [],
     isLoadingState: true
   ));
 
-  void updateState(String currentPageState, List<HistoryTransaksiData> dataListState, bool isLoadingState) {
-    emit(HistoryTransaksiInitial(currentPageState: currentPageState, dataListState: dataListState, isLoadingState: isLoadingState));
+  var currentPage = 1;
+  var listOfCurrentDateTime = <DateTime?>[DateTime(DateTime.now().year, DateTime.now().month, 1), 
+  DateTime(DateTime.now().year, DateTime.now().month + 1, 0)];
+  var term = "";
+
+  void updateState(List<HistoryTransaksiData> dataListState, bool isLoadingState) {
+    emit(HistoryTransaksiInitial(dataListState: dataListState, isLoadingState: isLoadingState));
+  }
+
+  void resetState() {
+    currentPage = 1;
+    listOfCurrentDateTime = <DateTime?>[DateTime(DateTime.now().year, DateTime.now().month, 1), 
+    DateTime(DateTime.now().year, DateTime.now().month + 1, 0)];
+    term = "";
+    emit(const HistoryTransaksiInitial(dataListState: [], isLoadingState: true));
   }
 }

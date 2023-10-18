@@ -31,6 +31,7 @@ class _MainScreenState extends State<MainScreen> {
     final bottomNavigationCubit = context.read<BottomNavigationCubit>();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
           elevation: 5,

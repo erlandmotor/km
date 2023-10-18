@@ -2,6 +2,7 @@ import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/bottom_navigation_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_transaksi_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/loading_button_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/screens/main/main_screen.dart";
@@ -35,6 +36,9 @@ GoRouter screenRouter() {
               BlocProvider(
                 create: (_) => HistoryTransaksiCubit()
               ),
+              BlocProvider(
+                create: (_) => LoadingButtonCubit()
+              ),
               BlocProvider.value(value: locator.get<AuthenticatedCubit>()),
               BlocProvider.value(value: locator.get<UserAppidCubit>())
             ], 
@@ -59,7 +63,10 @@ GoRouter screenRouter() {
               final extra = state.extra as Map<dynamic, dynamic>;
               final operatorId = extra["operatorId"] as String;
               final title = extra["title"] as String;
-              return WebviewScreen(title: title, operatorId: operatorId,);
+              return BlocProvider(
+                create: (_) => CheckIdentityCubit(),
+                child: WebviewScreen(title: title, operatorId: operatorId,),
+              );
             }
           ),
           GoRoute(
