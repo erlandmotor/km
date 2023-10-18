@@ -1,6 +1,6 @@
 class RekapTransaksiResponse {
   final bool? success;
-  final List<Data>? data;
+  final List<RekapTransaksiData>? data;
 
   RekapTransaksiResponse({
     this.success,
@@ -9,7 +9,7 @@ class RekapTransaksiResponse {
 
   RekapTransaksiResponse.fromJson(Map<String, dynamic> json)
     : success = json['success'] as bool?,
-      data = (json['data'] as List?)?.map((dynamic e) => Data.fromJson(e as Map<String,dynamic>)).toList();
+      data = (json['data'] as List?)?.map((dynamic e) => RekapTransaksiData.fromJson(e as Map<String,dynamic>)).toList();
 
   Map<String, dynamic> toJson() => {
     'success' : success,
@@ -17,7 +17,7 @@ class RekapTransaksiResponse {
   };
 }
 
-class Data {
+class RekapTransaksiData {
   final String? kodeproduk;
   final String? namaproduk;
   final int? jumlah;
@@ -25,7 +25,7 @@ class Data {
   final String? imageproduk;
   final String? imgurl;
 
-  Data({
+  RekapTransaksiData({
     this.kodeproduk,
     this.namaproduk,
     this.jumlah,
@@ -34,7 +34,7 @@ class Data {
     this.imgurl,
   });
 
-  Data.fromJson(Map<String, dynamic> json)
+  RekapTransaksiData.fromJson(Map<String, dynamic> json)
     : kodeproduk = json['kodeproduk'] as String?,
       namaproduk = json['namaproduk'] as String?,
       jumlah = json['jumlah'] as int?,

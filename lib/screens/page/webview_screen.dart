@@ -41,8 +41,6 @@ class _WebviewScreenState extends State<WebviewScreen> {
 
   @override
   void initState() {
-    final checkIdentityCubit = context.read<CheckIdentityCubit>();
-    print(checkIdentityCubit.state.isLoading);
     final splittedKodeProduk = widget.operatorId.split(" - url:");
     kodeProduk = splittedKodeProduk[0];
 

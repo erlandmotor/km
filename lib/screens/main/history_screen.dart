@@ -1,10 +1,13 @@
 import "package:adamulti_mobile_clone_new/components/container_gradient_background.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/loading_button_component.dart";
-import "package:adamulti_mobile_clone_new/components/regular_textfield_component.dart";
+import "package:adamulti_mobile_clone_new/components/regular_textfield_without_validators_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/history_saldo_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/history_topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_transaksi_cubit.dart";
-import "package:adamulti_mobile_clone_new/cubit/loading_button_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/rekap_transaksi_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/search_history_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/screens/main/history_tab/rekap_transaksi_tab.dart";
@@ -103,13 +106,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  RegularTextFieldComponent(
-                                      label: "ID Pelanggan / No. Tujuan",
-                                      hint: "Contoh : 082xxx",
-                                      controller: searchController,
-                                      validationMessage: "ID Pelanggan / No. Tujuan harus diisi.",
-                                      prefixIcon: LineIcons.identificationCard,
-                                      isObsecure: false
+                                  BlocBuilder<SearchHistoryCubit, SearchHistoryState>(
+                                    bloc: context.read<SearchHistoryCubit>(),
+                                    builder: (_, state) {
+                                      return state.currentIndex != 2 ? RegularTextFieldWithoutValidatorsComponent(
+                                        label: state.currentIndex == 0 ? "ID Pelanggan / No. Tujuan" : "Keterangan",
+                                        hint: "Contoh : 082xxx",
+                                        controller: searchController,
+                                        prefixIcon: LineIcons.search,
+                                      ) : const SizedBox();
+                                    }
                                   ),
                                   const SizedBox(
                                     height: 18,
@@ -129,19 +135,35 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                         final historyTransaksiCubit = context.read<HistoryTransaksiCubit>();
                                         historyTransaksiCubit.listOfCurrentDateTime = value;
                                       }
+
+                                      if(currentTabIndex == 1) {
+                                        final historySaldoCubit = context.read<HistorySaldoCubit>();
+                                        historySaldoCubit.listOfCurrentDateTime = value;
+                                      }
+
+                                      if(currentTabIndex == 2) {
+                                        final rekapTransaksiCubit = context.read<RekapTransaksiCubit>();
+                                        rekapTransaksiCubit.listOfCurrentDateTime = value;
+                                      }
+
+                                      if(currentTabIndex == 3) {
+                                        final historyTopupSaldoCubit = context.read<HistoryTopupSaldoCubit>();
+                                        historyTopupSaldoCubit.listOfCurrentDateTime = value;
+                                      }
                                     },
                                   ),
                                   const SizedBox(
                                     height: 12,
                                   ),
-                                  BlocBuilder<LoadingButtonCubit, LoadingButtonState>(
-                                    bloc: context.read<LoadingButtonCubit>(),
+                                  BlocBuilder<SearchHistoryCubit, SearchHistoryState>(
+                                    bloc: context.read<SearchHistoryCubit>(),
                                     builder: (_, state) {
-                                      final loadingButtonCubit = context.read<LoadingButtonCubit>();
+                                      final searchHistoryCubit = context.read<SearchHistoryCubit>();
+
                                       return LoadingButtonComponent(
                                         label: "Cari", 
                                         buttonColor: kSecondaryColor, 
-                                        onPressed: () {                        
+                                        onPressed: () {                 
                                           if(listOfCurrentDateTime.length < 2) {
                                             popupMenuController.hideMenu();
                                             showDynamicSnackBar(
@@ -152,37 +174,144 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                               Colors.red
                                             );
                                           } else {
-                                            loadingButtonCubit.updateState(true);
+                                            searchHistoryCubit.updateState(true, searchHistoryCubit.state.currentIndex);
                   
-                                            // if(currentTabIndex == 0) {
-                                            //   final historyTransaksiCubit = context.read<HistoryTransaksiCubit>();
-                                            //   historyTransaksiCubit.resetState();
-                                            //   historyTransaksiCubit.listOfCurrentDateTime = listOfCurrentDateTime;
-                                            //   historyTransaksiCubit.term = searchController.text;
+                                            // Search Logic
+                                            if(currentTabIndex == 0) {
+                                              final historyTransaksiCubit = context.read<HistoryTransaksiCubit>();
+                                              historyTransaksiCubit.resetState();
+                                              historyTransaksiCubit.listOfCurrentDateTime = listOfCurrentDateTime;
+                                              historyTransaksiCubit.term = searchController.text;
 
-                                            //   locator.get<HistoryService>().getHistoryTransaksi(
-                                            //     locator.get<UserAppidCubit>().state.userAppId.appId,
-                                            //     "10",
-                                            //     historyTransaksiCubit.term,
-                                            //     historyTransaksiCubit.currentPage.toString(), 
-                                            //     DateFormat("y-MM-dd").format(historyTransaksiCubit.listOfCurrentDateTime[0]!), 
-                                            //     DateFormat("y-MM-dd").format(historyTransaksiCubit.listOfCurrentDateTime[1]!)
-                                            //   ).then((value) {
-                                            //     popupMenuController.hideMenu();
-                                            //     historyTransaksiCubit.updateState(
-                                            //       value.data!, 
-                                            //       false
-                                            //     );
-                                            //   }).catchError((e) {
-                                            //     showDynamicSnackBar(
-                                            //       context,
-                                            //       LineIcons.exclamationTriangle,
-                                            //       "ERROR",
-                                            //       e.toString(),
-                                            //       Colors.red
-                                            //     );  
-                                            //   });
-                                            // }
+                                              locator.get<HistoryService>().getHistoryTransaksi(
+                                                locator.get<UserAppidCubit>().state.userAppId.appId,
+                                                "10",
+                                                historyTransaksiCubit.term,
+                                                historyTransaksiCubit.currentPage.toString(), 
+                                                DateFormat("y-MM-dd").format(historyTransaksiCubit.listOfCurrentDateTime[0]!), 
+                                                DateFormat("y-MM-dd").format(historyTransaksiCubit.listOfCurrentDateTime[1]!)
+                                              ).then((value) {
+                                                listOfCurrentDateTime = <DateTime?>[DateTime.now()];       
+                                                popupMenuController.hideMenu();
+                                                searchHistoryCubit.updateState(false, searchHistoryCubit.state.currentIndex);
+                                                historyTransaksiCubit.updateState(
+                                                  value.data!, 
+                                                  false
+                                                );
+                                              }).catchError((e) {
+                                                listOfCurrentDateTime = <DateTime?>[DateTime.now()];
+                                                popupMenuController.hideMenu();
+                                                searchHistoryCubit.updateState(false, searchHistoryCubit.state.currentIndex);
+                                                showDynamicSnackBar(
+                                                  context,
+                                                  LineIcons.exclamationTriangle,
+                                                  "ERROR",
+                                                  e.toString(),
+                                                  Colors.red
+                                                );  
+                                              });
+                                            }
+
+                                            if(currentTabIndex == 1) {
+                                              final historySaldoCubit = context.read<HistorySaldoCubit>();
+                                              historySaldoCubit.resetState();
+                                              historySaldoCubit.listOfCurrentDateTime = listOfCurrentDateTime;
+                                              historySaldoCubit.term = searchController.text;
+
+                                              locator.get<HistoryService>().getHistorySaldo(
+                                                locator.get<UserAppidCubit>().state.userAppId.appId,
+                                                "10",
+                                                historySaldoCubit.term,
+                                                historySaldoCubit.currentPage.toString(), 
+                                                DateFormat("y-MM-dd").format(historySaldoCubit.listOfCurrentDateTime[0]!), 
+                                                DateFormat("y-MM-dd").format(historySaldoCubit.listOfCurrentDateTime[1]!)
+                                              ).then((value) {
+                                                listOfCurrentDateTime = <DateTime?>[DateTime.now()];
+                                                searchHistoryCubit.updateState(false, searchHistoryCubit.state.currentIndex);
+                                                popupMenuController.hideMenu();
+                                                historySaldoCubit.updateState(
+                                                  value.data!, 
+                                                  false
+                                                );
+                                              }).catchError((e) {
+                                                listOfCurrentDateTime = <DateTime?>[DateTime.now()];
+                                                searchHistoryCubit.updateState(false, searchHistoryCubit.state.currentIndex);
+                                                popupMenuController.hideMenu();
+                                                showDynamicSnackBar(
+                                                  context,
+                                                  LineIcons.exclamationTriangle,
+                                                  "ERROR",
+                                                  e.toString(),
+                                                  Colors.red
+                                                );  
+                                              });
+                                            }
+
+                                            if(currentTabIndex == 2) {
+                                              final rekapTransaksiCubit = context.read<RekapTransaksiCubit>();
+                                              rekapTransaksiCubit.resetState();
+                                              rekapTransaksiCubit.listOfCurrentDateTime = listOfCurrentDateTime;
+
+                                              locator.get<HistoryService>().getRekapTransaksi(
+                                                locator.get<UserAppidCubit>().state.userAppId.appId, 
+                                                DateFormat("y-MM-dd").format(rekapTransaksiCubit.listOfCurrentDateTime[0]!), 
+                                                DateFormat("y-MM-dd").format(rekapTransaksiCubit.listOfCurrentDateTime[1]!)
+                                              ).then((value) {
+                                                listOfCurrentDateTime = <DateTime?>[DateTime.now()];
+                                                searchHistoryCubit.updateState(false, searchHistoryCubit.state.currentIndex);
+                                                popupMenuController.hideMenu();
+                                                rekapTransaksiCubit.updateState(
+                                                  value.data!, 
+                                                  false
+                                                );
+                                              }).catchError((e) {
+                                                listOfCurrentDateTime = <DateTime?>[DateTime.now()];
+                                                searchHistoryCubit.updateState(false, searchHistoryCubit.state.currentIndex);
+                                                popupMenuController.hideMenu();
+                                                showDynamicSnackBar(
+                                                  context,
+                                                  LineIcons.exclamationTriangle,
+                                                  "ERROR",
+                                                  e.toString(),
+                                                  Colors.red
+                                                );  
+                                              });
+                                            }
+
+                                            if(currentTabIndex == 3) {
+                                              final historyTopupSaldoCubit = context.read<HistoryTopupSaldoCubit>();
+                                              historyTopupSaldoCubit.resetState();
+                                              historyTopupSaldoCubit.listOfCurrentDateTime = listOfCurrentDateTime;
+                                              historyTopupSaldoCubit.term = searchController.text;
+
+                                              locator.get<HistoryService>().getHistoryTopup(
+                                                locator.get<UserAppidCubit>().state.userAppId.appId,
+                                                "10",
+                                                historyTopupSaldoCubit.term,
+                                                historyTopupSaldoCubit.currentPage.toString(), 
+                                                DateFormat("y-MM-dd").format(historyTopupSaldoCubit.listOfCurrentDateTime[0]!), 
+                                                DateFormat("y-MM-dd").format(historyTopupSaldoCubit.listOfCurrentDateTime[1]!)
+                                              ).then((value) {
+                                                listOfCurrentDateTime = <DateTime?>[DateTime.now()];
+                                                searchHistoryCubit.updateState(false, searchHistoryCubit.state.currentIndex);
+                                                popupMenuController.hideMenu();
+                                                historyTopupSaldoCubit.updateState(
+                                                  value.data!, 
+                                                  false
+                                                );
+                                              }).catchError((e) {
+                                                listOfCurrentDateTime = <DateTime?>[DateTime.now()];
+                                                searchHistoryCubit.updateState(false, searchHistoryCubit.state.currentIndex);
+                                                popupMenuController.hideMenu();
+                                                showDynamicSnackBar(
+                                                  context,
+                                                  LineIcons.exclamationTriangle,
+                                                  "ERROR",
+                                                  e.toString(),
+                                                  Colors.red
+                                                );  
+                                              });
+                                            }
                                           }
                                         }, 
                                         width: 100.w, 
@@ -220,9 +349,26 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         ButtonsTabBar(
                           onTap: (index) {
                             currentTabIndex = index;
+                            final searchHistoryCubit = context.read<SearchHistoryCubit>();
+                            searchHistoryCubit.updateState(false, index);
+                            
                             if(index == 0) {
                               final historyTransaksiCubit = context.read<HistoryTransaksiCubit>();
                               historyTransaksiCubit.resetState();
+                            }
+                            if(index == 1) {
+                              final historySaldoCubit = context.read<HistorySaldoCubit>();
+                              historySaldoCubit.resetState();
+                            }
+
+                            if(index == 2) {
+                              final rekapTransaksiCubit = context.read<RekapTransaksiCubit>();
+                              rekapTransaksiCubit.resetState();
+                            }
+
+                            if(index == 3) {
+                              final historyTopupSaldoCubit = context.read<HistoryTopupSaldoCubit>();
+                              historyTopupSaldoCubit.resetState();
                             }
                           },
                           radius: 8,

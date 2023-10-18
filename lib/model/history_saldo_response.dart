@@ -3,7 +3,7 @@ class HistorySaldoResponse {
   final int? count;
   final int? countTotal;
   final String? pages;
-  final List<Data>? data;
+  final List<HistorySaldoData>? data;
 
   HistorySaldoResponse({
     this.success,
@@ -18,7 +18,7 @@ class HistorySaldoResponse {
       count = json['count'] as int?,
       countTotal = json['count_total'] as int?,
       pages = json['pages'] as String?,
-      data = (json['data'] as List?)?.map((dynamic e) => Data.fromJson(e as Map<String,dynamic>)).toList();
+      data = (json['data'] as List?)?.map((dynamic e) => HistorySaldoData.fromJson(e as Map<String,dynamic>)).toList();
 
   Map<String, dynamic> toJson() => {
     'success' : success,
@@ -29,20 +29,20 @@ class HistorySaldoResponse {
   };
 }
 
-class Data {
+class HistorySaldoData {
   final String? tanggal;
   final String? keterangan;
   final int? jumlah;
   final int? sisasaldo;
 
-  Data({
+  HistorySaldoData({
     this.tanggal,
     this.keterangan,
     this.jumlah,
     this.sisasaldo,
   });
 
-  Data.fromJson(Map<String, dynamic> json)
+  HistorySaldoData.fromJson(Map<String, dynamic> json)
     : tanggal = json['tanggal'] as String?,
       keterangan = json['keterangan'] as String?,
       jumlah = json['jumlah'] as int?,

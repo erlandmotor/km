@@ -1,8 +1,11 @@
 import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/bottom_navigation_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/history_saldo_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/history_topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_transaksi_cubit.dart";
-import "package:adamulti_mobile_clone_new/cubit/loading_button_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/rekap_transaksi_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/search_history_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/screens/main/main_screen.dart";
@@ -37,8 +40,11 @@ GoRouter screenRouter() {
                 create: (_) => HistoryTransaksiCubit()
               ),
               BlocProvider(
-                create: (_) => LoadingButtonCubit()
+                create: (_) => SearchHistoryCubit()
               ),
+              BlocProvider(create: (_) => HistorySaldoCubit()),
+              BlocProvider(create: (_) => RekapTransaksiCubit()),
+              BlocProvider(create: (_) => HistoryTopupSaldoCubit()),
               BlocProvider.value(value: locator.get<AuthenticatedCubit>()),
               BlocProvider.value(value: locator.get<UserAppidCubit>())
             ], 
