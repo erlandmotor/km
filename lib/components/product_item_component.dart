@@ -47,13 +47,13 @@ class ProductItemComponent extends StatelessWidget {
                   ClipPath(
                     clipper: ArcClipper(),
                     child: Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(4),
                       width: 60.w,
                       decoration: BoxDecoration(
                         color: operatorColor,
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 2, bottom: 2, left: 2, right: 10),
+                        padding: const EdgeInsets.only(right: 10, left: 10),
                         child: AutoSizeText(
                           operatorName,
                           maxFontSize: 14,
@@ -110,12 +110,18 @@ class ProductItemComponent extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(productName, style: GoogleFonts.inter(
+                              AutoSizeText(productName, 
+                              maxLines: 2,
+                              maxFontSize: 16,
+                              style: GoogleFonts.inter(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500
                               ),),
                               const SizedBox(height: 8,),
-                              Text("$productCode - $description", style: GoogleFonts.inter(
+                              AutoSizeText("$productCode - $description",
+                              maxLines: 3,
+                              maxFontSize: 12, 
+                              style: GoogleFonts.inter(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400
                                 ),

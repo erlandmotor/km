@@ -10,9 +10,9 @@ import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
-class TransactionPlnTokenFormComponent extends StatefulWidget {
+class TransactionWithoutIdentityFormComponent extends StatefulWidget {
 
-  const TransactionPlnTokenFormComponent({ super.key, required this.identityNumber,
+  const TransactionWithoutIdentityFormComponent({ super.key, required this.identityNumber,
   required this.operatorName, required this.productName, required this.productPrice,
   required this.onSubmit });
 
@@ -23,10 +23,10 @@ class TransactionPlnTokenFormComponent extends StatefulWidget {
   final Function onSubmit;
 
   @override
-  State<TransactionPlnTokenFormComponent> createState() => _TransactionPlnTokenFormComponentState();
+  State<TransactionWithoutIdentityFormComponent> createState() => _TransactionPlnTokenFormComponentState();
 }
 
-class _TransactionPlnTokenFormComponentState extends State<TransactionPlnTokenFormComponent> {
+class _TransactionPlnTokenFormComponentState extends State<TransactionWithoutIdentityFormComponent> {
 
   final pinController = TextEditingController();
 
@@ -293,7 +293,7 @@ class _TransactionPlnTokenFormComponentState extends State<TransactionPlnTokenFo
                         context, 
                         LineIcons.exclamationTriangle, 
                         "ERROR", 
-                        "ID Pelanggan atau PIN harus diisi terlebih dahulu sebelum melakukan pembayaran.", 
+                        "PIN harus diisi terlebih dahulu sebelum melakukan pembayaran.", 
                         Colors.red
                       );
                     } else {

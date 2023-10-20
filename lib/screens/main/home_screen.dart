@@ -203,10 +203,7 @@ class HomeScreen extends StatelessWidget {
                               label: snapshot.data![i].name!, 
                               onTapAction: () {
                                 if(snapshot.data![i].type! == "PULSA") {
-                                  context.pushNamed("pulsa-main", extra: {
-                                    "title": snapshot.data![i].name,
-                                    "operatorId": snapshot.data![i].operatorid
-                                  });
+                                  context.pushNamed("pulsa-and-data");
                                 }
                                 
                                 if(snapshot.data![i].type! == "WEBVIEW") {

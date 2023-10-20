@@ -38,13 +38,13 @@ class OperatorItemComponent extends StatelessWidget {
                   ClipPath(
                     clipper: ArcClipper(),
                     child: Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(4),
                       width: 50.w,
                       decoration: BoxDecoration(
                         color: operatorColor,
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 2, bottom: 2, left: 2, right: 10),
+                        padding: const EdgeInsets.only(left: 10, right: 10),
                         child: AutoSizeText(
                           operatorName,
                           maxFontSize: 14,

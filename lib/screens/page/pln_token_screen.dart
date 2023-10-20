@@ -3,7 +3,7 @@ import "package:adamulti_mobile_clone_new/components/container_gradient_backgrou
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/product_item_component.dart";
-import "package:adamulti_mobile_clone_new/components/transaction_pln_token_form_component.dart";
+import 'package:adamulti_mobile_clone_new/components/transaction_without_identity_form_component.dart';
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
@@ -139,7 +139,7 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                                               )
                                             ),  
                                             builder: (context) {
-                                              return TransactionPlnTokenFormComponent( 
+                                              return TransactionWithoutIdentityFormComponent( 
                                                 identityNumber: identityController.text,
                                                 operatorName: snapshot.data!.data![index].namaoperator!,
                                                 productName: snapshot.data!.data![index].namaproduk!,

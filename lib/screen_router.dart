@@ -4,6 +4,7 @@ import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_transaksi_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/pulsa_and_data_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/rekap_transaksi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/search_history_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
@@ -12,6 +13,7 @@ import "package:adamulti_mobile_clone_new/screens/main/main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/check_before_transaction_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/pln_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/pln_token_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/pulsa_and_data_main_screeen.dart";
 import 'package:adamulti_mobile_clone_new/screens/page/pulsa_main_screen.dart';
 import 'package:adamulti_mobile_clone_new/screens/page/select_operator_double_ppob_screen.dart';
 import 'package:adamulti_mobile_clone_new/screens/page/select_operator_screen.dart';
@@ -52,6 +54,16 @@ GoRouter screenRouter() {
           );
         },
         routes: [
+          GoRoute(
+            path: "pulsa-and-data",
+            name: "pulsa-and-data",
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => PulsaAndDataCubit(),
+                child: const PulsaAndDataMainScreen(),
+              );
+            }
+          ),
           GoRoute(
             path: "pulsa-main",
             name: "pulsa-main",
