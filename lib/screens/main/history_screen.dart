@@ -101,65 +101,69 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(18)
                             ),
-                            padding: const EdgeInsets.all(18),
-                            child: IntrinsicWidth(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  BlocBuilder<SearchHistoryCubit, SearchHistoryState>(
-                                    bloc: context.read<SearchHistoryCubit>(),
-                                    builder: (_, state) {
-                                      return state.currentIndex != 2 ? RegularTextFieldWithoutValidatorsComponent(
-                                        label: state.currentIndex == 0 ? "ID Pelanggan / No. Tujuan" : "Keterangan",
-                                        hint: "Contoh : 082xxx",
-                                        controller: searchController,
-                                        prefixIcon: LineIcons.search,
-                                      ) : const SizedBox();
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                BlocBuilder<SearchHistoryCubit, SearchHistoryState>(
+                                  bloc: context.read<SearchHistoryCubit>(),
+                                  builder: (_, state) {
+                                    if(state.currentIndex != 2) {
+                                      return Padding(
+                                        padding: const EdgeInsets.all(18),
+                                        child: RegularTextFieldWithoutValidatorsComponent(
+                                          label: state.currentIndex == 0 ? "ID Pelanggan / No. Tujuan" : "Keterangan",
+                                          hint: "Contoh : 082xxx",
+                                          controller: searchController,
+                                          prefixIcon: LineIcons.search,
+                                        ),
+                                      );
+                                    } else {
+                                      return const SizedBox();
                                     }
-                                  ),
-                                  const SizedBox(
-                                    height: 18,
-                                  ),
-                                  Text("Pilih Tanggal", style: GoogleFonts.inter(
+                                  }
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(18.0),
+                                  child: Text("Pilih Tanggal", style: GoogleFonts.inter(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500
                                   ),),
-                                  CalendarDatePicker2(
-                                    config: CalendarDatePicker2Config(
-                                      calendarType: CalendarDatePicker2Type.range
-                                    ), 
-                                    value: listOfCurrentDateTime,
-                                    onValueChanged: (value) {
-                                      listOfCurrentDateTime = value;
-                                      if(currentTabIndex == 0) {
-                                        final historyTransaksiCubit = context.read<HistoryTransaksiCubit>();
-                                        historyTransaksiCubit.listOfCurrentDateTime = value;
-                                      }
+                                ),
+                                CalendarDatePicker2(
+                                  config: CalendarDatePicker2Config(
+                                    calendarType: CalendarDatePicker2Type.range
+                                  ), 
+                                  value: listOfCurrentDateTime,
+                                  onValueChanged: (value) {
+                                    listOfCurrentDateTime = value;
+                                    if(currentTabIndex == 0) {
+                                      final historyTransaksiCubit = context.read<HistoryTransaksiCubit>();
+                                      historyTransaksiCubit.listOfCurrentDateTime = value;
+                                    }
 
-                                      if(currentTabIndex == 1) {
-                                        final historySaldoCubit = context.read<HistorySaldoCubit>();
-                                        historySaldoCubit.listOfCurrentDateTime = value;
-                                      }
+                                    if(currentTabIndex == 1) {
+                                      final historySaldoCubit = context.read<HistorySaldoCubit>();
+                                      historySaldoCubit.listOfCurrentDateTime = value;
+                                    }
 
-                                      if(currentTabIndex == 2) {
-                                        final rekapTransaksiCubit = context.read<RekapTransaksiCubit>();
-                                        rekapTransaksiCubit.listOfCurrentDateTime = value;
-                                      }
+                                    if(currentTabIndex == 2) {
+                                      final rekapTransaksiCubit = context.read<RekapTransaksiCubit>();
+                                      rekapTransaksiCubit.listOfCurrentDateTime = value;
+                                    }
 
-                                      if(currentTabIndex == 3) {
-                                        final historyTopupSaldoCubit = context.read<HistoryTopupSaldoCubit>();
-                                        historyTopupSaldoCubit.listOfCurrentDateTime = value;
-                                      }
-                                    },
-                                  ),
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  BlocBuilder<SearchHistoryCubit, SearchHistoryState>(
+                                    if(currentTabIndex == 3) {
+                                      final historyTopupSaldoCubit = context.read<HistoryTopupSaldoCubit>();
+                                      historyTopupSaldoCubit.listOfCurrentDateTime = value;
+                                    }
+                                  },
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(18.0),
+                                  child: BlocBuilder<SearchHistoryCubit, SearchHistoryState>(
                                     bloc: context.read<SearchHistoryCubit>(),
                                     builder: (_, state) {
                                       final searchHistoryCubit = context.read<SearchHistoryCubit>();
-
+                                
                                       return LoadingButtonComponent(
                                         label: "Cari", 
                                         buttonColor: kSecondaryColor, 
@@ -175,14 +179,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                             );
                                           } else {
                                             searchHistoryCubit.updateState(true, searchHistoryCubit.state.currentIndex);
-                  
+                                                  
                                             // Search Logic
                                             if(currentTabIndex == 0) {
                                               final historyTransaksiCubit = context.read<HistoryTransaksiCubit>();
                                               historyTransaksiCubit.resetState();
                                               historyTransaksiCubit.listOfCurrentDateTime = listOfCurrentDateTime;
                                               historyTransaksiCubit.term = searchController.text;
-
+                                
                                               locator.get<HistoryService>().getHistoryTransaksi(
                                                 locator.get<UserAppidCubit>().state.userAppId.appId,
                                                 "10",
@@ -211,13 +215,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                 );  
                                               });
                                             }
-
+                                
                                             if(currentTabIndex == 1) {
                                               final historySaldoCubit = context.read<HistorySaldoCubit>();
                                               historySaldoCubit.resetState();
                                               historySaldoCubit.listOfCurrentDateTime = listOfCurrentDateTime;
                                               historySaldoCubit.term = searchController.text;
-
+                                
                                               locator.get<HistoryService>().getHistorySaldo(
                                                 locator.get<UserAppidCubit>().state.userAppId.appId,
                                                 "10",
@@ -246,12 +250,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                 );  
                                               });
                                             }
-
+                                
                                             if(currentTabIndex == 2) {
                                               final rekapTransaksiCubit = context.read<RekapTransaksiCubit>();
                                               rekapTransaksiCubit.resetState();
                                               rekapTransaksiCubit.listOfCurrentDateTime = listOfCurrentDateTime;
-
+                                
                                               locator.get<HistoryService>().getRekapTransaksi(
                                                 locator.get<UserAppidCubit>().state.userAppId.appId, 
                                                 DateFormat("y-MM-dd").format(rekapTransaksiCubit.listOfCurrentDateTime[0]!), 
@@ -277,13 +281,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                 );  
                                               });
                                             }
-
+                                
                                             if(currentTabIndex == 3) {
                                               final historyTopupSaldoCubit = context.read<HistoryTopupSaldoCubit>();
                                               historyTopupSaldoCubit.resetState();
                                               historyTopupSaldoCubit.listOfCurrentDateTime = listOfCurrentDateTime;
                                               historyTopupSaldoCubit.term = searchController.text;
-
+                                
                                               locator.get<HistoryService>().getHistoryTopup(
                                                 locator.get<UserAppidCubit>().state.userAppId.appId,
                                                 "10",
@@ -319,9 +323,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                         isLoading: state.isLoading
                                       );
                                     }
-                                  )
-                                ],
-                              ),
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                         );

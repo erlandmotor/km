@@ -51,14 +51,13 @@ class RekapTransaksiItemComponent extends StatelessWidget {
                       fit: BoxFit.contain,
                     ),
                   ),
-                  const SizedBox(width: 18,),
+                  const SizedBox(width: 12,),
                   Expanded(
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SizedBox(
-                          width: 50.w,
+                        Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -75,6 +74,7 @@ class RekapTransaksiItemComponent extends StatelessWidget {
                             ],
                           ),
                         ),
+                        const SizedBox(width: 8,),
                         AutoSizeText(FormatCurrency.convertToIdr(total, 0), 
                           maxFontSize: 16,
                           maxLines: 1,

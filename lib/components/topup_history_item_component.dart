@@ -45,7 +45,7 @@ class TopupHistoryItemComponent extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(width: 18,),
+                const SizedBox(width: 12,),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

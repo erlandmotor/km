@@ -50,7 +50,7 @@ class CheckIdentityContainer extends StatelessWidget {
                       if(value) {
                         final contacts = await FlutterContacts.openExternalPick();
                         if(contacts != null) {
-                          identityController.text = contacts.phones[0].number;
+                          identityController.text = contacts.phones[0].normalizedNumber;
                         }
                       } else {
                         showDynamicSnackBar(

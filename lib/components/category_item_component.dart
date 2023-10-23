@@ -85,7 +85,7 @@ class CategoryItemComponent extends StatelessWidget {
                       width: 48,
                       height: 48,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(18),
+                        borderRadius: BorderRadius.circular(8),
                         color: kLightBackgroundColor
                       ),
                       child: CachedNetworkImage(

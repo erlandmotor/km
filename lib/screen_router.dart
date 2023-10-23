@@ -4,6 +4,7 @@ import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_transaksi_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/komisi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/pulsa_and_data_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/rekap_transaksi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/search_history_cubit.dart";
@@ -13,6 +14,7 @@ import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/screens/main/main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/check_before_transaction_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/komisi/komisi_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/pln_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/pln_token_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/pulsa_and_data_main_screeen.dart";
@@ -221,6 +223,16 @@ GoRouter screenRouter() {
             name: "reward-main",
             builder: (context, sate) {
               return const RewardMainScreen();
+            }
+          ),
+          GoRoute(
+            path: "komisi-main",
+            name: "komisi-main",
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => KomisiCubit(),
+                child: const KomisiMainScreen(),
+              );
             }
           )
         ]

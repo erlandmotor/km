@@ -132,7 +132,36 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                   if(value) {
                                     final contacts = await FlutterContacts.openExternalPick();
                                     if(contacts != null) {
-                                      identityController.text = contacts.phones[0].number;
+                                      identityController.text = contacts.phones[0].normalizedNumber;
+
+                                      pulsaAndDataCubit.updateState(true, GetProductByTujuanResponse());
+
+                                      locator.get<ProductService>().getProductByTujuan(
+                                        locator.get<UserAppidCubit>().state.userAppId.appId, 
+                                        identityController.text
+                                      ).then((result) {
+                                        if(result.succes == false) {
+                                          pulsaAndDataCubit.updateState(false, GetProductByTujuanResponse());
+                                          showDynamicSnackBar(
+                                            context, 
+                                            LineIcons.exclamationTriangle, 
+                                            "ERROR", 
+                                            "Terjadi Kesalahan Ketika Mendapatkan Data Produk, Silahkan Coba Lagi untuk Memasukkan No. HP Pelanggan.", 
+                                            Colors.red
+                                          );
+                                        } else {
+                                          FocusManager.instance.primaryFocus?.unfocus();
+                                          pulsaAndDataCubit.updateState(false, result);
+                                        }
+                                      }).catchError((_) {
+                                        showDynamicSnackBar(
+                                          context, 
+                                          LineIcons.exclamationTriangle, 
+                                          "ERROR", 
+                                          "Terjadi Kesalahan Ketika Mendapatkan Data Produk, Silahkan Coba Lagi untuk Memasukkan No. HP Pelanggan.", 
+                                          Colors.red
+                                        );
+                                      });
                                     }
                                   } else {
                                     showDynamicSnackBar(

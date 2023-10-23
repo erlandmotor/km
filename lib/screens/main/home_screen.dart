@@ -183,7 +183,9 @@ class HomeScreen extends StatelessWidget {
                         SaldoActionComponent(
                           icon: LineIcons.wavyMoneyBill,
                           label: "Komisi ",
-                          onTapAction: () {}
+                          onTapAction: () {
+                            context.pushNamed("komisi-main");
+                          }
                         ),
                       ],
                     ),

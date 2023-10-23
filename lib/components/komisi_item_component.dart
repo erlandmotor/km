@@ -3,24 +3,23 @@ import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:line_icons/line_icons.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
-class HistorySaldoItemComponent extends StatelessWidget {
+class KomisiItemComponent extends StatelessWidget {
 
-  const  HistorySaldoItemComponent({ super.key,
-  required this.keterangan, required this.sisaSaldo, required this.jumlah,
+  const KomisiItemComponent({ super.key, required this.keterangan, required this.amount,
   required this.waktu });
 
   final String keterangan;
-  final int sisaSaldo;
-  final int jumlah;
+  final int amount;
   final String waktu;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       color: Colors.white,
-      surfaceTintColor: jumlah < 0 ? Colors.red : Colors.blue,
+      surfaceTintColor: Colors.blue,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18)
@@ -40,15 +39,15 @@ class HistorySaldoItemComponent extends StatelessWidget {
                     height: 48,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(18),
+                      color: kSecondaryColor
                     ),
-                    child: Image.asset(
-                      jumlah < 0 ? "assets/pengeluaran.png" : "assets/pemasukan.png",
-                      width: 42,
-                      height: 42,
-                      fit: BoxFit.contain,
+                    child: const Icon(
+                      LineIcons.wavyMoneyBill,
+                      color: Colors.white,
+                      size: 36,
                     ),
                   ),
-                  const SizedBox(width: 12,),
+                  const SizedBox(width: 18,),
                   Expanded(
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -72,26 +71,13 @@ class HistorySaldoItemComponent extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 8,),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            AutoSizeText(FormatCurrency.convertToIdr(sisaSaldo, 0), 
-                              maxFontSize: 16,
-                              maxLines: 1,
-                              style: GoogleFonts.inter(
-                                color: kMainLightThemeColor,
-                                fontWeight: FontWeight.w700
-                              ),
-                            ), const SizedBox(height: 2,),
-                            AutoSizeText(FormatCurrency.convertToIdr(jumlah, 0), 
-                              maxFontSize: 12,
-                              maxLines: 1,
-                              style: GoogleFonts.inter(
-                                color: jumlah < 0 ? Colors.red : Colors.green,
-                                fontWeight: FontWeight.w700
-                              ),
-                            ), 
-                          ],
+                        AutoSizeText(FormatCurrency.convertToIdr(amount, 0), 
+                          maxFontSize: 16,
+                          maxLines: 1,
+                          style: GoogleFonts.inter(
+                            color: kSecondaryColor,
+                            fontWeight: FontWeight.w700
+                          ),
                         )
                       ],
                     ),

@@ -101,43 +101,45 @@ class ProductItemComponent extends StatelessWidget {
                         fit: BoxFit.contain,
                       ),
                     ),
-                    const SizedBox(width: 18,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 44.w,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              AutoSizeText(productName, 
-                              maxLines: 2,
-                              maxFontSize: 16,
-                              style: GoogleFonts.inter(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500
-                              ),),
-                              const SizedBox(height: 8,),
-                              AutoSizeText("$productCode - $description",
-                              maxLines: 3,
-                              maxFontSize: 12, 
-                              style: GoogleFonts.inter(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400
+                    const SizedBox(width: 12,),
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                AutoSizeText(productName, 
+                                maxLines: 2,
+                                maxFontSize: 16,
+                                style: GoogleFonts.inter(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500
+                                ),),
+                                const SizedBox(height: 8,),
+                                AutoSizeText("$productCode - $description",
+                                maxLines: 3,
+                                maxFontSize: 12, 
+                                style: GoogleFonts.inter(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 8,),
-                        if(int.parse(price) > 0) AutoSizeText(FormatCurrency.convertToIdr(int.parse(price), 0), 
-                        maxFontSize: 16,
-                        maxLines: 1,
-                        style: GoogleFonts.inter(
-                          color: kSecondaryColor,
-                          fontWeight: FontWeight.w700
-                        ),)
-                      ],
+                          const SizedBox(width: 8,),
+                          if(int.parse(price) > 0) AutoSizeText(FormatCurrency.convertToIdr(int.parse(price), 0), 
+                          maxFontSize: 16,
+                          maxLines: 1,
+                          style: GoogleFonts.inter(
+                            color: kSecondaryColor,
+                            fontWeight: FontWeight.w700
+                          ),)
+                        ],
+                      ),
                     )
                   ],
                 ),

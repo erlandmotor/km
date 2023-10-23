@@ -15,9 +15,9 @@ Future<void> main() async {
 
   setupLocator();
 
-  await locator.get<AuthService>().login("EW0002").then((loginResponse) {
-    locator.get<SecureStorageService>().writeSecureData("jwt", loginResponse.token!);
-  });
+  // await locator.get<AuthService>().login("EW0002").then((loginResponse) {
+  //   locator.get<SecureStorageService>().writeSecureData("jwt", loginResponse.token!);
+  // });
 
   await locator.get<LocalNotificationService>().initLocalNotification();
 
@@ -29,7 +29,6 @@ Future<void> main() async {
   locator.get<AuthenticatedCubit>().updateUserState(authenticatedUser.user!);
 
   final userAppId = await locator.get<AuthService>().decryptToken(authenticatedUser.user!.idreseller!, token!);
-
 
   locator.get<UserAppidCubit>().updateState(userAppId);
   

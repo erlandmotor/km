@@ -50,14 +50,13 @@ class HistoryTransaksiItemComponent extends StatelessWidget {
                       size: 26,
                     ),
                   ),
-                  const SizedBox(width: 18,),
+                  const SizedBox(width: 12,),
                   Expanded(
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SizedBox(
-                          width: 50.w,
+                        Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -83,6 +82,7 @@ class HistoryTransaksiItemComponent extends StatelessWidget {
                             ],
                           ),
                         ),
+                        const SizedBox(width: 8,),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [

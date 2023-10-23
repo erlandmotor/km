@@ -1,4 +1,5 @@
 import "package:adamulti_mobile_clone_new/components/history_transaksi_item_component.dart";
+import "package:adamulti_mobile_clone_new/components/no_data_component.dart";
 import "package:adamulti_mobile_clone_new/components/shimmer_list_component.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_transaksi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
@@ -6,7 +7,6 @@ import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/history_service.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import "package:google_fonts/google_fonts.dart";
 import "package:intl/intl.dart";
 
 class TransaksiHistoryTab extends StatefulWidget {
@@ -73,20 +73,8 @@ class _TransaksiHistoryTabState extends State<TransaksiHistoryTab> {
           return const ShimmerListComponent(isScrollable: false);
         } else {
           if(state.dataList.isEmpty) {
-            return Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset("assets/no-data.jpg"),
-                  const SizedBox(height: 10,),
-                  Text("Tidak Ada Data Transaksi", style: GoogleFonts.inter(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.center,)
-                ],
-              )
+            return const NoDataComponent(
+              label: "Tidak Ada Data Transaksi."
             );
           } else {
             return ListView.separated(

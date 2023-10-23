@@ -7,7 +7,6 @@ import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/history_service.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import "package:google_fonts/google_fonts.dart";
 import "package:intl/intl.dart";
 
 class SaldoHistoryTab extends StatefulWidget {
