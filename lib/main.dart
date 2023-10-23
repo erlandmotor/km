@@ -15,9 +15,9 @@ Future<void> main() async {
 
   setupLocator();
 
-  // locator.get<AuthService>().login("IO0016").then((loginResponse) {
-  //   locator.get<SecureStorageService>().writeSecureData("jwt", loginResponse.token!);
-  // });
+  await locator.get<AuthService>().login("EW0002").then((loginResponse) {
+    locator.get<SecureStorageService>().writeSecureData("jwt", loginResponse.token!);
+  });
 
   await locator.get<LocalNotificationService>().initLocalNotification();
 
@@ -59,6 +59,7 @@ class MyApp extends StatelessWidget {
     return ResponsiveSizer(
       builder: (context, orientation, deviceType) {
         return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
           title: 'ADAMULTI MOBILE',
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

@@ -1,4 +1,5 @@
 import "package:adamulti_mobile_clone_new/components/history_saldo_item_component.dart";
+import "package:adamulti_mobile_clone_new/components/no_data_component.dart";
 import "package:adamulti_mobile_clone_new/components/shimmer_list_component.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
@@ -73,21 +74,7 @@ class _SaldoHistoryTabState extends State<SaldoHistoryTab> {
           return const ShimmerListComponent(isScrollable: false);
         } else {
           if(state.dataList.isEmpty) {
-            return Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset("assets/no-data.jpg"),
-                  const SizedBox(height: 10,),
-                  Text("Tidak Ada Data Penggunaan Saldo", style: GoogleFonts.inter(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.center,)
-                ],
-              )
-            );
+            return const NoDataComponent(label: "Tidak Ada Data Penggunaan Saldo.");
           } else {
             return ListView.separated(
               controller: scrollController,

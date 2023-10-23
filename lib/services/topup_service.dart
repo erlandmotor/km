@@ -25,7 +25,7 @@ class TopupService {
   Future<TopupReplyResponse> proceedDepositTiket(String uuid, String jumlah) async {
     final decodeTokenResult = await locator.get<JwtService>().decodeToken();
 
-    final response = await _dio.get("$baseUrlCore/deposit/tiket", 
+    final response = await _dio.post("$baseUrlCore/deposit/tiket", 
     data: {
       "uuid": uuid,
       "jumlah": jumlah

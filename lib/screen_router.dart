@@ -7,6 +7,8 @@ import "package:adamulti_mobile_clone_new/cubit/history_transaksi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/pulsa_and_data_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/rekap_transaksi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/search_history_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/topup_saldo_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/transfer_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/screens/main/main_screen.dart";
@@ -15,12 +17,14 @@ import "package:adamulti_mobile_clone_new/screens/page/pln_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/pln_token_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/pulsa_and_data_main_screeen.dart";
 import 'package:adamulti_mobile_clone_new/screens/page/pulsa_main_screen.dart';
+import "package:adamulti_mobile_clone_new/screens/page/reward/reward_main_screen.dart";
 import 'package:adamulti_mobile_clone_new/screens/page/select_operator_double_ppob_screen.dart';
 import 'package:adamulti_mobile_clone_new/screens/page/select_operator_screen.dart';
 import "package:adamulti_mobile_clone_new/screens/page/select_operator_triple_ppob_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/select_product_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/select_product_transaction_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/topup/topup_main_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/transfer/transfer_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/webview_screen.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
@@ -196,7 +200,27 @@ GoRouter screenRouter() {
             path: "topup-main",
             name: "topup-main",
             builder: (context, state) {
-              return const TopupMainScreen(); 
+              return BlocProvider(
+                create: (_) => TopupSaldoCubit(),
+                child: const TopupMainScreen(),
+              ); 
+            }
+          ),
+          GoRoute(
+            path: "transfer-main",
+            name: "transfer-main",
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => TransferCubit(),
+                child: const TransferMainScreen(),
+              );
+            }
+          ),
+          GoRoute(
+            path: "reward-main",
+            name: "reward-main",
+            builder: (context, sate) {
+              return const RewardMainScreen();
             }
           )
         ]

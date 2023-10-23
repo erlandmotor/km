@@ -11,13 +11,24 @@ const kNavigationBarColor = Color(0xff273870);
 const kLightBackgroundColor = Color(0xfff4f5f8);
 const kProcessTransactionColor = Color(0xff38ada9);
 
-// Container Decoration
+// Container Light Decoration
 const kContainerLightDecoration = BoxDecoration(
   color: kLightBackgroundColor,
   borderRadius: BorderRadius.only(
     topLeft: Radius.circular(18),
     topRight: Radius.circular(18)
   )
+);
+
+// Container Main Theme Decoration
+final kContainerMainDecoration = BoxDecoration(
+  gradient: const LinearGradient(
+    colors: [kMainThemeColor, kSecondaryColor],
+    stops: [0, 0.2],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  ),
+  borderRadius: BorderRadius.circular(18)
 );
 
 // Operator Color

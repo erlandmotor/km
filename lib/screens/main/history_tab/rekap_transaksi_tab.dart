@@ -1,3 +1,4 @@
+import "package:adamulti_mobile_clone_new/components/no_data_component.dart";
 import "package:adamulti_mobile_clone_new/components/rekap_transaksi_item_component.dart";
 import "package:adamulti_mobile_clone_new/components/shimmer_list_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
@@ -58,21 +59,7 @@ class _RekapTransaksiTabState extends State<RekapTransaksiTab> {
               return const ShimmerListComponent(isScrollable: false);
             } else {
               if(state.dataList.isEmpty) {
-                return Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset("assets/no-data.jpg"),
-                      const SizedBox(height: 10,),
-                      Text("Tidak Ada Data Penggunaan Saldo", style: GoogleFonts.inter(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      textAlign: TextAlign.center,)
-                    ],
-                  )
-                );
+                return const NoDataComponent(label: "Tidak Ada Data Rekap Transaksi.");
               } else {
                 return ListView.separated(
                   padding: const EdgeInsets.only(bottom: 100),

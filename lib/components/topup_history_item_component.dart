@@ -41,7 +41,7 @@ class TopupHistoryItemComponent extends StatelessWidget {
                     color: (status == "0") ? Colors.lightBlue : (status == "1") ? Colors.green : Colors.red
                   ),
                   child: Icon(
-                    (status == "0") ? LineIcons.infoCircle : (status == "1") ? LineIcons.checkCircle : LineIcons.timesCircle,
+                    (status == "0") ? LineIcons.alternateRedo : (status == "1") ? LineIcons.checkCircle : LineIcons.timesCircle,
                     color: Colors.white,
                   ),
                 ),

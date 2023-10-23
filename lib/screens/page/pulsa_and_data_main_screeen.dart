@@ -1,4 +1,3 @@
-import "package:adamulti_mobile_clone_new/components/check_text_field_component.dart";
 import "package:adamulti_mobile_clone_new/components/container_gradient_background.dart";
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";

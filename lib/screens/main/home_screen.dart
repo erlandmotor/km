@@ -8,6 +8,7 @@ import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/main_menu_mobile.dart";
 import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
+import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
@@ -119,8 +120,10 @@ class HomeScreen extends StatelessWidget {
                             width: 2,
                           ),
                           Flexible(
-                            child: Text(
-                              "Customer Service",
+                            child: AutoSizeText(
+                              "CS",
+                              maxFontSize: 12,
+                              maxLines: 2,
                               style: GoogleFonts.inter(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 12,
@@ -166,12 +169,16 @@ class HomeScreen extends StatelessWidget {
                         SaldoActionComponent(
                           icon: Icons.send_to_mobile_rounded,
                           label: "Transfer",
-                          onTapAction: () {}
+                          onTapAction: () {
+                            context.pushNamed("transfer-main");
+                          }
                         ),
                         SaldoActionComponent(
                           icon: LineIcons.gifts,
                           label: "Reward",
-                          onTapAction: () {}
+                          onTapAction: () {
+                            context.pushNamed("reward-main");
+                          }
                         ),
                         SaldoActionComponent(
                           icon: LineIcons.wavyMoneyBill,
