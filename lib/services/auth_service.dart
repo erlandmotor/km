@@ -8,10 +8,23 @@ import 'package:adamulti_mobile_clone_new/model/user_appid.dart';
 import 'package:adamulti_mobile_clone_new/services/secure_storage.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
 
   final _dio = Dio();
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+    ],
+  );
+
+  Future<GoogleSignInAccount?> signInWithGoogle() async {
+    final googleAccount = await _googleSignIn.signIn();
+
+    return googleAccount;
+  }
 
   Future<LoginResponse> login(String idReseller) async {
     final hash = utf8.encode(idReseller);

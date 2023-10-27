@@ -1,6 +1,6 @@
 import "package:adamulti_mobile_clone_new/components/container_gradient_background.dart";
-import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar_with_search.dart";
+import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/komisi_item_component.dart";
 import "package:adamulti_mobile_clone_new/components/loading_button_component.dart";
@@ -12,10 +12,14 @@ import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/komisi_service.dart";
+import "package:adamulti_mobile_clone_new/services/local_notification_service.dart";
 import "package:calendar_date_picker2/calendar_date_picker2.dart";
 import "package:custom_pop_up_menu/custom_pop_up_menu.dart";
+import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:flutter_spinkit/flutter_spinkit.dart";
+import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:intl/intl.dart";
 import "package:line_icons/line_icons.dart";
@@ -104,6 +108,7 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
                     title: "Komisi", 
                     height: 90,
                     searchWidget: CustomPopupMenu(
+                      controller: popupMenuController,
                       position: PreferredPosition.bottom, 
                       menuBuilder: () {
                         return Container(
@@ -138,6 +143,7 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(18.0),
                                 child: BlocBuilder<KomisiCubit, KomisiState>(
+                                  bloc: context.read<KomisiCubit>(),
                                   builder: (_, state) {                              
                                     return LoadingButtonComponent(
                                       label: "Cari", 
@@ -211,32 +217,123 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
                     child: Container(
                       width: 92.w,
                       padding: const EdgeInsets.all(18),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Column(
                         children: [
-                          Text("Komisi Saat Ini : ", style: GoogleFonts.inter(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500
-                          ),),
-                          BlocBuilder<KomisiCubit, KomisiState>(
-                            builder: (_, state) {
-                              if(state.isLoading) {
-                                return const SizedBox(
-                                  width: 24,
-                                  height: 24,
-                                  child: CircularProgressIndicator(
-                                  color: kSecondaryColor,
-                                  strokeWidth: 4.0,
-                                  )
-                                );
-                              } else {
-                                return Text(FormatCurrency.convertToIdr(state.totalKomisi, 0), style: GoogleFonts.inter(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600
-                                ),);
-                              }
-                            }
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Komisi Saat Ini : ", style: GoogleFonts.inter(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500
+                              ),),
+                              BlocBuilder<KomisiCubit, KomisiState>(
+                                builder: (_, state) {
+                                  if(state.isLoading) {
+                                    return const SizedBox(
+                                      width: 24,
+                                      height: 24,
+                                      child: CircularProgressIndicator(
+                                      color: kSecondaryColor,
+                                      strokeWidth: 4.0,
+                                      )
+                                    );
+                                  } else {
+                                    return Text(FormatCurrency.convertToIdr(state.totalKomisi, 0), style: GoogleFonts.inter(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600
+                                    ),);
+                                  }
+                                }
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 18,),
+                          DynamicSizeButtonComponent(
+                            label: "Tukar Komisi", 
+                            buttonColor: kMainLightThemeColor, 
+                            onPressed: () {
+                              showDialog(
+                                context: context, 
+                                builder: (dialogContext) {
+                                  return CupertinoAlertDialog(
+                                    title: Text("Konfirmasi Penukaran Komisi", style: GoogleFonts.inter(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600
+                                    ),),
+                                    content: Padding(
+                                      padding: const EdgeInsets.only(top: 18, bottom: 8, left: 8, right: 8),
+                                      child: Column(
+                                        children: [
+                                          const CircleAvatar(
+                                            radius: 36,
+                                            backgroundColor: Colors.blue,
+                                            child: Icon(LineIcons.exclamationTriangle, size: 38, color: Colors.white,),
+                                          ),
+                                          const SizedBox(height: 18,),
+                                          Text("Apakah anda yakin ingin menukar komisi anda menjadi saldo???", style: GoogleFonts.inter(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500
+                                          ),)
+                                        ],
+                                      ),
+                                    ),
+                                    actions: [
+                                      CupertinoDialogAction(
+                                        onPressed: () {
+                                          dialogContext.pop();
+                                        },
+                                        child: Text("Batal", style: GoogleFonts.inter(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600
+                                        ),)
+                                      ),
+                                      CupertinoDialogAction(
+                                        onPressed: () {
+                                          dialogContext.pop();
+                                          showDialog(
+                                            barrierDismissible: false,
+                                            context: context, 
+                                            builder: (context) => const Center(
+                                              child: SpinKitFadingCircle(
+                                                color: Colors.white,
+                                                size: 128,
+                                              ),
+                                            )
+                                          );
+
+                                          locator.get<KomisiService>().redeemKomisi(
+                                            locator.get<UserAppidCubit>().state.userAppId.appId
+                                          ).then((value) {
+                                            Navigator.of(context).pop();
+                                            locator.get<LocalNotificationService>().showLocalNotification(
+                                              title: "Penukaran Komisi", 
+                                              body: "Komisi anda berhasil ditukar untuk menjadi saldo applikasi."
+                                            );
+                                          }).catchError((e) {
+                                            context.pop();
+          
+                                            showDynamicSnackBar(
+                                              context, 
+                                              LineIcons.exclamationTriangle, 
+                                              "ERROR", 
+                                              e.toString(), 
+                                              Colors.red
+                                            );
+                                          });
+                                        },
+                                        child: Text("Tukar", style: GoogleFonts.inter(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600
+                                        ),)
+                                      ),
+                                    ],
+                                  );
+                                }
+                              );
+                            }, 
+                            width: 100.w, 
+                            height: 50
                           )
                         ],
                       ),

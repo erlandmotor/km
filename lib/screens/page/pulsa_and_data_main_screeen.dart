@@ -132,7 +132,8 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                   if(value) {
                                     final contacts = await FlutterContacts.openExternalPick();
                                     if(contacts != null) {
-                                      identityController.text = contacts.phones[0].normalizedNumber;
+                                      final parsedPhoneNumber = contacts.phones[0].normalizedNumber.replaceAll("+62", "0");
+                                      identityController.text = parsedPhoneNumber;
 
                                       pulsaAndDataCubit.updateState(true, GetProductByTujuanResponse());
 

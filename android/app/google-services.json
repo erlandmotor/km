@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "990525255496",
+    "project_id": "adamultiapp",
+    "storage_bucket": "adamultiapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:990525255496:android:dce4611b2ddb7d20918d7d",
+        "android_client_info": {
+          "package_name": "com.example.adamulti_mobile_clone_new"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "990525255496-1o3drh225fqqbr1vhvadn9ok8579omcb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.adamulti_mobile_clone_new",
+            "certificate_hash": "5c297fe846defc01a2f1f1cd0cc985eb86ce6323"
+          }
+        },
+        {
+          "client_id": "990525255496-32hkr4r9bca6qbmi7es2nvsh70b6nae2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.adamulti_mobile_clone_new",
+            "certificate_hash": "7d2d8eecf5e744b32c68ec466e6c9a9a734354d6"
+          }
+        },
+        {
+          "client_id": "990525255496-uf1de0fv4i1a6n71vg9i61l26ec3igmu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlUuI8RUSAmQV6klLi5fNVV9g6G38O6xY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "990525255496-uf1de0fv4i1a6n71vg9i61l26ec3igmu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "990525255496-65or3doqakts4h1he6m67mactuld6apv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.adamultiMobileCloneNew"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

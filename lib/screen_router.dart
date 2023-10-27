@@ -12,6 +12,7 @@ import "package:adamulti_mobile_clone_new/cubit/topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/transfer_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
+import "package:adamulti_mobile_clone_new/screens/auth/select_google_account_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/main/main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/check_before_transaction_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/komisi/komisi_main_screen.dart";
@@ -34,9 +35,17 @@ import "package:go_router/go_router.dart";
 GoRouter screenRouter() {
 
   return GoRouter(
+    initialLocation: "/select-google-account",
     routes: [
       GoRoute(
-        path: "/",
+        path: "/select-google-account",
+        name: "select-google-account",
+        builder: (context, state) {
+          return const SelectGoogleAccountScreen();
+        }
+      ),
+      GoRoute(
+        path: "/main",
         name: "main",
         builder: (context, state) {
           return MultiBlocProvider(
