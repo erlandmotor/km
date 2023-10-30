@@ -26,51 +26,57 @@ class TopupTextFieldComponent extends StatelessWidget {
           color: Colors.black
         ),),
         const SizedBox(height: 6,),
-        Container(
-          padding: const EdgeInsets.fromLTRB(10,2,10,2),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              border: Border.all(color: Colors.grey),
-              color: Colors.white
+        TextFormField(
+          keyboardType: TextInputType.number,
+          style: GoogleFonts.poppins(
+            fontSize: 14,
+            fontWeight: FontWeight.w500
           ),
-          child: TextFormField(
-            keyboardType: TextInputType.number,
-            style: GoogleFonts.poppins(
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp(r'[0-9Rp.-]'))
+          ],
+          obscureText: isObsecure,
+          controller: controller,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.all(8),
+            filled: true,
+            fillColor: Colors.white,
+            enabledBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderSide: BorderSide(
+                width: 0.5
+              )
+            ),
+            border: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderSide: BorderSide(
+                width: 0.5
+              )
+            ),
+            prefixIcon: Icon(prefixIcon),
+            hintText: hint,
+            hintStyle: GoogleFonts.poppins(
               fontSize: 14,
-              fontWeight: FontWeight.w500
+              fontWeight: FontWeight.w400
             ),
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'[0-9Rp.-]'))
-            ],
-            obscureText: isObsecure,
-            controller: controller,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            decoration: InputDecoration(
-              prefixIcon: Icon(prefixIcon),
-              border: InputBorder.none,
-              hintText: hint,
-              hintStyle: GoogleFonts.poppins(
-                fontSize: 14,
-                fontWeight: FontWeight.w400
-              ),
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              errorStyle: const TextStyle(
-                fontSize: 14,
-              ),
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            errorStyle: const TextStyle(
+              fontSize: 14,
             ),
-            onChanged: (value) {
-              if(value.isNotEmpty) {
-                controller.text = FormatCurrency.convertToIdr(int.parse(value.replaceAll(RegExp(r"\D"), "")), 0);
-              }
-            },
-            validator: (value) {
-              if(value!.isEmpty) {
-                return validationMessage;
-              } else {
-                return null;
-              }
-            },
           ),
+          onChanged: (value) {
+            if(value.isNotEmpty) {
+              controller.text = FormatCurrency.convertToIdr(int.parse(value.replaceAll(RegExp(r"\D"), "")), 0);
+            }
+          },
+          validator: (value) {
+            if(value!.isEmpty) {
+              return validationMessage;
+            } else {
+              return null;
+            }
+          },
         ),
       ],
     );

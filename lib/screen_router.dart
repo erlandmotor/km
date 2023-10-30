@@ -12,6 +12,8 @@ import "package:adamulti_mobile_clone_new/cubit/topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/transfer_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
+import "package:adamulti_mobile_clone_new/screens/auth/input_phone_number_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/auth/register_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/select_google_account_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/main/main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/check_before_transaction_screen.dart";
@@ -35,13 +37,27 @@ import "package:go_router/go_router.dart";
 GoRouter screenRouter() {
 
   return GoRouter(
-    initialLocation: "/select-google-account",
+    initialLocation: "/register",
     routes: [
       GoRoute(
         path: "/select-google-account",
         name: "select-google-account",
         builder: (context, state) {
           return const SelectGoogleAccountScreen();
+        }
+      ),
+      GoRoute(
+        path: "/input-phone-number",
+        name: "input-phone-number",
+        builder: (context, state) {
+          return const InputPhoneNumberScreen();
+        }
+      ),
+      GoRoute(
+        path: "/register",
+        name: "register",
+        builder: (context, state) {
+          return const RegisterScreen();
         }
       ),
       GoRoute(

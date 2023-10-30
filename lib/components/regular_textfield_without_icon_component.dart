@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class RegularTextFieldComponent extends StatelessWidget {
+class RegularTextFieldWithoutIconComponent extends StatelessWidget {
 
-  const RegularTextFieldComponent({ Key? key, required this.label, required this.hint, required this.controller,
-  required this.validationMessage, required this.prefixIcon, required this.isObsecure }) : super(key: key);
+  const RegularTextFieldWithoutIconComponent({ Key? key, required this.label, required this.hint, required this.controller,
+  required this.validationMessage, required this.isObsecure }) : super(key: key);
 
   final TextEditingController controller;
   final String label;
   final String hint;
   final String validationMessage;
-  final IconData prefixIcon;
   final bool isObsecure;
 
   @override
@@ -48,10 +47,9 @@ class RegularTextFieldComponent extends StatelessWidget {
                 width: 0.5
               )
             ),
-            prefixIcon: Icon(prefixIcon),
             hintText: hint,
             hintStyle: GoogleFonts.poppins(
-              fontSize: 14,
+              fontSize: 12,
               fontWeight: FontWeight.w400
             ),
             floatingLabelBehavior: FloatingLabelBehavior.never,

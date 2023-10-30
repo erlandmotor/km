@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:line_icons/line_icons.dart';
 
-class RegularTextFieldComponent extends StatelessWidget {
+class RegionTextFieldComponent extends StatelessWidget {
 
-  const RegularTextFieldComponent({ Key? key, required this.label, required this.hint, required this.controller,
-  required this.validationMessage, required this.prefixIcon, required this.isObsecure }) : super(key: key);
+  const RegionTextFieldComponent({ Key? key, required this.label, required this.hint, required this.controller,
+  required this.onTapAction }) : super(key: key);
 
   final TextEditingController controller;
   final String label;
   final String hint;
-  final String validationMessage;
-  final IconData prefixIcon;
-  final bool isObsecure;
+  final Function onTapAction;
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +24,14 @@ class RegularTextFieldComponent extends StatelessWidget {
         ),),
         const SizedBox(height: 6,),
         TextFormField(
+          onTap: () {
+            onTapAction();
+          },
+          readOnly: true,
           style: GoogleFonts.poppins(
             fontSize: 14,
             fontWeight: FontWeight.w500
           ),
-          obscureText: isObsecure,
           controller: controller,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
@@ -48,24 +50,14 @@ class RegularTextFieldComponent extends StatelessWidget {
                 width: 0.5
               )
             ),
-            prefixIcon: Icon(prefixIcon),
+            suffixIcon: const Icon(LineIcons.angleDown, size: 18,),
             hintText: hint,
             hintStyle: GoogleFonts.poppins(
-              fontSize: 14,
+              fontSize: 12,
               fontWeight: FontWeight.w400
             ),
             floatingLabelBehavior: FloatingLabelBehavior.never,
-            errorStyle: const TextStyle(
-              fontSize: 14,
-            ),
           ),
-          validator: (value) {
-            if(value!.isEmpty) {
-              return validationMessage;
-            } else {
-              return null;
-            }
-          },
         ),
       ],
     );

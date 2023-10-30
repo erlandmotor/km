@@ -1,36 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:line_icons/line_icons.dart';
 
-class RegularTextFieldComponent extends StatelessWidget {
+class PinTextFieldComponent extends StatefulWidget {
 
-  const RegularTextFieldComponent({ Key? key, required this.label, required this.hint, required this.controller,
-  required this.validationMessage, required this.prefixIcon, required this.isObsecure }) : super(key: key);
+  const PinTextFieldComponent({ Key? key, required this.label, required this.hint, required this.controller}) : super(key: key);
 
   final TextEditingController controller;
   final String label;
   final String hint;
-  final String validationMessage;
-  final IconData prefixIcon;
-  final bool isObsecure;
+
+  @override
+  State<PinTextFieldComponent> createState() => _PinTextFieldComponentState();
+}
+
+class _PinTextFieldComponentState extends State<PinTextFieldComponent> {
+  var isShowing = true;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: GoogleFonts.poppins(
+        Text(widget.label, style: GoogleFonts.poppins(
           fontSize: 12,
           fontWeight: FontWeight.w500,
           color: Colors.black
         ),),
         const SizedBox(height: 6,),
         TextFormField(
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly
+          ],
+          keyboardType: TextInputType.number,
+          obscureText: isShowing,
           style: GoogleFonts.poppins(
             fontSize: 14,
             fontWeight: FontWeight.w500
           ),
-          obscureText: isObsecure,
-          controller: controller,
+          controller: widget.controller,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(8),
@@ -48,24 +57,23 @@ class RegularTextFieldComponent extends StatelessWidget {
                 width: 0.5
               )
             ),
-            prefixIcon: Icon(prefixIcon),
-            hintText: hint,
+            suffixIcon: IconButton(
+              onPressed: () {
+                setState(() {
+                  isShowing = !isShowing;
+                });
+              }, 
+              icon: Icon(
+                isShowing ? LineIcons.eyeSlash : LineIcons.eye,
+              ),
+            ),
+            hintText: widget.hint,
             hintStyle: GoogleFonts.poppins(
-              fontSize: 14,
+              fontSize: 12,
               fontWeight: FontWeight.w400
             ),
             floatingLabelBehavior: FloatingLabelBehavior.never,
-            errorStyle: const TextStyle(
-              fontSize: 14,
-            ),
           ),
-          validator: (value) {
-            if(value!.isEmpty) {
-              return validationMessage;
-            } else {
-              return null;
-            }
-          },
         ),
       ],
     );

@@ -22,40 +22,46 @@ class CheckTextFieldComponent extends StatelessWidget {
           color: Colors.black
         ),),
         const SizedBox(height: 6,),
-        Container(
-          padding: const EdgeInsets.fromLTRB(10,2,10,2),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              border: Border.all(color: Colors.grey),
-              color: Colors.white
+        TextFormField(
+          style: GoogleFonts.poppins(
+            fontSize: 14,
+            fontWeight: FontWeight.w500
           ),
-          child: TextFormField(
-            style: GoogleFonts.poppins(
+          controller: controller,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.all(8),
+            filled: true,
+            fillColor: Colors.white,
+            enabledBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderSide: BorderSide(
+                width: 0.5
+              )
+            ),
+            border: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderSide: BorderSide(
+                width: 0.5
+              )
+            ),
+            hintText: hint,
+            hintStyle: GoogleFonts.poppins(
               fontSize: 14,
-              fontWeight: FontWeight.w500
+              fontWeight: FontWeight.w400
             ),
-            controller: controller,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: hint,
-              hintStyle: GoogleFonts.poppins(
-                fontSize: 14,
-                fontWeight: FontWeight.w400
-              ),
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              errorStyle: const TextStyle(
-                fontSize: 14,
-              ),
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            errorStyle: const TextStyle(
+              fontSize: 14,
             ),
-            validator: (value) {
-              if(value!.isEmpty) {
-                return validationMessage;
-              } else {
-                return null;
-              }
-            },
           ),
+          validator: (value) {
+            if(value!.isEmpty) {
+              return validationMessage;
+            } else {
+              return null;
+            }
+          },
         ),
       ],
     );

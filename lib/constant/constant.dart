@@ -10,6 +10,7 @@ const kMainLightThemeColor = Color(0xff4a69bd);
 const kNavigationBarColor = Color(0xff273870);
 const kLightBackgroundColor = Color(0xfff4f5f8);
 const kProcessTransactionColor = Color(0xff38ada9);
+const kDummyPasswordUser = "ADAMULTITOSHITA2202";
 
 // Container Light Decoration
 const kContainerLightDecoration = BoxDecoration(
