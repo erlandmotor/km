@@ -1,3 +1,4 @@
+import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/loading_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/regular_textfield_without_validators_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
@@ -67,15 +68,16 @@ class _InputPhoneNumberScreenState extends State<InputPhoneNumberScreen> {
                     prefixIcon: LineIcons.mobilePhone
                   ),
                   const SizedBox(height: 18,),
-                  LoadingButtonComponent(
+                  DynamicSizeButtonComponent(
                     label: "Selanjutnya", 
                     buttonColor: kSecondaryColor, 
                     onPressed: () {
-                      context.goNamed("register");
+                      context.goNamed("register", extra: {
+                        "phoneNumber": phoneController.text
+                      });
                     }, 
                     width: 100.w, 
                     height: 50, 
-                    isLoading: false
                   )
                 ],
               ),

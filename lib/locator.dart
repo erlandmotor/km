@@ -7,6 +7,7 @@ import "package:adamulti_mobile_clone_new/services/jwt_service.dart";
 import "package:adamulti_mobile_clone_new/services/komisi_service.dart";
 import "package:adamulti_mobile_clone_new/services/local_notification_service.dart";
 import "package:adamulti_mobile_clone_new/services/product_service.dart";
+import "package:adamulti_mobile_clone_new/services/region_service.dart";
 import "package:adamulti_mobile_clone_new/services/reward_service.dart";
 import "package:adamulti_mobile_clone_new/services/secure_storage.dart";
 import "package:adamulti_mobile_clone_new/services/topup_service.dart";
@@ -29,4 +30,5 @@ void setupLocator() {
   locator.registerLazySingleton(() => HistoryService());
   locator.registerLazySingleton(() => RewardService());
   locator.registerLazySingleton(() => KomisiService());
+  locator.registerLazySingleton(() => RegionService());
 }

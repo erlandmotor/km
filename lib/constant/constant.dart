@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 const baseUrlAuth = "http://wan1.adamulti.com:8999/api";
 const baseUrlCore = "http://wan1.adamulti.com:90/apps/v9";
+const baseUrlV8 = "http://wan1.adamulti.com:90/apps/v8";
 
 const kMainThemeColor = Color(0xff192a56);
 const kSecondaryColor = Color(0xff273c75);

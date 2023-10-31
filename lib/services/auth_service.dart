@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:adamulti_mobile_clone_new/constant/constant.dart';
 import 'package:adamulti_mobile_clone_new/locator.dart';
+import 'package:adamulti_mobile_clone_new/model/check_firebase_email_response.dart';
 import 'package:adamulti_mobile_clone_new/model/decrypt_result_response.dart';
 import 'package:adamulti_mobile_clone_new/model/login_response.dart';
+import 'package:adamulti_mobile_clone_new/model/register_response.dart';
 import 'package:adamulti_mobile_clone_new/model/user_appid.dart';
 import 'package:adamulti_mobile_clone_new/services/secure_storage.dart';
 import 'package:crypto/crypto.dart';
@@ -27,9 +29,52 @@ class AuthService {
     return googleAccount;
   }
 
+  GoogleSignInAccount? getCurrentSigningAccount() {
+    final currentSigning = _googleSignIn.currentUser;
+    return currentSigning;
+  }
+
+  Future<RegisterResponse> registerAccount(
+    String uuid,
+    String pin,
+    String name,
+    String address,
+    String phone,
+    String email,
+    int province,
+    int city,
+    int district,
+  ) async {
+    final response = await _dio.post("$baseUrlV8/users/register", data: {
+      "uuid": uuid,
+      "pin": pin,
+      "name": name,
+      "address": address,
+      "phone": phone,
+      "email": email,
+      "province": province,
+      "city": city,
+      "district": district,
+      "zipcode": ""
+    }, options: Options(
+      headers: {
+        "irsauth": md5.convert(utf8.encode(md5.convert(utf8.encode(md5.convert(utf8.encode("8A43D1931B899AD9D40993DF71D5DFF2$uuid")).toString())).toString()))
+      },
+    ));
+
+    return RegisterResponse.fromJson(response.data);
+  }
+
+  Future<CheckFirebaseEmailResponse> checkFirebaseEmail(String email) async {
+    final response = await _dio.post("$baseUrlAuth/firebase-backend/email", data: {
+      "email": email
+    });
+
+    return CheckFirebaseEmailResponse.fromJson(response.data);
+  }
+
   void clearGoogleSigning() {
     final currentSignedUser = _googleSignIn.currentUser;
-
     if(currentSignedUser != null) {
       _googleSignIn.disconnect();
     }

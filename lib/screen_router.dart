@@ -8,13 +8,17 @@ import "package:adamulti_mobile_clone_new/cubit/komisi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/pulsa_and_data_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/rekap_transaksi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/search_history_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/select_region_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/transfer_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/input_phone_number_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/register_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/auth/select_city_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/auth/select_district_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/select_google_account_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/auth/select_province_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/main/main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/check_before_transaction_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/komisi/komisi_main_screen.dart";
@@ -31,13 +35,14 @@ import "package:adamulti_mobile_clone_new/screens/page/select_product_transactio
 import "package:adamulti_mobile_clone_new/screens/page/topup/topup_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/transfer/transfer_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/webview_screen.dart";
+import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 
 GoRouter screenRouter() {
 
   return GoRouter(
-    initialLocation: "/register",
+    initialLocation: "/select-google-account",
     routes: [
       GoRoute(
         path: "/select-google-account",
@@ -57,7 +62,50 @@ GoRouter screenRouter() {
         path: "/register",
         name: "register",
         builder: (context, state) {
-          return const RegisterScreen();
+          final extra = state.extra as Map<dynamic, dynamic>;
+          final phoneNumber = extra["phoneNumber"] as String;
+          return BlocProvider(
+            create: (_) => SelectRegionCubit(),
+            child: RegisterScreen(phoneNumber: phoneNumber,),
+          );
+        }
+      ),
+      GoRoute(
+        path: "/select-province",
+        name: "select-province",
+        builder: (context, state) {
+          final extra = state.extra as Map<dynamic, dynamic>;
+          final selectRegionCubit = extra["selectRegionCubit"] as SelectRegionCubit;
+          final provinceController = extra["provinceController"] as TextEditingController;
+          final cityController = extra["cityController"] as TextEditingController;
+          final districtController = extra["districtController"] as TextEditingController;
+          
+          return SelectProvinceScreen(selectRegionCubit: selectRegionCubit, provinceController: provinceController,
+            cityController: cityController, districtController: districtController,);
+        }
+      ),
+      GoRoute(
+        path: "/select-city",
+        name: "select-city",
+        builder: (context, state) {
+          final extra = state.extra as Map<dynamic, dynamic>;
+          final selectRegionCubit = extra["selectRegionCubit"] as SelectRegionCubit;
+          final cityController = extra["cityController"] as TextEditingController;
+          final districtController = extra["districtController"] as TextEditingController;
+
+          return SelectCityScreen(selectRegionCubit: selectRegionCubit, cityController: cityController,
+            districtController: districtController,);
+        }
+      ),
+      GoRoute(
+        path: "/select-district",
+        name: "select-district",
+        builder: (context, state) {
+          final extra = state.extra as Map<dynamic, dynamic>;
+          final selectRegionCubit = extra["selectRegionCubit"] as SelectRegionCubit;
+          final districtController = extra["districtController"] as TextEditingController;
+
+          return SelectDistrictScreen(selectRegionCubit: selectRegionCubit, districtController: districtController,);
         }
       ),
       GoRoute(

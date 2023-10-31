@@ -20,9 +20,9 @@ Future<void> main() async {
 
   setupLocator();
 
-  await locator.get<AuthService>().login("IO0029").then((loginResponse) {
-    locator.get<SecureStorageService>().writeSecureData("jwt", loginResponse.token!);
-  });
+  // await locator.get<AuthService>().login("IO0029").then((loginResponse) {
+  //   locator.get<SecureStorageService>().writeSecureData("jwt", loginResponse.token!);
+  // });
 
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
@@ -35,15 +35,15 @@ Future<void> main() async {
 
   await locator.get<LocalNotificationService>().initLocalNotification();
 
-  final token = await locator.get<SecureStorageService>().readSecureData("jwt");
+  // final token = await locator.get<SecureStorageService>().readSecureData("jwt");
 
-  final authenticatedUser = await locator.get<AuthService>().authenticated();
+  // final authenticatedUser = await locator.get<AuthService>().authenticated();
 
-  locator.get<AuthenticatedCubit>().updateUserState(authenticatedUser.user!);
+  // locator.get<AuthenticatedCubit>().updateUserState(authenticatedUser.user!);
 
-  final userAppId = await locator.get<AuthService>().decryptToken(authenticatedUser.user!.idreseller!, token!);
+  // final userAppId = await locator.get<AuthService>().decryptToken(authenticatedUser.user!.idreseller!, token!);
 
-  locator.get<UserAppidCubit>().updateState(userAppId);
+  // locator.get<UserAppidCubit>().updateState(userAppId);
   
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
