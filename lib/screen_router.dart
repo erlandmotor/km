@@ -14,6 +14,8 @@ import "package:adamulti_mobile_clone_new/cubit/transfer_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/input_phone_number_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/auth/input_pin_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/auth/otp_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/register_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/select_city_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/select_district_screen.dart";
@@ -39,10 +41,10 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 
-GoRouter screenRouter() {
+GoRouter screenRouter(String? token) {
 
   return GoRouter(
-    initialLocation: "/select-google-account",
+    initialLocation: token != null ? "/main" : "/select-google-account",
     routes: [
       GoRoute(
         path: "/select-google-account",
@@ -56,6 +58,17 @@ GoRouter screenRouter() {
         name: "input-phone-number",
         builder: (context, state) {
           return const InputPhoneNumberScreen();
+        }
+      ),
+      GoRoute(
+        path: "/otp",
+        name: "otp",
+        builder: (context, state) {
+          final extra = state.extra as Map<dynamic, dynamic>;
+          final phoneNumber = extra["phoneNumber"] as String;
+          final otpCode = extra["otpCode"] as String;
+
+          return OtpScreen(phoneNumber: phoneNumber, otpCode: otpCode);
         }
       ),
       GoRoute(
@@ -106,6 +119,15 @@ GoRouter screenRouter() {
           final districtController = extra["districtController"] as TextEditingController;
 
           return SelectDistrictScreen(selectRegionCubit: selectRegionCubit, districtController: districtController,);
+        }
+      ),
+      GoRoute(
+        path: "/input-pin",
+        name: "input-pin",
+        builder: (context, state) {
+          final extra = state.extra as Map<dynamic, dynamic>;
+          final phoneNumber = extra["phoneNumber"] as String;
+          return InputPinScreen(phoneNumber: phoneNumber,);
         }
       ),
       GoRoute(
@@ -160,9 +182,10 @@ GoRouter screenRouter() {
               final extra = state.extra as Map<dynamic, dynamic>;
               final operatorId = extra["operatorId"] as String;
               final title = extra["title"] as String;
+              final url = extra['url'] as String;
               return BlocProvider(
                 create: (_) => CheckIdentityCubit(),
-                child: WebviewScreen(title: title, operatorId: operatorId,),
+                child: WebviewScreen(title: title, operatorId: operatorId, url: url,),
               );
             }
           ),

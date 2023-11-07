@@ -6,9 +6,12 @@ import "package:adamulti_mobile_clone_new/components/regular_textfield_without_i
 import "package:adamulti_mobile_clone_new/components/regular_textfield_without_icon_component.dart";
 import 'package:adamulti_mobile_clone_new/components/pin_textfield_component.dart';
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/select_region_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
+import "package:adamulti_mobile_clone_new/services/secure_storage.dart";
 import "package:auto_size_text/auto_size_text.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
@@ -188,7 +191,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 18,),
                     PinTextFieldComponent(
                       label: "PIN", 
-                      hint: "Minimal 6 Digit", 
+                      hint: "Minimal 4 Digit", 
                       controller: pinController
                     ),
                     const SizedBox(height: 18,),
@@ -230,54 +233,83 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       buttonColor: kMainLightThemeColor, 
                       onPressed: () {
                         if(namaUsahaController.text.isEmpty || alamatController.text.isEmpty || selectRegionCubit.provinceId == 0 ||
-                        selectRegionCubit.cityId == 0 || selectRegionCubit.districtsId == 0 || pinController.text.isEmpty) {
-                          showDynamicSnackBar(
-                            context, 
-                            LineIcons.exclamationTriangle, 
-                            "ERROR", 
-                            "Formulir Pendaftaran Harus Dilengkapi Terlebih Dahulu.", 
-                            Colors.red
-                          );
+                        selectRegionCubit.cityId == 0 || selectRegionCubit.districtsId == 0 || pinController.text.isEmpty || isCheckedTerm == false) {
+                          if(isCheckedTerm == false) {
+                            showDynamicSnackBar(
+                              context, 
+                              LineIcons.exclamationTriangle, 
+                              "ERROR", 
+                              "Term Harus Disetujui Terlebih Dahulu Sebelum Melakukan Registrasi.", 
+                              Colors.red
+                            );
+                          } else {
+                            showDynamicSnackBar(
+                              context, 
+                              LineIcons.exclamationTriangle, 
+                              "ERROR", 
+                              "Formulir Pendaftaran Harus Dilengkapi Terlebih Dahulu.", 
+                              Colors.red
+                            );
+                          }
                         } else {
-                          showDialog(
-                            barrierDismissible: false,
-                            context: context, 
-                            builder: (context) => const Center(
-                              child: SpinKitFadingCircle(
-                                color: Colors.white,
-                                size: 128,
-                              ),
-                            )
-                          );
+                          if(pinController.text.length < 4) {
+                            showDynamicSnackBar(
+                              context, 
+                              LineIcons.exclamationTriangle, 
+                              "ERROR", 
+                              "PIN Minimal Harus 4 Digit.", 
+                              Colors.red
+                            );
+                          } else {
+                            showDialog(
+                              barrierDismissible: false,
+                              context: context, 
+                              builder: (context) => const Center(
+                                child: SpinKitFadingCircle(
+                                  color: Colors.white,
+                                  size: 128,
+                                ),
+                              )
+                            );
 
-                          final userEmail = locator.get<AuthService>().getCurrentSigningAccount()!.email;
+                            final userEmail = locator.get<AuthService>().getCurrentSigningAccount()!.email;
+                            final userName = locator.get<AuthService>().getCurrentSigningAccount()!.displayName!;
 
-                          FirebaseAuth.instance.createUserWithEmailAndPassword(
-                            email: userEmail, 
-                            password: kDummyPasswordUser
-                          ).then((registeredFirebase) {
                             locator.get<AuthService>().registerAccount(
-                              registeredFirebase.user!.uid, 
+                              FirebaseAuth.instance.currentUser!.uid, 
                               pinController.text, 
-                              namaUsahaController.text, 
+                              namaUsahaController.text,
+                              userName, 
                               alamatController.text, 
                               widget.phoneNumber, 
                               userEmail, 
                               selectRegionCubit.provinceId, 
                               selectRegionCubit.cityId, 
-                              selectRegionCubit.districtsId
+                              selectRegionCubit.districtsId,
+                              kodeReferralController.text
                             ).then((registerResponse) {
-                              context.pop();
-                              context.goNamed("input-phone-number");
-
-                              showDynamicSnackBar(
-                                context, 
-                                LineIcons.infoCircle, 
-                                "SUKSES", 
-                                "Akun anda berhasil diregister. Silahkan masukkan nomor HP anda lagi untuk login ke applikasi.", 
-                                Colors.lightBlue
-                              );
+                              if(registerResponse.success! == true) {
+                                locator.get<AuthService>().login(registerResponse.datareg!.idreseller!).then((loginResponse) {
+                                  locator.get<SecureStorageService>().writeSecureData("jwt", loginResponse.token!);
+                                  locator.get<AuthenticatedCubit>().updateUserState(loginResponse.user!);
+                                  locator.get<AuthService>().decryptToken(loginResponse.user!.idreseller!, loginResponse.token!).then((decrypt) {
+                                    context.pop();
+                                    locator.get<UserAppidCubit>().updateState(decrypt);
+                                    context.goNamed("main");
+                                  });
+                                });
+                              } else {
+                                context.pop();
+                                showDynamicSnackBar(
+                                  context, 
+                                  LineIcons.exclamationTriangle, 
+                                  "ERROR", 
+                                  registerResponse.msg!, 
+                                  Colors.red
+                                );
+                              }
                             }).catchError((e) {
+                              context.pop();
                               showDynamicSnackBar(
                                 context, 
                                 LineIcons.exclamationTriangle, 
@@ -286,16 +318,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 Colors.red
                               );
                             });
-                          }).catchError((e) {
-                            context.pop();
-                            showDynamicSnackBar(
-                              context, 
-                              LineIcons.exclamationTriangle, 
-                              "ERROR", 
-                              e.toString(), 
-                              Colors.red
-                            );
-                          });
+                          }
                         }
                       }, 
                       width: 100.w, 

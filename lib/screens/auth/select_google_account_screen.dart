@@ -1,6 +1,7 @@
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
+import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
@@ -18,7 +19,6 @@ class _SelectGoogleAccountScreenState extends State<SelectGoogleAccountScreen> {
 
   @override
   void initState() {
-    locator.get<AuthService>().clearGoogleSigning();
     super.initState();
   }
 
@@ -60,7 +60,14 @@ class _SelectGoogleAccountScreenState extends State<SelectGoogleAccountScreen> {
                     child: GestureDetector(
                       onTap: () {
                         locator.get<AuthService>().signInWithGoogle().then((value) {
-                          context.pushNamed("input-phone-number");
+                          locator.get<AuthService>().checkFirebaseEmail(value!.email).then((value2) {
+                            FirebaseAuth.instance.signInWithEmailAndPassword(email: value2.email!, password: kDummyPasswordUser);
+                            context.pushNamed("input-phone-number");
+                          }).catchError((e) {
+                            FirebaseAuth.instance.createUserWithEmailAndPassword(email: value.email, password: kDummyPasswordUser).then((_) {
+                              context.pushNamed("input-phone-number");
+                            });
+                          });
                         });
                         // FirebaseAuth.instance.currentUser!.delete();
                       },

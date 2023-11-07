@@ -1,6 +1,7 @@
 import 'dart:math';
-
+import 'package:encrypt/encrypt.dart';
 import 'package:intl/intl.dart';
+
 
 String convertNumberStringToAsterisk(String countedString) {
   final lenCountedString = countedString.length;
@@ -35,4 +36,14 @@ String convertTotalResponseWithNumberFormatted(String response, String totalPay)
 
   final convertedResponse = response.replaceAll(totalPay, formattedTotalPay);
   return convertedResponse;
+}
+
+String encryptAes256(String plainText) {
+  final key = Key.fromUtf8("26BA39CMR0YL71CFGN2RSDZRLK24SLFC");
+  final iv = IV.allZerosOfLength(16);
+  final encrypter = Encrypter(AES(key, mode: AESMode.cbc,));
+
+  final encrypted = encrypter.encrypt(plainText, iv: iv);
+
+  return encrypted.base64;
 }

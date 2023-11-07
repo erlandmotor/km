@@ -21,18 +21,17 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class WebviewScreen extends StatefulWidget {
   const WebviewScreen(
-      {super.key, required this.title, required this.operatorId});
+      {super.key, required this.title, required this.operatorId, required this.url });
 
   final String title;
   final String operatorId;
+  final String url;
 
   @override
   State<WebviewScreen> createState() => _WebviewScreenState();
 }
 
 class _WebviewScreenState extends State<WebviewScreen> {
-  var kodeProduk = "";
-
   final webviewController = WebViewController();
 
   final kodePembayaranController = TextEditingController();
@@ -41,15 +40,11 @@ class _WebviewScreenState extends State<WebviewScreen> {
 
   @override
   void initState() {
-    final splittedKodeProduk = widget.operatorId.split(" - url:");
-    kodeProduk = splittedKodeProduk[0];
-
-    final url = splittedKodeProduk[1].replaceAll(" ", "");
-
+    print(widget.operatorId);
     webviewController
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
-      ..loadRequest(Uri.parse(url));
+      ..loadRequest(Uri.parse(widget.url));
     super.initState();
   }
 
@@ -115,7 +110,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                   );
                                   locator.get<TransactionService>()
                                   .checkIdentity(
-                                    kodeProduk,
+                                    widget.operatorId,
                                     kodePembayaranController.text,
                                     "5",
                                     locator
@@ -162,7 +157,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                               );
 
                                               locator.get<TransactionService>().payNow(
-                                                kodeProduk,
+                                                widget.operatorId,
                                                 kodePembayaranController.text,
                                                 pin,
                                                 "6",

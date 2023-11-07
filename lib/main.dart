@@ -17,12 +17,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   setupLocator();
-
-  // await locator.get<AuthService>().login("IO0029").then((loginResponse) {
-  //   locator.get<SecureStorageService>().writeSecureData("jwt", loginResponse.token!);
-  // });
 
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
@@ -35,15 +30,8 @@ Future<void> main() async {
 
   await locator.get<LocalNotificationService>().initLocalNotification();
 
-  // final token = await locator.get<SecureStorageService>().readSecureData("jwt");
+  final token = await locator.get<SecureStorageService>().readSecureData("jwt");
 
-  // final authenticatedUser = await locator.get<AuthService>().authenticated();
-
-  // locator.get<AuthenticatedCubit>().updateUserState(authenticatedUser.user!);
-
-  // final userAppId = await locator.get<AuthService>().decryptToken(authenticatedUser.user!.idreseller!, token!);
-
-  // locator.get<UserAppidCubit>().updateState(userAppId);
   
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -60,17 +48,44 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  
+  locator.get<AuthService>().clearGoogleSigning();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
     .then((_) {
-      runApp(const MyApp());
+      runApp(MyApp(jwtToken: token,));
   });
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({super.key, required this.jwtToken });
 
-  // This widget is the root of your application.
+  final String? jwtToken;
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState() {
+    if(widget.jwtToken != null) {
+      locator.get<AuthService>().authenticated().then((authenticated) {
+        locator.get<AuthenticatedCubit>().updateUserState(authenticated.user!);
+        locator.get<AuthService>().decryptToken(authenticated.user!.idreseller!, widget.jwtToken!).then((decrypt) {
+          locator.get<UserAppidCubit>().updateState(decrypt);
+        });
+      });
+    }
+    super.initState();
+  }
+  
+  @override
+  void dispose() {
+    locator.get<AuthenticatedCubit>().close();
+    locator.get<AuthenticatedCubit>().close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(
@@ -82,7 +97,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          routerConfig: screenRouter(),
+          routerConfig: screenRouter(widget.jwtToken),
         );
       }
     );

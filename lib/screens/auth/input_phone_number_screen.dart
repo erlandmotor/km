@@ -1,7 +1,11 @@
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
-import "package:adamulti_mobile_clone_new/components/loading_button_component.dart";
+import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/regular_textfield_without_validators_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/function/custom_function.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
+import "package:adamulti_mobile_clone_new/services/auth_service.dart";
+import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:line_icons/line_icons.dart";
@@ -62,7 +66,7 @@ class _InputPhoneNumberScreenState extends State<InputPhoneNumberScreen> {
                   ),
                   const SizedBox(height: 18,),
                   RegularTextFieldWithoutValidatorsComponent(
-                    label: "Masukkan Nomor HP Anda.", 
+                    label: "Masukkan Nomor HP Anda untuk melakukan verifikasi.", 
                     hint: "Tanpa Prefix +62", 
                     controller: phoneController, 
                     prefixIcon: LineIcons.mobilePhone
@@ -72,9 +76,35 @@ class _InputPhoneNumberScreenState extends State<InputPhoneNumberScreen> {
                     label: "Selanjutnya", 
                     buttonColor: kSecondaryColor, 
                     onPressed: () {
-                      context.goNamed("register", extra: {
-                        "phoneNumber": phoneController.text
-                      });
+                      if(phoneController.text.length >= 10) {
+                        final randomOtpCode = generateRandomString(6);
+                        locator.get<AuthService>().sendOtp(
+                          FirebaseAuth.instance.currentUser!.uid, 
+                          phoneController.text, 
+                          "SERVER [ ADAMULTI ] Kode OTP : $randomOtpCode kode ini bersifat RAHASIA, jangan berikan kepada siapapun"
+                        ).then((value) {
+                          context.pushNamed("otp", extra: {
+                            "phoneNumber": phoneController.text,
+                            "otpCode": randomOtpCode
+                          });
+                        }).catchError((e) {
+                          showDynamicSnackBar(
+                            context, 
+                            LineIcons.exclamationTriangle, 
+                            "ERROR", 
+                            e.toString(), 
+                            Colors.red
+                          );
+                        });
+                      } else {
+                        showDynamicSnackBar(
+                          context, 
+                          LineIcons.exclamationTriangle, 
+                          "ERROR", 
+                          "Nomor HP harus diisi terlebih dahulu.", 
+                          Colors.red
+                        );
+                      }
                     }, 
                     width: 100.w, 
                     height: 50, 

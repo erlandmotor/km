@@ -218,7 +218,8 @@ class HomeScreen extends StatelessWidget {
                                 if(snapshot.data![i].type! == "WEBVIEW") {
                                   context.pushNamed("web-view", extra: {
                                     "title": snapshot.data![i].name,
-                                    "operatorId": snapshot.data![i].operatorid
+                                    "operatorId": snapshot.data![i].operatorid,
+                                    "url": snapshot.data![i].url
                                   });
                                 }
 

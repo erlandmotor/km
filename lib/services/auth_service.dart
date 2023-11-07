@@ -1,10 +1,14 @@
 import 'dart:convert';
 
 import 'package:adamulti_mobile_clone_new/constant/constant.dart';
+import 'package:adamulti_mobile_clone_new/function/custom_function.dart';
 import 'package:adamulti_mobile_clone_new/locator.dart';
+import 'package:adamulti_mobile_clone_new/model/account_kit_response.dart';
 import 'package:adamulti_mobile_clone_new/model/check_firebase_email_response.dart';
 import 'package:adamulti_mobile_clone_new/model/decrypt_result_response.dart';
+import 'package:adamulti_mobile_clone_new/model/getme_response.dart';
 import 'package:adamulti_mobile_clone_new/model/login_response.dart';
+import 'package:adamulti_mobile_clone_new/model/otp_response.dart';
 import 'package:adamulti_mobile_clone_new/model/register_response.dart';
 import 'package:adamulti_mobile_clone_new/model/user_appid.dart';
 import 'package:adamulti_mobile_clone_new/services/secure_storage.dart';
@@ -38,27 +42,33 @@ class AuthService {
     String uuid,
     String pin,
     String name,
+    String namaPemilik,
     String address,
     String phone,
     String email,
     int province,
     int city,
     int district,
+    String? upline
   ) async {
-    final response = await _dio.post("$baseUrlV8/users/register", data: {
+    final hash = md5.convert(utf8.encode("8A43D1931B899AD9D40993DF71D5DFF2$uuid")).toString();
+    final response = await _dio.post("$baseUrlCore/register", data: {
       "uuid": uuid,
       "pin": pin,
-      "name": name,
-      "address": address,
-      "phone": phone,
+      "namatoko": name,
+      "nama": namaPemilik,
+      "alamat": address,
+      "nohp": phone,
       "email": email,
-      "province": province,
-      "city": city,
-      "district": district,
-      "zipcode": ""
+      "province_id": province,
+      "city_id": city,
+      "district_id": district,
+      "zipcode": "",
+      "upline": upline,
+      "koordinat": ""
     }, options: Options(
       headers: {
-        "irsauth": md5.convert(utf8.encode(md5.convert(utf8.encode(md5.convert(utf8.encode("8A43D1931B899AD9D40993DF71D5DFF2$uuid")).toString())).toString()))
+        'x-auth-irs': hash
       },
     ));
 
@@ -76,7 +86,7 @@ class AuthService {
   void clearGoogleSigning() {
     final currentSignedUser = _googleSignIn.currentUser;
     if(currentSignedUser != null) {
-      _googleSignIn.disconnect();
+      _googleSignIn.signOut();
     }
     FirebaseAuth.instance.signOut();
   }
@@ -97,6 +107,91 @@ class AuthService {
     return LoginResponse.fromJson(response.data);
   }
 
+  Future<OtpResponse> sendOtp(String uuid, String phoneNumber, String message) async {
+    final hash = md5.convert(utf8.encode("8A43D1931B899AD9D40993DF71D5DFF2$uuid")).toString();
+
+    final response = await _dio.post("$baseUrlCore/otp/wa", 
+    data: {
+      "uuid": uuid,
+      "phone": phoneNumber,
+      "message": message,
+      "hp": phoneNumber
+    },
+    options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth-irs': hash
+      },
+    ));
+
+    return OtpResponse.fromJson(response.data);
+  }
+
+  Future<OtpResponse> cekExisting(String uuid, String phoneNumber) async {
+    final hash = md5.convert(utf8.encode("8A43D1931B899AD9D40993DF71D5DFF2$uuid")).toString();
+
+    final response = await _dio.post("$baseUrlCore/cekregister?uuid=$uuid&hp=$phoneNumber",
+    options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth-irs': hash
+      },
+    ));
+
+    return OtpResponse.fromJson(response.data);
+  }
+
+  Future<OtpResponse> cekPin(String uuid, String pin) async {
+    final hash = md5.convert(utf8.encode("8A43D1931B899AD9D40993DF71D5DFF2$uuid")).toString();
+
+    final response = await _dio.post("$baseUrlCore/cekpin",
+    data: {
+      "uuid": uuid,
+      "pin": pin
+    },
+    options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth-irs': hash
+      },
+    ));
+
+    return OtpResponse.fromJson(response.data);
+  }
+
+  Future<GetMeResponse> getMe(String uuid) async {
+    final hash = md5.convert(utf8.encode("8A43D1931B899AD9D40993DF71D5DFF2$uuid")).toString();
+
+    final response = await _dio.post("$baseUrlCore/getme?uuid=$uuid",
+    options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth-irs': hash
+      },
+    ));
+
+    return GetMeResponse.fromJson(response.data);
+  }
+
+  Future<AccountKitResponse> accountKit(String uuid, String phone, String pin) async {
+    final hash = md5.convert(utf8.encode("8A43D1931B899AD9D40993DF71D5DFF2$uuid")).toString();
+    final encryptedPin = encryptAes256(pin);
+    final response = await _dio.post("$baseUrlCore/accountKit",
+    data: {
+      "uuid": uuid,
+      "phone": phone,
+      "pin": encryptedPin
+    },
+    options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth-irs': hash
+      },
+    ));
+
+    return AccountKitResponse.fromJson(response.data);
+  }
+
   Future<LoginResponse> authenticated() async {
     final token = await locator.get<SecureStorageService>().readSecureData("jwt");
 
@@ -111,8 +206,6 @@ class AuthService {
   }
 
   Future<UserAppid> decryptToken(String uuid, String token) async {
-    final token = await locator.get<SecureStorageService>().readSecureData("jwt");
-
     final response = await _dio.post("$baseUrlAuth/auth/tpyrced-token", 
       data: {
         "uuid": uuid
@@ -120,7 +213,7 @@ class AuthService {
       options: Options(
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${token!}'
+          'Authorization': 'Bearer $token'
         },
       )
     );

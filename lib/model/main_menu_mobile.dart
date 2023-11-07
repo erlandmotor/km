@@ -6,6 +6,8 @@ class MainMenuMobile {
   final String? icon;
   final String? containercolor;
   final int? order;
+  final String? url;
+  final int? settingMenuKategoriId;
   final String? createdAt;
   final String? updatedAt;
 
@@ -17,6 +19,8 @@ class MainMenuMobile {
     this.icon,
     this.containercolor,
     this.order,
+    this.url,
+    this.settingMenuKategoriId,
     this.createdAt,
     this.updatedAt,
   });
@@ -29,6 +33,8 @@ class MainMenuMobile {
       icon = json['icon'] as String?,
       containercolor = json['containercolor'] as String?,
       order = json['order'] as int?,
+      url = json['url'] as String?,
+      settingMenuKategoriId = json['setting_menu_kategori_id'] as int?,
       createdAt = json['created_at'] as String?,
       updatedAt = json['updated_at'] as String?;
 
@@ -40,6 +46,8 @@ class MainMenuMobile {
     'icon' : icon,
     'containercolor' : containercolor,
     'order' : order,
+    'url' : url,
+    'setting_menu_kategori_id' : settingMenuKategoriId,
     'created_at' : createdAt,
     'updated_at' : updatedAt
   };
