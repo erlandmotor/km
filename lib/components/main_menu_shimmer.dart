@@ -1,4 +1,3 @@
-import "package:adamulti_mobile_clone_new/components/layanan_component.dart";
 import "package:flutter/material.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 import "package:shimmer/shimmer.dart";
@@ -18,17 +17,29 @@ class MainMenuShimmer extends StatelessWidget {
       runSpacing: 12,
       children: [
         for(var i = 0; i < dataLength; i++)   Shimmer.fromColors(
-          baseColor: Colors.grey[500]!, 
+          baseColor: Colors.grey[400]!, 
           highlightColor: Colors.grey[100]!,
-          child: LayananComponent(
-            imageUrl: "https://play-lh.googleusercontent.com/bApDMIGkzahh1kQWTVGrDI_hdRjRcc4xrtBSf4SWQiaxhoj7D4U_8pD4xXfIJ8Qim-g",
-            label: "Pulsa/Paket Data",
-            onTapAction: () {
-
-            },
-            menuColor: const Color(0xff7fbaff).withOpacity(0.5),
-          ), 
-        ),
+          child: Container(
+            width: 20.w,
+            padding: const EdgeInsets.all(6),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(18),
+                    color: Colors.grey
+                  ),
+                ),
+                const SizedBox(height: 8,),
+              ],
+            ),
+          )
+        )
       ]
     );
   }

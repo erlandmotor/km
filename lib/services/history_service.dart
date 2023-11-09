@@ -3,6 +3,7 @@ import 'package:adamulti_mobile_clone_new/locator.dart';
 import 'package:adamulti_mobile_clone_new/model/history_saldo_response.dart';
 import 'package:adamulti_mobile_clone_new/model/history_topup_response.dart';
 import 'package:adamulti_mobile_clone_new/model/history_transaksi_response.dart';
+import 'package:adamulti_mobile_clone_new/model/history_transfer_response.dart';
 import 'package:adamulti_mobile_clone_new/model/rekap_transaksi_response.dart';
 import 'package:adamulti_mobile_clone_new/services/jwt_service.dart';
 import 'package:dio/dio.dart';
@@ -89,7 +90,7 @@ class HistoryService {
     return HistoryTopupResponse.fromJson(response.data);
   }
 
-  Future<HistoryTopupResponse> getHistoryTransfer(
+  Future<HistoryTransferResponse> getHistoryTransfer(
     String uuid,
     String count,
     String cari,
@@ -107,6 +108,6 @@ class HistoryService {
       },
     ));
 
-    return HistoryTopupResponse.fromJson(response.data);
+    return HistoryTransferResponse.fromJson(response.data);
   }
 }

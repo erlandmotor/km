@@ -1,5 +1,6 @@
 import 'package:adamulti_mobile_clone_new/constant/constant.dart';
 import 'package:adamulti_mobile_clone_new/locator.dart';
+import 'package:adamulti_mobile_clone_new/model/kategori_with_menu_response.dart';
 import 'package:adamulti_mobile_clone_new/model/main_menu_mobile.dart';
 import 'package:adamulti_mobile_clone_new/model/setting_kategori_response.dart';
 import 'package:adamulti_mobile_clone_new/services/secure_storage.dart';
@@ -36,5 +37,30 @@ class BackOfficeService {
     return (response.data as List).map((e) => MainMenuMobile.fromJson(e)).toList();
   }
 
+  Future<KategoriWithMenuResponse> getSpecificMenuByKategori(int id) async {
+    final token = await locator.get<SecureStorageService>().readSecureData("jwt");
+
+    final response = await _dio.get("$baseUrlAuth/setting-menu-kategori/with-menu/specific/$id", options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${token!}'
+      }
+    ));
+
+    return KategoriWithMenuResponse.fromJson(response.data);
+  }
+  
+  Future<List<KategoriWithMenuResponse>> getAllMenuByKategoriExclude(int id) async {
+    final token = await locator.get<SecureStorageService>().readSecureData("jwt");
+
+    final response = await _dio.get("$baseUrlAuth/setting-menu-kategori/with-menu/exclude/$id", options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${token!}'
+      }
+    ));
+
+    return (response.data as List).map((e) => KategoriWithMenuResponse.fromJson(e)).toList();
+  }
   
 }

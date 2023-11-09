@@ -421,12 +421,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         const SizedBox(height: 30,),
                         const Expanded(
                           child: TabBarView(
-                            children: [
+                            children: [                              
+                              TransferSaldoHistoryTab(),
                               TransaksiHistoryTab(),
                               SaldoHistoryTab(),
                               RekapTransaksiTab(),
                               TopupSaldoHistoryTab(),
-                              TransferSaldoHistoryTab()
+
                             ],
                           ),
                         )

@@ -4,6 +4,7 @@ import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_transaksi_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/history_transfer_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/komisi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/pulsa_and_data_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/rekap_transaksi_cubit.dart";
@@ -24,6 +25,7 @@ import "package:adamulti_mobile_clone_new/screens/auth/select_province_screen.da
 import "package:adamulti_mobile_clone_new/screens/main/main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/check_before_transaction_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/komisi/komisi_main_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/more_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/pln_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/pln_token_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/pulsa_and_data_main_screeen.dart";
@@ -148,6 +150,7 @@ GoRouter screenRouter(String? token) {
               BlocProvider(create: (_) => HistorySaldoCubit()),
               BlocProvider(create: (_) => RekapTransaksiCubit()),
               BlocProvider(create: (_) => HistoryTopupSaldoCubit()),
+              BlocProvider(create: (_) => HistoryTransferCubit()),
               BlocProvider.value(value: locator.get<AuthenticatedCubit>()),
               BlocProvider.value(value: locator.get<UserAppidCubit>())
             ], 
@@ -329,6 +332,13 @@ GoRouter screenRouter(String? token) {
                 create: (_) => KomisiCubit(),
                 child: const KomisiMainScreen(),
               );
+            }
+          ),
+          GoRoute(
+            path: "more",
+            name: "more",
+            builder: (context, state) {
+              return const MoreScreen();
             }
           )
         ]

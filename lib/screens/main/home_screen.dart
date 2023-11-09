@@ -6,7 +6,7 @@ import "package:adamulti_mobile_clone_new/components/saldo_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
-import "package:adamulti_mobile_clone_new/model/main_menu_mobile.dart";
+import "package:adamulti_mobile_clone_new/model/kategori_with_menu_response.dart";
 import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
 import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
@@ -198,8 +198,8 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(12),
                   color: Colors.white,
                   width: 100.w,
-                  child: FutureBuilder<List<MainMenuMobile>>(
-                    future: locator.get<BackOfficeService>().getMainMenuMobile(),
+                  child: FutureBuilder<KategoriWithMenuResponse>(
+                    future: locator.get<BackOfficeService>().getSpecificMenuByKategori(1),
                     builder: (context, snapshot) {
                       if(snapshot.connectionState == ConnectionState.done) {
                         return Wrap(
@@ -207,61 +207,69 @@ class HomeScreen extends StatelessWidget {
                           spacing: 4.w,
                           runSpacing: 12,
                           children: [
-                            for(var i = 0; i < snapshot.data!.length; i++) LayananComponent(
-                              imageUrl: "$baseUrlAuth/files/menu-mobile/image/${snapshot.data![i].icon!}", 
-                              label: snapshot.data![i].name!, 
+                            for(var i = 0; i < snapshot.data!.menulist!.length; i++) LayananComponent(
+                              containerWidth: 48,
+                              containerHeight: 48,
+                              imageWidth: 36,
+                              imageHeight: 36,
+                              imageUrl: "$baseUrlAuth/files/menu-mobile/image/${snapshot.data!.menulist![i].icon!}", 
+                              label: snapshot.data!.menulist![i].name!, 
                               onTapAction: () {
-                                if(snapshot.data![i].type! == "PULSA") {
+                                if(snapshot.data!.menulist![i].type! == "PULSA") {
                                   context.pushNamed("pulsa-and-data");
                                 }
                                 
-                                if(snapshot.data![i].type! == "WEBVIEW") {
+                                if(snapshot.data!.menulist![i].type! == "WEBVIEW") {
                                   context.pushNamed("web-view", extra: {
-                                    "title": snapshot.data![i].name,
-                                    "operatorId": snapshot.data![i].operatorid,
-                                    "url": snapshot.data![i].url
+                                    "title": snapshot.data!.menulist![i].name,
+                                    "operatorId": snapshot.data!.menulist![i].operatorid,
+                                    "url": snapshot.data!.menulist![i].url
                                   });
                                 }
 
-                                if(snapshot.data![i].type == "PLN") {
+                                if(snapshot.data!.menulist![i].type == "PLN") {
                                   context.pushNamed("pln-main");
                                 }
 
-                                if(snapshot.data![i].type == "SINGLE PPOB") {
+                                if(snapshot.data!.menulist![i].type == "SINGLE PPOB") {
                                   context.pushNamed("check-before-transaction", extra: {
-                                    "operatorName": snapshot.data![i].name,
-                                    "kodeproduk": snapshot.data![i].operatorid
+                                    "operatorName": snapshot.data!.menulist![i].name,
+                                    "kodeproduk": snapshot.data!.menulist![i].operatorid
                                   });
                                 }
 
-                                if(snapshot.data![i].type == "DOUBLE OPERATOR PPOB") {
+                                if(snapshot.data!.menulist![i].type == "DOUBLE OPERATOR PPOB") {
                                   context.pushNamed("select-operator-double-ppob", extra: {
-                                    "operatorName": snapshot.data![i].name,
-                                    "operatorId": snapshot.data![i].operatorid
+                                    "operatorName": snapshot.data!.menulist![i].name,
+                                    "operatorId": snapshot.data!.menulist![i].operatorid
                                   });
                                 }
 
-                                if(snapshot.data![i].type == "TRIPLE OPERATOR PPOB") {
+                                if(snapshot.data!.menulist![i].type == "TRIPLE OPERATOR PPOB") {
                                   context.pushNamed("select-operator-triple-ppob", extra: {
-                                    "operatorName": snapshot.data![i].name,
-                                    "operatorId": snapshot.data![i].operatorid
+                                    "operatorName": snapshot.data!.menulist![i].name,
+                                    "operatorId": snapshot.data!.menulist![i].operatorid
                                   });
                                 }
 
-                                if(snapshot.data![i].type == "DOUBLE PRODUCT PPOB") {
+                                if(snapshot.data!.menulist![i].type == "DOUBLE PRODUCT PPOB") {
                                   context.pushNamed("select-product", extra: {
-                                    "operatorName": snapshot.data![i].name,
-                                    "operatorId": snapshot.data![i].operatorid
+                                    "operatorName": snapshot.data!.menulist![i].name,
+                                    "operatorId": snapshot.data!.menulist![i].operatorid
                                   });
                                 }
 
-                                if(snapshot.data![i].type == "SELECT OPERATOR THEN PRODUCT") {
+                                if(snapshot.data!.menulist![i].type == "SELECT OPERATOR THEN PRODUCT") {
                                   context.pushNamed("select-operator", extra: {
-                                    "operatorName": snapshot.data![i].operatorid
+                                    "operatorName": snapshot.data!.menulist![i].operatorid
                                   });
+                                }
+
+                                if(snapshot.data!.menulist![i].type == "LAINNYA") {
+                                  context.pushNamed("more");
                                 }
                               }, 
-                              menuColor: HexColor(snapshot.data![i].containercolor!).withOpacity(0.5)
+                              menuColor: HexColor(snapshot.data!.menulist![i].containercolor!).withOpacity(0.5)
                             )
                           ],
                         );

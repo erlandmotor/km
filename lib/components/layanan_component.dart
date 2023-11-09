@@ -7,12 +7,17 @@ import "package:responsive_sizer/responsive_sizer.dart";
 class LayananComponent extends StatelessWidget {
 
   const LayananComponent({ super.key, required this.imageUrl, required this.label, 
-  required this.onTapAction, required this.menuColor });
+  required this.onTapAction, required this.menuColor, required this.containerWidth, required this.containerHeight,
+  required this.imageHeight, required this.imageWidth });
 
   final String imageUrl;
   final String label;
   final Function onTapAction;
   final Color menuColor;
+  final double containerWidth;
+  final double containerHeight;
+  final double imageWidth;
+  final double imageHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +35,16 @@ class LayananComponent extends StatelessWidget {
           children: [
             Container(
               alignment: Alignment.center,
-              width: 48,
-              height: 48,
+              width: containerWidth,
+              height: containerHeight,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(18),
                 color: menuColor,
               ),
               child: CachedNetworkImage(
                 imageUrl: imageUrl,
-                width: 24,
-                height: 24,
+                width: imageWidth,
+                height: imageHeight,
                 fit: BoxFit.contain,
               ),
             ),
