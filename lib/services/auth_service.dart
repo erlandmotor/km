@@ -161,8 +161,7 @@ class AuthService {
 
   Future<GetMeResponse> getMe(String uuid) async {
     final hash = md5.convert(utf8.encode("8A43D1931B899AD9D40993DF71D5DFF2$uuid")).toString();
-
-    final response = await _dio.post("$baseUrlCore/getme?uuid=$uuid",
+    final response = await _dio.get("$baseUrlCore/getme?uuid=$uuid",
     options: Options(
       headers: {
         'Content-Type': 'application/json',

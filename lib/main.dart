@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:adamulti_mobile_clone_new/constant/constant.dart';
 import 'package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart';
+import 'package:adamulti_mobile_clone_new/cubit/getme_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart';
 import 'package:adamulti_mobile_clone_new/firebase_options.dart';
 import 'package:adamulti_mobile_clone_new/locator.dart';
@@ -69,10 +70,15 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     if(widget.jwtToken != null) {
-      locator.get<AuthService>().authenticated().then((authenticated) {
-        locator.get<AuthenticatedCubit>().updateUserState(authenticated.user!);
-        locator.get<AuthService>().decryptToken(authenticated.user!.idreseller!, widget.jwtToken!).then((decrypt) {
-          locator.get<UserAppidCubit>().updateState(decrypt);
+      locator.get<AuthService>().signInWithGoogle().then((value) {
+        locator.get<AuthService>().authenticated().then((authenticated) {
+          locator.get<AuthenticatedCubit>().updateUserState(authenticated.user!);
+          locator.get<AuthService>().decryptToken(authenticated.user!.idreseller!, widget.jwtToken!).then((decrypt) {
+            locator.get<UserAppidCubit>().updateState(decrypt);
+            locator.get<AuthService>().getMe(decrypt.appId).then((me) {
+              locator.get<GetmeCubit>().updateState(me);
+            });
+          });
         });
       });
     }

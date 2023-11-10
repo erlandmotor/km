@@ -28,6 +28,7 @@ import "package:adamulti_mobile_clone_new/screens/page/komisi/komisi_main_screen
 import "package:adamulti_mobile_clone_new/screens/page/more_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/pln_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/pln_token_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/price_list/price_list_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/pulsa_and_data_main_screeen.dart";
 import 'package:adamulti_mobile_clone_new/screens/page/pulsa_main_screen.dart';
 import "package:adamulti_mobile_clone_new/screens/page/reward/reward_main_screen.dart";
@@ -339,6 +340,13 @@ GoRouter screenRouter(String? token) {
             name: "more",
             builder: (context, state) {
               return const MoreScreen();
+            }
+          ),
+          GoRoute(
+            path: "price-list",
+            name: "price-list",
+            builder: (context, state) {
+              return const PriceListScreen();
             }
           )
         ]
