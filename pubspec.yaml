@@ -75,6 +75,8 @@ dependencies:
   flutter_otp_text_field: ^1.1.1
   encrypt: ^5.0.3
   basic_utils: ^5.7.0
+  collection: ^1.17.2
+  blue_thermal_printer: ^1.2.3
 
 dev_dependencies:
   flutter_test:

@@ -5,7 +5,17 @@ import 'package:equatable/equatable.dart';
 part 'getme_state.dart';
 
 class GetmeCubit extends Cubit<GetmeState> {
-  GetmeCubit() : super(GetmeInitial(dataState: GetMeResponse()));
+  GetmeCubit() : super(GetmeInitial(dataState: GetMeResponse(
+    success: false,
+    data: Data(
+      idreseller: "",
+      nama: "",
+      saldo: 0,
+      poin: 0,
+      jmldownline: 0,
+      komisi: 0
+    )
+  )));
 
   void updateState(GetMeResponse data) {
     emit(GetmeInitial(dataState: data));

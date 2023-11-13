@@ -88,7 +88,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     locator.get<AuthenticatedCubit>().close();
-    locator.get<AuthenticatedCubit>().close();
+    locator.get<GetmeCubit>().close();
+    locator.get<UserAppidCubit>().close();
     super.dispose();
   }
 

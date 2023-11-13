@@ -195,7 +195,9 @@ class AccountScreen extends StatelessWidget {
                             icon: LineIcons.lockOpen, 
                             label: "Ganti Pin",
                             iconColor: const Color(0xff636e72), 
-                            onTapAction: () {}
+                            onTapAction: () {
+                              context.pushNamed("change-pin");
+                            }
                           ),
                           const Divider(),
                           AccountMenuSectionComponent(

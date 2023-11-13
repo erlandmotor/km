@@ -4,6 +4,7 @@ import 'package:adamulti_mobile_clone_new/constant/constant.dart';
 import 'package:adamulti_mobile_clone_new/function/custom_function.dart';
 import 'package:adamulti_mobile_clone_new/locator.dart';
 import 'package:adamulti_mobile_clone_new/model/account_kit_response.dart';
+import 'package:adamulti_mobile_clone_new/model/change_pin_response.dart';
 import 'package:adamulti_mobile_clone_new/model/check_firebase_email_response.dart';
 import 'package:adamulti_mobile_clone_new/model/decrypt_result_response.dart';
 import 'package:adamulti_mobile_clone_new/model/getme_response.dart';
@@ -11,6 +12,7 @@ import 'package:adamulti_mobile_clone_new/model/login_response.dart';
 import 'package:adamulti_mobile_clone_new/model/otp_response.dart';
 import 'package:adamulti_mobile_clone_new/model/register_response.dart';
 import 'package:adamulti_mobile_clone_new/model/user_appid.dart';
+import 'package:adamulti_mobile_clone_new/services/jwt_service.dart';
 import 'package:adamulti_mobile_clone_new/services/secure_storage.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
@@ -229,5 +231,26 @@ class AuthService {
     final phoneNumber = mappedDecryptResult.firstWhere((element) => element.contains("08"));
 
     return UserAppid(appId: appId, phone: phoneNumber);
+  }
+
+  Future<ChangePinResponse> changePin(String uuid, String pinlama, String pinBaru,
+  String pinConfirmation) async {
+    final decodeTokenResult = await locator.get<JwtService>().decodeToken();
+
+    final response = await _dio.post("$baseUrlCore/gantipin", 
+    data: {
+      "uuid": uuid,
+      "pinlama": pinlama,
+      "pinbaru": pinBaru,
+      "pinconf": pinConfirmation
+    },
+    options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth-irs': decodeTokenResult
+      },
+    ));
+
+    return ChangePinResponse.fromJson(response.data);
   }
 }

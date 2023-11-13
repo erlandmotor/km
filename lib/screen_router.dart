@@ -1,11 +1,13 @@
 import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/bottom_navigation_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/downline_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_transaksi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_transfer_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/komisi_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/pricelist_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/pulsa_and_data_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/rekap_transaksi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/search_history_cubit.dart";
@@ -23,7 +25,9 @@ import "package:adamulti_mobile_clone_new/screens/auth/select_district_screen.da
 import "package:adamulti_mobile_clone_new/screens/auth/select_google_account_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/select_province_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/main/main_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/change_pin/change_pin_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/check_before_transaction_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/daftar_agen/daftar_agen_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/komisi/komisi_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/more_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/pln_main_screen.dart";
@@ -346,7 +350,27 @@ GoRouter screenRouter(String? token) {
             path: "price-list",
             name: "price-list",
             builder: (context, state) {
-              return const PriceListScreen();
+              return BlocProvider(
+                create: (_) => PricelistCubit(),
+                child: const PriceListScreen(),
+              );
+            }
+          ),
+          GoRoute(
+            path: "change-pin",
+            name: "change-pin",
+            builder: (context, state) {
+              return const ChangePinScreen();
+            }
+          ),
+          GoRoute(
+            path: "daftar-agen",
+            name: "daftar-agen",
+            builder: (context, index) {
+              return BlocProvider(
+                create: (_) => DownlineCubit(),
+                child: const DaftarAgenScreen(),
+              );
             }
           )
         ]
