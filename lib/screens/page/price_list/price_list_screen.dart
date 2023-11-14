@@ -76,69 +76,64 @@ class _PriceListScreenState extends State<PriceListScreen> {
                     child: Container(
                       width: 96.w,
                       padding: const EdgeInsets.all(18),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SearchTextfieldComponent(
-                            label: "Cari Data Produk", 
-                            hint: "Contoh : AXIS", 
-                            controller: searchController,
-                            onChanged: (String term) {
-                              if(term.isEmpty) {
-                                pricelistCubit.updateState(
-                                  true, 
-                                  false, 
-                                  pricelistCubit.state.pricelistGroupData, 
-                                  pricelistCubit.state.pricelistSearchData
+                      child: SearchTextfieldComponent(
+                        label: "Cari Data Produk", 
+                        hint: "Contoh : AXIS", 
+                        controller: searchController,
+                        onChanged: (String term) {
+                          if(term.isEmpty) {
+                            pricelistCubit.updateState(
+                              true, 
+                              false, 
+                              pricelistCubit.state.pricelistGroupData, 
+                              pricelistCubit.state.pricelistSearchData
+                            );
+                            locator.get<ProductService>().getPriceListGroup(
+                              locator.get<UserAppidCubit>().state.userAppId.appId
+                            ).then((value) {
+                              pricelistCubit.updateState(
+                                false, 
+                                false, 
+                                value, 
+                                pricelistCubit.state.pricelistSearchData
+                              );
+                            }).catchError((e) {
+                                showDynamicSnackBar(
+                                  context, 
+                                  LineIcons.exclamationTriangle, 
+                                  "ERROR", 
+                                  e.toString(), 
+                                  Colors.red
                                 );
-                                locator.get<ProductService>().getPriceListGroup(
-                                  locator.get<UserAppidCubit>().state.userAppId.appId
-                                ).then((value) {
-                                  pricelistCubit.updateState(
-                                    false, 
-                                    false, 
-                                    value, 
-                                    pricelistCubit.state.pricelistSearchData
-                                  );
-                                }).catchError((e) {
-                                    showDynamicSnackBar(
-                                      context, 
-                                      LineIcons.exclamationTriangle, 
-                                      "ERROR", 
-                                      e.toString(), 
-                                      Colors.red
-                                    );
-                                });
-                              } else {
-                                pricelistCubit.updateState(
-                                  true, 
-                                  true, 
-                                  pricelistCubit.state.pricelistGroupData, 
-                                  pricelistCubit.state.pricelistSearchData
+                            });
+                          } else {
+                            pricelistCubit.updateState(
+                              true, 
+                              true, 
+                              pricelistCubit.state.pricelistGroupData, 
+                              pricelistCubit.state.pricelistSearchData
+                            );
+                            locator.get<ProductService>().getPriceLisSearch(
+                              locator.get<UserAppidCubit>().state.userAppId.appId,
+                              term
+                            ).then((value) {
+                              pricelistCubit.updateState(
+                                false, 
+                                true, 
+                                pricelistCubit.state.pricelistGroupData, 
+                                value
+                              );
+                            }).catchError((e) {
+                                showDynamicSnackBar(
+                                  context, 
+                                  LineIcons.exclamationTriangle, 
+                                  "ERROR", 
+                                  e.toString(), 
+                                  Colors.red
                                 );
-                                locator.get<ProductService>().getPriceLisSearch(
-                                  locator.get<UserAppidCubit>().state.userAppId.appId,
-                                  term
-                                ).then((value) {
-                                  pricelistCubit.updateState(
-                                    false, 
-                                    true, 
-                                    pricelistCubit.state.pricelistGroupData, 
-                                    value
-                                  );
-                                }).catchError((e) {
-                                    showDynamicSnackBar(
-                                      context, 
-                                      LineIcons.exclamationTriangle, 
-                                      "ERROR", 
-                                      e.toString(), 
-                                      Colors.red
-                                    );
-                                });
-                              }
-                            }
-                          )
-                        ],
+                            });
+                          }
+                        }
                       ),
                     ),
                   ),

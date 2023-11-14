@@ -42,6 +42,7 @@ import "package:adamulti_mobile_clone_new/screens/page/select_operator_triple_pp
 import "package:adamulti_mobile_clone_new/screens/page/select_product_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/select_product_transaction_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/topup/topup_main_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/transfer/transfer_dynamic_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/transfer/transfer_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/webview_screen.dart";
 import "package:flutter/material.dart";
@@ -319,6 +320,19 @@ GoRouter screenRouter(String? token) {
               return BlocProvider(
                 create: (_) => TransferCubit(),
                 child: const TransferMainScreen(),
+              );
+            }
+          ),
+          GoRoute(
+            path: "transfer-dynamic-main",
+            name: "transfer-dynamic-main",
+            builder: (context, state) {
+              final extra = state.extra as Map<dynamic, dynamic>;
+              final idReseller = extra["idreseller"] as String;
+              final namaReseller = extra["namareseller"] as String;
+              return BlocProvider(
+                create: (_) => TransferCubit(),
+                child: TransferDynamicMainScreen(idReseller: idReseller, namaReseller: namaReseller,),
               );
             }
           ),

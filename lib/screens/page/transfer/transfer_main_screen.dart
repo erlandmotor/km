@@ -83,7 +83,9 @@ class _TransferMainScreenState extends State<TransferMainScreen> {
                                   LoadingButtonComponent(
                                     label: "Transfer Saldo", 
                                     buttonColor: kMainLightThemeColor, 
-                                    onPressed: () {}, 
+                                    onPressed: () {
+                                      
+                                    }, 
                                     width: 100.w, 
                                     height: 50, 
                                     isLoading: false

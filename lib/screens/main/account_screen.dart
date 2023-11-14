@@ -181,7 +181,9 @@ class AccountScreen extends StatelessWidget {
                             icon: LineIcons.users, 
                             label: "Daftar Agen",
                             iconColor: Colors.blue, 
-                            onTapAction: () {}
+                            onTapAction: () {
+                              context.pushNamed("daftar-agen");
+                            }
                           ),
                           const Divider(),
                           AccountMenuSectionComponent(

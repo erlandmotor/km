@@ -7,10 +7,12 @@ import 'package:adamulti_mobile_clone_new/model/account_kit_response.dart';
 import 'package:adamulti_mobile_clone_new/model/change_pin_response.dart';
 import 'package:adamulti_mobile_clone_new/model/check_firebase_email_response.dart';
 import 'package:adamulti_mobile_clone_new/model/decrypt_result_response.dart';
+import 'package:adamulti_mobile_clone_new/model/get_downline_response.dart';
 import 'package:adamulti_mobile_clone_new/model/getme_response.dart';
 import 'package:adamulti_mobile_clone_new/model/login_response.dart';
 import 'package:adamulti_mobile_clone_new/model/otp_response.dart';
 import 'package:adamulti_mobile_clone_new/model/register_response.dart';
+import 'package:adamulti_mobile_clone_new/model/transfer_saldo_downline_response.dart';
 import 'package:adamulti_mobile_clone_new/model/user_appid.dart';
 import 'package:adamulti_mobile_clone_new/services/jwt_service.dart';
 import 'package:adamulti_mobile_clone_new/services/secure_storage.dart';
@@ -252,5 +254,40 @@ class AuthService {
     ));
 
     return ChangePinResponse.fromJson(response.data);
+  }
+
+  Future<GetDownlineResponse> getDownline(String uuid, String term, int page) async {
+    final decodeTokenResult = await locator.get<JwtService>().decodeToken();
+
+    final response = await _dio.get("$baseUrlCore/downline?uuid=$uuid&q=$term&page=$page", 
+    options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth-irs': decodeTokenResult
+      },
+    ));
+
+    return GetDownlineResponse.fromJson(response.data);
+  }
+  
+  Future<TransferSaldoDownlineResponse> transferSaldoDownline(String uuid, int jumlah,
+  String idDownline, String pin) async {
+    final decodeTokenResult = await locator.get<JwtService>().decodeToken();
+    final encryptedPin = encryptAes256(pin);
+    final response = await _dio.post("$baseUrlCore/accountKit",
+    data: {
+      "uuid": uuid,
+      "jumlah": jumlah,
+      "iddownline": idDownline,
+      "pin": encryptedPin
+    },
+    options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth-irs': decodeTokenResult
+      },
+    ));
+
+    return TransferSaldoDownlineResponse.fromJson(response.data);
   }
 }
