@@ -100,10 +100,10 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                   ),
                                   const SizedBox(height: 8,),
                                   TopupTextFieldComponent(
-                                    label: "Nominal Topup", 
+                                    label: "Jumlah Transfer", 
                                     hint: "Minimal Rp. 50.000", 
                                     controller: topupController, 
-                                    validationMessage: "Nominal harus diisi.", 
+                                    validationMessage: "Jumlah Transfer harus diisi.", 
                                     prefixIcon: LineIcons.wavyMoneyBill, 
                                     isObsecure: false
                                   ),
@@ -364,7 +364,7 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                                               context, 
                                                               LineIcons.exclamationTriangle, 
                                                               "ERROR", 
-                                                              "PIN Lama atau PIN Baru harus diisi terlebih dahulu.", 
+                                                              "PIN harus diisi terlebih dahulu", 
                                                               Colors.red
                                                             );
                                                           } else {
@@ -377,6 +377,7 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                                               pinController.text
                                                             ).then((value) {
                                                               if(value.success! == false) {
+                                                                context.pop();
                                                                 showDynamicSnackBar(
                                                                   context, 
                                                                   LineIcons.exclamationTriangle, 
@@ -384,8 +385,9 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                                                     value.msg!, 
                                                                   Colors.red
                                                                 );
-                                                                context.pop();
                                                               } else {
+                                                                pinController.clear();
+                                                                topupController.clear();
                                                                 context.pop();
                                                                 // showDynamicSnackBar(
                                                                 //   context, 

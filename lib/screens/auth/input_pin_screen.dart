@@ -1,6 +1,7 @@
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/pin_textfield_component.dart";
+import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
@@ -10,7 +11,6 @@ import "package:adamulti_mobile_clone_new/services/secure_storage.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
-import "package:flutter_spinkit/flutter_spinkit.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
@@ -114,16 +114,7 @@ class _InputPinScreenState extends State<InputPinScreen> {
                     label: "Masuk", 
                     buttonColor: kMainLightThemeColor, 
                     onPressed: () {
-                      showDialog(
-                        barrierDismissible: false,
-                        context: context, 
-                        builder: (context) => const Center(
-                          child: SpinKitFadingCircle(
-                            color: Colors.white,
-                            size: 128,
-                          ),
-                        )
-                      );
+                      showLoadingSubmit(context, "Proses Login ke Applikasi...");
 
                       final uuid = FirebaseAuth.instance.currentUser!.uid;
 

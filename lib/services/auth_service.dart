@@ -274,12 +274,13 @@ class AuthService {
   String idDownline, String pin) async {
     final decodeTokenResult = await locator.get<JwtService>().decodeToken();
     final encryptedPin = encryptAes256(pin);
-    final response = await _dio.post("$baseUrlCore/accountKit",
+    final response = await _dio.post("$baseUrlCore/transfer",
     data: {
       "uuid": uuid,
       "jumlah": jumlah,
       "iddownline": idDownline,
-      "pin": encryptedPin
+      "pin": encryptedPin,
+      "hash": encryptedPin
     },
     options: Options(
       headers: {
@@ -289,5 +290,51 @@ class AuthService {
     ));
 
     return TransferSaldoDownlineResponse.fromJson(response.data);
+  }
+
+  Future<ChangePinResponse> markupDownline(String uuid, int jumlah,
+  String idDownline) async {
+    final decodeTokenResult = await locator.get<JwtService>().decodeToken();
+    final response = await _dio.post("$baseUrlCore/markup",
+    data: {
+      "uuid": uuid,
+      "selisih": jumlah,
+      "iddownline": idDownline,
+    },
+    options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth-irs': decodeTokenResult
+      },
+    ));
+
+    return ChangePinResponse.fromJson(response.data);
+  }
+
+  Future<ChangePinResponse> registerDownline(
+    String uuid,
+    String namaPemilik,
+    String address,
+    String phone,
+    int province,
+    int city,
+    int district,
+  ) async {
+    final decodeTokenResult = await locator.get<JwtService>().decodeToken();
+    final response = await _dio.post("$baseUrlCore/regdownline", data: {
+      "uuid": uuid,
+      "nama": namaPemilik,
+      "alamat": address,
+      "nohp": phone,
+      "province_id": province,
+      "city_id": city,
+      "district_id": district,
+    }, options: Options(
+      headers: {
+        'x-auth-irs': decodeTokenResult
+      },
+    ));
+
+    return ChangePinResponse.fromJson(response.data);
   }
 }

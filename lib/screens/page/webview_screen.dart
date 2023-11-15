@@ -1,6 +1,7 @@
 import 'package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart';
 import 'package:adamulti_mobile_clone_new/components/loading_button_component.dart';
 import 'package:adamulti_mobile_clone_new/components/regular_textfield_component.dart';
+import 'package:adamulti_mobile_clone_new/components/show_loading_submit.dart';
 import 'package:adamulti_mobile_clone_new/components/transaction_check_form_component.dart';
 import 'package:adamulti_mobile_clone_new/constant/constant.dart';
 import 'package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart';
@@ -12,7 +13,6 @@ import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
@@ -140,20 +140,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                             response: value.msg!,
                                             productPrice: int.parse(parsedTotalPay),
                                             onSubmit: (pin) {
-                                              showDialog(
-                                                barrierDismissible: false,
-                                                context: context,
-                                                builder: (context) =>
-                                                const Center(
-                                                  child:
-                                                      SpinKitFadingCircle(
-                                                    color:
-                                                        Colors.white,
-                                                    size:
-                                                        128,
-                                                  ),
-                                                )
-                                              );
+                                              showLoadingSubmit(context, "Proses Transaksi...");
 
                                               locator.get<TransactionService>().payNow(
                                                 widget.operatorId,

@@ -32,6 +32,7 @@ void showLoadingSubmit(BuildContext context, String label) {
               const SizedBox(height: 18,),
               Material(
                 child: Text(label,
+                textAlign: TextAlign.center,
                 style: GoogleFonts.inter(
                   fontSize: 16,
                   color: Colors.black,

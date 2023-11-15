@@ -3,6 +3,7 @@ import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dar
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/product_item_component.dart";
 import "package:adamulti_mobile_clone_new/components/shimmer_list_component.dart";
+import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
 import "package:adamulti_mobile_clone_new/components/textfield_with_event_component.dart";
 import "package:adamulti_mobile_clone_new/components/transaction_without_identity_form_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
@@ -18,7 +19,6 @@ import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_contacts/flutter_contacts.dart";
-import "package:flutter_spinkit/flutter_spinkit.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
@@ -270,17 +270,8 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                                             productName: data.produk![index].namaproduk!,
                                                             productPrice: data.produk![index].hargajual!,
                                                             onSubmit: (pin) {
-                                                              showDialog(
-                                                                barrierDismissible: false,
-                                                                context: context, 
-                                                                builder: (context) => const Center(
-                                                                  child: SpinKitFadingCircle(
-                                                                    color: Colors.white,
-                                                                    size: 128,
-                                                                  ),
-                                                                )
-                                                              );
-                      
+                                                              showLoadingSubmit(context, "Proses Transaksi...");
+                                                              
                                                               locator.get<TransactionService>().payNow(
                                                                 data.produk![index].kodeproduk!, 
                                                                 identityController.text, 

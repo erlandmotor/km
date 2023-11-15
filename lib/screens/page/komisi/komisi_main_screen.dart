@@ -6,6 +6,7 @@ import "package:adamulti_mobile_clone_new/components/komisi_item_component.dart"
 import "package:adamulti_mobile_clone_new/components/loading_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/no_data_component.dart";
 import "package:adamulti_mobile_clone_new/components/shimmer_list_component.dart";
+import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/komisi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
@@ -18,7 +19,6 @@ import "package:custom_pop_up_menu/custom_pop_up_menu.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import "package:flutter_spinkit/flutter_spinkit.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:intl/intl.dart";
@@ -291,16 +291,7 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
                                       CupertinoDialogAction(
                                         onPressed: () {
                                           dialogContext.pop();
-                                          showDialog(
-                                            barrierDismissible: false,
-                                            context: context, 
-                                            builder: (context) => const Center(
-                                              child: SpinKitFadingCircle(
-                                                color: Colors.white,
-                                                size: 128,
-                                              ),
-                                            )
-                                          );
+                                          showLoadingSubmit(context, "Proses Menukar Komisi...");
 
                                           locator.get<KomisiService>().redeemKomisi(
                                             locator.get<UserAppidCubit>().state.userAppId.appId

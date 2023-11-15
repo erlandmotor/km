@@ -5,6 +5,7 @@ import "package:adamulti_mobile_clone_new/components/region_textfield_component.
 import "package:adamulti_mobile_clone_new/components/regular_textfield_without_icon_and_validators_component.dart";
 import "package:adamulti_mobile_clone_new/components/regular_textfield_without_icon_component.dart";
 import 'package:adamulti_mobile_clone_new/components/pin_textfield_component.dart';
+import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/select_region_cubit.dart";
@@ -17,7 +18,6 @@ import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import "package:flutter_spinkit/flutter_spinkit.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
@@ -261,16 +261,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               Colors.red
                             );
                           } else {
-                            showDialog(
-                              barrierDismissible: false,
-                              context: context, 
-                              builder: (context) => const Center(
-                                child: SpinKitFadingCircle(
-                                  color: Colors.white,
-                                  size: 128,
-                                ),
-                              )
-                            );
+                            showLoadingSubmit(context, "Proses Registrasi...");
 
                             final userEmail = locator.get<AuthService>().getCurrentSigningAccount()!.email;
                             final userName = locator.get<AuthService>().getCurrentSigningAccount()!.displayName!;

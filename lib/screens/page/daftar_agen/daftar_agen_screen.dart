@@ -88,6 +88,13 @@ class _DaftarAgenScreenState extends State<DaftarAgenScreen> {
     final downlineCubit = context.read<DownlineCubit>();
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: kMainLightThemeColor,
+        onPressed: () {
+          context.goNamed("register-agen");
+        },
+        child: const Icon(LineIcons.userPlus, color: Colors.white,),
+      ),
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: ContainerGradientBackground(
@@ -249,7 +256,13 @@ class _DaftarAgenScreenState extends State<DaftarAgenScreen> {
                                                     const Divider(),
                                                     const SizedBox(height: 6,),
                                                     GestureDetector(
-                                                      onTap: () {},
+                                                      onTap: () {
+                                                        context.goNamed("markup", extra: {
+                                                          "idreseller": state.dataList[index].idreseller!,
+                                                          "namareseller": state.dataList[index].namareseller!,
+                                                          "markup": "Rp. ${state.dataList[index].tambahanhargapribadi!.toString()}"
+                                                        });
+                                                      },
                                                       child: Row(
                                                         crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: [

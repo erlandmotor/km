@@ -2,6 +2,7 @@ import "package:adamulti_mobile_clone_new/components/container_gradient_backgrou
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/product_item_component.dart";
+import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
 import "package:adamulti_mobile_clone_new/components/transaction_form_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
@@ -10,7 +11,6 @@ import "package:adamulti_mobile_clone_new/model/product_response.dart";
 import "package:adamulti_mobile_clone_new/services/product_service.dart";
 import "package:adamulti_mobile_clone_new/services/transaction_service.dart";
 import "package:flutter/material.dart";
-import "package:flutter_spinkit/flutter_spinkit.dart";
 import "package:go_router/go_router.dart";
 import "package:line_icons/line_icons.dart";
 import "package:adamulti_mobile_clone_new/services/local_notification_service.dart";
@@ -78,16 +78,7 @@ class _SelectProductTransactionScreenState extends State<SelectProductTransactio
                                         productName: snapshot.data!.data![index].namaproduk!, 
                                         productPrice: snapshot.data!.data![index].hargajual!, 
                                         onSubmit: (tujuan, pin) {
-                                          showDialog(
-                                            barrierDismissible: false,
-                                            context: context, 
-                                            builder: (context) => const Center(
-                                              child: SpinKitFadingCircle(
-                                                color: Colors.white,
-                                                size: 128,
-                                              ),
-                                            )
-                                          );
+                                          showLoadingSubmit(context, "Proses Transaksi...");
 
                                           locator.get<TransactionService>().payNow(
                                             snapshot.data!.data![index].kodeproduk!, 

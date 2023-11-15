@@ -1,18 +1,16 @@
-import 'package:adamulti_mobile_clone_new/function/custom_function.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TopupTextFieldComponent extends StatelessWidget {
+class PhoneTextFieldWithoutIconComponent extends StatelessWidget {
 
-  const TopupTextFieldComponent({ Key? key, required this.label, required this.hint, required this.controller,
-  required this.validationMessage, required this.prefixIcon, required this.isObsecure }) : super(key: key);
+  const PhoneTextFieldWithoutIconComponent({ Key? key, required this.label, required this.hint, required this.controller,
+  required this.validationMessage, required this.isObsecure }) : super(key: key);
 
   final TextEditingController controller;
   final String label;
   final String hint;
   final String validationMessage;
-  final IconData prefixIcon;
   final bool isObsecure;
 
   @override
@@ -27,17 +25,17 @@ class TopupTextFieldComponent extends StatelessWidget {
         ),),
         const SizedBox(height: 6,),
         TextFormField(
-          keyboardType: TextInputType.number,
           style: GoogleFonts.poppins(
             fontSize: 14,
             fontWeight: FontWeight.w500
           ),
-          inputFormatters: [
-            FilteringTextInputFormatter.allow(RegExp(r'[0-9Rp.-]'))
-          ],
           obscureText: isObsecure,
           controller: controller,
           autovalidateMode: AutovalidateMode.onUserInteraction,
+          keyboardType: TextInputType.phone,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly
+          ],
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(8),
             filled: true,
@@ -54,10 +52,9 @@ class TopupTextFieldComponent extends StatelessWidget {
                 width: 0.5
               )
             ),
-            prefixIcon: Icon(prefixIcon),
             hintText: hint,
             hintStyle: GoogleFonts.poppins(
-              fontSize: 14,
+              fontSize: 12,
               fontWeight: FontWeight.w400
             ),
             floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -65,15 +62,6 @@ class TopupTextFieldComponent extends StatelessWidget {
               fontSize: 14,
             ),
           ),
-          onChanged: (value) {
-            if(value.isNotEmpty) {
-              if(value.length < 4) {
-                controller.text = "Rp.";
-              } else {
-                controller.text = FormatCurrency.convertToIdr(int.parse(value.replaceAll(RegExp(r"\D"), "")), 0);
-              }
-            }
-          },
           validator: (value) {
             if(value!.isEmpty) {
               return validationMessage;

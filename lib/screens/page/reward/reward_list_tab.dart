@@ -1,12 +1,12 @@
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/shimmer_list_component.dart";
+import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/reward_response.dart";
 import "package:adamulti_mobile_clone_new/services/local_notification_service.dart";
 import "package:adamulti_mobile_clone_new/services/reward_service.dart";
 import "package:flutter/material.dart";
-import "package:flutter_spinkit/flutter_spinkit.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
@@ -73,16 +73,7 @@ class RewardListTab extends StatelessWidget {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          showDialog(
-                            barrierDismissible: false,
-                            context: context, 
-                            builder: (context) => const Center(
-                              child: SpinKitFadingCircle(
-                                color: Colors.white,
-                                size: 128,
-                              ),
-                            )
-                          );
+                          showLoadingSubmit(context, "Proses Menukar Reward...");
 
                           locator.get<RewardService>().redeem(
                             locator.get<UserAppidCubit>().state.userAppId.appId, 

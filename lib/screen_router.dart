@@ -28,6 +28,8 @@ import "package:adamulti_mobile_clone_new/screens/main/main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/change_pin/change_pin_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/check_before_transaction_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/daftar_agen/daftar_agen_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/daftar_agen/markup_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/daftar_agen/register_agen_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/komisi/komisi_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/more_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/pln_main_screen.dart";
@@ -380,10 +382,31 @@ GoRouter screenRouter(String? token) {
           GoRoute(
             path: "daftar-agen",
             name: "daftar-agen",
-            builder: (context, index) {
+            builder: (context, state) {
               return BlocProvider(
                 create: (_) => DownlineCubit(),
                 child: const DaftarAgenScreen(),
+              );
+            }
+          ),
+          GoRoute(
+            path: "markup",
+            name: "markup",
+            builder: (context, state) {
+              final extra = state.extra as Map<dynamic, dynamic>;
+              final idReseller = extra["idreseller"] as String;
+              final namaReseller = extra["namareseller"] as String;
+              final markup = extra["markup"] as String;
+              return MarkupScreen(idReseller: idReseller, namaReseller: namaReseller, markup: markup,);
+            }
+          ),
+          GoRoute(
+            path: "register-agen",
+            name: "register-agen",
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => SelectRegionCubit(),
+                child: const RegisterAgenScreen(),
               );
             }
           )
