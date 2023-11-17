@@ -7,9 +7,10 @@ import "package:responsive_sizer/responsive_sizer.dart";
 
 class HistoryTransaksiItemComponent extends StatelessWidget {
 
-  const  HistoryTransaksiItemComponent({ super.key,
+  const HistoryTransaksiItemComponent({ super.key,
   required this.kodeTujuan, required this.amount, required this.sn,
-  required this.waktu, required this.statusText, required this.statusTransaksi });
+  required this.waktu, required this.statusText, required this.statusTransaksi,
+  required this.onTapAction });
 
   final String kodeTujuan;
   final int amount;
@@ -17,97 +18,103 @@ class HistoryTransaksiItemComponent extends StatelessWidget {
   final String waktu;
   final String statusTransaksi;
   final String statusText;
+  final Function onTapAction;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white,
-      surfaceTintColor: statusTransaksi == "2" ? Colors.red : Colors.blue,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18)
-        ),
-        width: 100.w,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    width: 36,
-                    height: 36,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18),
-                      color: statusTransaksi == "2" ? Colors.red : Colors.green
+    return GestureDetector(
+      onTap: () {
+        onTapAction();
+      },
+      child: Card(
+        color: Colors.white,
+        surfaceTintColor: statusTransaksi == "2" ? Colors.red : Colors.blue,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18)
+          ),
+          width: 100.w,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18),
+                        color: statusTransaksi == "2" ? Colors.red : Colors.green
+                      ),
+                      child: Icon(
+                        statusTransaksi == "2" ? LineIcons.times : LineIcons.check,
+                        color: Colors.white,
+                        size: 26,
+                      ),
                     ),
-                    child: Icon(
-                      statusTransaksi == "2" ? LineIcons.times : LineIcons.check,
-                      color: Colors.white,
-                      size: 26,
-                    ),
-                  ),
-                  const SizedBox(width: 12,),
-                  Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(kodeTujuan, style: GoogleFonts.inter(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600
-                              ),),
-                              const SizedBox(height: 2,),
-                              Text("SN : $sn", 
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.inter(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
+                    const SizedBox(width: 12,),
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(kodeTujuan, style: GoogleFonts.inter(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600
+                                ),),
+                                const SizedBox(height: 2,),
+                                Text("SN : $sn", 
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.inter(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 2,),
-                              Text(waktu, style: GoogleFonts.inter(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400
+                                const SizedBox(height: 2,),
+                                Text(waktu, style: GoogleFonts.inter(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 8,),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            AutoSizeText(FormatCurrency.convertToIdr(amount, 0), 
-                              maxFontSize: 16,
-                              maxLines: 1,
-                              style: GoogleFonts.inter(
+                          const SizedBox(width: 8,),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              AutoSizeText(FormatCurrency.convertToIdr(amount, 0), 
+                                maxFontSize: 16,
+                                maxLines: 1,
+                                style: GoogleFonts.inter(
+                                  color: statusTransaksi == "2" ? Colors.red : Colors.green,
+                                  fontWeight: FontWeight.w700
+                                ),
+                              ), const SizedBox(height: 2,),
+                              Text(statusText, style: GoogleFonts.inter(
+                                fontSize: 12,
                                 color: statusTransaksi == "2" ? Colors.red : Colors.green,
-                                fontWeight: FontWeight.w700
-                              ),
-                            ), const SizedBox(height: 2,),
-                            Text(statusText, style: GoogleFonts.inter(
-                              fontSize: 12,
-                              color: statusTransaksi == "2" ? Colors.red : Colors.green,
-                              fontWeight: FontWeight.w500
-                            ),)
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
+                                fontWeight: FontWeight.w500
+                              ),)
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

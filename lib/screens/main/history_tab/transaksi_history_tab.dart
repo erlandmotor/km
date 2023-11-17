@@ -7,6 +7,7 @@ import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/history_service.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:go_router/go_router.dart";
 import "package:intl/intl.dart";
 
 class TransaksiHistoryTab extends StatefulWidget {
@@ -87,7 +88,17 @@ class _TransaksiHistoryTabState extends State<TransaksiHistoryTab> {
                     sn: state.dataList[index].sn!, 
                     waktu: state.dataList[index].waktu!, 
                     statusText: state.dataList[index].statustext!, 
-                    statusTransaksi: state.dataList[index].statustransaksi!.toString()
+                    statusTransaksi: state.dataList[index].statustransaksi!.toString(),
+                    onTapAction: () {
+                      if(state.dataList[index].statustransaksi! != 2) {
+                        context.pushNamed("transaction-detail", extra: {
+                          'idtrx': state.dataList[index].idtransaksi!.toString(),
+                          'type': 'HISTORY',
+                          'date': state.dataList[index].waktu!,
+                          'total': state.dataList[index].harga!
+                        });
+                      }
+                    },
                   );
                 } else {
                   return const Padding(

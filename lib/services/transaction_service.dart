@@ -1,8 +1,10 @@
 import 'package:adamulti_mobile_clone_new/constant/constant.dart';
 import 'package:adamulti_mobile_clone_new/function/custom_function.dart';
 import 'package:adamulti_mobile_clone_new/locator.dart';
+import 'package:adamulti_mobile_clone_new/model/parsed_cetak_response.dart';
 import 'package:adamulti_mobile_clone_new/model/transaction_response.dart';
 import 'package:adamulti_mobile_clone_new/services/jwt_service.dart';
+import 'package:adamulti_mobile_clone_new/services/secure_storage.dart';
 import 'package:dio/dio.dart';
 
 class TransactionService {
@@ -51,5 +53,22 @@ class TransactionService {
     ));
 
     return TransactionResponse.fromJson(response.data);
+  }
+
+  Future<ParsedCetakResponse> parseCetak(String idtrx) async {
+    final token = await locator.get<SecureStorageService>().readSecureData("jwt");
+
+    final response = await _dio.post("$baseUrlAuth/cetak/parse", 
+    data: {
+      "idtrx": idtrx
+    },
+    options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${token!}'
+      },
+    ));
+
+    return ParsedCetakResponse.fromJson(response.data);
   }
 }
