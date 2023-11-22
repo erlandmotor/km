@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:adamulti_mobile_clone_new/constant/constant.dart';
 import 'package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart';
+import 'package:adamulti_mobile_clone_new/cubit/connect_printer_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/getme_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart';
 import 'package:adamulti_mobile_clone_new/firebase_options.dart';
@@ -70,7 +71,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     if(widget.jwtToken != null) {
-      locator.get<AuthService>().signInWithGoogle().then((value) {
+      locator.get<AuthService>().signinSilently().then((value) {
         locator.get<AuthService>().authenticated().then((authenticated) {
           locator.get<AuthenticatedCubit>().updateUserState(authenticated.user!);
           locator.get<AuthService>().decryptToken(authenticated.user!.idreseller!, widget.jwtToken!).then((decrypt) {
@@ -90,6 +91,7 @@ class _MyAppState extends State<MyApp> {
     locator.get<AuthenticatedCubit>().close();
     locator.get<GetmeCubit>().close();
     locator.get<UserAppidCubit>().close();
+    locator.get<ConnectPrinterCubit>().close();
     super.dispose();
   }
 

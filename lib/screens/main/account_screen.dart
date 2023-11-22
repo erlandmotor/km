@@ -187,10 +187,21 @@ class AccountScreen extends StatelessWidget {
                           ),
                           const Divider(),
                           AccountMenuSectionComponent(
+                            icon: LineIcons.bluetooth, 
+                            label: "Connect Printer",
+                            iconColor: const Color(0xff0a3b8c), 
+                            onTapAction: () {
+                              context.pushNamed("connect-printer");
+                            }
+                          ),
+                          const Divider(),
+                          AccountMenuSectionComponent(
                             icon: LineIcons.print, 
-                            label: "Struk dan Printer",
+                            label: "Atur Struk",
                             iconColor: Colors.purple, 
-                            onTapAction: () {}
+                            onTapAction: () {
+                              context.pushNamed("printer-setting");
+                            }
                           ),
                           const Divider(),
                           AccountMenuSectionComponent(

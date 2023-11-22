@@ -17,6 +17,8 @@ class ChangePinScreen extends StatefulWidget {
 
   const ChangePinScreen({ super.key });
 
+  static final changePinFormKey = GlobalKey<FormState>();
+
   @override
   State<ChangePinScreen> createState() => _ChangePinScreenState();
 }
@@ -60,96 +62,99 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                     child: Container(
                       width: 96.w,
                       padding: const EdgeInsets.all(18),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            radius: 48,
-                            backgroundColor: kMainLightThemeColor.withOpacity(0.2),
-                            child: CircleAvatar(
-                              radius: 40,
-                              backgroundColor: kMainLightThemeColor.withOpacity(0.6),
-                              child: const CircleAvatar(
-                                radius: 36,
-                                backgroundColor: kMainLightThemeColor,                                
-                                child: Icon(LineIcons.userLock, color: Colors.white, size: 40,),
+                      child: Form(
+                        key: ChangePinScreen.changePinFormKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              radius: 48,
+                              backgroundColor: kMainLightThemeColor.withOpacity(0.2),
+                              child: CircleAvatar(
+                                radius: 40,
+                                backgroundColor: kMainLightThemeColor.withOpacity(0.6),
+                                child: const CircleAvatar(
+                                  radius: 36,
+                                  backgroundColor: kMainLightThemeColor,                                
+                                  child: Icon(LineIcons.userLock, color: Colors.white, size: 40,),
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 18,
-                          ),
-                          PinTextFieldComponent(
-                            label: "PIN Lama", 
-                            hint: "Masukkan PIN yang sekarang", 
-                            controller: currentPinController
-                          ),
-                          const SizedBox(height: 8,),
-                          PinTextFieldComponent(
-                            label: "PIN Baru", 
-                            hint: "Masukkan PIN yang baru", 
-                            controller: newPinController
-                          ),
-                          const SizedBox(height: 18,),
-                          DynamicSizeButtonComponent(
-                            label: "Ganti Pin", 
-                            buttonColor: kMainLightThemeColor, 
-                            onPressed: () {
-                              if(currentPinController.text.isEmpty || newPinController.text.isEmpty) {
-                                showDynamicSnackBar(
-                                  context, 
-                                  LineIcons.exclamationTriangle, 
-                                  "ERROR", 
-                                  "PIN Lama atau PIN Baru harus diisi terlebih dahulu.", 
-                                  Colors.red
-                                );
-                              } else {
-                                showLoadingSubmit(context, "Proses Mengganti PIN");
-
-                                locator.get<AuthService>().changePin(
-                                  locator.get<UserAppidCubit>().state.userAppId.appId, 
-                                  currentPinController.text, 
-                                  newPinController.text, 
-                                  newPinController.text
-                                ).then((value) {
-                                  currentPinController.clear();
-                                  newPinController.clear();
-                                  
-                                  context.pop();
-                                  
-                                  if(value.success! == true) {
-                                    showDynamicSnackBar(
-                                      context, 
-                                      LineIcons.exclamationTriangle, 
-                                      "SUKSES", 
-                                      value.msg!, 
-                                      Colors.blue
-                                    );
-                                  } else {
-                                    showDynamicSnackBar(
-                                      context, 
-                                      LineIcons.exclamationTriangle, 
-                                      "ERROR", 
-                                      value.msg!, 
-                                      Colors.red
-                                    );
-                                  }
-                                }).catchError((e) {
+                            const SizedBox(
+                              height: 18,
+                            ),
+                            PinTextFieldComponent(
+                              label: "PIN Lama", 
+                              hint: "Masukkan PIN yang sekarang", 
+                              controller: currentPinController
+                            ),
+                            const SizedBox(height: 8,),
+                            PinTextFieldComponent(
+                              label: "PIN Baru", 
+                              hint: "Masukkan PIN yang baru", 
+                              controller: newPinController
+                            ),
+                            const SizedBox(height: 18,),
+                            DynamicSizeButtonComponent(
+                              label: "Ganti Pin", 
+                              buttonColor: kMainLightThemeColor, 
+                              onPressed: () {
+                                if(ChangePinScreen.changePinFormKey.currentState!.validate()) {
                                   showDynamicSnackBar(
                                     context, 
                                     LineIcons.exclamationTriangle, 
                                     "ERROR", 
-                                    e.toString(), 
+                                    "PIN Lama atau PIN Baru harus diisi terlebih dahulu.", 
                                     Colors.red
                                   );
-                                });
-                              }
-                            }, 
-                            width: 100.w, 
-                            height: 50
-                          )
-                        ],
+                                } else {
+                                  showLoadingSubmit(context, "Proses Mengganti PIN");
+                      
+                                  locator.get<AuthService>().changePin(
+                                    locator.get<UserAppidCubit>().state.userAppId.appId, 
+                                    currentPinController.text, 
+                                    newPinController.text, 
+                                    newPinController.text
+                                  ).then((value) {
+                                    currentPinController.clear();
+                                    newPinController.clear();
+                                    
+                                    context.pop();
+                                    
+                                    if(value.success! == true) {
+                                      showDynamicSnackBar(
+                                        context, 
+                                        LineIcons.exclamationTriangle, 
+                                        "SUKSES", 
+                                        value.msg!, 
+                                        Colors.blue
+                                      );
+                                    } else {
+                                      showDynamicSnackBar(
+                                        context, 
+                                        LineIcons.exclamationTriangle, 
+                                        "ERROR", 
+                                        value.msg!, 
+                                        Colors.red
+                                      );
+                                    }
+                                  }).catchError((e) {
+                                    showDynamicSnackBar(
+                                      context, 
+                                      LineIcons.exclamationTriangle, 
+                                      "ERROR", 
+                                      e.toString(), 
+                                      Colors.red
+                                    );
+                                  });
+                                }
+                              }, 
+                              width: 100.w, 
+                              height: 50
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   )

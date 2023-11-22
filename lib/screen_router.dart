@@ -35,6 +35,8 @@ import "package:adamulti_mobile_clone_new/screens/page/more_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/pln_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/pln_token_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/price_list/price_list_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/printer_setting/connect_printer_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/printer_setting/printer_setting_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/pulsa_and_data_main_screeen.dart";
 import 'package:adamulti_mobile_clone_new/screens/page/pulsa_main_screen.dart';
 import "package:adamulti_mobile_clone_new/screens/page/reward/reward_main_screen.dart";
@@ -421,6 +423,20 @@ GoRouter screenRouter(String? token) {
               final date = extra['date'] as String;
               final total = extra['total'] as int;
               return TransactionDetailScreen(idtrx: idtrx, type: type, date: date, total: total,);
+            }
+          ),
+          GoRoute(
+            path: "printer-setting",
+            name: "printer-setting",
+            builder: (context, state) {
+              return const PrinterSettingScreen();
+            }
+          ),
+          GoRoute(
+            path: "connect-printer",
+            name: "connect-printer",
+            builder: (context, state) {
+              return const ConnectPrinterScreen();
             }
           )
         ]

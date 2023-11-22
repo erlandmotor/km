@@ -1,4 +1,5 @@
 import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/connect_printer_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/getme_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
@@ -7,6 +8,7 @@ import "package:adamulti_mobile_clone_new/services/history_service.dart";
 import "package:adamulti_mobile_clone_new/services/jwt_service.dart";
 import "package:adamulti_mobile_clone_new/services/komisi_service.dart";
 import "package:adamulti_mobile_clone_new/services/local_notification_service.dart";
+import "package:adamulti_mobile_clone_new/services/printer_service.dart";
 import "package:adamulti_mobile_clone_new/services/product_service.dart";
 import "package:adamulti_mobile_clone_new/services/region_service.dart";
 import "package:adamulti_mobile_clone_new/services/reward_service.dart";
@@ -24,6 +26,7 @@ void setupLocator() {
   locator.registerSingleton(AuthenticatedCubit());
   locator.registerSingleton(UserAppidCubit());
   locator.registerSingleton(GetmeCubit());
+  locator.registerSingleton(ConnectPrinterCubit());
   locator.registerLazySingleton(() => JwtService());
   locator.registerLazySingleton(() => ProductService());
   locator.registerLazySingleton(() => TransactionService());
@@ -33,4 +36,5 @@ void setupLocator() {
   locator.registerLazySingleton(() => RewardService());
   locator.registerLazySingleton(() => KomisiService());
   locator.registerLazySingleton(() => RegionService());
+  locator.registerLazySingleton(() => PrinterService());
 }

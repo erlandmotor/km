@@ -37,6 +37,11 @@ class AuthService {
     return googleAccount;
   }
 
+  Future<GoogleSignInAccount?> signinSilently() async {
+    final googleAccount = await _googleSignIn.signInSilently();
+    return googleAccount;
+  }
+
   GoogleSignInAccount? getCurrentSigningAccount() {
     final currentSigning = _googleSignIn.currentUser;
     return currentSigning;

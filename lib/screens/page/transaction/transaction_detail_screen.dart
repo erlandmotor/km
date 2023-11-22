@@ -1,20 +1,27 @@
+import "dart:convert";
+
 import "package:adamulti_mobile_clone_new/components/curve_clipper.dart";
 import "package:adamulti_mobile_clone_new/components/dashed_separator.dart";
 import "package:adamulti_mobile_clone_new/components/detail_transaksi_item_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import 'package:adamulti_mobile_clone_new/components/dynamic_size_button_outlined_icon_component.dart';
+import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/connect_printer_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/parsed_cetak_response.dart";
+import "package:adamulti_mobile_clone_new/services/secure_storage.dart";
 import "package:adamulti_mobile_clone_new/services/transaction_service.dart";
+import "package:blue_thermal_printer/blue_thermal_printer.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
+import "package:adamulti_mobile_clone_new/constant/printer_enum.dart" as printer_enum;
 
-class TransactionDetailScreen extends StatelessWidget {
+class TransactionDetailScreen extends StatefulWidget {
 
   const TransactionDetailScreen({ super.key, required this.idtrx, required this.type,
   required this.date, required this.total });
@@ -24,6 +31,23 @@ class TransactionDetailScreen extends StatelessWidget {
   final String date;
   final int total;
 
+  @override
+  State<TransactionDetailScreen> createState() => _TransactionDetailScreenState();
+}
+
+class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
+
+  final blueThermalPrinter = BlueThermalPrinter.instance;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,13 +81,13 @@ class TransactionDetailScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 18,),
-                  Text(type == "HISTORY" ? "Riwayat Transaksi" : "Transaksi Berhasil", style: GoogleFonts.inter(
+                  Text(widget.type == "HISTORY" ? "Riwayat Transaksi" : "Transaksi Berhasil", style: GoogleFonts.inter(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                     color: Colors.white
                   ),),
                   const SizedBox(height: 4,),
-                  Text(date, style: GoogleFonts.inter(
+                  Text(widget.date, style: GoogleFonts.inter(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
                     color: Colors.white
@@ -84,7 +108,7 @@ class TransactionDetailScreen extends StatelessWidget {
                               color: kSecondaryTextColor
                             ),),
                             const SizedBox(height: 4,),
-                            Text(FormatCurrency.convertToIdr(total, 0), style: GoogleFonts.inter(
+                            Text(FormatCurrency.convertToIdr(widget.total, 0), style: GoogleFonts.inter(
                               fontSize: 20,
                               fontWeight: FontWeight.w800,
                               color: kMainLightThemeColor
@@ -100,7 +124,7 @@ class TransactionDetailScreen extends StatelessWidget {
                             const SizedBox(height: 18,),
                             Expanded(
                               child: FutureBuilder<ParsedCetakResponse>(
-                                future: locator.get<TransactionService>().parseCetak(idtrx),
+                                future: locator.get<TransactionService>().parseCetak(widget.idtrx),
                                 builder: (context, snapshot) {
                                   if(snapshot.connectionState == ConnectionState.done) {
                                     return Column(
@@ -114,7 +138,7 @@ class TransactionDetailScreen extends StatelessWidget {
                                         if(snapshot.data!.idpel != null)
                                         DetailTransaksiItemComponent(
                                           title: snapshot.data!.type! == "149" ? "KODE.VA" : "ID Pelanggan", 
-                                          value: snapshot.data!.idtrx!
+                                          value: snapshot.data!.idpel!
                                         ),
                                         if(snapshot.data!.nama != null)
                                         DetailTransaksiItemComponent(title: "Nama", value: snapshot.data!.nama!),
@@ -208,7 +232,40 @@ class TransactionDetailScreen extends StatelessWidget {
                                             DynamicSizeButtonOutlinedIconComponent(
                                               label: "Print", 
                                               buttonColor: Colors.black, 
-                                              onPressed: () {}, 
+                                              onPressed: () async {
+                                                blueThermalPrinter.isOn.then((isOn) {
+                                                  if(isOn!) {
+                                                    blueThermalPrinter.isConnected.then((value) {
+                                                      if(value == false) {
+                                                        locator.get<SecureStorageService>().readSecureData("printer").then((value) {
+                                                          if(value != null) {
+                                                            final deviceObject = jsonDecode(value);
+                                                            final device = BluetoothDevice.fromMap(deviceObject);
+                                                            blueThermalPrinter.connect(device);
+                                                            locator.get<ConnectPrinterCubit>().updateState(
+                                                              [],
+                                                              device,
+                                                              false
+                                                            );
+
+                                                            testPrint();
+                                                          }
+                                                        });
+                                                      } else {
+                                                        testPrint();
+                                                      }
+                                                    });
+                                                  } else {
+                                                    showDynamicSnackBar(
+                                                      context, 
+                                                      LineIcons.exclamationTriangle, 
+                                                      "ERROR", 
+                                                      "Hidupkan Bluetooth Anda lalu Hubungkan ke Printer.", 
+                                                      Colors.red
+                                                    );
+                                                  }
+                                                });
+                                              }, 
                                               width: 40.w, 
                                               height: 40,
                                               icon: LineIcons.print,
@@ -269,5 +326,49 @@ class TransactionDetailScreen extends StatelessWidget {
         )
       ),
     );
+  }
+
+  void testPrint() {
+    blueThermalPrinter.printNewLine();
+    blueThermalPrinter.printCustom("HEADER", printer_enum.Size.boldMedium.val, printer_enum.Align.center.val);
+    blueThermalPrinter.printNewLine();
+    blueThermalPrinter.printNewLine();
+    blueThermalPrinter.printNewLine();
+    blueThermalPrinter.printNewLine();
+    blueThermalPrinter.printLeftRight("LEFT", "RIGHT", printer_enum.Size.medium.val);
+    blueThermalPrinter.printLeftRight("LEFT", "RIGHT", printer_enum.Size.bold.val);
+    blueThermalPrinter.printLeftRight("LEFT", "RIGHT", printer_enum.Size.bold.val,
+        format:
+            "%-15s %15s %n"); //15 is number off character from left or right
+    blueThermalPrinter.printNewLine();
+    blueThermalPrinter.printLeftRight("LEFT", "RIGHT", printer_enum.Size.boldMedium.val);
+    blueThermalPrinter.printLeftRight("LEFT", "RIGHT", printer_enum.Size.boldLarge.val);
+    blueThermalPrinter.printLeftRight("LEFT", "RIGHT", printer_enum.Size.extraLarge.val);
+    blueThermalPrinter.printNewLine();
+    blueThermalPrinter.print3Column("Col1", "Col2", "Col3", printer_enum.Size.bold.val);
+    blueThermalPrinter.print3Column("Col1", "Col2", "Col3", printer_enum.Size.bold.val,
+        format:
+            "%-10s %10s %10s %n"); //10 is number off character from left center and right
+    blueThermalPrinter.printNewLine();
+    blueThermalPrinter.print4Column("Col1", "Col2", "Col3", "Col4", printer_enum.Size.bold.val);
+    blueThermalPrinter.print4Column("Col1", "Col2", "Col3", "Col4", printer_enum.Size.bold.val,
+        format: "%-8s %7s %7s %7s %n");
+    blueThermalPrinter.printNewLine();
+    blueThermalPrinter.printCustom("čĆžŽšŠ-H-ščđ", printer_enum.Size.bold.val, printer_enum.Align.center.val,
+        charset: "windows-1250");
+    blueThermalPrinter.printLeftRight("Številka:", "18000001", printer_enum.Size.bold.val,
+        charset: "windows-1250");
+    blueThermalPrinter.printCustom("Body left", printer_enum.Size.bold.val, printer_enum.Align.left.val);
+    blueThermalPrinter.printCustom("Body right", printer_enum.Size.medium.val, printer_enum.Align.right.val);
+    blueThermalPrinter.printNewLine();
+    blueThermalPrinter.printCustom("Thank You", printer_enum.Size.bold.val, printer_enum.Align.center.val);
+    blueThermalPrinter.printNewLine();
+    blueThermalPrinter.printQRcode(
+        "Insert Your Own Text to Generate", 200, 200, printer_enum.Align.center.val);
+    blueThermalPrinter.printNewLine();
+    blueThermalPrinter.printNewLine();
+    blueThermalPrinter
+        .paperCut(); //some printer not supported (sometime making image not centered)
+        //bluetooth.drawerPin2(); // or you can use bluetooth.drawerPin5();
   }
 }
