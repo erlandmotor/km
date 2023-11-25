@@ -34,8 +34,7 @@ class CheckIdentityContainer extends StatelessWidget {
                     child: CheckTextFieldComponent(
                     label: "Masukkan ID Pelanggan", 
                     hint: "Conth: 123456",
-                    controller: identityController, 
-                    validationMessage: "ID Pelanggan harus diisi.", 
+                    controller: identityController,
                   ),
                 ),
                 const SizedBox(width: 6,),

@@ -1,6 +1,7 @@
 import 'package:adamulti_mobile_clone_new/constant/constant.dart';
 import 'package:adamulti_mobile_clone_new/function/custom_function.dart';
 import 'package:adamulti_mobile_clone_new/locator.dart';
+import 'package:adamulti_mobile_clone_new/model/cetak_mobile_response.dart';
 import 'package:adamulti_mobile_clone_new/model/parsed_cetak_response.dart';
 import 'package:adamulti_mobile_clone_new/model/transaction_response.dart';
 import 'package:adamulti_mobile_clone_new/services/jwt_service.dart';
@@ -71,4 +72,24 @@ class TransactionService {
 
     return ParsedCetakResponse.fromJson(response.data);
   }
+
+  Future<CetakMobileResponse> cetakMobile(String idtrx, String total, String jasaloket) async {
+    final token = await locator.get<SecureStorageService>().readSecureData("jwt");
+
+    final response = await _dio.post("$baseUrlAuth/cetak/struk-mobile", 
+    data: {
+      "idtrx": idtrx,
+      "total": total,
+      "jasaloket": jasaloket
+    },
+    options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${token!}'
+      },
+    ));
+
+    return CetakMobileResponse.fromJson(response.data);
+  }
+
 }

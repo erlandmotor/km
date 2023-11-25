@@ -31,15 +31,16 @@ class _PrinterSettingScreenState extends State<PrinterSettingScreen> {
 
   @override
   void initState() {
-    locator.get<SecureStorageService>().readSecureData("struk").then((value) {
-      if(value != null) {
-        final struk = StrukModel.fromJson(jsonDecode(value));
+    locator.get<SecureStorageService>().deleteSecureData("struk");
+    // locator.get<SecureStorageService>().readSecureData("struk").then((value) {
+    //   if(value != null) {
+    //     final struk = StrukModel.fromJson(jsonDecode(value));
         
-        namaTokoController.text = struk.nama;
-        alamatTokoController.text = struk.alamat;
-        footerStrukController.text = struk.footer;
-      }
-    });
+    //     namaTokoController.text = struk.nama!;
+    //     alamatTokoController.text = struk.alamat!;
+    //     footerStrukController.text = struk.footer!;
+    //   }
+    // });
     super.initState();
   }
 
@@ -91,8 +92,8 @@ class _PrinterSettingScreenState extends State<PrinterSettingScreen> {
                               ),
                               const SizedBox(height: 18,),
                               RegularTextareaComponent(
-                                label: "Alamat Toko", 
-                                hint: "Contoh : Jln. Industri, GG. Gurita no. 5", 
+                                label: "Alamat Toko & Telp", 
+                                hint: "Contoh : Jln. Industri, GG. Gurita no. 5 / 082236343053", 
                                 controller: alamatTokoController, 
                                 validationMessage: "*Alamat toko harus diisi."
                               ),

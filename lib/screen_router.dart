@@ -13,6 +13,7 @@ import "package:adamulti_mobile_clone_new/cubit/rekap_transaksi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/search_history_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/select_region_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/topup_saldo_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/transaction_detail_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/transfer_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
@@ -422,7 +423,10 @@ GoRouter screenRouter(String? token) {
               final type = extra['type'] as String;
               final date = extra['date'] as String;
               final total = extra['total'] as int;
-              return TransactionDetailScreen(idtrx: idtrx, type: type, date: date, total: total,);
+              return BlocProvider(
+                create: (_) => TransactionDetailCubit(),
+                child: TransactionDetailScreen(idtrx: idtrx, type: type, date: date, total: total,)
+              );
             }
           ),
           GoRoute(

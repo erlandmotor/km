@@ -106,10 +106,8 @@ class _MarkupScreenState extends State<MarkupScreen> {
                           TopupTextFieldComponent(
                             label: "Harga Markup", 
                             hint: "Contoh: Rp. 100", 
-                            controller: markupController, 
-                            validationMessage: "Harga Markup harus diisi.", 
-                            prefixIcon: LineIcons.wavyMoneyBill, 
-                            isObsecure: false
+                            controller: markupController,
+                            prefixIcon: LineIcons.wavyMoneyBill,
                           ),
                           const SizedBox(height: 18,),
                           DynamicSizeButtonComponent(

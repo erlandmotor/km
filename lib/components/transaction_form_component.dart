@@ -101,8 +101,7 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                         child: CheckTextFieldComponent(
                         label: "Masukkan ID Pelanggan / No. HP", 
                         hint: "Conth: 123456",
-                        controller: identityController, 
-                        validationMessage: "ID Pelanggan harus diisi.", 
+                        controller: identityController,
                       ),
                     ),
                     const SizedBox(width: 6,),

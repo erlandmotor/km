@@ -82,8 +82,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                 child: TextfieldWithEventComponent(
                                 label: "No. HP Pelanggan", 
                                 hint: "Conth: 082xxx",
-                                controller: identityController, 
-                                validationMessage: "ID Pelanggan harus diisi.",
+                                controller: identityController,
                                 onChanged: (String value) {
                                   if(value.length >= 4) {
                                     pulsaAndDataCubit.updateState(true, GetProductByTujuanResponse());

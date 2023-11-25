@@ -6,12 +6,11 @@ import 'package:easy_debounce/easy_debounce.dart';
 class TextfieldWithEventComponent extends StatelessWidget {
 
   const TextfieldWithEventComponent({ Key? key, required this.label, required this.hint, required this.controller,
-  required this.validationMessage, required this.onChanged }) : super(key: key);
+  required this.onChanged }) : super(key: key);
 
   final TextEditingController controller;
   final String label;
   final String hint;
-  final String validationMessage;
   final Function onChanged;
 
   @override
@@ -66,13 +65,6 @@ class TextfieldWithEventComponent extends StatelessWidget {
             EasyDebounce.debounce("search", const Duration(milliseconds: 500), () { 
               onChanged(value);
             });
-          },
-          validator: (value) {
-            if(value!.isEmpty) {
-              return validationMessage;
-            } else {
-              return null;
-            }
           },
         ),
       ],

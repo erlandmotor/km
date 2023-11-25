@@ -76,8 +76,9 @@ dependencies:
   encrypt: ^5.0.3
   basic_utils: ^5.7.0
   collection: ^1.17.2
-  esc_pos_utils: ^1.1.0
   blue_thermal_printer: ^1.2.3
+  share_plus: ^7.2.1
+  screenshot: ^2.1.0
 
 dev_dependencies:
   flutter_test:

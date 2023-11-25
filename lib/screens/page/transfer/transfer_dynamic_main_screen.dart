@@ -102,10 +102,8 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                   TopupTextFieldComponent(
                                     label: "Jumlah Transfer", 
                                     hint: "Minimal Rp. 50.000", 
-                                    controller: topupController, 
-                                    validationMessage: "Jumlah Transfer harus diisi.", 
-                                    prefixIcon: LineIcons.wavyMoneyBill, 
-                                    isObsecure: false
+                                    controller: topupController,
+                                    prefixIcon: LineIcons.wavyMoneyBill,
                                   ),
                                   const SizedBox(height: 18,),
                                   DynamicSizeButtonComponent(

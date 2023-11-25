@@ -74,10 +74,8 @@ class _TransferMainScreenState extends State<TransferMainScreen> {
                                   TopupTextFieldComponent(
                                     label: "Nominal Topup", 
                                     hint: "Minimal Rp. 50.000", 
-                                    controller: topupController, 
-                                    validationMessage: "Nominal harus diisi.", 
-                                    prefixIcon: LineIcons.wavyMoneyBill, 
-                                    isObsecure: false
+                                    controller: topupController,
+                                    prefixIcon: LineIcons.wavyMoneyBill,
                                   ),
                                   const SizedBox(height: 18,),
                                   LoadingButtonComponent(

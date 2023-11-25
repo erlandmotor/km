@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TopupTextFieldComponent extends StatelessWidget {
+class MarkupTextFieldComponent extends StatelessWidget {
 
-  const TopupTextFieldComponent({ Key? key, required this.label, required this.hint, required this.controller,
-  required this.prefixIcon }) : super(key: key);
+  const MarkupTextFieldComponent({ Key? key, required this.label, required this.hint, required this.controller,
+  required this.prefixIcon, required this.onChangedAction }) : super(key: key);
 
   final TextEditingController controller;
   final String label;
   final String hint;
   final IconData prefixIcon;
+  final Function onChangedAction;
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +69,7 @@ class TopupTextFieldComponent extends StatelessWidget {
                 controller.text = "Rp.";
               } else {
                 controller.text = FormatCurrency.convertToIdr(int.parse(value.replaceAll(RegExp(r"\D"), "")), 0);
+                onChangedAction(controller.text);
               }
             }
           },

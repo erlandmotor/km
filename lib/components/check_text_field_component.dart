@@ -3,13 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 class CheckTextFieldComponent extends StatelessWidget {
 
-  const CheckTextFieldComponent({ Key? key, required this.label, required this.hint, required this.controller,
-  required this.validationMessage }) : super(key: key);
+  const CheckTextFieldComponent({ Key? key, required this.label, required this.hint, required this.controller }) : super(key: key);
 
   final TextEditingController controller;
   final String label;
   final String hint;
-  final String validationMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +27,7 @@ class CheckTextFieldComponent extends StatelessWidget {
           ),
           controller: controller,
           autovalidateMode: AutovalidateMode.onUserInteraction,
+          keyboardType: TextInputType.phone,
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(8),
             filled: true,
@@ -55,13 +54,6 @@ class CheckTextFieldComponent extends StatelessWidget {
               fontSize: 14,
             ),
           ),
-          validator: (value) {
-            if(value!.isEmpty) {
-              return validationMessage;
-            } else {
-              return null;
-            }
-          },
         ),
       ],
     );
