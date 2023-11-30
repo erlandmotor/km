@@ -9,6 +9,7 @@ import 'package:adamulti_mobile_clone_new/firebase_options.dart';
 import 'package:adamulti_mobile_clone_new/locator.dart';
 import 'package:adamulti_mobile_clone_new/screen_router.dart';
 import 'package:adamulti_mobile_clone_new/services/auth_service.dart';
+import 'package:adamulti_mobile_clone_new/services/firebase_messaging_service.dart';
 import 'package:adamulti_mobile_clone_new/services/local_notification_service.dart';
 import 'package:adamulti_mobile_clone_new/services/secure_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -50,6 +51,9 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  
+  locator.get<FirebaseMessagingService>().initNotification();
+
   locator.get<AuthService>().clearGoogleSigning();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
     .then((_) {
@@ -68,6 +72,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
+  var presscount = 0;
+
   @override
   void initState() {
     if(widget.jwtToken != null) {
@@ -82,6 +88,8 @@ class _MyAppState extends State<MyApp> {
           });
         });
       });
+    } else {
+      
     }
     super.initState();
   }

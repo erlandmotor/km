@@ -4,6 +4,7 @@ import "package:adamulti_mobile_clone_new/cubit/getme_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
 import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
+import "package:adamulti_mobile_clone_new/services/firebase_messaging_service.dart";
 import "package:adamulti_mobile_clone_new/services/history_service.dart";
 import "package:adamulti_mobile_clone_new/services/jwt_service.dart";
 import "package:adamulti_mobile_clone_new/services/komisi_service.dart";
@@ -35,4 +36,5 @@ void setupLocator() {
   locator.registerLazySingleton(() => RewardService());
   locator.registerLazySingleton(() => KomisiService());
   locator.registerLazySingleton(() => RegionService());
+  locator.registerLazySingleton(() => FirebaseMessagingService());
 }

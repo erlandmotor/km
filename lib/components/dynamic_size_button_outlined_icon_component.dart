@@ -23,6 +23,7 @@ class DynamicSizeButtonOutlinedIconComponent extends StatelessWidget {
         icon: Icon(
           icon,
           color: buttonColor,
+          size: 18,
         ),
         onPressed: () {
           onPressed();
@@ -38,7 +39,7 @@ class DynamicSizeButtonOutlinedIconComponent extends StatelessWidget {
           )
         ),
         label: Text(label, style: GoogleFonts.inter(
-          fontSize: 16,
+          fontSize: 12,
           fontWeight: FontWeight.w600,
           color: buttonColor
         ),),

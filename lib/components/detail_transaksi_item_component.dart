@@ -30,14 +30,14 @@ class DetailTransaksiItemComponent extends StatelessWidget {
               child: Text(value, 
               textAlign: TextAlign.end,
               style: GoogleFonts.inter(
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
                 color: Colors.black,
                 fontSize: 12
               ),),
             )
           ],
         ),
-        const SizedBox(height: 6,)
+        const SizedBox(height: 12,)
       ],
     );
   }

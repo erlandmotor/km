@@ -6,6 +6,7 @@ import "package:adamulti_mobile_clone_new/cubit/getme_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
+import "package:adamulti_mobile_clone_new/services/secure_storage.dart";
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -47,9 +48,12 @@ class AccountScreen extends StatelessWidget {
                         radius: 36,
                         child: CircleAvatar(
                           radius: 34,
-                          backgroundImage: CachedNetworkImageProvider(
-                            locator.get<AuthService>().getCurrentSigningAccount()!.photoUrl!
-                          ),
+                          backgroundImage: 
+                          locator.get<AuthService>().getCurrentSigningAccount()!.photoUrl == null ?
+                          const AssetImage("assets/default-user.png") :
+                          CachedNetworkImageProvider(
+                            locator.get<AuthService>().getCurrentSigningAccount()!.photoUrl! 
+                          ) as ImageProvider
                         ),
                       ),
                       const SizedBox(
@@ -224,14 +228,20 @@ class AccountScreen extends StatelessWidget {
                             icon: LineIcons.userShield, 
                             label: "Privacy & Policy",
                             iconColor: const Color(0xff7d5fff), 
-                            onTapAction: () {}
+                            onTapAction: () {
+                              context.pushNamed("privacy-policy");
+                            }
                           ),
                           const Divider(),
                           AccountMenuSectionComponent(
                             icon: LineIcons.alternateSignOut, 
                             label: "Keluar",
                             iconColor: Colors.red, 
-                            onTapAction: () {}
+                            onTapAction: () {
+                              locator.get<SecureStorageService>().deleteSecureData("jwt");
+                              locator.get<AuthService>().logoutGoogleAccount();
+                              context.goNamed("select-google-account");
+                            }
                           ),
                         ],
                       ),

@@ -38,6 +38,7 @@ import "package:adamulti_mobile_clone_new/screens/page/pln_token_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/price_list/price_list_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/printer_setting/connect_printer_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/printer_setting/printer_setting_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/privacy_policy/privacy_policy_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/pulsa_and_data_main_screeen.dart";
 import 'package:adamulti_mobile_clone_new/screens/page/pulsa_main_screen.dart';
 import "package:adamulti_mobile_clone_new/screens/page/reward/reward_main_screen.dart";
@@ -420,12 +421,11 @@ GoRouter screenRouter(String? token) {
             builder: (context, state) {
               final extra = state.extra as Map<dynamic, dynamic>;
               final idtrx = extra['idtrx'] as String;
-              final type = extra['type'] as String;
               final date = extra['date'] as String;
               final total = extra['total'] as int;
               return BlocProvider(
                 create: (_) => TransactionDetailCubit(),
-                child: TransactionDetailScreen(idtrx: idtrx, type: type, date: date, total: total,)
+                child: TransactionDetailScreen(idtrx: idtrx, date: date, total: total,)
               );
             }
           ),
@@ -441,6 +441,13 @@ GoRouter screenRouter(String? token) {
             name: "connect-printer",
             builder: (context, state) {
               return const ConnectPrinterScreen();
+            }
+          ),
+          GoRoute(
+            path: "privacy-policy",
+            name: "privacy-policy",
+            builder: (context, state) {
+              return const PrivacyPolicyScreen();
             }
           )
         ]

@@ -85,11 +85,14 @@ class OperatorItemComponent extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                         color: kLightBackgroundColor
                       ),
-                      child: CachedNetworkImage(
-                        imageUrl: imageUrl,
-                        width: 42,
-                        height: 42,
-                        fit: BoxFit.contain,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: CachedNetworkImage(
+                          imageUrl: imageUrl,
+                          width: 42,
+                          height: 42,
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 18,),

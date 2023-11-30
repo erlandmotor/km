@@ -4,6 +4,7 @@ import "package:adamulti_mobile_clone_new/screens/main/account_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/main/history_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/main/home_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/main/inbox_screen.dart";
+import "package:double_back_to_close_app/double_back_to_close_app.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
@@ -47,46 +48,49 @@ class _MainScreenState extends State<MainScreen> {
           ),
           labelBehavior: NavigationDestinationLabelBehavior.alwaysShow
         ),
-        child: BlocBuilder<BottomNavigationCubit, BottomNavigationState>(
-          builder: (context, state) {
-            return NavigationBar(
-              elevation: 1,
-              selectedIndex: state.navigationIndex,
-              onDestinationSelected: (index) {
-                bottomNavigationCubit.changeNavigationIndex(index);
-              },
-              destinations: [
-                NavigationDestination(
-                  icon: Icon(
-                    LineIcons.home,
-                    color: state.navigationIndex == 0 ? Colors.white : const Color(0xff4d4d4d),
-                  ), 
-                  label: "Home",
-                ),
-                NavigationDestination(
-                  icon: Icon(
-                    LineIcons.envelopeOpenText,
-                    color: state.navigationIndex == 1 ? Colors.white : const Color(0xff4d4d4d),
-                  ), 
-                  label: "Inbox",
-                ),
-                NavigationDestination(
-                  icon: Icon(
-                    LineIcons.fileInvoice,
-                    color: state.navigationIndex == 2 ? Colors.white : const Color(0xff4d4d4d),
-                  ), 
-                  label: "Riwayat",
-                ),
-                NavigationDestination(
-                  icon: Icon(
-                    LineIcons.userCircleAlt,
-                    color: state.navigationIndex == 3 ? Colors.white : const Color(0xff4d4d4d),
-                  ), 
-                  label: "Akun",
-                ),
-              ]
-            );
-          },
+        child: DoubleBackToCloseApp(
+          snackBar: const SnackBar(content: Text("Tekan Sekali Lagi untuk Keluar")),
+          child: BlocBuilder<BottomNavigationCubit, BottomNavigationState>(
+            builder: (context, state) {
+              return NavigationBar(
+                elevation: 1,
+                selectedIndex: state.navigationIndex,
+                onDestinationSelected: (index) {
+                  bottomNavigationCubit.changeNavigationIndex(index);
+                },
+                destinations: [
+                  NavigationDestination(
+                    icon: Icon(
+                      LineIcons.home,
+                      color: state.navigationIndex == 0 ? Colors.white : const Color(0xff4d4d4d),
+                    ), 
+                    label: "Home",
+                  ),
+                  NavigationDestination(
+                    icon: Icon(
+                      LineIcons.envelopeOpenText,
+                      color: state.navigationIndex == 1 ? Colors.white : const Color(0xff4d4d4d),
+                    ), 
+                    label: "Inbox",
+                  ),
+                  NavigationDestination(
+                    icon: Icon(
+                      LineIcons.fileInvoice,
+                      color: state.navigationIndex == 2 ? Colors.white : const Color(0xff4d4d4d),
+                    ), 
+                    label: "Riwayat",
+                  ),
+                  NavigationDestination(
+                    icon: Icon(
+                      LineIcons.userCircleAlt,
+                      color: state.navigationIndex == 3 ? Colors.white : const Color(0xff4d4d4d),
+                    ), 
+                    label: "Akun",
+                  ),
+                ]
+              );
+            },
+          ),
         ),
       ),
       body: SafeArea(

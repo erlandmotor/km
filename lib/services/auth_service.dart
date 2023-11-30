@@ -47,6 +47,16 @@ class AuthService {
     return currentSigning;
   }
 
+  void logoutGoogleAccount() {
+    final currentSigning = _googleSignIn.currentUser;
+
+    if(currentSigning != null) {
+      currentSigning.clearAuthCache();
+      _googleSignIn.signOut();
+      _googleSignIn.disconnect();
+    }
+  }
+
   Future<RegisterResponse> registerAccount(
     String uuid,
     String pin,

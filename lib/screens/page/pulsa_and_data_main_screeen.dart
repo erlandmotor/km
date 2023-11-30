@@ -2,6 +2,7 @@ import "package:adamulti_mobile_clone_new/components/container_gradient_backgrou
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/product_item_component.dart";
+import "package:adamulti_mobile_clone_new/components/select_contact_component.dart";
 import "package:adamulti_mobile_clone_new/components/shimmer_list_component.dart";
 import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
 import "package:adamulti_mobile_clone_new/components/textfield_with_event_component.dart";
@@ -18,7 +19,6 @@ import "package:buttons_tabbar/buttons_tabbar.dart";
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import "package:flutter_contacts/flutter_contacts.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
@@ -120,61 +120,40 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                               ),
                             ),
                             const SizedBox(width: 6,),
-                            IconButton.filled(
-                              iconSize: 24,
-                              padding: const EdgeInsets.all(8),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green
-                              ),
-                              onPressed: () {
-                                FlutterContacts.requestPermission().then((value) async {
-                                  if(value) {
-                                    final contacts = await FlutterContacts.openExternalPick();
-                                    if(contacts != null) {
-                                      final parsedPhoneNumber = contacts.phones[0].normalizedNumber.replaceAll("+62", "0");
-                                      identityController.text = parsedPhoneNumber;
+                            SelectContactComponent(
+                              onTapAction: (String contact) {
+                                final parsedPhoneNumber = contact.replaceAll("+62", "0");
+                                identityController.text = parsedPhoneNumber;
 
-                                      pulsaAndDataCubit.updateState(true, GetProductByTujuanResponse());
+                                pulsaAndDataCubit.updateState(true, GetProductByTujuanResponse());
 
-                                      locator.get<ProductService>().getProductByTujuan(
-                                        locator.get<UserAppidCubit>().state.userAppId.appId, 
-                                        identityController.text
-                                      ).then((result) {
-                                        if(result.succes == false) {
-                                          pulsaAndDataCubit.updateState(false, GetProductByTujuanResponse());
-                                          showDynamicSnackBar(
-                                            context, 
-                                            LineIcons.exclamationTriangle, 
-                                            "ERROR", 
-                                            "Terjadi Kesalahan Ketika Mendapatkan Data Produk, Silahkan Coba Lagi untuk Memasukkan No. HP Pelanggan.", 
-                                            Colors.red
-                                          );
-                                        } else {
-                                          FocusManager.instance.primaryFocus?.unfocus();
-                                          pulsaAndDataCubit.updateState(false, result);
-                                        }
-                                      }).catchError((_) {
-                                        showDynamicSnackBar(
-                                          context, 
-                                          LineIcons.exclamationTriangle, 
-                                          "ERROR", 
-                                          "Terjadi Kesalahan Ketika Mendapatkan Data Produk, Silahkan Coba Lagi untuk Memasukkan No. HP Pelanggan.", 
-                                          Colors.red
-                                        );
-                                      });
-                                    }
-                                  } else {
+                                locator.get<ProductService>().getProductByTujuan(
+                                  locator.get<UserAppidCubit>().state.userAppId.appId, 
+                                  identityController.text
+                                ).then((result) {
+                                  if(result.succes == false) {
+                                    pulsaAndDataCubit.updateState(false, GetProductByTujuanResponse());
                                     showDynamicSnackBar(
                                       context, 
                                       LineIcons.exclamationTriangle, 
                                       "ERROR", 
-                                      "Anda harus mengizinkan applikasi untuk mengakses kontak anda.", 
+                                      "Terjadi Kesalahan Ketika Mendapatkan Data Produk, Silahkan Coba Lagi untuk Memasukkan No. HP Pelanggan.", 
                                       Colors.red
                                     );
+                                  } else {
+                                    FocusManager.instance.primaryFocus?.unfocus();
+                                    pulsaAndDataCubit.updateState(false, result);
                                   }
+                                }).catchError((_) {
+                                  showDynamicSnackBar(
+                                    context, 
+                                    LineIcons.exclamationTriangle, 
+                                    "ERROR", 
+                                    "Terjadi Kesalahan Ketika Mendapatkan Data Produk, Silahkan Coba Lagi untuk Memasukkan No. HP Pelanggan.", 
+                                    Colors.red
+                                  );
                                 });
-                              }, 
-                              icon: const Icon(Icons.contact_phone_outlined)
+                              }
                             )
                           ],
                         ),
@@ -218,11 +197,19 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                         ),
                                         tabs: state.productData.data!.map((e) {
                                           return Tab(
-                                            icon: CircleAvatar(
-                                              radius: 18,
-                                              child: CachedNetworkImage(
-                                                imageUrl: e.imgurl!.isEmpty ? state.productData.data!.firstWhere((element) => element.imgurl!.isNotEmpty).imgurl! : 
-                                                e.imgurl!,
+                                            icon: Container(
+                                              width: 24,
+                                              height: 24,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(8)
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(8),
+                                                child: CachedNetworkImage(
+                                                  imageUrl: e.imgurl!.isEmpty ? state.productData.data!.firstWhere((element) => element.imgurl!.isNotEmpty).imgurl! : 
+                                                  e.imgurl!,
+                                                ),
                                               ),
                                             ),
                                             text: e.namaoperator,
@@ -282,13 +269,6 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                                                   identityController.clear();
                                                                   context.pop();
                                                                   context.pop();
-                                                                  // showDynamicSnackBar(
-                                                                  //   context, 
-                                                                  //   LineIcons.infoCircle, 
-                                                                  //   "SUKSES", 
-                                                                  //   "Transaksi ${snapshot.data!.data![index].namaproduk} berhasil dilakukan.", 
-                                                                  //   Colors.lightBlue
-                                                                  // );
                                                                   locator.get<LocalNotificationService>().showLocalNotification(
                                                                     title: "Transaksi ${data.produk![index].namaproduk}", 
                                                                     body: "Transaksi ${data.produk![index].namaproduk} berhasil dilakukan."
@@ -297,13 +277,6 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                                                   locator.get<LocalNotificationService>().showLocalNotification(title: "Transaksi ${data.produk![index].namaproduk}", 
                                                                   body: value.msg!);
                                                                   context.pop();
-                                                                  // showDynamicSnackBar(
-                                                                  //   context, 
-                                                                  //   LineIcons.exclamationTriangle, 
-                                                                  //   "ERROR", 
-                                                                  //   value.msg!, 
-                                                                  //   Colors.red
-                                                                  // );
                                                                 }
                                                               }).catchError((e) {
                                                                 context.pop();
@@ -347,7 +320,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                               width: 96.w,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(18),
-                                color: const Color(0xffc8d6e5)
+                                color: kKeteranganContainerColor
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,

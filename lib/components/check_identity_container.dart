@@ -1,11 +1,11 @@
 import "package:adamulti_mobile_clone_new/components/check_text_field_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/loading_button_component.dart";
+import "package:adamulti_mobile_clone_new/components/select_contact_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import "package:flutter_contacts/flutter_contacts.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
@@ -24,7 +24,7 @@ class CheckIdentityContainer extends StatelessWidget {
       surfaceTintColor: Colors.white,
       color: Colors.white,
       child: Container(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(18),
         child: Column(
           children: [
             Row(
@@ -38,32 +38,12 @@ class CheckIdentityContainer extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 6,),
-                IconButton.filled(
-                  iconSize: 24,
-                  padding: const EdgeInsets.all(8),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green
-                  ),
-                  onPressed: () {
-                    FlutterContacts.requestPermission().then((value) async {
-                      if(value) {
-                        final contacts = await FlutterContacts.openExternalPick();
-                        if(contacts != null) {
-                          identityController.text = contacts.phones[0].normalizedNumber;
-                        }
-                      } else {
-                        showDynamicSnackBar(
-                          context, 
-                          LineIcons.exclamationTriangle, 
-                          "ERROR", 
-                          "Anda harus mengizinkan applikasi untuk mengakses kontak anda.", 
-                          Colors.red
-                        );
-                      }
-                    });
-                  }, 
-                  icon: const Icon(Icons.contact_phone_outlined)
-                )
+                SelectContactComponent(
+                  onTapAction: (String contact) {
+                    final parsedPhoneNumber = contact.replaceAll("+62", "0");
+                    identityController.text = parsedPhoneNumber;
+                  }
+                ),
               ],
             ),
             const SizedBox(height: 8,),

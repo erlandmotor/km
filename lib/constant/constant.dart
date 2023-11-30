@@ -13,6 +13,8 @@ const kLightBackgroundColor = Color(0xfff4f5f8);
 const kProcessTransactionColor = Color(0xff38ada9);
 const kWhiteBlueColor = Color(0xffdff9fb);
 const kSecondaryTextColor = Color(0xff636e72);
+const kKeteranganContainerColor = Color(0xffc8d6e5);
+
 const kDummyPasswordUser = "ADAMULTITOSHITA2202";
 
 // Container Light Decoration

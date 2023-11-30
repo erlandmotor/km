@@ -87,13 +87,13 @@ class _TransactionCheckFormComponentState extends State<TransactionCheckFormComp
                   width: 100.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: Colors.lightBlue,
+                    color: kKeteranganContainerColor,
                   ),
                   padding: const EdgeInsets.all(8),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Icon(LineIcons.infoCircle, color: Colors.white,
+                      const Icon(LineIcons.infoCircle,
                       size: 32,),
                       const SizedBox(width: 8,),
                       Flexible(
@@ -101,7 +101,6 @@ class _TransactionCheckFormComponentState extends State<TransactionCheckFormComp
                           "  ${convertTotalResponseWithNumberFormatted(widget.response, widget.productPrice.toString())}", style: GoogleFonts.inter(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: Colors.white
                           ),
                         ),
                       ),
