@@ -6,6 +6,7 @@ import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
 import "package:adamulti_mobile_clone_new/components/transaction_form_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
+import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/product_response.dart";
 import "package:adamulti_mobile_clone_new/services/product_service.dart";
@@ -80,7 +81,10 @@ class _SelectProductTransactionScreenState extends State<SelectProductTransactio
                                         onSubmit: (tujuan, pin) {
                                           showLoadingSubmit(context, "Proses Transaksi...");
 
+                                          final generatedIdTrx = generateRandomString(8);
+
                                           locator.get<TransactionService>().payNow(
+                                            generatedIdTrx,
                                             snapshot.data!.data![index].kodeproduk!, 
                                             tujuan, 
                                             pin, 
@@ -89,31 +93,33 @@ class _SelectProductTransactionScreenState extends State<SelectProductTransactio
                                           ).then((value) {
                                             if(value.success!) {
                                               context.pop();
-                                              context.pop();
-                                              // showDynamicSnackBar(
-                                              //   context, 
-                                              //   LineIcons.infoCircle, 
-                                              //   "SUKSES", 
-                                              //   "Transaksi ${snapshot.data!.data![index].namaproduk} berhasil dilakukan.", 
-                                              //   Colors.lightBlue
-                                              // );
+                                              
                                               locator.get<LocalNotificationService>().showLocalNotification(
                                                 title: "Transaksi ${snapshot.data!.data![index].namaproduk}", 
                                                 body: "Transaksi ${snapshot.data!.data![index].namaproduk} berhasil dilakukan."
                                               );
+
+                                              locator.get<TransactionService>().findLastTransaction(generatedIdTrx).then((trx) {
+                                                context.pushNamed("transaction-detail", extra: {
+                                                  'idtrx': trx.idtransaksi!,
+                                                  'type': 'TRANSAKSI',
+                                                  'total': trx.hARGAJUAL
+                                                });
+                                              }).catchError((e) {
+                                                showDynamicSnackBar(
+                                                  context, 
+                                                  LineIcons.exclamationTriangle, 
+                                                  "ERROR", 
+                                                  e.toString(), 
+                                                  Colors.red
+                                                );
+                                              });
                                             } else {
                                               locator.get<LocalNotificationService>().showLocalNotification(
                                                 title: "Transaksi ${snapshot.data!.data![index].namaproduk}", 
                                                 body: value.msg!
                                               );
                                               context.pop();
-                                              // showDynamicSnackBar(
-                                              //   context, 
-                                              //   LineIcons.exclamationTriangle, 
-                                              //   "ERROR", 
-                                              //   value.msg!, 
-                                              //   Colors.red
-                                              // );
                                             }
                                           }).catchError((e) {
                                             context.pop();

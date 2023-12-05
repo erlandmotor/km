@@ -65,7 +65,7 @@ class TopupTextFieldComponent extends StatelessWidget {
           onChanged: (value) {
             if(value.isNotEmpty) {
               if(value.length < 4) {
-                controller.text = "Rp.";
+                controller.text = "Rp. 0";
               } else {
                 controller.text = FormatCurrency.convertToIdr(int.parse(value.replaceAll(RegExp(r"\D"), "")), 0);
               }

@@ -1,20 +1,19 @@
 import "package:adamulti_mobile_clone_new/components/detail_transaksi_item_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/transaction_detail_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/model/parsed_cetak_response.dart";
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class ReceiptContainerComponent extends StatelessWidget {
 
-  const ReceiptContainerComponent({ super.key, required this.data, required this.idtrx, required this.tanggal,
-  required this.total, required this.printWidget });
+  const ReceiptContainerComponent({ super.key, required this.data, required this.idtrx, required this.printWidget });
 
   final ParsedCetakResponse data;
   final String idtrx;
-  final String tanggal;
-  final int total;
   final Widget printWidget;
 
   @override
@@ -101,7 +100,7 @@ class ReceiptContainerComponent extends StatelessWidget {
                     const SizedBox(height: 18,),
                     DetailTransaksiItemComponent(
                       title: "Tanggal", 
-                      value: tanggal
+                      value: data.waktu!
                     ),
                     if(data.idtrx != null)
                     DetailTransaksiItemComponent(title: "ID Transaksi", value: data.idtrx!),
@@ -254,11 +253,15 @@ class ReceiptContainerComponent extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                           color: Colors.black
                         ),),
-                        Text(FormatCurrency.convertToIdr(total, 0), style: GoogleFonts.inter(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w800,
-                          color: kMainLightThemeColor
-                        ),),
+                        BlocBuilder<TransactionDetailCubit, TransactionDetailState>(
+                          builder: (_, state) {
+                            return Text(state.totalReceipt, style: GoogleFonts.inter(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w800,
+                              color: kMainLightThemeColor
+                            ),);
+                          }
+                        )
                       ],
                     ),
                     const SizedBox(height: 18,),

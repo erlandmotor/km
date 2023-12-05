@@ -1,8 +1,10 @@
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/markup_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/transaction_detail_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
@@ -10,10 +12,11 @@ import "package:responsive_sizer/responsive_sizer.dart";
 class PrintMarkupContainerComponent extends StatefulWidget {
 
   const PrintMarkupContainerComponent({ super.key,
-  required this.onSubmitAction, required this.total });
+  required this.onSubmitAction, required this.total, required this.buttonLabel });
 
   final Function onSubmitAction;
   final int total;
+  final String buttonLabel;
 
   @override
   State<PrintMarkupContainerComponent> createState() => _PrintMarkupContainerComponentState();
@@ -21,16 +24,10 @@ class PrintMarkupContainerComponent extends StatefulWidget {
 
 class _PrintMarkupContainerComponentState extends State<PrintMarkupContainerComponent> {
 
-  var totalBayar = "";
   final markupController = TextEditingController(text: "Rp. 1.000");
   
   @override
   void initState() {
-    final markup = int.parse(markupController.text.replaceAll(RegExp(r"\D"), ""));
-    
-    setState(() {
-      totalBayar = FormatCurrency.convertToIdr(widget.total + markup, 0);
-    });
     super.initState();
   }
 
@@ -69,11 +66,14 @@ class _PrintMarkupContainerComponentState extends State<PrintMarkupContainerComp
                   controller: markupController,
                   prefixIcon: LineIcons.receipt,
                   onChangedAction: (String value) {
-                    final markup = int.parse(value.replaceAll(RegExp(r"\D"), ""));
-
-                    setState(() {
-                      totalBayar = FormatCurrency.convertToIdr(widget.total + markup, 0);
-                    });
+                    final transactionDetailCubit = context.read<TransactionDetailCubit>();
+                    final markup = int.parse(value.replaceAll(RegExp(r"\D"), ""));              
+    
+                    if(markup == 0) {
+                      transactionDetailCubit.updateState(transactionDetailCubit.state.isPrinting, FormatCurrency.convertToIdr(widget.total, 0));
+                    } else {
+                      transactionDetailCubit.updateState(transactionDetailCubit.state.isPrinting, FormatCurrency.convertToIdr(widget.total + markup, 0));
+                    }
                   },
                 ),
                 const SizedBox(height: 18,),
@@ -93,20 +93,27 @@ class _PrintMarkupContainerComponentState extends State<PrintMarkupContainerComp
                         color: Colors.white
                       ),),
                       const SizedBox(height: 4,),
-                      Text(totalBayar, style: GoogleFonts.inter(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white
-                      ),)
+                      BlocBuilder<TransactionDetailCubit, TransactionDetailState>(
+                        bloc: context.read<TransactionDetailCubit>(),
+                        builder: (_, state) {
+                          return Text(state.totalReceipt, style: GoogleFonts.inter(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white
+                          ),);
+                        }
+                      )
                     ],
                   ),
                 ),
                 const SizedBox(height: 18,),
                 DynamicSizeButtonComponent(
-                  label: "Print", 
+                  label: widget.buttonLabel, 
                   buttonColor: kMainLightThemeColor, 
                   onPressed: () {
-                    widget.onSubmitAction(totalBayar, markupController.text);
+                    final transactionDetailCubit = context.read<TransactionDetailCubit>();
+    
+                    widget.onSubmitAction(transactionDetailCubit.state.totalReceipt, markupController.text);
                   }, 
                   width: 100.w, 
                   height: 50

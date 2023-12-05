@@ -57,7 +57,7 @@ class _OtpScreenState extends State<OtpScreen> {
             systemNavigationBarIconBrightness: Brightness.light,
             systemNavigationBarDividerColor: Colors.white),
         title: Text(
-          "Register",
+          "Otp",
             style: GoogleFonts.inter(
             fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white
           ),

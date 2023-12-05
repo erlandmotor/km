@@ -9,6 +9,7 @@ import "package:adamulti_mobile_clone_new/components/transaction_check_form_comp
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
+import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/local_notification_service.dart";
 import "package:adamulti_mobile_clone_new/services/transaction_service.dart";
@@ -98,7 +99,10 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                                   } else {
                                     checkIdentityCubit.updateState(true, checkIdentityCubit.state.result);
 
+                                    final generatedIdTrx = generateRandomString(8);
+
                                     locator.get<TransactionService>().checkIdentity(
+                                      generatedIdTrx,
                                       widget.kodeProduk, 
                                       identityController.text, 
                                       "5", 
@@ -126,7 +130,10 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                                               onSubmit: (pin) {
                                                 showLoadingSubmit(context, "Proses Transaksi...");
 
+                                                final generatedIdTrx2 = generateRandomString(8);
+
                                                 locator.get<TransactionService>().payNow(
+                                                  generatedIdTrx2,
                                                   widget.kodeProduk, 
                                                   identityController.text, 
                                                   pin, 
@@ -135,12 +142,26 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                                                 ).then((value) {
                                                   if(value.success!) {
                                                     context.pop();
-                                                    context.pop();
-
                                                     locator.get<LocalNotificationService>().showLocalNotification(
                                                       title: "Transaksi ${value.produk!}", 
                                                       body: value.msg!
                                                     );
+
+                                                    locator.get<TransactionService>().findLastTransaction(generatedIdTrx2).then((trx) {
+                                                      context.pushNamed("transaction-detail", extra: {
+                                                        'idtrx': trx.idtransaksi!,
+                                                        'type': 'TRANSAKSI',
+                                                        'total': trx.hARGAJUAL
+                                                      });
+                                                    }).catchError((e) {
+                                                      showDynamicSnackBar(
+                                                        context, 
+                                                        LineIcons.exclamationTriangle, 
+                                                        "ERROR", 
+                                                        e.toString(), 
+                                                        Colors.red
+                                                      );
+                                                    });
                                                   } else {
                                                     locator.get<LocalNotificationService>().showLocalNotification(
                                                       title: "Transaksi ${value.produk!}", 

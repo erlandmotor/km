@@ -19,7 +19,7 @@ class TransferMainScreen extends StatefulWidget {
 class _TransferMainScreenState extends State<TransferMainScreen> {
   
   final identityController = TextEditingController();
-  final topupController = TextEditingController();
+  final topupController = TextEditingController(text: "Rp. 50.000");
 
   @override
   void dispose() {

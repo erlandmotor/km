@@ -1,14 +1,19 @@
+import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/bottom_navigation_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/favorite_menu_cubit.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/screens/main/account_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/main/history_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/main/home_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/main/inbox_screen.dart";
+import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
 import "package:double_back_to_close_app/double_back_to_close_app.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
+import 'package:badges/badges.dart' as badges;
 
 class MainScreen extends StatefulWidget {
 
@@ -26,6 +31,24 @@ class _MainScreenState extends State<MainScreen> {
     const HistoryScreen(),
     const AccountScreen()
   ];
+
+  @override
+  void initState() {
+    final favoriteMenuCubit = context.read<FavoriteMenuCubit>();
+
+    locator.get<BackOfficeService>().getSpecificMenuByKategori(1).then((value) {
+      favoriteMenuCubit.updateStae(false, value);
+    }).catchError((e) {
+      showDynamicSnackBar(
+        context, 
+        LineIcons.exclamationTriangle, 
+        "ERROR", 
+        "Terjadi Kesalahan, Silahkan Periksa Koneksi Internet Anda.", 
+        Colors.red
+      );
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +90,12 @@ class _MainScreenState extends State<MainScreen> {
                     label: "Home",
                   ),
                   NavigationDestination(
-                    icon: Icon(
-                      LineIcons.envelopeOpenText,
-                      color: state.navigationIndex == 1 ? Colors.white : const Color(0xff4d4d4d),
+                    icon: badges.Badge(
+                      position: badges.BadgePosition.topEnd(top: -5, end: -5),
+                      child: Icon(
+                        LineIcons.envelopeOpenText,
+                        color: state.navigationIndex == 1 ? Colors.white : const Color(0xff4d4d4d),
+                      ),
                     ), 
                     label: "Inbox",
                   ),

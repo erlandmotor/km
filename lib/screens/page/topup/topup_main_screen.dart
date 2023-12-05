@@ -27,7 +27,7 @@ class TopupMainScreen extends StatefulWidget {
 }
 
 class _TopupMainScreenState extends State<TopupMainScreen> {
-  final topupController = TextEditingController();
+  final topupController = TextEditingController(text: "Rp. 50.000");
 
   @override
   void dispose() {

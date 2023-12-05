@@ -9,6 +9,7 @@ import "package:adamulti_mobile_clone_new/components/receipt_container_component
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/connect_printer_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/transaction_detail_cubit.dart";
+import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/parsed_cetak_response.dart";
 import "package:adamulti_mobile_clone_new/model/struk_model.dart";
@@ -26,12 +27,11 @@ import "package:share_plus/share_plus.dart";
 
 class TransactionDetailScreen extends StatefulWidget {
 
-  const TransactionDetailScreen({ super.key, required this.idtrx,
-  required this.date, required this.total });
+  const TransactionDetailScreen({ super.key, required this.idtrx, required this.total, required this.type });
 
   final String idtrx;
-  final String date;
   final int total;
+  final String type;
 
   @override
   State<TransactionDetailScreen> createState() => _TransactionDetailScreenState();
@@ -45,6 +45,8 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
 
   @override
   void initState() {
+    final transactionDetailCubit = context.read<TransactionDetailCubit>();
+    transactionDetailCubit.updateState(transactionDetailCubit.state.isPrinting, FormatCurrency.convertToIdr(widget.total, 0));
     super.initState();
   }
 
@@ -86,9 +88,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                     if(snapshot.connectionState == ConnectionState.done) {
                       return ReceiptContainerComponent(
                         data: snapshot.data!, 
-                        idtrx: widget.idtrx, 
-                        tanggal: widget.date,
-                        total: widget.total,
+                        idtrx: widget.idtrx,
                         printWidget: BlocBuilder<TransactionDetailCubit, TransactionDetailState>(
                           builder: (_, state) {
                             return state.isPrinting ? const SizedBox() :
@@ -124,20 +124,24 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                                                       topRight: Radius.circular(18)
                                                     )
                                                   ),  
-                                                  builder: (context) {
-                                                    return PrintMarkupContainerComponent(
-                                                      onSubmitAction: (String totalBayar, String markup) {
-                                                        printStruk(snapshot.data!, totalBayar, markup, (e) {
-                                                          showDynamicSnackBar(
-                                                            context, 
-                                                            LineIcons.exclamationTriangle, 
-                                                            "ERROR", 
-                                                            e.toString(), 
-                                                            Colors.red
-                                                          );
-                                                        });
-                                                      },
-                                                      total: widget.total,
+                                                  builder: (_) {
+                                                    return BlocProvider.value(
+                                                      value: context.read<TransactionDetailCubit>(),
+                                                      child: PrintMarkupContainerComponent(
+                                                        total: widget.total,
+                                                        buttonLabel: "Print",
+                                                        onSubmitAction: (String totalBayar, String markup) {
+                                                          printStruk(snapshot.data!, totalBayar, markup, (e) {
+                                                            showDynamicSnackBar(
+                                                              context, 
+                                                              LineIcons.exclamationTriangle, 
+                                                              "ERROR", 
+                                                              e.toString(), 
+                                                              Colors.red
+                                                            );
+                                                          });
+                                                        },
+                                                      ),
                                                     );
                                                   }
                                                 );
@@ -153,20 +157,24 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                                                   topRight: Radius.circular(18)
                                                 )
                                               ),  
-                                              builder: (context) {
-                                                return PrintMarkupContainerComponent(
-                                                  onSubmitAction: (String totalBayar, String markup) {
-                                                    printStruk(snapshot.data!, totalBayar, markup, (e) {
-                                                      showDynamicSnackBar(
-                                                        context, 
-                                                        LineIcons.exclamationTriangle, 
-                                                        "ERROR", 
-                                                        e.toString(), 
-                                                        Colors.red
-                                                      );
-                                                    });
-                                                  },
-                                                  total: widget.total,
+                                              builder: (_) {
+                                                return BlocProvider.value(
+                                                  value: context.read<TransactionDetailCubit>(),
+                                                  child: PrintMarkupContainerComponent(
+                                                    buttonLabel: "Print",
+                                                    total: widget.total,
+                                                    onSubmitAction: (String totalBayar, String markup) {
+                                                      printStruk(snapshot.data!, totalBayar, markup, (e) {
+                                                        showDynamicSnackBar(
+                                                          context, 
+                                                          LineIcons.exclamationTriangle, 
+                                                          "ERROR", 
+                                                          e.toString(), 
+                                                          Colors.red
+                                                        );
+                                                      });
+                                                    },
+                                                  ),
                                                 );
                                                   
                                               }
@@ -192,20 +200,41 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                                   label: "Share", 
                                   buttonColor: kMainLightThemeColor, 
                                   onPressed: () {
-                                    transactionDetailCubit.updateState(true);
-                                    screenshotController.capture().then((screenshotResult) {
-                                      Share.shareXFiles([
-                                        XFile.fromData(
-                                          screenshotResult!, 
-                                          mimeType: 'image/png', 
-                                          name: "transaksi_${snapshot.data!.idtrx}.png"
+                                    showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(18),
+                                          topRight: Radius.circular(18)
                                         )
-                                      ]).then((value) {
-                                        transactionDetailCubit.updateState(false);
-                                      }).catchError((_) {
-                                        transactionDetailCubit.updateState(false);
-                                      });
-                                    });
+                                      ),  
+                                      builder: (_) {
+                                        return BlocProvider.value(
+                                          value: context.read<TransactionDetailCubit>(),
+                                          child: PrintMarkupContainerComponent(
+                                            buttonLabel: "Share",
+                                            total: widget.total,
+                                            onSubmitAction: (String totalBayar, String markup) {
+                                              transactionDetailCubit.updateState(true, transactionDetailCubit.state.totalReceipt);
+                                              screenshotController.capture().then((screenshotResult) {
+                                                Share.shareXFiles([
+                                                  XFile.fromData(
+                                                    screenshotResult!, 
+                                                    mimeType: 'image/png', 
+                                                    name: "transaksi_${snapshot.data!.idtrx}.png"
+                                                  )
+                                                ]).then((value) {
+                                                  transactionDetailCubit.updateState(false, transactionDetailCubit.state.totalReceipt);
+                                                }).catchError((_) {
+                                                  transactionDetailCubit.updateState(false, transactionDetailCubit.state.totalReceipt);
+                                                });
+                                              });
+                                            },
+                                          ),
+                                        );
+                                      }
+                                    );
                                   }, 
                                   width: 30.w, 
                                   height: 30,

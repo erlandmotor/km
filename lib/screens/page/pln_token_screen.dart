@@ -8,6 +8,7 @@ import 'package:adamulti_mobile_clone_new/components/transaction_without_identit
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
+import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/product_response.dart";
 import "package:adamulti_mobile_clone_new/services/local_notification_service.dart";
@@ -75,13 +76,15 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                         identityController: identityController,
                         onCheck: () {
                           checkIdentityCubit.updateState(true, checkIdentityCubit.state.result);
-                              
+                          final generatedIdTrxCheck = generateRandomString(8);
                           locator.get<TransactionService>().checkIdentity(
+                            generatedIdTrxCheck,
                             widget.kodeProduk, 
                             identityController.text, 
                             "5", 
                             locator.get<UserAppidCubit>().state.userAppId.appId
                           ).then((value) {
+                            FocusManager.instance.primaryFocus?.unfocus();
                             checkIdentityCubit.updateState(false, value);
                           }).catchError((e) {
                             checkIdentityCubit.updateState(false, checkIdentityCubit.state.result);
@@ -146,8 +149,11 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                                                 productPrice: snapshot.data!.data![index].hargajual!,
                                                 onSubmit: (pin) {
                                                   showLoadingSubmit(context, "Proses Transaksi...");
+
+                                                  final generatedIdTrx = generateRandomString(8);
           
                                                   locator.get<TransactionService>().payNow(
+                                                    generatedIdTrx,
                                                     snapshot.data!.data![index].kodeproduk!, 
                                                     identityController.text, 
                                                     pin,
@@ -157,29 +163,30 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                                                     if(value.success!) {
                                                       identityController.clear();
                                                       context.pop();
-                                                      context.pop();
-                                                      // showDynamicSnackBar(
-                                                      //   context, 
-                                                      //   LineIcons.infoCircle, 
-                                                      //   "SUKSES", 
-                                                      //   "Transaksi ${snapshot.data!.data![index].namaproduk} berhasil dilakukan.", 
-                                                      //   Colors.lightBlue
-                                                      // );
                                                       locator.get<LocalNotificationService>().showLocalNotification(
                                                         title: "Transaksi ${snapshot.data!.data![index].namaproduk}", 
                                                         body: "Transaksi ${snapshot.data!.data![index].namaproduk} berhasil dilakukan."
                                                       );
+
+                                                      locator.get<TransactionService>().findLastTransaction(generatedIdTrx).then((trx) {
+                                                        context.pushNamed("transaction-detail", extra: {
+                                                          'idtrx': trx.idtransaksi!,
+                                                          'type': 'TRANSAKSI',
+                                                          'total': trx.hARGAJUAL
+                                                        });
+                                                      }).catchError((e) {
+                                                        showDynamicSnackBar(
+                                                          context, 
+                                                          LineIcons.exclamationTriangle, 
+                                                          "ERROR", 
+                                                          e.toString(), 
+                                                          Colors.red
+                                                        );
+                                                      });
                                                     } else {
                                                       locator.get<LocalNotificationService>().showLocalNotification(title: "Transaksi ${snapshot.data!.data![index].namaproduk}", 
                                                       body: value.msg!);
                                                       context.pop();
-                                                      // showDynamicSnackBar(
-                                                      //   context, 
-                                                      //   LineIcons.exclamationTriangle, 
-                                                      //   "ERROR", 
-                                                      //   value.msg!, 
-                                                      //   Colors.red
-                                                      // );
                                                     }
                                                   }).catchError((e) {
                                                     context.pop();

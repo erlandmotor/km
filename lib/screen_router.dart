@@ -2,6 +2,7 @@ import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/bottom_navigation_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/downline_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/favorite_menu_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_transaksi_cubit.dart";
@@ -18,7 +19,9 @@ import "package:adamulti_mobile_clone_new/cubit/transfer_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/input_phone_number_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/auth/input_pin_already_registered_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/input_pin_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/auth/otp_already_registered_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/otp_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/register_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/select_city_screen.dart";
@@ -87,6 +90,17 @@ GoRouter screenRouter(String? token) {
         }
       ),
       GoRoute(
+        path: "/otp-already-registered",
+        name: "otp-already-registered",
+        builder: (context, state) {
+          final extra = state.extra as Map<dynamic, dynamic>;
+          final phoneNumber = extra["phoneNumber"] as String;
+          final idreseller = extra["idreseller"] as String;
+
+          return OtpAlreadyRegisteredScreen(idReseller: idreseller, phoneNumber: phoneNumber);
+        }
+      ),
+      GoRoute(
         path: "/register",
         name: "register",
         builder: (context, state) {
@@ -146,6 +160,15 @@ GoRouter screenRouter(String? token) {
         }
       ),
       GoRoute(
+        path: "/input-pin-already-registered",
+        name: "input-pin-already-registered",
+        builder: (context, state) {
+          final extra = state.extra as Map<dynamic, dynamic>;
+          final idreseller = extra["idreseller"] as String;
+          return InputPinAlreadyRegisteredScreen(idreseller: idreseller);
+        }
+      ),
+      GoRoute(
         path: "/main",
         name: "main",
         builder: (context, state) {
@@ -165,7 +188,8 @@ GoRouter screenRouter(String? token) {
               BlocProvider(create: (_) => HistoryTopupSaldoCubit()),
               BlocProvider(create: (_) => HistoryTransferCubit()),
               BlocProvider.value(value: locator.get<AuthenticatedCubit>()),
-              BlocProvider.value(value: locator.get<UserAppidCubit>())
+              BlocProvider.value(value: locator.get<UserAppidCubit>()),
+              BlocProvider(create: (_) => FavoriteMenuCubit())
             ], 
             child: const MainScreen()
           );
@@ -421,11 +445,11 @@ GoRouter screenRouter(String? token) {
             builder: (context, state) {
               final extra = state.extra as Map<dynamic, dynamic>;
               final idtrx = extra['idtrx'] as String;
-              final date = extra['date'] as String;
               final total = extra['total'] as int;
+              final type = extra['type'] as String;
               return BlocProvider(
                 create: (_) => TransactionDetailCubit(),
-                child: TransactionDetailScreen(idtrx: idtrx, date: date, total: total,)
+                child: TransactionDetailScreen(idtrx: idtrx, total: total, type: type,)
               );
             }
           ),

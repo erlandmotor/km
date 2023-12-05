@@ -9,7 +9,9 @@ import 'package:adamulti_mobile_clone_new/model/check_firebase_email_response.da
 import 'package:adamulti_mobile_clone_new/model/decrypt_result_response.dart';
 import 'package:adamulti_mobile_clone_new/model/get_downline_response.dart';
 import 'package:adamulti_mobile_clone_new/model/getme_response.dart';
+import 'package:adamulti_mobile_clone_new/model/last_otp_response.dart';
 import 'package:adamulti_mobile_clone_new/model/login_response.dart';
+import 'package:adamulti_mobile_clone_new/model/otp_backoffice_response.dart';
 import 'package:adamulti_mobile_clone_new/model/otp_response.dart';
 import 'package:adamulti_mobile_clone_new/model/register_response.dart';
 import 'package:adamulti_mobile_clone_new/model/transfer_saldo_downline_response.dart';
@@ -146,6 +148,23 @@ class AuthService {
     return OtpResponse.fromJson(response.data);
   }
 
+  Future<OtpBackofficeResponse> sendOtpBackoffice(String idreseller) async {
+    final response = await _dio.post("$baseUrlAuth/auth/send-otp-new", data: {
+      "idreseller": idreseller
+    });
+
+    return OtpBackofficeResponse.fromJson(response.data);
+  }
+
+  Future<LastOtpResponse> findLastOtp(String idreseller, String kode) async {
+    final response = await _dio.post("$baseUrlAuth/auth/otp/last", data: {
+      "email": idreseller,
+      "kode": kode
+    });
+
+    return LastOtpResponse.fromJson(response.data);
+  }
+
   Future<OtpResponse> cekExisting(String uuid, String phoneNumber) async {
     final hash = md5.convert(utf8.encode("8A43D1931B899AD9D40993DF71D5DFF2$uuid")).toString();
 
@@ -162,11 +181,12 @@ class AuthService {
 
   Future<OtpResponse> cekPin(String uuid, String pin) async {
     final hash = md5.convert(utf8.encode("8A43D1931B899AD9D40993DF71D5DFF2$uuid")).toString();
+    final encryptedPin = encryptAes256(pin);
 
     final response = await _dio.post("$baseUrlCore/cekpin",
     data: {
       "uuid": uuid,
-      "pin": pin
+      "pin": encryptedPin
     },
     options: Options(
       headers: {

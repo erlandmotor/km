@@ -94,7 +94,6 @@ class _TransaksiHistoryTabState extends State<TransaksiHistoryTab> {
                         context.pushNamed("transaction-detail", extra: {
                           'idtrx': state.dataList[index].idtransaksi!.toString(),
                           'type': 'HISTORY',
-                          'date': state.dataList[index].waktu!,
                           'total': state.dataList[index].harga!
                         });
                       }

@@ -5,9 +5,7 @@ import "package:adamulti_mobile_clone_new/components/saldo_action_component.dart
 import "package:adamulti_mobile_clone_new/components/saldo_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
-import "package:adamulti_mobile_clone_new/locator.dart";
-import "package:adamulti_mobile_clone_new/model/kategori_with_menu_response.dart";
-import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
+import "package:adamulti_mobile_clone_new/cubit/favorite_menu_cubit.dart";
 import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
@@ -198,83 +196,82 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(12),
                   color: Colors.white,
                   width: 100.w,
-                  child: FutureBuilder<KategoriWithMenuResponse>(
-                    future: locator.get<BackOfficeService>().getSpecificMenuByKategori(1),
-                    builder: (context, snapshot) {
-                      if(snapshot.connectionState == ConnectionState.done) {
+                  child: BlocBuilder<FavoriteMenuCubit, FavoriteMenuState>(
+                    builder: (_, state) {
+                      if(state.isLoading) {
+                        return const MainMenuShimmer(dataLength: 12);
+                      } else {
                         return Wrap(
                           alignment: WrapAlignment.start,
                           spacing: 4.w,
                           runSpacing: 12,
                           children: [
-                            for(var i = 0; i < snapshot.data!.menulist!.length; i++) LayananComponent(
+                            for(var i = 0; i < state.menuData.menulist!.length; i++) LayananComponent(
                               containerWidth: 48,
                               containerHeight: 48,
                               imageWidth: 36,
                               imageHeight: 36,
-                              imageUrl: "$baseUrlAuth/files/menu-mobile/image/${snapshot.data!.menulist![i].icon!}", 
-                              label: snapshot.data!.menulist![i].name!, 
+                              imageUrl: "$baseUrlAuth/files/menu-mobile/image/${state.menuData.menulist![i].icon!}", 
+                              label: state.menuData.menulist![i].name!, 
                               onTapAction: () {
-                                if(snapshot.data!.menulist![i].type! == "PULSA") {
+                                if(state.menuData.menulist![i].type! == "PULSA") {
                                   context.pushNamed("pulsa-and-data");
                                 }
                                 
-                                if(snapshot.data!.menulist![i].type! == "WEBVIEW") {
+                                if(state.menuData.menulist![i].type! == "WEBVIEW") {
                                   context.pushNamed("web-view", extra: {
-                                    "title": snapshot.data!.menulist![i].name,
-                                    "operatorId": snapshot.data!.menulist![i].operatorid,
-                                    "url": snapshot.data!.menulist![i].url
+                                    "title": state.menuData.menulist![i].name,
+                                    "operatorId": state.menuData.menulist![i].operatorid,
+                                    "url": state.menuData.menulist![i].url
                                   });
                                 }
 
-                                if(snapshot.data!.menulist![i].type == "PLN") {
+                                if(state.menuData.menulist![i].type == "PLN") {
                                   context.pushNamed("pln-main");
                                 }
 
-                                if(snapshot.data!.menulist![i].type == "SINGLE PPOB") {
+                                if(state.menuData.menulist![i].type == "SINGLE PPOB") {
                                   context.pushNamed("check-before-transaction", extra: {
-                                    "operatorName": snapshot.data!.menulist![i].name,
-                                    "kodeproduk": snapshot.data!.menulist![i].operatorid
+                                    "operatorName": state.menuData.menulist![i].name,
+                                    "kodeproduk": state.menuData.menulist![i].operatorid
                                   });
                                 }
 
-                                if(snapshot.data!.menulist![i].type == "DOUBLE OPERATOR PPOB") {
+                                if(state.menuData.menulist![i].type == "DOUBLE OPERATOR PPOB") {
                                   context.pushNamed("select-operator-double-ppob", extra: {
-                                    "operatorName": snapshot.data!.menulist![i].name,
-                                    "operatorId": snapshot.data!.menulist![i].operatorid
+                                    "operatorName": state.menuData.menulist![i].name,
+                                    "operatorId": state.menuData.menulist![i].operatorid
                                   });
                                 }
 
-                                if(snapshot.data!.menulist![i].type == "TRIPLE OPERATOR PPOB") {
+                                if(state.menuData.menulist![i].type == "TRIPLE OPERATOR PPOB") {
                                   context.pushNamed("select-operator-triple-ppob", extra: {
-                                    "operatorName": snapshot.data!.menulist![i].name,
-                                    "operatorId": snapshot.data!.menulist![i].operatorid
+                                    "operatorName": state.menuData.menulist![i].name,
+                                    "operatorId": state.menuData.menulist![i].operatorid
                                   });
                                 }
 
-                                if(snapshot.data!.menulist![i].type == "DOUBLE PRODUCT PPOB") {
+                                if(state.menuData.menulist![i].type == "DOUBLE PRODUCT PPOB") {
                                   context.pushNamed("select-product", extra: {
-                                    "operatorName": snapshot.data!.menulist![i].name,
-                                    "operatorId": snapshot.data!.menulist![i].operatorid
+                                    "operatorName": state.menuData.menulist![i].name,
+                                    "operatorId": state.menuData.menulist![i].operatorid
                                   });
                                 }
 
-                                if(snapshot.data!.menulist![i].type == "SELECT OPERATOR THEN PRODUCT") {
+                                if(state.menuData.menulist![i].type == "SELECT OPERATOR THEN PRODUCT") {
                                   context.pushNamed("select-operator", extra: {
-                                    "operatorName": snapshot.data!.menulist![i].operatorid
+                                    "operatorName": state.menuData.menulist![i].operatorid
                                   });
                                 }
 
-                                if(snapshot.data!.menulist![i].type == "LAINNYA") {
+                                if(state.menuData.menulist![i].type == "LAINNYA") {
                                   context.pushNamed("more");
                                 }
                               }, 
-                              menuColor: HexColor(snapshot.data!.menulist![i].containercolor!).withOpacity(0.5)
+                              menuColor: HexColor(state.menuData.menulist![i].containercolor!).withOpacity(0.5)
                             )
                           ],
                         );
-                      } else {
-                        return const MainMenuShimmer(dataLength: 12);
                       }
                     },
                   )

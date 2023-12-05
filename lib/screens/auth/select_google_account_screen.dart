@@ -1,3 +1,4 @@
+import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
@@ -5,6 +6,7 @@ import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:line_icons/line_icons.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class SelectGoogleAccountScreen extends StatefulWidget {
@@ -61,8 +63,52 @@ class _SelectGoogleAccountScreenState extends State<SelectGoogleAccountScreen> {
                       onTap: () {
                         locator.get<AuthService>().signInWithGoogle().then((value) {
                           locator.get<AuthService>().checkFirebaseEmail(value!.email).then((value2) {
-                            FirebaseAuth.instance.signInWithEmailAndPassword(email: value2.email!, password: kDummyPasswordUser);
-                            context.pushNamed("input-phone-number");
+                            FirebaseAuth.instance.signInWithEmailAndPassword(email: value2.email!, password: kDummyPasswordUser).then((userCredential) {
+                              locator.get<AuthService>().getMe(userCredential.user!.uid).then((me) {
+                                if(me.success! == false) {
+                                  context.pushNamed("input-phone-number");
+                                } else {
+                                  locator.get<AuthService>().sendOtpBackoffice(me.data!.idreseller!).then((otpRes) {
+                                    context.pushNamed("otp-already-registered", extra: {
+                                      "idreseller": me.data!.idreseller!,
+                                      "phoneNumber": otpRes.hp!
+                                    });
+                                  }).catchError((e) {
+                                    showDynamicSnackBar(
+                                      context, 
+                                      LineIcons.exclamationTriangle, 
+                                      "ERROR", 
+                                      e.toString(), 
+                                      Colors.red
+                                    );
+                                  });
+                                }
+                              }).catchError((e) {
+                                showDynamicSnackBar(
+                                  context, 
+                                  LineIcons.exclamationTriangle, 
+                                  "ERROR", 
+                                  e.toString(), 
+                                  Colors.red
+                                );
+                              }).catchError((e) {
+                                showDynamicSnackBar(
+                                  context, 
+                                  LineIcons.exclamationTriangle, 
+                                  "ERROR", 
+                                  e.toString(), 
+                                  Colors.red
+                                );
+                              });
+                            }).catchError((e) {
+                              showDynamicSnackBar(
+                                context, 
+                                LineIcons.exclamationTriangle, 
+                                "ERROR", 
+                                e.toString(), 
+                                Colors.red
+                              );
+                            });
                           }).catchError((e) {
                             FirebaseAuth.instance.createUserWithEmailAndPassword(email: value.email, password: kDummyPasswordUser).then((_) {
                               context.pushNamed("input-phone-number");

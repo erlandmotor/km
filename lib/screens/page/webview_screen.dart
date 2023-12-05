@@ -6,6 +6,7 @@ import 'package:adamulti_mobile_clone_new/components/transaction_check_form_comp
 import 'package:adamulti_mobile_clone_new/constant/constant.dart';
 import 'package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart';
+import 'package:adamulti_mobile_clone_new/function/custom_function.dart';
 import 'package:adamulti_mobile_clone_new/locator.dart';
 import 'package:adamulti_mobile_clone_new/services/local_notification_service.dart';
 import 'package:adamulti_mobile_clone_new/services/transaction_service.dart';
@@ -103,12 +104,15 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                     Colors.red
                                   );
                                 } else {
+                                  final generatedIdTrxCheck = generateRandomString(8);
+
                                   checkIdentityCubit.updateState(
                                     true,
                                     checkIdentityCubit.state.result
                                   );
                                   locator.get<TransactionService>()
                                   .checkIdentity(
+                                    generatedIdTrxCheck,
                                     widget.operatorId,
                                     kodePembayaranController.text,
                                     "5",
@@ -142,7 +146,10 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                             onSubmit: (pin) {
                                               showLoadingSubmit(context, "Proses Transaksi...");
 
+                                              final generatedIdTrx = generateRandomString(8);
+
                                               locator.get<TransactionService>().payNow(
+                                                generatedIdTrx,
                                                 widget.operatorId,
                                                 kodePembayaranController.text,
                                                 pin,
@@ -151,24 +158,32 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                                 ).then((value) {
                                                   if (value.success!) {
                                                     context.pop();
-                                                    context.pop();
                                                     locator.get<LocalNotificationService>().showLocalNotification(
                                                       title: "Transaksi ${value.produk!}",
                                                       body: "Transaksi ${value.produk!} berhasil dilakukan."
                                                     );
+
+                                                    locator.get<TransactionService>().findLastTransaction(generatedIdTrx).then((trx) {
+                                                      context.pushNamed("transaction-detail", extra: {
+                                                        'idtrx': trx.idtransaksi!,
+                                                        'type': 'TRANSAKSI',
+                                                        'total': trx.hARGAJUAL
+                                                      });
+                                                    }).catchError((e) {
+                                                      showDynamicSnackBar(
+                                                        context, 
+                                                        LineIcons.exclamationTriangle, 
+                                                        "ERROR", 
+                                                        e.toString(), 
+                                                        Colors.red
+                                                      );
+                                                    });
                                                   } else {
                                                     locator.get<LocalNotificationService>().showLocalNotification(
                                                       title: "Transaksi ${value.produk!}",
                                                       body: value.msg!
                                                     );
                                                     context.pop();
-                                                    // showDynamicSnackBar(
-                                                    //   context,
-                                                    //   LineIcons.exclamationTriangle,
-                                                    //   "ERROR",
-                                                    //   value.msg!,
-                                                    //   Colors.red
-                                                    // );
                                                   }
                                                 }
                                               ).catchError((e) {
