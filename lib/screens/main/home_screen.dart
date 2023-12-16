@@ -268,7 +268,7 @@ class HomeScreen extends StatelessWidget {
                                   context.pushNamed("more");
                                 }
                               }, 
-                              menuColor: HexColor(state.menuData.menulist![i].containercolor!).withOpacity(0.5)
+                              menuColor: HexColor.fromHex(state.menuData.menulist![i].containercolor!)
                             )
                           ],
                         );
@@ -281,7 +281,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 Container(
                   color: Colors.white,
-                  child: HomeCarousel(),
+                  child: const HomeCarousel(),
                 ),
                 Container(
                   height: 2.5.h,

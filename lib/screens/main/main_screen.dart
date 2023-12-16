@@ -1,13 +1,16 @@
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
+import "package:adamulti_mobile_clone_new/components/popup_image_dialog.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/bottom_navigation_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/favorite_menu_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/notification_count_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/screens/main/account_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/main/history_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/main/home_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/main/inbox_screen.dart";
 import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
+import "package:adamulti_mobile_clone_new/services/notification_service.dart";
 import "package:double_back_to_close_app/double_back_to_close_app.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -36,6 +39,15 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     final favoriteMenuCubit = context.read<FavoriteMenuCubit>();
 
+    final now = DateTime.now();
+    final yesterday = DateTime.now().add(const Duration(days: -5));
+
+    locator.get<NotificationService>().countTotalNotification("${yesterday.year}-${yesterday.month}-${yesterday.day + 1}", 
+      "${now.year}-${now.month}-${now.day + 1}"
+    ).then((value) {
+      locator.get<NotificationCountCubit>().updateState(value);
+    });
+
     locator.get<BackOfficeService>().getSpecificMenuByKategori(1).then((value) {
       favoriteMenuCubit.updateStae(false, value);
     }).catchError((e) {
@@ -46,6 +58,19 @@ class _MainScreenState extends State<MainScreen> {
         "Terjadi Kesalahan, Silahkan Periksa Koneksi Internet Anda.", 
         Colors.red
       );
+    });
+
+    locator.get<BackOfficeService>().getPopupImage().then((value) {
+      if(value.status! == 1) {
+        showDialog(
+          context: context, 
+          builder: (context) {
+            return PopupImageDialog(
+              imageUrl: "$baseUrlAuth/files/popup/image/${value.image!}"
+            );
+          }
+        );
+      }
     });
     super.initState();
   }
@@ -90,12 +115,29 @@ class _MainScreenState extends State<MainScreen> {
                     label: "Home",
                   ),
                   NavigationDestination(
-                    icon: badges.Badge(
-                      position: badges.BadgePosition.topEnd(top: -5, end: -5),
-                      child: Icon(
-                        LineIcons.envelopeOpenText,
-                        color: state.navigationIndex == 1 ? Colors.white : const Color(0xff4d4d4d),
-                      ),
+                    icon: BlocBuilder<NotificationCountCubit, NotificationCountState>(
+                      bloc: locator.get<NotificationCountCubit>(),
+                      builder: (_, stateNotification) {
+                        if(stateNotification.notificationCount > 0) {
+                          return badges.Badge(
+                            position: badges.BadgePosition.topEnd(top: -12, end: -8),
+                            badgeContent: Text(stateNotification.notificationCount.toString(), style: GoogleFonts.inter(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white
+                            ),),
+                            child: Icon(
+                              LineIcons.envelopeOpenText,
+                              color: state.navigationIndex == 1 ? Colors.white : const Color(0xff4d4d4d),
+                            ),
+                          );
+                        } else {
+                          return Icon(
+                            LineIcons.envelopeOpenText,
+                            color: state.navigationIndex == 1 ? Colors.white : const Color(0xff4d4d4d),
+                          );
+                        }
+                      }
                     ), 
                     label: "Inbox",
                   ),

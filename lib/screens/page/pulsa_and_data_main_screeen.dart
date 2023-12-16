@@ -356,7 +356,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                     ],
                                   ),
                                   const SizedBox(height: 8,),
-                                  Text("1. Masukkan Nomor Handphone Minimal 4 Digiti.", style: GoogleFonts.inter(
+                                  Text("1. Masukkan Nomor Handphone Minimal 4 Digit.", style: GoogleFonts.inter(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500
                                   ),),

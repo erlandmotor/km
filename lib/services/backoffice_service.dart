@@ -1,7 +1,9 @@
 import 'package:adamulti_mobile_clone_new/constant/constant.dart';
 import 'package:adamulti_mobile_clone_new/locator.dart';
+import 'package:adamulti_mobile_clone_new/model/carousel_data.dart';
 import 'package:adamulti_mobile_clone_new/model/kategori_with_menu_response.dart';
 import 'package:adamulti_mobile_clone_new/model/main_menu_mobile.dart';
+import 'package:adamulti_mobile_clone_new/model/popup_response.dart';
 import 'package:adamulti_mobile_clone_new/model/setting_kategori_response.dart';
 import 'package:adamulti_mobile_clone_new/services/secure_storage.dart';
 import 'package:dio/dio.dart';
@@ -61,6 +63,32 @@ class BackOfficeService {
     ));
 
     return (response.data as List).map((e) => KategoriWithMenuResponse.fromJson(e)).toList();
+  }
+
+  Future<PopupResponse> getPopupImage() async {
+    final token = await locator.get<SecureStorageService>().readSecureData("jwt");
+
+    final response = await _dio.get("$baseUrlAuth/setting-popup/1", options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${token!}'
+      }
+    ));
+
+    return PopupResponse.fromJson(response.data);
+  }
+
+  Future<List<CarouselData>> getCarouselImage() async {
+    final token = await locator.get<SecureStorageService>().readSecureData("jwt");
+
+    final response = await _dio.get("$baseUrlAuth/carousel/many", options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${token!}'
+      }
+    ));
+
+    return (response.data as List).map((e) => CarouselData.fromJson(e)).toList();
   }
   
 }

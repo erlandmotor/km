@@ -172,77 +172,84 @@ class AccountScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(8),
                       child: Column(
                         children: [
-                          AccountMenuSectionComponent(
-                            icon: LineIcons.tags, 
-                            label: "Daftar Harga",
-                            iconColor: Colors.green, 
-                            onTapAction: () {
+                          GestureDetector(
+                            onTap: () {
                               context.pushNamed("price-list");
-                            }
+                            },
+                            child: const AccountMenuSectionComponent(
+                              icon: LineIcons.tags, 
+                              label: "Daftar Harga",
+                              iconColor: Colors.green, 
+                            ),
                           ),
                           const Divider(),
-                          AccountMenuSectionComponent(
-                            icon: LineIcons.users, 
-                            label: "Daftar Agen",
-                            iconColor: Colors.blue, 
-                            onTapAction: () {
+                          GestureDetector(
+                            onTap: () {
                               context.pushNamed("daftar-agen");
-                            }
+                            },
+                            child: const AccountMenuSectionComponent(
+                              icon: LineIcons.users, 
+                              label: "Daftar Agen",
+                              iconColor: Colors.blue, 
+                            )
                           ),
                           const Divider(),
-                          AccountMenuSectionComponent(
-                            icon: LineIcons.bluetooth, 
-                            label: "Connect Printer",
-                            iconColor: const Color(0xff0a3b8c), 
-                            onTapAction: () {
+                          GestureDetector(
+                            onTap: () {
                               context.pushNamed("connect-printer");
-                            }
+                            },
+                            child: const AccountMenuSectionComponent(
+                              icon: LineIcons.bluetooth, 
+                              label: "Connect Printer",
+                              iconColor: Color(0xff0a3b8c), 
+                            ),
                           ),
                           const Divider(),
-                          AccountMenuSectionComponent(
-                            icon: LineIcons.print, 
-                            label: "Atur Struk",
-                            iconColor: Colors.purple, 
-                            onTapAction: () {
+                          GestureDetector(
+                            onTap: () {
                               context.pushNamed("printer-setting");
-                            }
+                            },
+                            child: const AccountMenuSectionComponent(
+                              icon: LineIcons.print, 
+                              label: "Atur Struk",
+                              iconColor: Colors.purple,
+                            ),
                           ),
                           const Divider(),
-                          AccountMenuSectionComponent(
-                            icon: LineIcons.lockOpen, 
-                            label: "Ganti Pin",
-                            iconColor: const Color(0xff636e72), 
-                            onTapAction: () {
+                          GestureDetector(
+                            onTap: () {
                               context.pushNamed("change-pin");
-                            }
+                            },
+                            child: const AccountMenuSectionComponent(
+                              icon: LineIcons.lockOpen, 
+                              label: "Ganti Pin",
+                              iconColor: Color(0xff636e72),
+                            ),
                           ),
                           const Divider(),
-                          AccountMenuSectionComponent(
-                            icon: LineIcons.sitemap, 
-                            label: "Kode Referral",
-                            iconColor: const Color(0xff273c75), 
-                            onTapAction: () {}
-                          ),
-                          const Divider(),
-                          AccountMenuSectionComponent(
-                            icon: LineIcons.userShield, 
-                            label: "Privacy & Policy",
-                            iconColor: const Color(0xff7d5fff), 
-                            onTapAction: () {
+                          GestureDetector(
+                            onTap: () {
                               context.pushNamed("privacy-policy");
-                            }
+                            },
+                            child: const AccountMenuSectionComponent(
+                              icon: LineIcons.userShield, 
+                              label: "Privacy & Policy",
+                              iconColor: Color(0xff7d5fff), 
+                            ),
                           ),
                           const Divider(),
-                          AccountMenuSectionComponent(
-                            icon: LineIcons.alternateSignOut, 
-                            label: "Keluar",
-                            iconColor: Colors.red, 
-                            onTapAction: () {
+                          GestureDetector(
+                            onTap: () {
                               locator.get<SecureStorageService>().deleteSecureData("jwt");
                               locator.get<AuthService>().logoutGoogleAccount();
                               context.goNamed("select-google-account");
-                            }
-                          ),
+                            },
+                            child: const AccountMenuSectionComponent(
+                              icon: LineIcons.alternateSignOut, 
+                              label: "Keluar",
+                              iconColor: Colors.red,
+                            ),
+                          )
                         ],
                       ),
                     ),

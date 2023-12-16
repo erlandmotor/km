@@ -8,6 +8,7 @@ import "package:adamulti_mobile_clone_new/cubit/history_topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_transaksi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_transfer_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/komisi_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/notifications_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/pricelist_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/pulsa_and_data_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/rekap_transaksi_cubit.dart";
@@ -34,6 +35,7 @@ import "package:adamulti_mobile_clone_new/screens/page/check_before_transaction_
 import "package:adamulti_mobile_clone_new/screens/page/daftar_agen/daftar_agen_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/daftar_agen/markup_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/daftar_agen/register_agen_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/inbox/inbox_detail_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/komisi/komisi_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/more_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/pln_main_screen.dart";
@@ -189,7 +191,8 @@ GoRouter screenRouter(String? token) {
               BlocProvider(create: (_) => HistoryTransferCubit()),
               BlocProvider.value(value: locator.get<AuthenticatedCubit>()),
               BlocProvider.value(value: locator.get<UserAppidCubit>()),
-              BlocProvider(create: (_) => FavoriteMenuCubit())
+              BlocProvider(create: (_) => FavoriteMenuCubit()),
+              BlocProvider(create: (_) => NotificationsCubit()),
             ], 
             child: const MainScreen()
           );
@@ -472,6 +475,16 @@ GoRouter screenRouter(String? token) {
             name: "privacy-policy",
             builder: (context, state) {
               return const PrivacyPolicyScreen();
+            }
+          ),
+          GoRoute(
+            path: "inbox-detail",
+            name: "inbox-detail",
+            builder: (context, state) {
+              final extra = state.extra as Map<dynamic, dynamic>;
+              final notificationId = extra["notificationId"] as int;
+
+              return InboxDetailScreen(notificationId: notificationId);
             }
           )
         ]

@@ -109,7 +109,7 @@ class MoreScreenSectionComponent extends StatelessWidget {
                       });
                     }
                   }, 
-                  menuColor: HexColor(sectionData.menulist![i].containercolor!).withOpacity(0.5)
+                  menuColor: HexColor.fromHex(sectionData.menulist![i].containercolor!)
                 )
               ],
             )
