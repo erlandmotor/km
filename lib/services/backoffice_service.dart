@@ -1,6 +1,7 @@
 import 'package:adamulti_mobile_clone_new/constant/constant.dart';
 import 'package:adamulti_mobile_clone_new/locator.dart';
 import 'package:adamulti_mobile_clone_new/model/carousel_data.dart';
+import 'package:adamulti_mobile_clone_new/model/find_first_operator_setting_response.dart';
 import 'package:adamulti_mobile_clone_new/model/kategori_with_menu_response.dart';
 import 'package:adamulti_mobile_clone_new/model/main_menu_mobile.dart';
 import 'package:adamulti_mobile_clone_new/model/popup_response.dart';
@@ -51,11 +52,24 @@ class BackOfficeService {
 
     return KategoriWithMenuResponse.fromJson(response.data);
   }
-  
-  Future<List<KategoriWithMenuResponse>> getAllMenuByKategoriExclude(int id) async {
+
+  Future<FindFirstOperatorSettingResponse> findFirstOperatorSettings(String operatorName) async {
     final token = await locator.get<SecureStorageService>().readSecureData("jwt");
 
-    final response = await _dio.get("$baseUrlAuth/setting-menu-kategori/with-menu/exclude/$id", options: Options(
+    final response = await _dio.get("$baseUrlAuth/operator/first/$operatorName", options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${token!}'
+      }
+    ));
+
+    return FindFirstOperatorSettingResponse.fromJson(response.data);
+  }
+  
+  Future<List<KategoriWithMenuResponse>> getAllMenuByKategoriExclude(int id, int id2) async {
+    final token = await locator.get<SecureStorageService>().readSecureData("jwt");
+
+    final response = await _dio.get("$baseUrlAuth/setting-menu-kategori/with-menu/exclude/$id/$id2", options: Options(
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${token!}'

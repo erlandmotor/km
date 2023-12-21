@@ -42,10 +42,10 @@ class NotificationItemComponent extends StatelessWidget {
                       height: 48,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(18),
-                        color: const Color(0xff6a89cc)
+                        color: const Color(0xff5f27cd)
                       ),
                       child: const Icon(
-                        LineIcons.bell,
+                        LineIcons.bullhorn,
                         color: Colors.white,
                         size: 36,
                       ),

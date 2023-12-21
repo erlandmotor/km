@@ -9,9 +9,9 @@ import "package:adamulti_mobile_clone_new/services/product_service.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 
-class SelectOperatorDoublePpobScreen extends StatelessWidget {
+class SelectProductPpobScreen extends StatelessWidget {
 
-  const SelectOperatorDoublePpobScreen({ super.key, required this.operatorName, required this.operatorId });
+  const SelectProductPpobScreen({ super.key, required this.operatorName, required this.operatorId });
 
   final String operatorName;
   final String operatorId;
@@ -50,7 +50,7 @@ class SelectOperatorDoublePpobScreen extends StatelessWidget {
                               productName: snapshot.data!.data![index].namaproduk!, 
                               onTap: () {
                                 context.pushNamed("check-before-transaction", extra: {
-                                  "operatorName": snapshot.data!.data![index].namaoperator,
+                                  "operatorName": snapshot.data!.data![index].namaproduk,
                                   "kodeproduk": snapshot.data!.data![index].kodeproduk
                                 });
                               },
@@ -73,9 +73,9 @@ class SelectOperatorDoublePpobScreen extends StatelessWidget {
                   ),
                 )
               )
-            ],
+            ]
           )
-        ),
+        )
       )
     );
   }

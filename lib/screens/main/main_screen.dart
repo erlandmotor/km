@@ -10,6 +10,7 @@ import "package:adamulti_mobile_clone_new/screens/main/history_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/main/home_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/main/inbox_screen.dart";
 import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
+import "package:adamulti_mobile_clone_new/services/local_notification_service.dart";
 import "package:adamulti_mobile_clone_new/services/notification_service.dart";
 import "package:double_back_to_close_app/double_back_to_close_app.dart";
 import "package:flutter/material.dart";
@@ -17,6 +18,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
 import 'package:badges/badges.dart' as badges;
+import 'package:socket_io_client/socket_io_client.dart';
 
 class MainScreen extends StatefulWidget {
 
@@ -27,6 +29,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+
+  Socket socket = io(baseUrlSocket, OptionBuilder().setTransports(["websocket"]).build());
 
   final List<Widget> screenList = [
     const HomeScreen(),
@@ -72,7 +76,28 @@ class _MainScreenState extends State<MainScreen> {
         );
       }
     });
+
+    socket.connect();
+
+    socket.on('inbox', (data) {
+
+      locator.get<NotificationCountCubit>().updateState(
+        locator.get<NotificationCountCubit>().state.notificationCount + 1
+      );
+      
+      locator.get<LocalNotificationService>().showLocalNotification(
+        title: "PENGUMUMAN", 
+        body: data
+      );
+    });
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    socket.dispose();
+    super.dispose();
   }
 
   @override

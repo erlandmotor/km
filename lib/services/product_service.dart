@@ -40,7 +40,36 @@ class ProductService {
     );
 
     return OperatorResponse.fromJson(operatorResponse.data);
-  } 
+  }
+
+  Future<ProductResponse> getProductByBackoffice(String operatorName, String uuid) async {
+    final token = await locator.get<SecureStorageService>().readSecureData("jwt");
+    final decodeTokenResult = await locator.get<JwtService>().decodeToken();
+
+    final settingOperatorResponse = await _dio.get("$baseUrlAuth/operator/first/$operatorName", options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${token!}'
+      }
+    ));
+
+    final settingOperator = SettingOperatorResponse.fromJson(settingOperatorResponse.data);
+
+    final response = await _dio.post("$baseUrlCore/getprodukbyoperator", 
+      data: {
+        "uuid": uuid,
+        "idoperator": settingOperator.listproductid
+      },
+      options: Options(
+        headers: {
+          'Content-Type': 'application/json',
+          'x-auth-irs': decodeTokenResult
+        },
+      )
+    );
+
+    return ProductResponse.fromJson(response.data);
+  }  
 
   Future<OperatorResponse> getOperator(String uuid, String operatorId) async {
     final decodeTokenResult = await locator.get<JwtService>().decodeToken();

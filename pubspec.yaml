@@ -82,6 +82,7 @@ dependencies:
   flutter_custom_clippers: ^2.1.0
   double_back_to_close_app: ^2.1.0
   flutter_html: ^3.0.0-beta.2
+  socket_io_client: ^2.0.3+1
 
 dev_dependencies:
   flutter_test:

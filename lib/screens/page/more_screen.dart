@@ -44,7 +44,7 @@ class MoreScreen extends StatelessWidget {
         ),
       ),
       body: FutureBuilder<List<KategoriWithMenuResponse>>(
-        future: locator.get<BackOfficeService>().getAllMenuByKategoriExclude(1),
+        future: locator.get<BackOfficeService>().getAllMenuByKategoriExclude(1, 11),
         builder: (context, snapshot) {
           if(snapshot.connectionState == ConnectionState.done) {
             return ListView.separated(

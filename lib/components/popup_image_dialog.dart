@@ -1,7 +1,6 @@
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:line_icons/line_icons.dart";
-import "package:responsive_sizer/responsive_sizer.dart";
 
 class PopupImageDialog extends StatelessWidget {
 
@@ -17,6 +16,7 @@ class PopupImageDialog extends StatelessWidget {
         height: 256,
         decoration: BoxDecoration(
           color: Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
           image: DecorationImage(
             fit: BoxFit.fill,
             image: CachedNetworkImageProvider(

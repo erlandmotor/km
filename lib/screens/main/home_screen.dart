@@ -237,28 +237,21 @@ class HomeScreen extends StatelessWidget {
                                   });
                                 }
 
-                                if(state.menuData.menulist![i].type == "DOUBLE OPERATOR PPOB") {
-                                  context.pushNamed("select-operator-double-ppob", extra: {
+                                if(state.menuData.menulist![i].type == "DOUBLE PPOB") {
+                                  context.pushNamed("select-product-ppob", extra: {
                                     "operatorName": state.menuData.menulist![i].name,
                                     "operatorId": state.menuData.menulist![i].operatorid
                                   });
                                 }
 
-                                if(state.menuData.menulist![i].type == "TRIPLE OPERATOR PPOB") {
+                                if(state.menuData.menulist![i].type == "TRIPLE PPOB") {
                                   context.pushNamed("select-operator-triple-ppob", extra: {
                                     "operatorName": state.menuData.menulist![i].name,
                                     "operatorId": state.menuData.menulist![i].operatorid
                                   });
                                 }
 
-                                if(state.menuData.menulist![i].type == "DOUBLE PRODUCT PPOB") {
-                                  context.pushNamed("select-product", extra: {
-                                    "operatorName": state.menuData.menulist![i].name,
-                                    "operatorId": state.menuData.menulist![i].operatorid
-                                  });
-                                }
-
-                                if(state.menuData.menulist![i].type == "SELECT OPERATOR THEN PRODUCT") {
+                                if(state.menuData.menulist![i].type == "DOUBLE PRODUCT") {
                                   context.pushNamed("select-operator", extra: {
                                     "operatorName": state.menuData.menulist![i].operatorid
                                   });
