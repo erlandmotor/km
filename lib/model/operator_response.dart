@@ -1,6 +1,6 @@
 class OperatorResponse {
   final bool? success;
-  final List<Data>? data;
+  final List<OperatorData>? data;
 
   OperatorResponse({
     this.success,
@@ -9,7 +9,7 @@ class OperatorResponse {
 
   OperatorResponse.fromJson(Map<String, dynamic> json)
     : success = json['success'] as bool?,
-      data = (json['data'] as List?)?.map((dynamic e) => Data.fromJson(e as Map<String,dynamic>)).toList();
+      data = (json['data'] as List?)?.map((dynamic e) => OperatorData.fromJson(e as Map<String,dynamic>)).toList();
 
   Map<String, dynamic> toJson() => {
     'success' : success,
@@ -17,18 +17,18 @@ class OperatorResponse {
   };
 }
 
-class Data {
+class OperatorData {
   final int? idoperator;
   final String? namaoperator;
   final String? imgurl;
 
-  Data({
+  OperatorData({
     this.idoperator,
     this.namaoperator,
     this.imgurl,
   });
 
-  Data.fromJson(Map<String, dynamic> json)
+  OperatorData.fromJson(Map<String, dynamic> json)
     : idoperator = json['idoperator'] as int?,
       namaoperator = json['namaoperator'] as String?,
       imgurl = json['imgurl'] as String?;

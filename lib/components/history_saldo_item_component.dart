@@ -58,12 +58,12 @@ class HistorySaldoItemComponent extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(keterangan, style: GoogleFonts.inter(
+                              Text(keterangan, style: GoogleFonts.openSans(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600
                               ),),
                               const SizedBox(height: 2,),
-                              Text(waktu, style: GoogleFonts.inter(
+                              Text(waktu, style: GoogleFonts.openSans(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400
                                 ),
@@ -78,7 +78,7 @@ class HistorySaldoItemComponent extends StatelessWidget {
                             AutoSizeText(FormatCurrency.convertToIdr(sisaSaldo, 0), 
                               maxFontSize: 16,
                               maxLines: 1,
-                              style: GoogleFonts.inter(
+                              style: GoogleFonts.openSans(
                                 color: kMainLightThemeColor,
                                 fontWeight: FontWeight.w700
                               ),
@@ -86,7 +86,7 @@ class HistorySaldoItemComponent extends StatelessWidget {
                             AutoSizeText(FormatCurrency.convertToIdr(jumlah, 0), 
                               maxFontSize: 12,
                               maxLines: 1,
-                              style: GoogleFonts.inter(
+                              style: GoogleFonts.openSans(
                                 color: jumlah < 0 ? Colors.red : Colors.green,
                                 fontWeight: FontWeight.w700
                               ),

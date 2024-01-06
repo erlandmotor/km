@@ -58,7 +58,7 @@ class ProductItemComponent extends StatelessWidget {
                           operatorName,
                           maxFontSize: 14,
                           maxLines: 1,
-                          style: GoogleFonts.inter(
+                          style: GoogleFonts.openSans(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                             color: Colors.white
@@ -117,7 +117,7 @@ class ProductItemComponent extends StatelessWidget {
                                 AutoSizeText(productName, 
                                 maxLines: 2,
                                 maxFontSize: 16,
-                                style: GoogleFonts.inter(
+                                style: GoogleFonts.openSans(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500
                                 ),),
@@ -125,7 +125,7 @@ class ProductItemComponent extends StatelessWidget {
                                 AutoSizeText("$productCode - $description",
                                 maxLines: 3,
                                 maxFontSize: 12, 
-                                style: GoogleFonts.inter(
+                                style: GoogleFonts.openSans(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400
                                   ),
@@ -137,7 +137,7 @@ class ProductItemComponent extends StatelessWidget {
                           if(int.parse(price) > 0) AutoSizeText(FormatCurrency.convertToIdr(int.parse(price), 0), 
                           maxFontSize: 16,
                           maxLines: 1,
-                          style: GoogleFonts.inter(
+                          style: GoogleFonts.openSans(
                             color: kSecondaryColor,
                             fontWeight: FontWeight.w700
                           ),)

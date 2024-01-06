@@ -49,12 +49,12 @@ class TopupHistoryItemComponent extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(FormatCurrency.convertToIdr(nominal, 0), style: GoogleFonts.inter(
+                    Text(FormatCurrency.convertToIdr(nominal, 0), style: GoogleFonts.openSans(
                       fontSize: 16,
                       fontWeight: FontWeight.w600
                     ),),
                     const SizedBox(height: 6,),
-                    Text(waktu, style: GoogleFonts.inter(
+                    Text(waktu, style: GoogleFonts.openSans(
                       fontSize: 14,
                       fontWeight: FontWeight.w400
                     ),)
@@ -62,7 +62,7 @@ class TopupHistoryItemComponent extends StatelessWidget {
                 )
               ],
             ),
-            Text((status == "0") ? "PROSES" : (status == "1") ? "SUKSES" : "GAGAL", style: GoogleFonts.inter(
+            Text((status == "0") ? "PROSES" : (status == "1") ? "SUKSES" : "GAGAL", style: GoogleFonts.openSans(
               fontSize: 16,
               fontWeight: FontWeight.w700,
               color: (status == "0") ? Colors.lightBlue : (status == "1") ? Colors.green : Colors.red

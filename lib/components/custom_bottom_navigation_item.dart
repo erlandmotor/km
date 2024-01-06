@@ -45,7 +45,7 @@ class CustomBottomNavigationItem extends StatelessWidget {
               size: 28,
             ),
             const SizedBox(height: 4,),
-            if(isSelected == true) Text(menuTitle, style: GoogleFonts.poppins(
+            if(isSelected == true) Text(menuTitle, style: GoogleFonts.openSans(
               fontSize: 12,
               fontWeight: FontWeight.w600,
               color: Colors.white

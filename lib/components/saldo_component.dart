@@ -21,7 +21,7 @@ class SaldoComponent extends StatelessWidget {
             children: [
               Text(
                 "Sisa Saldo",
-                style: GoogleFonts.inter(
+                style: GoogleFonts.openSans(
                     fontWeight: FontWeight.w500, color: Colors.white),
               ),
               BlocBuilder<ShowBalanceCubit, ShowBalanceState>(
@@ -34,7 +34,7 @@ class SaldoComponent extends StatelessWidget {
                         state.isShowBalance
                             ? FormatCurrency.convertToIdr(int.parse(amount), 0)
                             : convertNumberStringToAsterisk(amount),
-                        style: GoogleFonts.inter(
+                        style: GoogleFonts.openSans(
                             fontSize: 24,
                             fontWeight: FontWeight.w800,
                             color: Colors.white),

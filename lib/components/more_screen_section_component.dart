@@ -29,7 +29,7 @@ class MoreScreenSectionComponent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(width: 8,),
-                Text(sectionData.kategoridata!.name!, style: GoogleFonts.inter(
+                Text(sectionData.kategoridata!.name!, style: GoogleFonts.openSans(
                   fontSize: 16,
                   fontWeight: FontWeight.w600
                 )),
@@ -82,7 +82,7 @@ class MoreScreenSectionComponent extends StatelessWidget {
                     }
     
                     if(sectionData.menulist![i].type == "TRIPLE PPOB") {
-                      context.pushNamed("select-operator-triple-ppob", extra: {
+                      context.pushNamed("select-operator-backoffice", extra: {
                         "operatorName": sectionData.menulist![i].name,
                         "operatorId": sectionData.menulist![i].operatorid
                       });

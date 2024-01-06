@@ -13,6 +13,11 @@ import "package:adamulti_mobile_clone_new/cubit/pricelist_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/pulsa_and_data_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/rekap_transaksi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/search_history_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/select_operator_backoffice_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/select_operator_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/select_product_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/select_product_ppob_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/select_product_transaction_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/select_region_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/transaction_detail_cubit.dart";
@@ -30,6 +35,8 @@ import "package:adamulti_mobile_clone_new/screens/auth/select_district_screen.da
 import "package:adamulti_mobile_clone_new/screens/auth/select_google_account_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/select_province_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/main/main_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/artikel/artikel_detail_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/artikel/artikel_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/change_pin/change_pin_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/check_before_transaction_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/daftar_agen/daftar_agen_screen.dart";
@@ -47,7 +54,7 @@ import "package:adamulti_mobile_clone_new/screens/page/privacy_policy/privacy_po
 import "package:adamulti_mobile_clone_new/screens/page/pulsa_and_data_main_screeen.dart";
 import 'package:adamulti_mobile_clone_new/screens/page/pulsa_main_screen.dart';
 import "package:adamulti_mobile_clone_new/screens/page/reward/reward_main_screen.dart";
-import 'package:adamulti_mobile_clone_new/screens/page/select_operator_double_ppob_screen.dart';
+import "package:adamulti_mobile_clone_new/screens/page/select_operator_backoffice_screen.dart";
 import 'package:adamulti_mobile_clone_new/screens/page/select_operator_screen.dart';
 import "package:adamulti_mobile_clone_new/screens/page/select_operator_triple_ppob_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/select_product_ppob_screen.dart";
@@ -265,21 +272,10 @@ GoRouter screenRouter(String? token) {
               final extra = state.extra as Map<dynamic, dynamic>;
               final operatorName = extra["operatorName"] as String;
 
-              return BlocProvider.value(
-                value: locator.get<UserAppidCubit>(),
+              return BlocProvider(
+                create: (_) => SelectOperatorCubit(),
                 child: SelectOperatorScreen(operatorName: operatorName),
               );
-            }
-          ),
-          GoRoute(
-            path: "select-operator-double-ppob",
-            name: "select-operator-double-ppob",
-            builder: (context, state) {
-              final extra = state.extra as Map<dynamic, dynamic>;
-              final operatorName = extra["operatorName"] as String;
-              final operatorId = extra["operatorId"] as String;
-
-              return SelectOperatorDoublePpobScreen(operatorName: operatorName, operatorId: operatorId);
             }
           ),
           GoRoute(
@@ -290,7 +286,10 @@ GoRouter screenRouter(String? token) {
               final operatorName = extra["operatorName"] as String;
               final operatorId = extra["operatorId"] as String;
 
-              return SelectProductPpobScreen(operatorName: operatorName, operatorId: operatorId);
+              return BlocProvider(
+                create: (_) => SelectProductPpobCubit(),
+                child: SelectProductPpobScreen(operatorName: operatorName, operatorId: operatorId),
+              );
             }
           ),
           GoRoute(
@@ -301,8 +300,8 @@ GoRouter screenRouter(String? token) {
               final operatorName = extra["operatorName"] as String;
               final operatorId = extra["operatorId"] as String;
 
-              return BlocProvider.value(
-                value: locator.get<UserAppidCubit>(),
+              return BlocProvider(
+                create: (_) => SelectProductCubit(),
                 child: SelectProductScreen(operatorName: operatorName, operatorId: operatorId),
               );
             }
@@ -319,6 +318,20 @@ GoRouter screenRouter(String? token) {
             }
           ),
           GoRoute(
+            path: "select-operator-backoffice",
+            name: "select-operator-backoffice",
+            builder: (context, state) {
+              final extra = state.extra as Map<dynamic, dynamic>;
+              final operatorName = extra["operatorName"] as String;
+              final operatorId = extra["operatorId"] as String;
+
+              return BlocProvider(
+                create: (_) => SelectOperatorBackofficeCubit(),
+                child: SelectOperatorBackofficeScreen(operatorName: operatorName, operatorId: operatorId),
+              );
+            }
+          ),
+          GoRoute(
             path: "select-product-transaction",
             name: "select-product-transaction",
             builder: (context, state) {
@@ -326,8 +339,8 @@ GoRouter screenRouter(String? token) {
               final operatorName = extra["operatorName"] as String;
               final operatorId = extra["operatorId"] as String;
 
-              return BlocProvider.value(
-                value: locator.get<UserAppidCubit>(),
+              return BlocProvider(
+                create: (_) => SelectProductTransactionCubit(),
                 child: SelectProductTransactionScreen(operatorName: operatorName, operatorId: operatorId),
               );
             }
@@ -497,6 +510,22 @@ GoRouter screenRouter(String? token) {
               final notificationId = extra["notificationId"] as int;
 
               return InboxDetailScreen(notificationId: notificationId);
+            }
+          ),
+          GoRoute(
+            path: "artikel-main",
+            name: "artikel-main",
+            builder: (context, index) {
+              return const ArtikelMainScreen();
+            }
+          ),
+          GoRoute(
+            path: "artikel-detail",
+            name: "artikel-detail",
+            builder: (context, state) {
+              final extra = state.extra as Map<dynamic, dynamic>;
+              final artikelId = extra["artikelId"] as int;
+              return ArtikelDetailScreen(artikelId: artikelId);
             }
           )
         ]

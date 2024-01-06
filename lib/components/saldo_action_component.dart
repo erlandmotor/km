@@ -27,7 +27,7 @@ class SaldoActionComponent extends StatelessWidget {
             color: kMainLightThemeColor,
           ),
           const SizedBox(height: 4,),
-          Text(label, style: GoogleFonts.inter(
+          Text(label, style: GoogleFonts.openSans(
             fontSize: 12,
             fontWeight: FontWeight.w600
           ),)

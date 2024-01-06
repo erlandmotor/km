@@ -1,13 +1,16 @@
+import "package:adamulti_mobile_clone_new/components/curve_clipper.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/pin_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
 import "package:adamulti_mobile_clone_new/services/secure_storage.dart";
+import "package:cached_network_image/cached_network_image.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
@@ -38,6 +41,8 @@ class _InputPinScreenState extends State<InputPinScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
       appBar: AppBar(
         centerTitle: true,
         leading: IconButton(
@@ -47,10 +52,10 @@ class _InputPinScreenState extends State<InputPinScreen> {
             size: 30,
           ),
           onPressed: () {
-            context.pop();
+            context.goNamed("select-google-account");
           },
         ),
-        backgroundColor: kMainThemeColor,
+        backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
         systemOverlayStyle: const SystemUiOverlayStyle(
             statusBarColor: kMainThemeColor,
             systemNavigationBarColor: Colors.white,
@@ -60,73 +65,90 @@ class _InputPinScreenState extends State<InputPinScreen> {
             systemNavigationBarDividerColor: Colors.white),
         title: Text(
           "PIN Authentikasi",
-            style: GoogleFonts.inter(
-            fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white
+            style: GoogleFonts.openSans(
+            fontSize: 16, 
+            fontWeight: FontWeight.w600, 
+            color: Colors.white
           ),
         ),
       ),
       body: SafeArea(
-        child: Stack(
+        child: Column(
           children: [
-            Container(
-              width: 100.w,
-              height: 100.h,
-              decoration: const BoxDecoration(
-                color: kLightBackgroundColor,
-                image: DecorationImage(
-                  image: AssetImage("assets/pattern-samping.png"),
-                  fit: BoxFit.fill
-                )
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    radius: 64,
-                    backgroundColor: kMainThemeColor.withOpacity(0.1),
-                    child: CircleAvatar(
-                      radius: 56,
-                      backgroundColor: kMainThemeColor.withOpacity(0.2),
-                      child: const CircleAvatar(
-                        backgroundColor: kMainThemeColor,
-                        radius: 44,
-                        child: Icon(LineIcons.key, size: 64, color: Colors.white,)
-                      ),
+            ClipPath(
+              clipper: CurveClipper(),
+              child: Container(
+                width: 100.w,
+                height: 40.h,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
+                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor2!),
+                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor3!),
+                    ],
+                    stops: const [0, 0.4, 0.8],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  )
+                ),
+                child: Center(
+                  child: SizedBox(
+                    width: 256,
+                    height: 256,
+                    child: CachedNetworkImage(
+                      imageUrl: "$baseUrlFile/setting-applikasi/image/${locator.get<SettingApplikasiCubit>().state.settingData.pinImage!}",
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  const SizedBox(height: 30,),
-                  Text("Masukkan PIN Anda.", style: GoogleFonts.inter(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600
-                  ),),
-                  const SizedBox(height: 20,),
-                  PinTextFieldComponent(
-                    label: "PIN", 
-                    hint: "PIN Akun Anda", 
-                    controller: pinController
-                  ),
-                  const SizedBox(height: 30,),
-                  DynamicSizeButtonComponent(
-                    label: "Masuk", 
-                    buttonColor: kMainLightThemeColor, 
-                    onPressed: () {
-                      showLoadingSubmit(context, "Proses Login ke Applikasi...");
-
-                      final uuid = FirebaseAuth.instance.currentUser!.uid;
-
-                      locator.get<AuthService>().accountKit(uuid, widget.phoneNumber, pinController.text).then((accountKitResponse) {
-                        if(accountKitResponse.success! == true) {
-                          locator.get<AuthService>().login(accountKitResponse.idrs!).then((loginResponse) {
-                            locator.get<SecureStorageService>().writeSecureData("jwt", loginResponse.token!);
-                            locator.get<AuthenticatedCubit>().updateUserState(loginResponse.user!);
-                            locator.get<AuthService>().decryptToken(loginResponse.user!.idreseller!, loginResponse.token!).then((decrypt) {
-                              context.pop();
-                              locator.get<UserAppidCubit>().updateState(decrypt);
-                              context.goNamed("main");
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text("Masukkan PIN Anda.", style: GoogleFonts.inter(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600
+                    ),),
+                    const SizedBox(height: 20,),
+                    PinTextFieldComponent(
+                      label: "PIN", 
+                      hint: "PIN Akun Anda", 
+                      controller: pinController
+                    ),
+                    const SizedBox(height: 30,),
+                    DynamicSizeButtonComponent(
+                      label: "Masuk", 
+                      buttonColor: kMainLightThemeColor, 
+                      onPressed: () {
+                        showLoadingSubmit(context, "Proses Login ke Applikasi...");
+              
+                        final uuid = FirebaseAuth.instance.currentUser!.uid;
+              
+                        locator.get<AuthService>().accountKit(uuid, widget.phoneNumber, pinController.text).then((accountKitResponse) {
+                          if(accountKitResponse.success! == true) {
+                            locator.get<AuthService>().login(accountKitResponse.idrs!).then((loginResponse) {
+                              locator.get<SecureStorageService>().writeSecureData("jwt", loginResponse.token!);
+                              locator.get<AuthenticatedCubit>().updateUserState(loginResponse.user!);
+                              locator.get<AuthService>().decryptToken(loginResponse.user!.idreseller!, loginResponse.token!).then((decrypt) {
+                                context.pop();
+                                locator.get<UserAppidCubit>().updateState(decrypt);
+                                context.goNamed("main");
+                              }).catchError((e) {
+                                context.pop();
+                                showDynamicSnackBar(
+                                  context, 
+                                  LineIcons.exclamationTriangle, 
+                                  "ERROR", 
+                                  e.toString(), 
+                                  Colors.red
+                                );
+                              });
                             }).catchError((e) {
                               context.pop();
                               showDynamicSnackBar(
@@ -137,7 +159,17 @@ class _InputPinScreenState extends State<InputPinScreen> {
                                 Colors.red
                               );
                             });
-                          }).catchError((e) {
+                          } else {
+                            context.pop();
+                            showDynamicSnackBar(
+                              context, 
+                              LineIcons.exclamationTriangle, 
+                              "ERROR", 
+                              accountKitResponse.msg!, 
+                              Colors.red
+                            );
+                          }
+                        }).catchError((e) {
                             context.pop();
                             showDynamicSnackBar(
                               context, 
@@ -146,32 +178,13 @@ class _InputPinScreenState extends State<InputPinScreen> {
                               e.toString(), 
                               Colors.red
                             );
-                          });
-                        } else {
-                          context.pop();
-                          showDynamicSnackBar(
-                            context, 
-                            LineIcons.exclamationTriangle, 
-                            "ERROR", 
-                            accountKitResponse.msg!, 
-                            Colors.red
-                          );
-                        }
-                      }).catchError((e) {
-                          context.pop();
-                          showDynamicSnackBar(
-                            context, 
-                            LineIcons.exclamationTriangle, 
-                            "ERROR", 
-                            e.toString(), 
-                            Colors.red
-                          );
-                      });
-                    }, 
-                    width: 100.w, 
-                    height: 50
-                  )
-                ],
+                        });
+                      }, 
+                      width: 100.w, 
+                      height: 50
+                    )
+                  ],
+                ),
               ),
             ),
           ],

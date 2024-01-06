@@ -69,7 +69,7 @@ class _TransactionPlnTokenFormComponentState extends State<TransactionWithoutIde
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Konfirmasi Transaksi", style: GoogleFonts.inter(
+                    Text("Konfirmasi Transaksi", style: GoogleFonts.openSans(
                       fontSize: 16,
                       fontWeight: FontWeight.w600
                     ),),
@@ -95,7 +95,7 @@ class _TransactionPlnTokenFormComponentState extends State<TransactionWithoutIde
                 const SizedBox(height: 18,),
                 const DashedSeparator(),
                 const SizedBox(height: 18,),
-                Text("Detail Transaksi", style: GoogleFonts.inter(
+                Text("Detail Transaksi", style: GoogleFonts.openSans(
                   fontSize: 16,
                   fontWeight: FontWeight.w600
                 ),),
@@ -115,14 +115,14 @@ class _TransactionPlnTokenFormComponentState extends State<TransactionWithoutIde
                             "Operator", 
                             maxFontSize: 14,
                             maxLines: 1,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.openSans(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xff7f8fa6)
                           ),),
                         ),
                         TableCell(
-                          child: Text(":", style: GoogleFonts.inter(
+                          child: Text(":", style: GoogleFonts.openSans(
                             fontSize: 14,
                             color: Colors.black,
                             fontWeight: FontWeight.w500
@@ -133,7 +133,7 @@ class _TransactionPlnTokenFormComponentState extends State<TransactionWithoutIde
                             widget.operatorName,
                             maxLines: 1,
                             maxFontSize: 14,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.openSans(
                               color: Colors.black,
                               fontWeight: FontWeight.w700
                             ),
@@ -161,14 +161,14 @@ class _TransactionPlnTokenFormComponentState extends State<TransactionWithoutIde
                             "Produk", 
                             maxFontSize: 14,
                             maxLines: 1,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.openSans(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xff7f8fa6)
                           ),),
                         ),
                         TableCell(
-                          child: Text(":", style: GoogleFonts.inter(
+                          child: Text(":", style: GoogleFonts.openSans(
                             fontSize: 14,
                             color: Colors.black,
                             fontWeight: FontWeight.w500
@@ -179,7 +179,7 @@ class _TransactionPlnTokenFormComponentState extends State<TransactionWithoutIde
                             widget.productName,
                             maxLines: 1,
                             maxFontSize: 14,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.openSans(
                               color: Colors.black,
                               fontWeight: FontWeight.w700
                             ),
@@ -207,14 +207,14 @@ class _TransactionPlnTokenFormComponentState extends State<TransactionWithoutIde
                             "No. Tujuan", 
                             maxFontSize: 14,
                             maxLines: 1,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.openSans(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xff7f8fa6)
                           ),),
                         ),
                         TableCell(
-                          child: Text(":", style: GoogleFonts.inter(
+                          child: Text(":", style: GoogleFonts.openSans(
                             fontSize: 14,
                             color: Colors.black,
                             fontWeight: FontWeight.w500
@@ -225,7 +225,7 @@ class _TransactionPlnTokenFormComponentState extends State<TransactionWithoutIde
                             widget.identityNumber,
                             maxLines: 1,
                             maxFontSize: 14,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.openSans(
                               color: Colors.black,
                               fontWeight: FontWeight.w700
                             ),
@@ -252,14 +252,14 @@ class _TransactionPlnTokenFormComponentState extends State<TransactionWithoutIde
                           child: AutoSizeText("Harga", 
                           maxFontSize: 14,
                           maxLines: 1,
-                          style: GoogleFonts.inter(
+                          style: GoogleFonts.openSans(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xff7f8fa6)
                           ),),
                         ),
                         TableCell(
-                          child: Text(":", style: GoogleFonts.inter(
+                          child: Text(":", style: GoogleFonts.openSans(
                             fontSize: 14,
                             color: Colors.black,
                             fontWeight: FontWeight.w500
@@ -270,7 +270,7 @@ class _TransactionPlnTokenFormComponentState extends State<TransactionWithoutIde
                             FormatCurrency.convertToIdr(widget.productPrice, 0),
                             maxLines: 1,
                             maxFontSize: 14,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.openSans(
                               color: Colors.black,
                               fontWeight: FontWeight.w700
                             ),

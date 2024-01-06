@@ -1,3 +1,6 @@
+import 'package:adamulti_mobile_clone_new/constant/constant.dart';
+import 'package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart';
+import 'package:adamulti_mobile_clone_new/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,14 +19,14 @@ class RegularTextFieldWithoutValidatorsComponent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: GoogleFonts.poppins(
+        Text(label, style: GoogleFonts.openSans(
           fontSize: 12,
           fontWeight: FontWeight.w500,
           color: Colors.black
         ),),
         const SizedBox(height: 6,),
         TextFormField(
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.openSans(
             fontSize: 14,
             fontWeight: FontWeight.w500
           ),
@@ -31,6 +34,9 @@ class RegularTextFieldWithoutValidatorsComponent extends StatelessWidget {
           controller: controller,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!))
+            ),
             contentPadding: const EdgeInsets.all(8),
             filled: true,
             fillColor: Colors.white,
@@ -48,7 +54,7 @@ class RegularTextFieldWithoutValidatorsComponent extends StatelessWidget {
             ),
             prefixIcon: Icon(prefixIcon),
             hintText: hint,
-            hintStyle: GoogleFonts.poppins(
+            hintStyle: GoogleFonts.openSans(
               fontSize: 14,
               fontWeight: FontWeight.w400
             ),

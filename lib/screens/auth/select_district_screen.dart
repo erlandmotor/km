@@ -1,5 +1,6 @@
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/select_region_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/districts_response.dart";
 import "package:adamulti_mobile_clone_new/services/region_service.dart";
@@ -20,6 +21,7 @@ class SelectDistrictScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
       appBar: AppBar(
         centerTitle: true,
         leading: IconButton(
@@ -32,9 +34,9 @@ class SelectDistrictScreen extends StatelessWidget {
             context.pop();
           },
         ),
-        backgroundColor: kMainThemeColor,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: kMainThemeColor,
+        backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
+        systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
             systemNavigationBarColor: Colors.white,
             statusBarBrightness: Brightness.dark,
             statusBarIconBrightness: Brightness.light,
@@ -42,7 +44,7 @@ class SelectDistrictScreen extends StatelessWidget {
             systemNavigationBarDividerColor: Colors.white),
         title: Text(
           "Pilih Kecamatan",
-          style: GoogleFonts.inter(
+          style: GoogleFonts.openSans(
               fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
         ),
       ),

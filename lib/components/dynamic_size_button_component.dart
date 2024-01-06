@@ -28,7 +28,7 @@ class DynamicSizeButtonComponent extends StatelessWidget {
           ),
           backgroundColor: buttonColor,
         ),
-        child: Text(label, style: GoogleFonts.inter(
+        child: Text(label, style: GoogleFonts.openSans(
           fontSize: 16,
           fontWeight: FontWeight.w600,
           color: Colors.white

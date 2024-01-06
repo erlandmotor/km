@@ -1,3 +1,6 @@
+import 'package:adamulti_mobile_clone_new/constant/constant.dart';
+import 'package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart';
+import 'package:adamulti_mobile_clone_new/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,7 +26,7 @@ class _PinTextFieldComponentState extends State<PinTextFieldComponent> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(widget.label, style: GoogleFonts.poppins(
+        Text(widget.label, style: GoogleFonts.openSans(
           fontSize: 12,
           fontWeight: FontWeight.w500,
           color: Colors.black
@@ -35,13 +38,14 @@ class _PinTextFieldComponentState extends State<PinTextFieldComponent> {
           ],
           keyboardType: TextInputType.number,
           obscureText: isShowing,
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.openSans(
             fontSize: 14,
             fontWeight: FontWeight.w500
           ),
           controller: widget.controller,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
+            focusColor: Colors.red,
             contentPadding: const EdgeInsets.all(8),
             filled: true,
             fillColor: Colors.white,
@@ -50,6 +54,9 @@ class _PinTextFieldComponentState extends State<PinTextFieldComponent> {
               borderSide: BorderSide(
                 width: 0.5
               )
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!))
             ),
             border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -68,7 +75,7 @@ class _PinTextFieldComponentState extends State<PinTextFieldComponent> {
               ),
             ),
             hintText: widget.hint,
-            hintStyle: GoogleFonts.poppins(
+            hintStyle: GoogleFonts.openSans(
               fontSize: 12,
               fontWeight: FontWeight.w400
             ),

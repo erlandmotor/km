@@ -1,9 +1,12 @@
+import "package:adamulti_mobile_clone_new/components/curve_clipper.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
+import "package:cached_network_image/cached_network_image.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
@@ -36,6 +39,7 @@ class _OtpScreenState extends State<OtpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
       appBar: AppBar(
         centerTitle: true,
         leading: IconButton(
@@ -48,68 +52,71 @@ class _OtpScreenState extends State<OtpScreen> {
             context.pop();
           },
         ),
-        backgroundColor: kMainThemeColor,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: kMainThemeColor,
+        backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
+        systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
             systemNavigationBarColor: Colors.white,
             statusBarBrightness: Brightness.dark,
             statusBarIconBrightness: Brightness.light,
             systemNavigationBarIconBrightness: Brightness.light,
             systemNavigationBarDividerColor: Colors.white),
         title: Text(
-          "Otp",
-            style: GoogleFonts.inter(
-            fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white
+          "OTP Whatsapp",
+            style: GoogleFonts.openSans(
+            fontSize: 16, 
+            fontWeight: FontWeight.w600, 
+            color: Colors.white
           ),
         ),
       ),
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Stack(
+        child: Column(
           children: [
-            Container(
+          ClipPath(
+            clipper: CurveClipper(),
+            child: Container(
               width: 100.w,
-              height: 100.h,
-              decoration: const BoxDecoration(
-                color: kLightBackgroundColor,
-                image: DecorationImage(
-                  image: AssetImage("assets/pattern-samping.png"),
-                  fit: BoxFit.fill
+              height: 40.h,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
+                    HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor2!),
+                    HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor3!),
+                  ],
+                  stops: const [0, 0.4, 0.8],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                 )
               ),
+              child: Center(
+                child: SizedBox(
+                  width: 256,
+                  height: 256,
+                  child: CachedNetworkImage(
+                    imageUrl: "$baseUrlFile/setting-applikasi/image/${locator.get<SettingApplikasiCubit>().state.settingData.otpImage!}",
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
             ),
-            Padding(
+          ),
+          Expanded(
+            child: Padding(
               padding: const EdgeInsets.all(18.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    radius: 64,
-                    backgroundColor: const Color(0xff2bb741).withOpacity(0.1),
-                    child: CircleAvatar(
-                      radius: 56,
-                      backgroundColor: const Color(0xff2bb741).withOpacity(0.2),
-                      child: const CircleAvatar(
-                        backgroundColor: Color(0xff2bb741),
-                        radius: 44,
-                        child: Icon(LineIcons.whatSApp, size: 64, color: Colors.white,)
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 4.h,),
-                  Text("Verifikasi Kode OTP", style: GoogleFonts.inter(
+                  Text("Verifikasi Kode OTP Whatsapp untuk \n Nomor : ${widget.phoneNumber}", 
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.openSans(
+                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.textColor!),
                     fontSize: 16,
                     fontWeight: FontWeight.w600
                   ),),
-                  SizedBox(height: 4.h,),
-                  Text("Masukkan kode OTP yang didapatkan dari Applikasi Whatsapp dengan nomor : ${widget.phoneNumber}", 
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.inter(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500
-                  ),),
-                  SizedBox(height: 4.h,),
+                  SizedBox(height: 2.h,),
                   OtpTextField(
                     enabledBorderColor: Colors.black.withOpacity(0.6),
                     fieldWidth: 12.w,
@@ -130,6 +137,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         ).then((value) {
                           if(value.success == false) {
                             showModalBottomSheet(
+                              backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
                               context: context,
                               shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.only(
@@ -143,23 +151,46 @@ class _OtpScreenState extends State<OtpScreen> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(18.0),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
-                                        Text("Ups, akun anda belum terdaftar. Silahkan membuat akun dengan mengklik tombol register dibawah.",
-                                        style: GoogleFonts.inter(
+                                        CircleAvatar(
+                                          radius: 48,
+                                          backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!).withOpacity(0.2),
+                                          child: CircleAvatar(
+                                            radius: 40,
+                                            backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!).withOpacity(0.6),
+                                            child: CircleAvatar(
+                                              radius: 36,
+                                              backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),                                
+                                              child: const Icon(LineIcons.infoCircle, color: Colors.white, size: 40,),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8,),
+                                        Text("Ups, Anda Belum Terdaftar",
+                                        style: GoogleFonts.openSans(
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w500
+                                          fontWeight: FontWeight.w700,
+                                          color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.textColor!)
+                                        ),),
+                                        const SizedBox(height: 8,),
+                                        Text("Silahkan Klik Tombol Register Dibawah untuk Membuat Akun Baru",
+                                        style: GoogleFonts.openSans(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.textColor!)
                                         ),),
                                         const SizedBox(height: 18,),
-                                        ElevatedButton(
+                                        DynamicSizeButtonComponent(
+                                          label: "Register", 
+                                          buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                                           onPressed: () {
                                             context.pushNamed("register", extra: {
                                               "phoneNumber": widget.phoneNumber
                                             });
                                           }, 
-                                          child: Text("Register", style: GoogleFonts.inter(
-                                            fontWeight: FontWeight.w500
-                                          ),)
+                                          width: 100.w, 
+                                          height: 50
                                         )
                                       ],
                                     ),
@@ -181,7 +212,7 @@ class _OtpScreenState extends State<OtpScreen> {
                             Colors.red
                           );
                         });
-
+            
                       } else {
                         showDynamicSnackBar(
                           context, 
@@ -220,7 +251,8 @@ class _OtpScreenState extends State<OtpScreen> {
                   )
                 ],
               ),
-            )
+            ),
+          )
           ],
         )
       ),

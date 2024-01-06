@@ -42,7 +42,7 @@ class CustomContainerAppBarWithNav extends StatelessWidget {
                 width: 18.w,
               ),
               Flexible(
-                child: Text(title, style: GoogleFonts.inter(
+                child: Text(title, style: GoogleFonts.openSans(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
                   color: Colors.white

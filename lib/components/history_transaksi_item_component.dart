@@ -74,13 +74,13 @@ class HistoryTransaksiItemComponent extends StatelessWidget {
                                 Text("SN : $sn", 
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.inter(
+                                style: GoogleFonts.openSans(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
                                   ),
                                 ),
                                 const SizedBox(height: 2,),
-                                Text(waktu, style: GoogleFonts.inter(
+                                Text(waktu, style: GoogleFonts.openSans(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400
                                   ),
@@ -95,12 +95,12 @@ class HistoryTransaksiItemComponent extends StatelessWidget {
                               AutoSizeText(FormatCurrency.convertToIdr(amount, 0), 
                                 maxFontSize: 16,
                                 maxLines: 1,
-                                style: GoogleFonts.inter(
+                                style: GoogleFonts.openSans(
                                   color: statusTransaksi == "2" ? Colors.red : Colors.green,
                                   fontWeight: FontWeight.w700
                                 ),
                               ), const SizedBox(height: 2,),
-                              Text(statusText, style: GoogleFonts.inter(
+                              Text(statusText, style: GoogleFonts.openSans(
                                 fontSize: 12,
                                 color: statusTransaksi == "2" ? Colors.red : Colors.green,
                                 fontWeight: FontWeight.w500

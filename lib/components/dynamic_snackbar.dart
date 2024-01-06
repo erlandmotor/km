@@ -8,13 +8,13 @@ String title, String message, Color snackbarColor) {
     margin: const EdgeInsets.all(8),
     borderRadius: BorderRadius.circular(8),
     flushbarPosition: FlushbarPosition.TOP,
-    titleText: Text(title, style: GoogleFonts.inter(
+    titleText: Text(title, style: GoogleFonts.openSans(
       fontSize: 18,
       fontWeight: FontWeight.w600,
       color: Colors.white
     ),),
     messageText: Text(message,
-    style: GoogleFonts.poppins(
+    style: GoogleFonts.openSans(
       fontSize: 14,
       fontWeight: FontWeight.w500,
       color: Colors.white

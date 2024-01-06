@@ -1,6 +1,6 @@
 class ProductResponse {
   final bool? success;
-  final List<Data>? data;
+  final List<ProductData>? data;
 
   ProductResponse({
     this.success,
@@ -9,7 +9,7 @@ class ProductResponse {
 
   ProductResponse.fromJson(Map<String, dynamic> json)
     : success = json['success'] as bool?,
-      data = (json['data'] as List?)?.map((dynamic e) => Data.fromJson(e as Map<String,dynamic>)).toList();
+      data = (json['data'] as List?)?.map((dynamic e) => ProductData.fromJson(e as Map<String,dynamic>)).toList();
 
   Map<String, dynamic> toJson() => {
     'success' : success,
@@ -17,7 +17,7 @@ class ProductResponse {
   };
 }
 
-class Data {
+class ProductData {
   final int? hargajual;
   final int? hargalama;
   final int? komisi;
@@ -34,7 +34,7 @@ class Data {
   final bool? ispromo;
   final int? poin;
 
-  Data({
+  ProductData({
     this.hargajual,
     this.hargalama,
     this.komisi,
@@ -52,7 +52,7 @@ class Data {
     this.poin,
   });
 
-  Data.fromJson(Map<String, dynamic> json)
+  ProductData.fromJson(Map<String, dynamic> json)
     : hargajual = json['hargajual'] as int?,
       hargalama = json['hargalama'] as int?,
       komisi = json['komisi'] as int?,

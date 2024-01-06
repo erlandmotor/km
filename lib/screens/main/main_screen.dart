@@ -44,7 +44,7 @@ class _MainScreenState extends State<MainScreen> {
     final favoriteMenuCubit = context.read<FavoriteMenuCubit>();
 
     final now = DateTime.now();
-    final yesterday = DateTime.now().add(const Duration(days: -5));
+    final yesterday = DateTime.now().add(const Duration(days: -3));
 
     locator.get<NotificationService>().countTotalNotification("${yesterday.year}-${yesterday.month}-${yesterday.day + 1}", 
       "${now.year}-${now.month}-${now.day + 1}"
@@ -90,7 +90,6 @@ class _MainScreenState extends State<MainScreen> {
         body: data
       );
     });
-
     super.initState();
   }
 
@@ -158,7 +157,7 @@ class _MainScreenState extends State<MainScreen> {
                           );
                         } else {
                           return Icon(
-                            LineIcons.envelopeOpenText,
+                            LineIcons.inbox,
                             color: state.navigationIndex == 1 ? Colors.white : const Color(0xff4d4d4d),
                           );
                         }

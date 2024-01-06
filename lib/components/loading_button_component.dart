@@ -37,7 +37,7 @@ class LoadingButtonComponent extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-        ) : Text(label, style: GoogleFonts.inter(
+        ) : Text(label, style: GoogleFonts.openSans(
           fontSize: 16,
           fontWeight: FontWeight.w600,
           color: Colors.white

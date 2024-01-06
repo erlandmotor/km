@@ -1,3 +1,4 @@
+import "package:adamulti_mobile_clone_new/components/artikel_component.dart";
 import "package:adamulti_mobile_clone_new/components/home_carousel.dart";
 import "package:adamulti_mobile_clone_new/components/layanan_component.dart";
 import "package:adamulti_mobile_clone_new/components/main_menu_shimmer.dart";
@@ -6,6 +7,9 @@ import "package:adamulti_mobile_clone_new/components/saldo_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/favorite_menu_cubit.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
+import "package:adamulti_mobile_clone_new/model/artikel_data.dart";
+import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
 import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
@@ -245,7 +249,7 @@ class HomeScreen extends StatelessWidget {
                                 }
 
                                 if(state.menuData.menulist![i].type == "TRIPLE PPOB") {
-                                  context.pushNamed("select-operator-triple-ppob", extra: {
+                                  context.pushNamed("select-operator-backoffice", extra: {
                                     "operatorName": state.menuData.menulist![i].name,
                                     "operatorId": state.menuData.menulist![i].operatorid
                                   });
@@ -278,6 +282,60 @@ class HomeScreen extends StatelessWidget {
                 ),
                 Container(
                   height: 2.5.h,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 0,
+                      color: Colors.white
+                    ),
+                    color: Colors.white
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.all(18),
+                  width: 100.w,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text("Artikel Terkini", style: GoogleFonts.inter(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600
+                          ),),
+                          GestureDetector(
+                            onTap: () {
+                              context.pushNamed("artikel-main");
+                            },
+                            child: Text("See All", style: GoogleFonts.inter(
+                              fontSize: 14,
+                              color: kMainLightThemeColor,
+                              fontWeight: FontWeight.w500
+                            ),),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8,),
+                      SizedBox(
+                        height: 280,
+                        child: FutureBuilder<List<ArtikelData>>(
+                          future: locator.get<BackOfficeService>().findManyArtikelByStatus(1),
+                          builder: (context, snapshot) {
+                            if(snapshot.connectionState == ConnectionState.done) {
+                              return ArtikelComponent(artikelData: snapshot.data!);
+                            } else {
+                              return const SizedBox();
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  height: 15.h,
                   decoration: BoxDecoration(
                     border: Border.all(
                       width: 0,

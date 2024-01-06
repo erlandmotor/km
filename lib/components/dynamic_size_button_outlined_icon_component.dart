@@ -38,7 +38,7 @@ class DynamicSizeButtonOutlinedIconComponent extends StatelessWidget {
             color: buttonColor
           )
         ),
-        label: Text(label, style: GoogleFonts.inter(
+        label: Text(label, style: GoogleFonts.openSans(
           fontSize: 12,
           fontWeight: FontWeight.w600,
           color: buttonColor

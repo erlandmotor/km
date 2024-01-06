@@ -1,3 +1,4 @@
+import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
@@ -22,6 +23,7 @@ class CustomContainerAppBar extends StatelessWidget {
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GestureDetector(
                 onTap: () {
@@ -37,16 +39,20 @@ class CustomContainerAppBar extends StatelessWidget {
                   child: const Icon(LineIcons.angleLeft, color: Colors.white),
                 ),
               ),
-              SizedBox(
-                width: 18.w,
+              Expanded(
+                child: Center(
+                  child: AutoSizeText(
+                    title,
+                    maxFontSize: 18,
+                    maxLines: 2, 
+                    style: GoogleFonts.inter(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white
+                  ),),
+                ),
               ),
-              Flexible(
-                child: Text(title, style: GoogleFonts.inter(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white
-                ),),
-              )
+              const SizedBox(width: 20,)
             ],
           ),
         ],

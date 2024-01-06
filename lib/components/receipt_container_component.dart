@@ -42,7 +42,7 @@ class ReceiptContainerComponent extends StatelessWidget {
                   children: <Widget>[
                     Image.asset("assets/ada-logo-blue.png", width: 64, height: 64,),
                     const SizedBox(height: 12,),
-                    Text("Transaksi Berhasil", style: GoogleFonts.inter(
+                    Text("Transaksi Berhasil", style: GoogleFonts.openSans(
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
                       color: Colors.black
@@ -173,7 +173,7 @@ class ReceiptContainerComponent extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("No. Token : ", style: GoogleFonts.inter(
+                              Text("No. Token : ", style: GoogleFonts.openSans(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
                                 color: kSecondaryTextColor
@@ -181,7 +181,7 @@ class ReceiptContainerComponent extends StatelessWidget {
                               const SizedBox(height: 6,),
                               Text(
                                 data.token!,
-                                style: GoogleFonts.inter(
+                                style: GoogleFonts.openSans(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   color: kMainThemeColor
@@ -248,14 +248,14 @@ class ReceiptContainerComponent extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text("Total", style: GoogleFonts.inter(
+                        Text("Total", style: GoogleFonts.openSans(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                           color: Colors.black
                         ),),
                         BlocBuilder<TransactionDetailCubit, TransactionDetailState>(
                           builder: (_, state) {
-                            return Text(state.totalReceipt, style: GoogleFonts.inter(
+                            return Text(state.totalReceipt, style: GoogleFonts.openSans(
                               fontSize: 18,
                               fontWeight: FontWeight.w800,
                               color: kMainLightThemeColor

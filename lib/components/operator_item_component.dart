@@ -49,7 +49,7 @@ class OperatorItemComponent extends StatelessWidget {
                           operatorName,
                           maxFontSize: 14,
                           maxLines: 1,
-                          style: GoogleFonts.inter(
+                          style: GoogleFonts.openSans(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                             color: Colors.white
@@ -97,7 +97,7 @@ class OperatorItemComponent extends StatelessWidget {
                     ),
                     const SizedBox(width: 18,),
                     Flexible(
-                      child: Text(title, style: GoogleFonts.inter(
+                      child: Text(title, style: GoogleFonts.openSans(
                         fontSize: 16,
                         fontWeight: FontWeight.w500
                       ),),

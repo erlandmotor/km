@@ -21,7 +21,7 @@ class AccountMenuSectionComponent extends StatelessWidget {
           Icon(icon, color: iconColor, size: 28,),
           const SizedBox(width: 18,),
           Expanded(
-            child: Text(label, style: GoogleFonts.inter(
+            child: Text(label, style: GoogleFonts.openSans(
               fontSize: 14,
               fontWeight: FontWeight.w500
             ),)

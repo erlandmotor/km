@@ -1,8 +1,13 @@
+import "dart:convert";
+
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/markup_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/transaction_detail_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
+import "package:adamulti_mobile_clone_new/model/struk_model.dart";
+import "package:adamulti_mobile_clone_new/services/secure_storage.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
@@ -28,6 +33,16 @@ class _PrintMarkupContainerComponentState extends State<PrintMarkupContainerComp
   
   @override
   void initState() {
+    locator.get<SecureStorageService>().readSecureData("struk").then((value) {
+      if(value != null) {
+        final transactionDetailCubit = context.read<TransactionDetailCubit>();      
+        
+        final struk = StrukModel.fromJson(jsonDecode(value));
+        final markup = int.parse(struk.markup!.replaceAll(RegExp(r"\D"), ""));
+        markupController.text = struk.markup!;
+        transactionDetailCubit.updateState(transactionDetailCubit.state.isPrinting, FormatCurrency.convertToIdr(widget.total + markup, 0));
+      }
+    });
     super.initState();
   }
 
@@ -87,7 +102,7 @@ class _PrintMarkupContainerComponentState extends State<PrintMarkupContainerComp
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Total Bayar : ", style: GoogleFonts.inter(
+                      Text("Total Bayar : ", style: GoogleFonts.openSans(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                         color: Colors.white
@@ -96,7 +111,7 @@ class _PrintMarkupContainerComponentState extends State<PrintMarkupContainerComp
                       BlocBuilder<TransactionDetailCubit, TransactionDetailState>(
                         bloc: context.read<TransactionDetailCubit>(),
                         builder: (_, state) {
-                          return Text(state.totalReceipt, style: GoogleFonts.inter(
+                          return Text(state.totalReceipt, style: GoogleFonts.openSans(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                             color: Colors.white

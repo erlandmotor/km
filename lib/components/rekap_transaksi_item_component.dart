@@ -61,12 +61,12 @@ class RekapTransaksiItemComponent extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("$kodeProduk - $namaProduk", style: GoogleFonts.inter(
+                              Text("$kodeProduk - $namaProduk", style: GoogleFonts.openSans(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600
                               ),),
                               const SizedBox(height: 2,),
-                              Text("Total Transaksi : $jumlah", style: GoogleFonts.inter(
+                              Text("Total Transaksi : $jumlah", style: GoogleFonts.openSans(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400
                                 ),
@@ -78,7 +78,7 @@ class RekapTransaksiItemComponent extends StatelessWidget {
                         AutoSizeText(FormatCurrency.convertToIdr(total, 0), 
                           maxFontSize: 16,
                           maxLines: 1,
-                          style: GoogleFonts.inter(
+                          style: GoogleFonts.openSans(
                             color: kMainLightThemeColor,
                             fontWeight: FontWeight.w700
                           ),

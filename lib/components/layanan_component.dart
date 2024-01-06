@@ -54,7 +54,7 @@ class LayananComponent extends StatelessWidget {
               minFontSize: 8,
               maxLines: 2,
               textAlign: TextAlign.center, 
-              style: GoogleFonts.inter(
+              style: GoogleFonts.openSans(
                 fontWeight: FontWeight.w600
               ),
             )

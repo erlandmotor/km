@@ -1,3 +1,4 @@
+import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:line_icons/line_icons.dart";
@@ -36,21 +37,8 @@ class NotificationItemComponent extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      alignment: Alignment.center,
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(18),
-                        color: const Color(0xff5f27cd)
-                      ),
-                      child: const Icon(
-                        LineIcons.bullhorn,
-                        color: Colors.white,
-                        size: 36,
-                      ),
-                    ),
-                    const SizedBox(width: 12,),
+                    const Icon(LineIcons.envelopeOpenText, color: kMainLightThemeColor, size: 48,),
+                    const SizedBox(width: 18,),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,12 +47,12 @@ class NotificationItemComponent extends StatelessWidget {
                             title,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis, 
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.openSans(
                             fontSize: 14,
                             fontWeight: FontWeight.w600
                           ),),
                           const SizedBox(height: 4,),
-                          Text(notificationDate, style: GoogleFonts.inter(
+                          Text(notificationDate, style: GoogleFonts.openSans(
                             fontSize: 12,
                             fontWeight: FontWeight.w400
                           ),)

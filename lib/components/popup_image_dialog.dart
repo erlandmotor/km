@@ -29,15 +29,15 @@ class PopupImageDialog extends StatelessWidget {
             Navigator.of(context).pop();
           },
           child: Transform.translate(
-            offset: const Offset(10, -10),
-            child: const Row(
+            offset: const Offset(20, -25),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CircleAvatar(
-                  radius: 14,
-                  backgroundColor: Colors.white,
-                  child: Icon(LineIcons.timesCircle),
+                  radius: 12,
+                  backgroundColor: const Color(0xff353b48).withOpacity(0.8),
+                  child: const Icon(LineIcons.times, color: Colors.white, size: 18,),
                 )
               ],
             ),

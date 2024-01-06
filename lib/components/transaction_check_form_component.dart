@@ -66,7 +66,7 @@ class _TransactionCheckFormComponentState extends State<TransactionCheckFormComp
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Konfirmasi Transaksi", style: GoogleFonts.inter(
+                    Text("Konfirmasi Transaksi", style: GoogleFonts.openSans(
                       fontSize: 16,
                       fontWeight: FontWeight.w600
                     ),),
@@ -98,7 +98,7 @@ class _TransactionCheckFormComponentState extends State<TransactionCheckFormComp
                       const SizedBox(width: 8,),
                       Flexible(
                         child: Text(
-                          "  ${convertTotalResponseWithNumberFormatted(widget.response, widget.productPrice.toString())}", style: GoogleFonts.inter(
+                          "  ${convertTotalResponseWithNumberFormatted(widget.response, widget.productPrice.toString())}", style: GoogleFonts.openSans(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                           ),

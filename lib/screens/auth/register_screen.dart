@@ -9,6 +9,7 @@ import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/select_region_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
@@ -64,6 +65,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final selectRegionCubit = context.read<SelectRegionCubit>();
 
     return Scaffold(
+      backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
       appBar: AppBar(
         centerTitle: true,
         leading: IconButton(
@@ -76,9 +78,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             context.replaceNamed("input-phone-number");
           },
         ),
-        backgroundColor: kMainThemeColor,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: kMainThemeColor,
+        backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
+        systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
             systemNavigationBarColor: Colors.white,
             statusBarBrightness: Brightness.dark,
             statusBarIconBrightness: Brightness.light,
@@ -86,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             systemNavigationBarDividerColor: Colors.white),
         title: Text(
           "Register",
-          style: GoogleFonts.inter(
+          style: GoogleFonts.openSans(
               fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
         ),
       ),

@@ -2,6 +2,7 @@ import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/connect_printer_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/getme_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/notification_count_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
 import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
@@ -30,6 +31,7 @@ void setupLocator() {
   locator.registerSingleton(GetmeCubit());
   locator.registerSingleton(NotificationCountCubit());
   locator.registerSingleton(ConnectPrinterCubit());
+  locator.registerSingleton(SettingApplikasiCubit());
   locator.registerLazySingleton(() => JwtService());
   locator.registerLazySingleton(() => ProductService());
   locator.registerLazySingleton(() => TransactionService());

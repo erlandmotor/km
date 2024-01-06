@@ -4,6 +4,7 @@ import "package:adamulti_mobile_clone_new/components/container_gradient_backgrou
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
+import "package:adamulti_mobile_clone_new/components/markup_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/components/regular_textarea_component.dart";
 import "package:adamulti_mobile_clone_new/components/regular_textfield_without_icon_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
@@ -28,19 +29,20 @@ class _PrinterSettingScreenState extends State<PrinterSettingScreen> {
   final namaTokoController = TextEditingController();
   final alamatTokoController = TextEditingController();
   final footerStrukController = TextEditingController();
+  final markupController = TextEditingController(text: "Rp. 1.000");
 
   @override
   void initState() {
-    locator.get<SecureStorageService>().deleteSecureData("struk");
-    // locator.get<SecureStorageService>().readSecureData("struk").then((value) {
-    //   if(value != null) {
-    //     final struk = StrukModel.fromJson(jsonDecode(value));
+    locator.get<SecureStorageService>().readSecureData("struk").then((value) {
+      if(value != null) {
+        final struk = StrukModel.fromJson(jsonDecode(value));
         
-    //     namaTokoController.text = struk.nama!;
-    //     alamatTokoController.text = struk.alamat!;
-    //     footerStrukController.text = struk.footer!;
-    //   }
-    // });
+        namaTokoController.text = struk.nama!;
+        alamatTokoController.text = struk.alamat!;
+        footerStrukController.text = struk.footer!;
+        markupController.text = struk.markup!;
+      }
+    });
     super.initState();
   }
 
@@ -49,6 +51,7 @@ class _PrinterSettingScreenState extends State<PrinterSettingScreen> {
     namaTokoController.dispose();
     alamatTokoController.dispose();
     footerStrukController.dispose();
+    markupController.dispose();
     super.dispose();
   }
 
@@ -105,6 +108,15 @@ class _PrinterSettingScreenState extends State<PrinterSettingScreen> {
                                 validationMessage: "*Footer struk harus diisi."
                               ),
                               const SizedBox(height: 18,),
+                              MarkupTextFieldComponent(
+                                label: "Default Markup", 
+                                hint: "Contoh : Rp. 2.000", 
+                                controller: markupController,
+                                prefixIcon: LineIcons.receipt,
+                                onChangedAction: (String value) {
+                                }
+                              ),
+                              const SizedBox(height: 18,),
                               DynamicSizeButtonComponent(
                                 label: "Simpan", 
                                 buttonColor: kMainLightThemeColor, 
@@ -114,7 +126,8 @@ class _PrinterSettingScreenState extends State<PrinterSettingScreen> {
                                       jsonEncode(StrukModel(
                                         nama: namaTokoController.text, 
                                         alamat: alamatTokoController.text, 
-                                        footer: footerStrukController.text
+                                        footer: footerStrukController.text,
+                                        markup: markupController.text
                                       ).toJson())
                                     );
 

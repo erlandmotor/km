@@ -79,7 +79,7 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Konfirmasi Transaksi", style: GoogleFonts.inter(
+                    Text("Konfirmasi Transaksi", style: GoogleFonts.openSans(
                       fontSize: 16,
                       fontWeight: FontWeight.w600
                     ),),
@@ -125,7 +125,7 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                 const SizedBox(height: 18,),
                 const DashedSeparator(),
                 const SizedBox(height: 18,),
-                Text("Detail Transaksi", style: GoogleFonts.inter(
+                Text("Detail Transaksi", style: GoogleFonts.openSans(
                   fontSize: 16,
                   fontWeight: FontWeight.w600
                 ),),
@@ -145,14 +145,14 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                             "Operator", 
                             maxFontSize: 14,
                             maxLines: 1,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.openSans(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xff7f8fa6)
                           ),),
                         ),
                         TableCell(
-                          child: Text(":", style: GoogleFonts.inter(
+                          child: Text(":", style: GoogleFonts.openSans(
                             fontSize: 14,
                             color: Colors.black,
                             fontWeight: FontWeight.w500
@@ -163,7 +163,7 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                             widget.operatorName,
                             maxLines: 1,
                             maxFontSize: 14,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.openSans(
                               color: Colors.black,
                               fontWeight: FontWeight.w700
                             ),
@@ -191,14 +191,14 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                             "Produk", 
                             maxFontSize: 14,
                             maxLines: 1,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.openSans(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xff7f8fa6)
                           ),),
                         ),
                         TableCell(
-                          child: Text(":", style: GoogleFonts.inter(
+                          child: Text(":", style: GoogleFonts.openSans(
                             fontSize: 14,
                             color: Colors.black,
                             fontWeight: FontWeight.w500
@@ -209,7 +209,7 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                             widget.productName,
                             maxLines: 1,
                             maxFontSize: 14,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.openSans(
                               color: Colors.black,
                               fontWeight: FontWeight.w700
                             ),
@@ -237,14 +237,14 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                             "No. Tujuan", 
                             maxFontSize: 14,
                             maxLines: 1,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.openSans(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xff7f8fa6)
                           ),),
                         ),
                         TableCell(
-                          child: Text(":", style: GoogleFonts.inter(
+                          child: Text(":", style: GoogleFonts.openSans(
                             fontSize: 14,
                             color: Colors.black,
                             fontWeight: FontWeight.w500
@@ -255,7 +255,7 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                             identityNumber,
                             maxLines: 1,
                             maxFontSize: 14,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.openSans(
                               color: Colors.black,
                               fontWeight: FontWeight.w700
                             ),
@@ -282,14 +282,14 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                           child: AutoSizeText("Harga", 
                           maxFontSize: 14,
                           maxLines: 1,
-                          style: GoogleFonts.inter(
+                          style: GoogleFonts.openSans(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xff7f8fa6)
                           ),),
                         ),
                         TableCell(
-                          child: Text(":", style: GoogleFonts.inter(
+                          child: Text(":", style: GoogleFonts.openSans(
                             fontSize: 14,
                             color: Colors.black,
                             fontWeight: FontWeight.w500
@@ -300,7 +300,7 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                             FormatCurrency.convertToIdr(widget.productPrice, 0),
                             maxLines: 1,
                             maxFontSize: 14,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.openSans(
                               color: Colors.black,
                               fontWeight: FontWeight.w700
                             ),

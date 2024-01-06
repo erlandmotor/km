@@ -1,4 +1,5 @@
 
+import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
@@ -42,14 +43,15 @@ class CustomContainerAppBarWithSearch extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18),
-                  child: Text(title, style: GoogleFonts.inter(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white
-                  ),),
-                ),
+                child: AutoSizeText(title, 
+                maxFontSize: 18,
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.openSans(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white
+                ),),
               ),
               searchWidget
             ],

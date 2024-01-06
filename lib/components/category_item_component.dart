@@ -52,7 +52,7 @@ class CategoryItemComponent extends StatelessWidget {
                           categoryName,
                           maxLines: 1,
                           maxFontSize: 14,
-                          style: GoogleFonts.inter(
+                          style: GoogleFonts.openSans(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                             color: Colors.white
@@ -96,7 +96,7 @@ class CategoryItemComponent extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 18,),
-                    Text(title, style: GoogleFonts.inter(
+                    Text(title, style: GoogleFonts.openSans(
                       fontSize: 18,
                       fontWeight: FontWeight.w500
                     ),)

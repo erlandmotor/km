@@ -16,7 +16,7 @@ class NoNotificationComponent extends StatelessWidget {
         children: [
           Image.asset("assets/no_notification.png"),
           const SizedBox(height: 10,),
-          Text(label, style: GoogleFonts.poppins(
+          Text(label, style: GoogleFonts.openSans(
             fontSize: 22,
             fontWeight: FontWeight.w600,
           ),

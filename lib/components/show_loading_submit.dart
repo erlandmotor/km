@@ -33,7 +33,7 @@ void showLoadingSubmit(BuildContext context, String label) {
               Material(
                 child: Text(label,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.inter(
+                style: GoogleFonts.openSans(
                   fontSize: 16,
                   color: Colors.black,
                   fontWeight: FontWeight.w500

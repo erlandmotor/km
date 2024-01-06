@@ -4,11 +4,13 @@ import 'package:adamulti_mobile_clone_new/constant/constant.dart';
 import 'package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/connect_printer_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/getme_cubit.dart';
+import 'package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart';
 import 'package:adamulti_mobile_clone_new/firebase_options.dart';
 import 'package:adamulti_mobile_clone_new/locator.dart';
 import 'package:adamulti_mobile_clone_new/screen_router.dart';
 import 'package:adamulti_mobile_clone_new/services/auth_service.dart';
+import 'package:adamulti_mobile_clone_new/services/backoffice_service.dart';
 import 'package:adamulti_mobile_clone_new/services/firebase_messaging_service.dart';
 import 'package:adamulti_mobile_clone_new/services/local_notification_service.dart';
 import 'package:adamulti_mobile_clone_new/services/secure_storage.dart';
@@ -31,14 +33,18 @@ Future<void> main() async {
     return true;
   };
 
+  final settingApplikasiData = await locator.get<BackOfficeService>().findFirstSettingApplikasi("MPN");
+
+  locator.get<SettingApplikasiCubit>().updateState(settingApplikasiData);
+
   await locator.get<LocalNotificationService>().initLocalNotification();
 
   final token = await locator.get<SecureStorageService>().readSecureData("jwt");
 
   
   SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: kMainThemeColor,
+    SystemUiOverlayStyle(
+      statusBarColor: HexColor.fromHex(settingApplikasiData.mainColor1!),
       systemNavigationBarColor: Colors.white,
       statusBarBrightness: Brightness.dark,
       statusBarIconBrightness: Brightness.light,

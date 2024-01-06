@@ -1,7 +1,10 @@
+import "package:adamulti_mobile_clone_new/components/curve_clipper.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
+import "package:cached_network_image/cached_network_image.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
@@ -27,18 +30,41 @@ class _SelectGoogleAccountScreenState extends State<SelectGoogleAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
       body: SafeArea(
         child: Stack(
           children: [
-            Container(
-              width: 100.w,
-              height: 100.h,
-              decoration: const BoxDecoration(
-                color: kLightBackgroundColor,
-                image: DecorationImage(
-                  image: AssetImage("assets/pattern-samping.png"),
-                  fit: BoxFit.fill
-                )
+            ClipPath(
+              clipper: CurveClipper(),
+              child: Container(
+                width: 100.w,
+                height: 40.h,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
+                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor2!),
+                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor3!),
+                    ],
+                    stops: const [0, 0.4, 0.8],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  )
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 96,
+                      height: 96,
+                      child: CachedNetworkImage(
+                      imageUrl: "$baseUrlFile/setting-applikasi/image/${locator.get<SettingApplikasiCubit>().state.settingData.logoLight!}",
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
             Padding(
@@ -47,15 +73,29 @@ class _SelectGoogleAccountScreenState extends State<SelectGoogleAccountScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset("assets/ada-logo-blue.png", width: 128, height: 128,),
+                  SizedBox(
+                    width: 256,
+                    height: 256,
+                    child: CachedNetworkImage(
+                      imageUrl: "$baseUrlFile/setting-applikasi/image/${locator.get<SettingApplikasiCubit>().state.settingData.loginImage!}",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                   SizedBox(height: 5.h,),
-                  Text("Selamat Datang di Applikasi ADAMULTI.", 
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.inter(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: kMainThemeColor
-                    
+                  Text("Selamat Datang di Applikasi", 
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.openSans(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.textColor!)
+                  ),),
+                  const SizedBox(height: 4,),
+                  Text("Mitra Pulsa Nusantara", 
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.openSans(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.textColor!)
                   ),),
                   SizedBox(height: 5.h,),
                   Center(
@@ -119,6 +159,7 @@ class _SelectGoogleAccountScreenState extends State<SelectGoogleAccountScreen> {
                       },
                       child: Card(
                         color: Colors.white,
+                        surfaceTintColor: Colors.white,
                         child: Padding(
                           padding: const EdgeInsets.all(8),
                           child: Row(
@@ -134,10 +175,10 @@ class _SelectGoogleAccountScreenState extends State<SelectGoogleAccountScreen> {
                               const SizedBox(
                                 width: 18,
                               ),
-                              Text("Sign In with Google", style: GoogleFonts.inter(
+                              Text("Sign In with Google", style: GoogleFonts.openSans(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                color: Colors.black
+                                color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.textColor!)
                               ),)
                             ],
                           ),

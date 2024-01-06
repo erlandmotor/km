@@ -64,200 +64,201 @@ class _WebviewScreenState extends State<WebviewScreen> {
       appBar: AppBar(
         actions: [
           CustomPopupMenu(
-              controller: popupMenuController,
-              menuBuilder: () => Container(
-                width: 90.w,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(18)
-                ),
-                padding: const EdgeInsets.all(18),
-                child: IntrinsicWidth(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      RegularTextFieldComponent(
-                          label: "Kode Pembayaran",
-                          hint: "Contoh : 12345",
-                          controller: kodePembayaranController,
-                          validationMessage: "Kode pembayaran harus diisi.",
-                          prefixIcon: LineIcons.barcode,
-                          isObsecure: false
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      BlocBuilder<CheckIdentityCubit, CheckIdentityState>(
-                        bloc: context.read<CheckIdentityCubit>(),
-                        builder: (_, state) {
-                          final checkIdentityCubit = context.read<CheckIdentityCubit>();
-                          return LoadingButtonComponent(
-                              label: "Proses",
-                              buttonColor: kMainLightThemeColor,
-                              onPressed: () {
-                                if (kodePembayaranController.text.isEmpty) {
+            controller: popupMenuController,
+            menuBuilder: () => Container(
+              width: 90.w,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(18)
+              ),
+              padding: const EdgeInsets.all(18),
+              child: IntrinsicWidth(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    RegularTextFieldComponent(
+                        label: "Kode Pembayaran",
+                        hint: "Contoh : 12345",
+                        controller: kodePembayaranController,
+                        validationMessage: "Kode pembayaran harus diisi.",
+                        prefixIcon: LineIcons.barcode,
+                        isObsecure: false
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    BlocBuilder<CheckIdentityCubit, CheckIdentityState>(
+                      bloc: context.read<CheckIdentityCubit>(),
+                      builder: (_, state) {
+                        final checkIdentityCubit = context.read<CheckIdentityCubit>();
+                        return LoadingButtonComponent(
+                            label: "Proses",
+                            buttonColor: kMainLightThemeColor,
+                            onPressed: () {
+                              if (kodePembayaranController.text.isEmpty) {
+                                showDynamicSnackBar(
+                                  context,
+                                  LineIcons.exclamationTriangle,
+                                  "ERROR",
+                                  "ID Pelanggan harus diisi telebih dahulu.",
+                                  Colors.red
+                                );
+                              } else {
+                                final generatedIdTrxCheck = generateRandomString(8);
+
+                                checkIdentityCubit.updateState(
+                                  true,
+                                  checkIdentityCubit.state.result
+                                );
+                                locator.get<TransactionService>()
+                                .checkIdentity(
+                                  generatedIdTrxCheck,
+                                  widget.operatorId,
+                                  kodePembayaranController.text,
+                                  "5",
+                                  locator
+                                      .get<UserAppidCubit>()
+                                      .state
+                                      .userAppId
+                                      .appId
+                                ).then((value) {
+                                  checkIdentityCubit.updateState(
+                                      false, value);
+                                  if (value.success!) {
+                                    popupMenuController.hideMenu();
+                                    final splittedMessage = value.msg!.split("HARGA").removeLast();
+                                    final splittedHarga = splittedMessage.split("ADMIN");
+                                    final parsedTotalPay = splittedHarga[0].replaceAll(RegExp(r"\D"), "");
+
+                                    showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(18),
+                                          topRight: Radius.circular(18)
+                                        )
+                                      ),
+                                      builder: (context) {
+                                        return TransactionCheckFormComponent(
+                                          response: value.msg!,
+                                          productPrice: int.parse(parsedTotalPay),
+                                          onSubmit: (pin) {
+                                            showLoadingSubmit(context, "Proses Transaksi...");
+
+                                            final generatedIdTrx = generateRandomString(8);
+
+                                            locator.get<TransactionService>().payNow(
+                                              generatedIdTrx,
+                                              widget.operatorId,
+                                              kodePembayaranController.text,
+                                              pin,
+                                              "6",
+                                              locator.get<UserAppidCubit>().state.userAppId.appId
+                                              ).then((value) {
+                                                if (value.success!) {
+                                                  context.pop();
+                                                  locator.get<LocalNotificationService>().showLocalNotification(
+                                                    title: "Transaksi ${value.produk!}",
+                                                    body: "Transaksi ${value.produk!} berhasil dilakukan."
+                                                  );
+
+                                                  locator.get<TransactionService>().findLastTransaction(generatedIdTrx).then((trx) {
+                                                    context.pushNamed("transaction-detail", extra: {
+                                                      'idtrx': trx.idtransaksi!,
+                                                      'type': 'TRANSAKSI',
+                                                      'total': trx.hARGAJUAL
+                                                    });
+                                                  }).catchError((e) {
+                                                    showDynamicSnackBar(
+                                                      context, 
+                                                      LineIcons.exclamationTriangle, 
+                                                      "ERROR", 
+                                                      e.toString(), 
+                                                      Colors.red
+                                                    );
+                                                  });
+                                                } else {
+                                                  locator.get<LocalNotificationService>().showLocalNotification(
+                                                    title: "Transaksi ${value.produk!}",
+                                                    body: value.msg!
+                                                  );
+                                                  context.pop();
+                                                }
+                                              }
+                                            ).catchError((e) {
+                                              context.pop();
+                                              context.pop();
+
+                                              showDynamicSnackBar(
+                                                context,
+                                                LineIcons.exclamationTriangle,
+                                                "ERROR",
+                                                e.toString(),
+                                                Colors.red
+                                              );
+                                            }
+                                          );
+                                          }
+                                        );
+                                      }
+                                    );
+                                  }
+                                }).catchError((e) {
+                                  checkIdentityCubit.updateState(
+                                    false,
+                                    checkIdentityCubit.state.result
+                                  );
                                   showDynamicSnackBar(
                                     context,
                                     LineIcons.exclamationTriangle,
                                     "ERROR",
-                                    "ID Pelanggan harus diisi telebih dahulu.",
+                                    e.toString(),
                                     Colors.red
                                   );
-                                } else {
-                                  final generatedIdTrxCheck = generateRandomString(8);
-
-                                  checkIdentityCubit.updateState(
-                                    true,
-                                    checkIdentityCubit.state.result
-                                  );
-                                  locator.get<TransactionService>()
-                                  .checkIdentity(
-                                    generatedIdTrxCheck,
-                                    widget.operatorId,
-                                    kodePembayaranController.text,
-                                    "5",
-                                    locator
-                                        .get<UserAppidCubit>()
-                                        .state
-                                        .userAppId
-                                        .appId
-                                  ).then((value) {
-                                    checkIdentityCubit.updateState(
-                                        false, value);
-                                    if (value.success!) {
-                                      popupMenuController.hideMenu();
-                                      final splittedMessage = value.msg!.split("HARGA").removeLast();
-                                      final splittedHarga = splittedMessage.split("ADMIN");
-                                      final parsedTotalPay = splittedHarga[0].replaceAll(RegExp(r"\D"), "");
-
-                                      showModalBottomSheet(
-                                        context: context,
-                                        isScrollControlled: true,
-                                        shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(18),
-                                            topRight: Radius.circular(18)
-                                          )
-                                        ),
-                                        builder: (context) {
-                                          return TransactionCheckFormComponent(
-                                            response: value.msg!,
-                                            productPrice: int.parse(parsedTotalPay),
-                                            onSubmit: (pin) {
-                                              showLoadingSubmit(context, "Proses Transaksi...");
-
-                                              final generatedIdTrx = generateRandomString(8);
-
-                                              locator.get<TransactionService>().payNow(
-                                                generatedIdTrx,
-                                                widget.operatorId,
-                                                kodePembayaranController.text,
-                                                pin,
-                                                "6",
-                                                locator.get<UserAppidCubit>().state.userAppId.appId
-                                                ).then((value) {
-                                                  if (value.success!) {
-                                                    context.pop();
-                                                    locator.get<LocalNotificationService>().showLocalNotification(
-                                                      title: "Transaksi ${value.produk!}",
-                                                      body: "Transaksi ${value.produk!} berhasil dilakukan."
-                                                    );
-
-                                                    locator.get<TransactionService>().findLastTransaction(generatedIdTrx).then((trx) {
-                                                      context.pushNamed("transaction-detail", extra: {
-                                                        'idtrx': trx.idtransaksi!,
-                                                        'type': 'TRANSAKSI',
-                                                        'total': trx.hARGAJUAL
-                                                      });
-                                                    }).catchError((e) {
-                                                      showDynamicSnackBar(
-                                                        context, 
-                                                        LineIcons.exclamationTriangle, 
-                                                        "ERROR", 
-                                                        e.toString(), 
-                                                        Colors.red
-                                                      );
-                                                    });
-                                                  } else {
-                                                    locator.get<LocalNotificationService>().showLocalNotification(
-                                                      title: "Transaksi ${value.produk!}",
-                                                      body: value.msg!
-                                                    );
-                                                    context.pop();
-                                                  }
-                                                }
-                                              ).catchError((e) {
-                                                context.pop();
-                                                context.pop();
-
-                                                showDynamicSnackBar(
-                                                  context,
-                                                  LineIcons.exclamationTriangle,
-                                                  "ERROR",
-                                                  e.toString(),
-                                                  Colors.red
-                                                );
-                                              }
-                                            );
-                                            }
-                                          );
-                                        }
-                                      );
-                                    }
-                                  }).catchError((e) {
-                                    checkIdentityCubit.updateState(
-                                      false,
-                                      checkIdentityCubit.state.result
-                                    );
-                                    showDynamicSnackBar(
-                                      context,
-                                      LineIcons.exclamationTriangle,
-                                      "ERROR",
-                                      e.toString(),
-                                      Colors.red
-                                    );
-                                  });
-                                }
-                              },
-                              width: 100.w,
-                              height: 50,
-                              isLoading: state.isLoading
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              pressType: PressType.singleClick,
-              verticalMargin: 10,
-              horizontalMargin: 10,
-              arrowColor: Colors.white,
-              barrierColor: Colors.black54,
-              showArrow: true,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 6),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      LineIcons.wallet,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      "Bayar",
-                      style: GoogleFonts.inter(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
+                                });
+                              }
+                            },
+                            width: 100.w,
+                            height: 50,
+                            isLoading: state.isLoading
+                        );
+                      },
                     ),
                   ],
                 ),
-              ))
+              ),
+            ),
+            pressType: PressType.singleClick,
+            verticalMargin: 10,
+            horizontalMargin: 10,
+            arrowColor: Colors.white,
+            barrierColor: Colors.black54,
+            showArrow: true,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 6),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Icon(
+                    LineIcons.wallet,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    "Bayar",
+                    style: GoogleFonts.inter(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  ),
+                ],
+              ),
+            )
+          )
         ],
         leading: IconButton(
           icon: const Icon(
