@@ -38,7 +38,7 @@ class SelectContactComponent extends StatelessWidget {
           color: const Color(0xff079992)
         ),
         child: const Center(
-          child: Icon(Iconsax.archive_book, color: Colors.white, size: 32,),
+          child: Icon(Iconsax.user_search, color: Colors.white,),
         ),
       ),
     );

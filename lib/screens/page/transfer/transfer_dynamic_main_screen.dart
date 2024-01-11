@@ -146,7 +146,7 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                         crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: [
-                                                          Text("Konfirmasi Transfer Saldo", style: GoogleFonts.inter(
+                                                          Text("Konfirmasi Transfer Saldo", style: GoogleFonts.openSans(
                                                             fontSize: 16,
                                                             fontWeight: FontWeight.w600
                                                           ),),
@@ -176,14 +176,14 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                                                   "ID Tujuan", 
                                                                   maxFontSize: 14,
                                                                   maxLines: 1,
-                                                                  style: GoogleFonts.inter(
+                                                                  style: GoogleFonts.openSans(
                                                                   fontSize: 14,
                                                                   fontWeight: FontWeight.w500,
                                                                   color: const Color(0xff7f8fa6)
                                                                 ),),
                                                               ),
                                                               TableCell(
-                                                                child: Text(":", style: GoogleFonts.inter(
+                                                                child: Text(":", style: GoogleFonts.openSans(
                                                                   fontSize: 14,
                                                                   color: Colors.black,
                                                                   fontWeight: FontWeight.w500
@@ -194,7 +194,7 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                                                   identityController.text,
                                                                   maxLines: 1,
                                                                   maxFontSize: 14,
-                                                                  style: GoogleFonts.inter(
+                                                                  style: GoogleFonts.openSans(
                                                                     color: Colors.black,
                                                                     fontWeight: FontWeight.w700
                                                                   ),
@@ -222,14 +222,14 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                                                   "Penerima", 
                                                                   maxFontSize: 14,
                                                                   maxLines: 1,
-                                                                  style: GoogleFonts.inter(
+                                                                  style: GoogleFonts.openSans(
                                                                   fontSize: 14,
                                                                   fontWeight: FontWeight.w500,
                                                                   color: const Color(0xff7f8fa6)
                                                                 ),),
                                                               ),
                                                               TableCell(
-                                                                child: Text(":", style: GoogleFonts.inter(
+                                                                child: Text(":", style: GoogleFonts.openSans(
                                                                   fontSize: 14,
                                                                   color: Colors.black,
                                                                   fontWeight: FontWeight.w500
@@ -240,7 +240,7 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                                                   widget.namaReseller,
                                                                   maxLines: 1,
                                                                   maxFontSize: 14,
-                                                                  style: GoogleFonts.inter(
+                                                                  style: GoogleFonts.openSans(
                                                                     color: Colors.black,
                                                                     fontWeight: FontWeight.w700
                                                                   ),
@@ -268,14 +268,14 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                                                   "No. Tujuan", 
                                                                   maxFontSize: 14,
                                                                   maxLines: 1,
-                                                                  style: GoogleFonts.inter(
+                                                                  style: GoogleFonts.openSans(
                                                                   fontSize: 14,
                                                                   fontWeight: FontWeight.w500,
                                                                   color: const Color(0xff7f8fa6)
                                                                 ),),
                                                               ),
                                                               TableCell(
-                                                                child: Text(":", style: GoogleFonts.inter(
+                                                                child: Text(":", style: GoogleFonts.openSans(
                                                                   fontSize: 14,
                                                                   color: Colors.black,
                                                                   fontWeight: FontWeight.w500
@@ -286,7 +286,7 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                                                   identityController.text,
                                                                   maxLines: 1,
                                                                   maxFontSize: 14,
-                                                                  style: GoogleFonts.inter(
+                                                                  style: GoogleFonts.openSans(
                                                                     color: Colors.black,
                                                                     fontWeight: FontWeight.w700
                                                                   ),
@@ -313,14 +313,14 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                                                 child: AutoSizeText("Total", 
                                                                 maxFontSize: 14,
                                                                 maxLines: 1,
-                                                                style: GoogleFonts.inter(
+                                                                style: GoogleFonts.openSans(
                                                                   fontSize: 14,
                                                                   fontWeight: FontWeight.w500,
                                                                   color: const Color(0xff7f8fa6)
                                                                 ),),
                                                               ),
                                                               TableCell(
-                                                                child: Text(":", style: GoogleFonts.inter(
+                                                                child: Text(":", style: GoogleFonts.openSans(
                                                                   fontSize: 14,
                                                                   color: Colors.black,
                                                                   fontWeight: FontWeight.w500
@@ -331,7 +331,7 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                                                   FormatCurrency.convertToIdr(int.parse(amount), 0),
                                                                   maxLines: 1,
                                                                   maxFontSize: 14,
-                                                                  style: GoogleFonts.inter(
+                                                                  style: GoogleFonts.openSans(
                                                                     color: Colors.black,
                                                                     fontWeight: FontWeight.w700
                                                                   ),

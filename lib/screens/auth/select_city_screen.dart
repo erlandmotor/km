@@ -72,7 +72,7 @@ class SelectCityScreen extends StatelessWidget {
                     },
                     title: Text(
                       snapshot.data!.data!.cities![index].cityName!,
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.openSans(
                         fontSize: 16,
                         fontWeight: FontWeight.w500
                       ),

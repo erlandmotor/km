@@ -338,7 +338,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       barrierColor: Colors.black54,
                       showArrow: true,
                       
-                      child: const Icon(Iconsax.search_normal, color: Colors.white,)
+                      child: const Icon(Iconsax.search_normal_1, color: Colors.white,)
                     )
                   ],
                 ),

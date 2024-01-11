@@ -74,7 +74,7 @@ class SelectProvinceScreen extends StatelessWidget {
                     },
                     title: Text(
                       snapshot.data!.data!.provinces![index].provinceName!,
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.openSans(
                         fontSize: 16,
                         fontWeight: FontWeight.w500
                       ),

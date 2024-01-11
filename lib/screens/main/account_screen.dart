@@ -1,8 +1,11 @@
 import "package:adamulti_mobile_clone_new/components/account_menu_section_component.dart";
 import "package:adamulti_mobile_clone_new/components/container_gradient_background.dart";
 import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
+import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/getme_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/google_account_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
@@ -43,17 +46,45 @@ class AccountScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       CircleAvatar(
+                        radius: 32,
                         backgroundColor: Colors.white,
-                        radius: 36,
-                        child: CircleAvatar(
-                          radius: 34,
-                          backgroundImage: 
-                          locator.get<AuthService>().getCurrentSigningAccount()!.photoUrl == null ?
-                          const AssetImage("assets/default-user.png") :
-                          CachedNetworkImageProvider(
-                            locator.get<AuthService>().getCurrentSigningAccount()!.photoUrl! 
-                          ) as ImageProvider
-                        ),
+                        child: BlocBuilder<GoogleAccountCubit, GoogleAccountState>(
+                          bloc: locator.get<GoogleAccountCubit>(),
+                          builder: (_, state) {
+                            if(state.userData == null) {
+                              return BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
+                                bloc: locator.get<SettingApplikasiCubit>(),
+                                builder: (_, stateSetting) {
+                                  return CircleAvatar(
+                                    radius: 30,
+                                    backgroundColor: HexColor.fromHex(stateSetting.settingData.infoColor!),
+                                    child: const Icon(Iconsax.user, color: Colors.white,),
+                                  );
+                                }
+                              );
+                            } else {
+                              if(state.userData!.photoUrl == null) {
+                                return BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
+                                  bloc: locator.get<SettingApplikasiCubit>(),
+                                  builder: (_, stateSetting) {
+                                    return CircleAvatar(
+                                      radius: 30,
+                                      backgroundColor: HexColor.fromHex(stateSetting.settingData.infoColor!),
+                                      child: const Icon(Iconsax.user, color: Colors.white,),
+                                    );
+                                  }
+                                );
+                              } else {
+                                return CircleAvatar(
+                                  radius: 30,
+                                  backgroundImage: CachedNetworkImageProvider(
+                                    state.userData!.photoUrl! 
+                                  ),
+                                );
+                              }
+                            }
+                          },
+                        )
                       ),
                       const SizedBox(
                         width: 12,
@@ -62,7 +93,7 @@ class AccountScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(locator.get<AuthService>().getCurrentSigningAccount()!.displayName!, style: GoogleFonts.inter(
+                          Text(locator.get<AuthService>().getCurrentSigningAccount()!.displayName!, style: GoogleFonts.openSans(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: Colors.white
@@ -72,7 +103,7 @@ class AccountScreen extends StatelessWidget {
                             children: [
                               const Icon(Iconsax.shop, color: Colors.white, size: 18,),
                               const SizedBox(width: 6,),
-                              Text(locator.get<AuthenticatedCubit>().state.authenticatedUser.nAMARESELLER!, style: GoogleFonts.inter(
+                              Text(locator.get<AuthenticatedCubit>().state.authenticatedUser.nAMARESELLER!, style: GoogleFonts.openSans(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.white
@@ -98,63 +129,63 @@ class AccountScreen extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  const CircleAvatar(
-                                    backgroundColor: Colors.blue,
-                                    child: Icon(Iconsax.group, color: Colors.white,),
+                                  CircleAvatar(
+                                    backgroundColor: Colors.blue.withOpacity(0.2),
+                                    child: const Icon(Iconsax.profile_2user, color: Colors.blue,),
                                   ),
                                   const SizedBox(height: 4,),
-                                  Text("Downline", style: GoogleFonts.inter(
+                                  Text("Downline", style: GoogleFonts.openSans(
                                     fontSize: 10,
                                     fontWeight: FontWeight.w400,
-                                    color: Colors.black
+                                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.textColor!)
                                   ),),
                                   const SizedBox(height: 8,),
-                                  Text(state.data.data!.jmldownline!.toString(), style: GoogleFonts.inter(
+                                  Text(state.data.data!.jmldownline!.toString(), style: GoogleFonts.openSans(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.black
+                                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.textColor!)
                                   ),)
                                 ],
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  const CircleAvatar(
-                                    backgroundColor: Colors.yellow,
-                                    child: Icon(Iconsax.coin_1, color: Colors.white,),
+                                  CircleAvatar(
+                                    backgroundColor: Colors.yellow.withOpacity(0.2),
+                                    child: const Icon(Iconsax.coin_1, color: Colors.orange,),
                                   ),
                                   const SizedBox(height: 4,),
-                                  Text("Poin", style: GoogleFonts.inter(
+                                  Text("Poin", style: GoogleFonts.openSans(
                                     fontSize: 10,
                                     fontWeight: FontWeight.w400,
-                                    color: Colors.black
+                                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.textColor!)
                                   ),),
                                   const SizedBox(height: 8,),
-                                  Text(state.data.data!.poin.toString(), style: GoogleFonts.inter(
+                                  Text(state.data.data!.poin.toString(), style: GoogleFonts.openSans(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.black
+                                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.textColor!)
                                   ),)
                                 ],
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  const CircleAvatar(
-                                    backgroundColor: Colors.green,
-                                    child: Icon(Iconsax.money_tick, color: Colors.white,),
+                                  CircleAvatar(
+                                    backgroundColor: Colors.green.withOpacity(0.2),
+                                    child: const Icon(Iconsax.money_tick, color: Colors.green,),
                                   ),
                                   const SizedBox(height: 4,),
-                                  Text("Komisi", style: GoogleFonts.inter(
+                                  Text("Komisi", style: GoogleFonts.openSans(
                                     fontSize: 10,
                                     fontWeight: FontWeight.w400,
-                                    color: Colors.black
+                                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.textColor!)
                                   ),),
                                   const SizedBox(height: 8,),
-                                  Text(FormatCurrency.convertToIdr(state.data.data!.poin, 0), style: GoogleFonts.inter(
+                                  Text(FormatCurrency.convertToIdr(state.data.data!.poin, 0), style: GoogleFonts.openSans(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.black
+                                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.textColor!)
                                   ),)
                                 ],
                               ),
@@ -187,7 +218,7 @@ class AccountScreen extends StatelessWidget {
                               context.pushNamed("daftar-agen");
                             },
                             child: const AccountMenuSectionComponent(
-                              icon: Iconsax.user_square, 
+                              icon: Iconsax.profile_2user, 
                               label: "Daftar Agen",
                               iconColor: Colors.blue, 
                             )

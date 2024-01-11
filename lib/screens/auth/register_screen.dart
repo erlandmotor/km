@@ -218,13 +218,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   "Terima Syarat dan Ketentuan Layanan",
                                   maxFontSize: 14,
                                   maxLines: 1,
-                                  style: GoogleFonts.inter(
+                                  style: GoogleFonts.openSans(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500
                                   ),
                                 ),
                                 const SizedBox(height: 4,),
-                                Text("Privacy and Policy", style: GoogleFonts.inter(
+                                Text("Privacy and Policy", style: GoogleFonts.openSans(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400
                                 ),)

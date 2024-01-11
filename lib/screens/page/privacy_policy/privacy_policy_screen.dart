@@ -59,7 +59,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
             systemNavigationBarDividerColor: Colors.white),
         title: Text(
           "Privacy and Policy",
-          style: GoogleFonts.inter(
+          style: GoogleFonts.openSans(
               fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
         ),
       ),

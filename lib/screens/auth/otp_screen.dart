@@ -124,7 +124,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     showFieldAsBox: true, 
                     onCodeChanged: (String code) {           
                     },
-                    textStyle: GoogleFonts.inter(
+                    textStyle: GoogleFonts.openSans(
                       fontSize: 18,
                       fontWeight: FontWeight.w600
                     ),

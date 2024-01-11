@@ -184,7 +184,7 @@ class _DaftarAgenScreenState extends State<DaftarAgenScreen> {
                                             child: CircleAvatar(
                                               radius: 20,
                                               backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
-                                              child: Text("${state.dataList[index].idreseller![0]}${state.dataList[index].idreseller![1]}", style: GoogleFonts.inter(
+                                              child: Text("${state.dataList[index].idreseller![0]}${state.dataList[index].idreseller![1]}", style: GoogleFonts.openSans(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w600,
                                                 color: Colors.white
@@ -194,7 +194,7 @@ class _DaftarAgenScreenState extends State<DaftarAgenScreen> {
                                         ),
                                         title: Text(
                                           "${state.dataList[index].idreseller!} | ${state.dataList[index].namareseller!}",
-                                          style: GoogleFonts.inter(
+                                          style: GoogleFonts.openSans(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w600
                                           ),
@@ -205,7 +205,7 @@ class _DaftarAgenScreenState extends State<DaftarAgenScreen> {
                                             const SizedBox(height: 4,),
                                             Text(
                                               "Saldo : ${FormatCurrency.convertToIdr(state.dataList[index].saldo!, 0)}",
-                                              style: GoogleFonts.inter(
+                                              style: GoogleFonts.openSans(
                                                 fontSize: 10,
                                                 fontWeight: FontWeight.w500
                                               ),
@@ -213,7 +213,7 @@ class _DaftarAgenScreenState extends State<DaftarAgenScreen> {
                                             const SizedBox(height: 2,),
                                             Text(
                                               "Mark Up : ${FormatCurrency.convertToIdr(state.dataList[index].tambahanhargapribadi!, 0)}",
-                                              style: GoogleFonts.inter(
+                                              style: GoogleFonts.openSans(
                                                 fontSize: 10,
                                                 fontWeight: FontWeight.w500
                                               ),
@@ -245,7 +245,7 @@ class _DaftarAgenScreenState extends State<DaftarAgenScreen> {
                                                         children: [
                                                           const Icon(Iconsax.card_send, color: Colors.black,),
                                                           const SizedBox(width: 8,),
-                                                          Text("Kirim Saldo", style: GoogleFonts.inter(
+                                                          Text("Kirim Saldo", style: GoogleFonts.openSans(
                                                             fontSize: 12,
                                                             fontWeight: FontWeight.w500
                                                           ),)
@@ -268,7 +268,7 @@ class _DaftarAgenScreenState extends State<DaftarAgenScreen> {
                                                         children: [
                                                           const Icon(Iconsax.money_tick, color: Colors.black,),
                                                           const SizedBox(width: 8,),
-                                                          Text("Ubah Markup", style: GoogleFonts.inter(
+                                                          Text("Ubah Markup", style: GoogleFonts.openSans(
                                                             fontSize: 12,
                                                             fontWeight: FontWeight.w500
                                                           ),)

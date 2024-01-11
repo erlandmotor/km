@@ -77,13 +77,12 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                   )
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(18),
-                child: Column(
-                  children: [
-                    const CustomContainerAppBar(title: "Connect Printer", height: 80),
-                    const SizedBox(height: 10,),
-                    Expanded(
+              Column(
+                children: [
+                  const CustomContainerAppBar(title: "Connect Printer", height: 80),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: Card(
                         surfaceTintColor: Colors.white,
                         child: Padding(
@@ -92,8 +91,8 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                width: 100.w,
-                                padding: const EdgeInsets.all(8),
+                                width: 96.w,
+                                padding: const EdgeInsets.all(18),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(
@@ -140,7 +139,7 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                                 Text(
                                                   snapshot.data == BlueThermalPrinter.STATE_OFF ?
                                                   "Bluetooth Tidak Aktif"
-                                                  : "Bluetooth Aktif", style: GoogleFonts.inter(
+                                                  : "Bluetooth Aktif", style: GoogleFonts.openSans(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w500,
                                                   color: Colors.black
@@ -150,7 +149,7 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                                   "Nyalakan Bluetooth Anda." : 
                                                   snapshot.data == BlueThermalPrinter.CONNECTED ? 
                                                   state.selectedDevice.name! :
-                                                   "Pilih Device Printer Anda", style: GoogleFonts.inter(
+                                                   "Pilih Device Printer Anda", style: GoogleFonts.openSans(
                                                   fontSize: 12,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.w400
@@ -176,7 +175,7 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                         locator.get<ConnectPrinterCubit>().state.selectedDevice, 
                                         true
                                       );
-
+                                        
                                       blueThermalPrinter.getBondedDevices().then((value) {
                                         locator.get<ConnectPrinterCubit>().updateState(
                                           value, 
@@ -222,11 +221,11 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                           return ListTile(
                                             leading: CircleAvatar(
                                               backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
-                                              child: Icon(Iconsax.printer, color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightTextColor!),),
+                                              child: const Icon(Iconsax.printer, color: Colors.white,),
                                             ),
                                             title: Text(
                                               state.deviceList[index].name!,
-                                              style: GoogleFonts.inter(
+                                              style: GoogleFonts.openSans(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.black
@@ -241,9 +240,9 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                                       state.deviceList[index], 
                                                       false
                                                     );
-
+                                        
                                                     locator.get<SecureStorageService>().writeSecureData("printer", jsonEncode(state.deviceList[index].toMap()));
-
+                                        
                                                     showDynamicSnackBar(context, 
                                                       Iconsax.info_circle, 
                                                       "Koneksi Perangkat Bluetooth", 
@@ -261,14 +260,14 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                                   });
                                                 } else {
                                                   blueThermalPrinter.disconnect();
-
+                                        
                                                   blueThermalPrinter.connect(state.deviceList[index]).then((_) {
                                                     locator.get<ConnectPrinterCubit>().updateState(
                                                       locator.get<ConnectPrinterCubit>().state.deviceList, 
                                                       state.deviceList[index], 
                                                       false
                                                     );
-
+                                        
                                                     locator.get<SecureStorageService>().writeSecureData("printer", jsonEncode(state.deviceList[index].toMap()));
                                                     
                                                     showDynamicSnackBar(context, 
@@ -291,7 +290,7 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                             },
                                             subtitle: Text(
                                               state.deviceList[index].address!,
-                                              style: GoogleFonts.inter(
+                                              style: GoogleFonts.openSans(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,
                                                 color: Colors.black
@@ -323,8 +322,8 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               )
             ],
           )

@@ -43,15 +43,14 @@ class HistoryTransaksiItemComponent extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      alignment: Alignment.center,
                       width: 36,
                       height: 36,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(18),
+                        borderRadius: BorderRadius.circular(8),
                         color: statusTransaksi == "2" ? Colors.red : Colors.green
                       ),
                       child: Icon(
-                        statusTransaksi == "2" ? Iconsax.close_circle : Iconsax.tick_circle,
+                        statusTransaksi == "2" ? Icons.close : Icons.check,
                         color: Colors.white,
                         size: 26,
                       ),
@@ -66,7 +65,7 @@ class HistoryTransaksiItemComponent extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(kodeTujuan, style: GoogleFonts.inter(
+                                Text(kodeTujuan, style: GoogleFonts.openSans(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600
                                 ),),

@@ -16,7 +16,7 @@ class MainMenuShimmer extends StatelessWidget {
       spacing: 4.w,
       runSpacing: 12,
       children: [
-        for(var i = 0; i < dataLength; i++)   Shimmer.fromColors(
+        for(var i = 0; i < dataLength; i++) Shimmer.fromColors(
           baseColor: Colors.grey[400]!, 
           highlightColor: Colors.grey[100]!,
           child: Container(

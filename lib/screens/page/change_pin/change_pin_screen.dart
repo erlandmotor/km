@@ -57,103 +57,106 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
               Column(
                 children: [
                   const CustomContainerAppBar(title: "Ganti Pin", height: 80,),
-                  Card(
-                    surfaceTintColor: Colors.blue,
-                    child: Container(
-                      width: 96.w,
-                      padding: const EdgeInsets.all(18),
-                      child: Form(
-                        key: ChangePinScreen.changePinFormKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CircleAvatar(
-                              radius: 48,
-                              backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!).withOpacity(0.2),
-                              child: CircleAvatar(
-                                radius: 40,
-                                backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!).withOpacity(0.6),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      surfaceTintColor: Colors.blue,
+                      child: Container(
+                        width: 96.w,
+                        padding: const EdgeInsets.all(18),
+                        child: Form(
+                          key: ChangePinScreen.changePinFormKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                radius: 48,
+                                backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!).withOpacity(0.2),
                                 child: CircleAvatar(
-                                  radius: 36,
-                                  backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),                                
-                                  child: const Icon(Iconsax.security_user, color: Colors.white, size: 40,),
+                                  radius: 40,
+                                  backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!).withOpacity(0.6),
+                                  child: CircleAvatar(
+                                    radius: 36,
+                                    backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),                                
+                                    child: const Icon(Iconsax.lock_circle, color: Colors.white, size: 40,),
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 18,
-                            ),
-                            PinTextFieldComponent(
-                              label: "PIN Lama", 
-                              hint: "Masukkan PIN yang sekarang", 
-                              controller: currentPinController
-                            ),
-                            const SizedBox(height: 8,),
-                            PinTextFieldComponent(
-                              label: "PIN Baru", 
-                              hint: "Masukkan PIN yang baru", 
-                              controller: newPinController
-                            ),
-                            const SizedBox(height: 18,),
-                            DynamicSizeButtonComponent(
-                              label: "Ganti Pin", 
-                              buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
-                              onPressed: () {
-                                if(ChangePinScreen.changePinFormKey.currentState!.validate()) {
-                                  showDynamicSnackBar(
-                                    context, 
-                                    Iconsax.warning_2, 
-                                    "ERROR", 
-                                    "PIN Lama atau PIN Baru harus diisi terlebih dahulu.", 
-                                    Colors.red
-                                  );
-                                } else {
-                                  showLoadingSubmit(context, "Proses Mengganti PIN");
-                      
-                                  locator.get<AuthService>().changePin(
-                                    locator.get<UserAppidCubit>().state.userAppId.appId, 
-                                    currentPinController.text, 
-                                    newPinController.text, 
-                                    newPinController.text
-                                  ).then((value) {
-                                    currentPinController.clear();
-                                    newPinController.clear();
-                                    
-                                    context.pop();
-                                    
-                                    if(value.success! == true) {
-                                      showDynamicSnackBar(
-                                        context, 
-                                        Iconsax.warning_2, 
-                                        "SUKSES", 
-                                        value.msg!, 
-                                        Colors.blue
-                                      );
-                                    } else {
-                                      showDynamicSnackBar(
-                                        context, 
-                                        Iconsax.warning_2, 
-                                        "ERROR", 
-                                        value.msg!, 
-                                        Colors.red
-                                      );
-                                    }
-                                  }).catchError((e) {
+                              const SizedBox(
+                                height: 18,
+                              ),
+                              PinTextFieldComponent(
+                                label: "PIN Lama", 
+                                hint: "Masukkan PIN yang sekarang", 
+                                controller: currentPinController
+                              ),
+                              const SizedBox(height: 8,),
+                              PinTextFieldComponent(
+                                label: "PIN Baru", 
+                                hint: "Masukkan PIN yang baru", 
+                                controller: newPinController
+                              ),
+                              const SizedBox(height: 18,),
+                              DynamicSizeButtonComponent(
+                                label: "Ganti Pin", 
+                                buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
+                                onPressed: () {
+                                  if(ChangePinScreen.changePinFormKey.currentState!.validate()) {
                                     showDynamicSnackBar(
                                       context, 
                                       Iconsax.warning_2, 
                                       "ERROR", 
-                                      e.toString(), 
+                                      "PIN Lama atau PIN Baru harus diisi terlebih dahulu.", 
                                       Colors.red
                                     );
-                                  });
-                                }
-                              }, 
-                              width: 100.w, 
-                              height: 50
-                            )
-                          ],
+                                  } else {
+                                    showLoadingSubmit(context, "Proses Mengganti PIN");
+                        
+                                    locator.get<AuthService>().changePin(
+                                      locator.get<UserAppidCubit>().state.userAppId.appId, 
+                                      currentPinController.text, 
+                                      newPinController.text, 
+                                      newPinController.text
+                                    ).then((value) {
+                                      currentPinController.clear();
+                                      newPinController.clear();
+                                      
+                                      context.pop();
+                                      
+                                      if(value.success! == true) {
+                                        showDynamicSnackBar(
+                                          context, 
+                                          Iconsax.warning_2, 
+                                          "SUKSES", 
+                                          value.msg!, 
+                                          Colors.blue
+                                        );
+                                      } else {
+                                        showDynamicSnackBar(
+                                          context, 
+                                          Iconsax.warning_2, 
+                                          "ERROR", 
+                                          value.msg!, 
+                                          Colors.red
+                                        );
+                                      }
+                                    }).catchError((e) {
+                                      showDynamicSnackBar(
+                                        context, 
+                                        Iconsax.warning_2, 
+                                        "ERROR", 
+                                        e.toString(), 
+                                        Colors.red
+                                      );
+                                    });
+                                  }
+                                }, 
+                                width: 100.w, 
+                                height: 50
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),

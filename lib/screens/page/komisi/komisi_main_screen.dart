@@ -122,7 +122,7 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(18.0),
-                                child: Text("Pilih Tanggal", style: GoogleFonts.inter(
+                                child: Text("Pilih Tanggal", style: GoogleFonts.openSans(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500
                                 ),),
@@ -209,7 +209,7 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
                       arrowColor: Colors.white,
                       barrierColor: Colors.black54,
                       showArrow: true,
-                      child: const Icon(Icons.search_outlined, size: 32, color: Colors.white,)
+                      child: const Icon(Iconsax.search_normal_1, size: 24, color: Colors.white,)
                     ),
                   ),
                   Card(
@@ -223,7 +223,7 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Komisi Saat Ini : ", style: GoogleFonts.inter(
+                              Text("Komisi Saat Ini : ", style: GoogleFonts.openSans(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500
                               ),),
@@ -239,7 +239,7 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
                                       )
                                     );
                                   } else {
-                                    return Text(FormatCurrency.convertToIdr(state.totalKomisi, 0), style: GoogleFonts.inter(
+                                    return Text(FormatCurrency.convertToIdr(state.totalKomisi, 0), style: GoogleFonts.openSans(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600
                                     ),);
@@ -257,7 +257,7 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
                                 context: context, 
                                 builder: (dialogContext) {
                                   return CupertinoAlertDialog(
-                                    title: Text("Konfirmasi Penukaran Komisi", style: GoogleFonts.inter(
+                                    title: Text("Konfirmasi Penukaran Komisi", style: GoogleFonts.openSans(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600
                                     ),),
@@ -271,7 +271,7 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
                                             child: Icon(Iconsax.warning_2, size: 38, color: Colors.white,),
                                           ),
                                           const SizedBox(height: 18,),
-                                          Text("Apakah anda yakin ingin menukar komisi anda menjadi saldo???", style: GoogleFonts.inter(
+                                          Text("Apakah anda yakin ingin menukar komisi anda menjadi saldo???", style: GoogleFonts.openSans(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500
                                           ),)
@@ -283,7 +283,7 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
                                         onPressed: () {
                                           dialogContext.pop();
                                         },
-                                        child: Text("Batal", style: GoogleFonts.inter(
+                                        child: Text("Batal", style: GoogleFonts.openSans(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600
                                         ),)
@@ -313,7 +313,7 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
                                             );
                                           });
                                         },
-                                        child: Text("Tukar", style: GoogleFonts.inter(
+                                        child: Text("Tukar", style: GoogleFonts.openSans(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600
                                         ),)

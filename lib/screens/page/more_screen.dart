@@ -18,11 +18,12 @@ class MoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
       appBar: AppBar(
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(
-            Iconsax.arrow_left_2,
+            Iconsax.arrow_circle_left,
             color: Colors.white,
             size: 30,
           ),

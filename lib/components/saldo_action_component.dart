@@ -1,6 +1,7 @@
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
+import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
@@ -35,7 +36,11 @@ class SaldoActionComponent extends StatelessWidget {
             },
           ),
           const SizedBox(height: 4,),
-          Text(label, style: GoogleFonts.openSans(
+          AutoSizeText(
+            label, 
+            maxFontSize: 12,
+            maxLines: 1,
+            style: GoogleFonts.openSans(
             fontSize: 12,
             fontWeight: FontWeight.w600
           ),)

@@ -123,7 +123,7 @@ class _TopupMainScreenState extends State<TopupMainScreen> {
                                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                             crossAxisAlignment: CrossAxisAlignment.center,
                                                             children: [
-                                                              Text("Informasi Deposit Bank", style: GoogleFonts.inter(
+                                                              Text("Informasi Deposit Bank", style: GoogleFonts.openSans(
                                                                 fontSize: 16,
                                                                 fontWeight: FontWeight.w600
                                                               ),),
@@ -149,18 +149,19 @@ class _TopupMainScreenState extends State<TopupMainScreen> {
                                                                 stops: const [0, 0.4, 0.8],
                                                                 begin: Alignment.topCenter,
                                                                 end: Alignment.bottomCenter,
-                                                              )
+                                                              ),
+                                                              borderRadius: BorderRadius.circular(18)
                                                             ),
                                                             child: Column(
                                                               crossAxisAlignment: CrossAxisAlignment.start,
                                                               children: [
-                                                                Text("Jumlah Transfer", style: GoogleFonts.inter(
+                                                                Text("Jumlah Transfer", style: GoogleFonts.openSans(
                                                                   fontSize: 14,
                                                                   fontWeight: FontWeight.w500,
                                                                   color: Colors.white
                                                                 ),),
                                                                 const SizedBox(height: 12,),
-                                                                Text(FormatCurrency.convertToIdr(response.jumlah!, 0), style: GoogleFonts.inter(
+                                                                Text(FormatCurrency.convertToIdr(response.jumlah!, 0), style: GoogleFonts.openSans(
                                                                   fontSize: 20,
                                                                   fontWeight: FontWeight.w700,
                                                                   color: Colors.white
@@ -179,7 +180,7 @@ class _TopupMainScreenState extends State<TopupMainScreen> {
                                                               padding: const EdgeInsets.all(18),
                                                               child: AutoSizeText(response.msg!, 
                                                                 maxFontSize: 14,
-                                                                style: GoogleFonts.inter(
+                                                                style: GoogleFonts.openSans(
                                                                 fontSize: 14,
                                                                 fontWeight: FontWeight.w600
                                                               ),),

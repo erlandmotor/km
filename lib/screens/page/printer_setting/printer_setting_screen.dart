@@ -78,80 +78,83 @@ class _PrinterSettingScreenState extends State<PrinterSettingScreen> {
                 child: Column(
                   children: [
                     const CustomContainerAppBar(title: "Struk & Printer", height: 80),
-                    Card(
-                      surfaceTintColor: Colors.blue,
-                      child: Container(
-                        padding: const EdgeInsets.all(18),
-                        child: Form(
-                          key: PrinterSettingScreen.strukFormKey,
-                          child: Column(
-                            children: [
-                              RegularTextFieldWithoutIconComponent(
-                                label: "Nama Toko", 
-                                hint: "Contoh : Gurita Cell", 
-                                controller: namaTokoController, 
-                                validationMessage: "*Nama toko harus diisi.", 
-                                isObsecure: false
-                              ),
-                              const SizedBox(height: 18,),
-                              RegularTextareaComponent(
-                                label: "Alamat Toko & Telp", 
-                                hint: "Contoh : Jln. Industri, GG. Gurita no. 5 / 082236343053", 
-                                controller: alamatTokoController, 
-                                validationMessage: "*Alamat toko harus diisi."
-                              ),
-                              const SizedBox(height: 18,),
-                              RegularTextareaComponent(
-                                label: "Footer Struk", 
-                                hint: "Contoh : Terima Kasih Telah Berbalanja di Toko Gurita Mas Cell.", 
-                                controller: footerStrukController, 
-                                validationMessage: "*Footer struk harus diisi."
-                              ),
-                              const SizedBox(height: 18,),
-                              MarkupTextFieldComponent(
-                                label: "Default Markup", 
-                                hint: "Contoh : Rp. 2.000", 
-                                controller: markupController,
-                                prefixIcon: Iconsax.money_tick,
-                                onChangedAction: (String value) {
-                                }
-                              ),
-                              const SizedBox(height: 18,),
-                              DynamicSizeButtonComponent(
-                                label: "Simpan", 
-                                buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
-                                onPressed: () {
-                                  if(PrinterSettingScreen.strukFormKey.currentState!.validate()) {
-                                    locator.get<SecureStorageService>().writeSecureData("struk", 
-                                      jsonEncode(StrukModel(
-                                        nama: namaTokoController.text, 
-                                        alamat: alamatTokoController.text, 
-                                        footer: footerStrukController.text,
-                                        markup: markupController.text
-                                      ).toJson())
-                                    );
-
-                                    showDynamicSnackBar(
-                                      context, 
-                                      Iconsax.info_circle, 
-                                      "STRUK", 
-                                      "Data Struk Berhasil Diperbaharui.", 
-                                      Colors.blue
-                                    );
-                                  } else {
-                                    showDynamicSnackBar(
-                                      context, 
-                                      Iconsax.warning_2, 
-                                      "ERROR", 
-                                      "Formulir harus dilengkapi terlebih dahulu.", 
-                                      Colors.red
-                                    );
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        surfaceTintColor: Colors.blue,
+                        child: Container(
+                          padding: const EdgeInsets.all(18),
+                          child: Form(
+                            key: PrinterSettingScreen.strukFormKey,
+                            child: Column(
+                              children: [
+                                RegularTextFieldWithoutIconComponent(
+                                  label: "Nama Toko", 
+                                  hint: "Contoh : Gurita Cell", 
+                                  controller: namaTokoController, 
+                                  validationMessage: "*Nama toko harus diisi.", 
+                                  isObsecure: false
+                                ),
+                                const SizedBox(height: 18,),
+                                RegularTextareaComponent(
+                                  label: "Alamat Toko & Telp", 
+                                  hint: "Contoh : Jln. Industri, GG. Gurita no. 5 / 082236343053", 
+                                  controller: alamatTokoController, 
+                                  validationMessage: "*Alamat toko harus diisi."
+                                ),
+                                const SizedBox(height: 18,),
+                                RegularTextareaComponent(
+                                  label: "Footer Struk", 
+                                  hint: "Contoh : Terima Kasih Telah Berbalanja di Toko Gurita Mas Cell.", 
+                                  controller: footerStrukController, 
+                                  validationMessage: "*Footer struk harus diisi."
+                                ),
+                                const SizedBox(height: 18,),
+                                MarkupTextFieldComponent(
+                                  label: "Default Markup", 
+                                  hint: "Contoh : Rp. 2.000", 
+                                  controller: markupController,
+                                  prefixIcon: Iconsax.money_tick,
+                                  onChangedAction: (String value) {
                                   }
-                                }, 
-                                width: 100.w, 
-                                height: 50
-                              )
-                            ],
+                                ),
+                                const SizedBox(height: 18,),
+                                DynamicSizeButtonComponent(
+                                  label: "Simpan", 
+                                  buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
+                                  onPressed: () {
+                                    if(PrinterSettingScreen.strukFormKey.currentState!.validate()) {
+                                      locator.get<SecureStorageService>().writeSecureData("struk", 
+                                        jsonEncode(StrukModel(
+                                          nama: namaTokoController.text, 
+                                          alamat: alamatTokoController.text, 
+                                          footer: footerStrukController.text,
+                                          markup: markupController.text
+                                        ).toJson())
+                                      );
+                      
+                                      showDynamicSnackBar(
+                                        context, 
+                                        Iconsax.info_circle, 
+                                        "STRUK", 
+                                        "Data Struk Berhasil Diperbaharui.", 
+                                        Colors.blue
+                                      );
+                                    } else {
+                                      showDynamicSnackBar(
+                                        context, 
+                                        Iconsax.warning_2, 
+                                        "ERROR", 
+                                        "Formulir harus dilengkapi terlebih dahulu.", 
+                                        Colors.red
+                                      );
+                                    }
+                                  }, 
+                                  width: 100.w, 
+                                  height: 50
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),

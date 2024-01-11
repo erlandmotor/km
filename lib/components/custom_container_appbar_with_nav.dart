@@ -1,3 +1,4 @@
+import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:iconsax/iconsax.dart";
@@ -28,18 +29,22 @@ class CustomContainerAppBarWithNav extends StatelessWidget {
                 onTap: () {
                   onTapNav();
                 },
-                child: const Icon(Iconsax.arrow_circle_left, size: 28, color: Colors.white,)
+                child: const Icon(Iconsax.arrow_circle_left, size: 36, color: Colors.white,)
               ),
-              SizedBox(
-                width: 18.w,
+              Expanded(
+                child: Center(
+                  child: AutoSizeText(
+                    title,
+                    maxFontSize: 18,
+                    maxLines: 2, 
+                    style: GoogleFonts.openSans(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white
+                  ),),
+                ),
               ),
-              Flexible(
-                child: Text(title, style: GoogleFonts.openSans(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white
-                ),),
-              )
+              const SizedBox(width: 20,)
             ],
           ),
         ],

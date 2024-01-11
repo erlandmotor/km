@@ -43,7 +43,7 @@ class TopupHistoryItemComponent extends StatelessWidget {
                     color: (status == "0") ? Colors.lightBlue : (status == "1") ? Colors.green : Colors.red
                   ),
                   child: Icon(
-                    (status == "0") ? Iconsax.refresh : (status == "1") ? Iconsax.tick_circle : Iconsax.close_circle,
+                    (status == "0") ? Iconsax.refresh : (status == "1") ? Iconsax.tick_circle : Iconsax.close_circle5,
                     color: Colors.white,
                   ),
                 ),

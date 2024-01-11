@@ -163,7 +163,7 @@ class _PriceListScreenState extends State<PriceListScreen> {
                                         children: [
                                           Text(
                                             mappedData[index].key!,
-                                            style: GoogleFonts.inter(
+                                            style: GoogleFonts.openSans(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w600
                                             ),
@@ -180,7 +180,7 @@ class _PriceListScreenState extends State<PriceListScreen> {
                                                     width: 50.w,
                                                     child: Text(
                                                       mappedData[index].value[i].namaproduk!,
-                                                      style: GoogleFonts.inter(
+                                                      style: GoogleFonts.openSans(
                                                         fontSize: 14,
                                                         fontWeight: FontWeight.w500
                                                       ),
@@ -189,7 +189,7 @@ class _PriceListScreenState extends State<PriceListScreen> {
                                                   Text(
                                                     FormatCurrency.convertToIdr(mappedData[index].value[i].hargajual ?? 0, 
                                                     0),
-                                                    style: GoogleFonts.inter(
+                                                    style: GoogleFonts.openSans(
                                                       fontSize: 14,
                                                       fontWeight: FontWeight.w500,
                                                       color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!)
@@ -225,7 +225,7 @@ class _PriceListScreenState extends State<PriceListScreen> {
                                       children: [
                                         Text(
                                           state.pricelistGroupData.data![index].namaoperator!,
-                                          style: GoogleFonts.inter(
+                                          style: GoogleFonts.openSans(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600
                                           ),
@@ -242,7 +242,7 @@ class _PriceListScreenState extends State<PriceListScreen> {
                                                   width: 50.w,
                                                   child: Text(
                                                     state.pricelistGroupData.data![index].produk![i].namaproduk!,
-                                                    style: GoogleFonts.inter(
+                                                    style: GoogleFonts.openSans(
                                                       fontSize: 14,
                                                       fontWeight: FontWeight.w500
                                                     ),
@@ -251,7 +251,7 @@ class _PriceListScreenState extends State<PriceListScreen> {
                                                 Text(
                                                   FormatCurrency.convertToIdr(state.pricelistGroupData.data![index].produk![i].hargajual ?? 0, 
                                                   0),
-                                                  style: GoogleFonts.inter(
+                                                  style: GoogleFonts.openSans(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w500,
                                                     color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!)

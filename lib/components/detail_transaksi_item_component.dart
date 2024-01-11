@@ -22,7 +22,7 @@ class DetailTransaksiItemComponent extends StatelessWidget {
           children: [
             SizedBox(
               width: 40.w,
-              child: Text(title, style: GoogleFonts.inter(
+              child: Text(title, style: GoogleFonts.openSans(
                 color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightTextColor!),
                 fontSize: 12,
                 fontWeight: FontWeight.w500
@@ -31,7 +31,7 @@ class DetailTransaksiItemComponent extends StatelessWidget {
             Flexible(
               child: Text(value, 
               textAlign: TextAlign.end,
-              style: GoogleFonts.inter(
+              style: GoogleFonts.openSans(
                 fontWeight: FontWeight.w700,
                 color: Colors.black,
                 fontSize: 12

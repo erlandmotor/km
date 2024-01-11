@@ -1,4 +1,3 @@
-import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/bottom_navigation_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/downline_cubit.dart";
@@ -22,8 +21,6 @@ import "package:adamulti_mobile_clone_new/cubit/select_region_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/transaction_detail_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/transfer_cubit.dart";
-import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
-import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/input_phone_number_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/input_pin_already_registered_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/input_pin_screen.dart";
@@ -197,8 +194,6 @@ GoRouter screenRouter(String? token) {
               BlocProvider(create: (_) => RekapTransaksiCubit()),
               BlocProvider(create: (_) => HistoryTopupSaldoCubit()),
               BlocProvider(create: (_) => HistoryTransferCubit()),
-              BlocProvider.value(value: locator.get<AuthenticatedCubit>()),
-              BlocProvider.value(value: locator.get<UserAppidCubit>()),
               BlocProvider(create: (_) => FavoriteMenuCubit()),
               BlocProvider(create: (_) => NotificationsCubit()),
             ], 
@@ -256,11 +251,8 @@ GoRouter screenRouter(String? token) {
               final operatorId = extra["operatorId"] as String;
               final kodeProduk = extra["kodeproduk"] as String;
 
-              return MultiBlocProvider(
-                providers: [
-                  BlocProvider.value(value: locator.get<UserAppidCubit>()),
-                  BlocProvider(create: (_) => CheckIdentityCubit())
-                ], 
+              return BlocProvider(
+                create: (_) => CheckIdentityCubit(),
                 child: PlnTokenScreen(operatorName: operatorName, operatorId: operatorId, kodeProduk: kodeProduk,),
               );
             }
@@ -353,12 +345,9 @@ GoRouter screenRouter(String? token) {
               final operatorName = extra["operatorName"] as String;
               final kodeProduk = extra["kodeproduk"] as String;
 
-              return MultiBlocProvider(
-                providers: [
-                  BlocProvider.value(value: locator.get<UserAppidCubit>()),
-                  BlocProvider(create: (_) => CheckIdentityCubit())
-                ], 
-                child: CheckBeforeTransactionScreen(kodeProduk: kodeProduk, operatorName: operatorName,)
+              return BlocProvider(
+                create: (_) => CheckIdentityCubit(),
+                child: CheckBeforeTransactionScreen(kodeProduk: kodeProduk, operatorName: operatorName,),
               );
             }
           ),

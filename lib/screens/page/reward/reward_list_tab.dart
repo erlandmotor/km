@@ -57,12 +57,12 @@ class RewardListTab extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(snapshot.data!.data![index].hadiah!, style: GoogleFonts.inter(
+                              Text(snapshot.data!.data![index].hadiah!, style: GoogleFonts.openSans(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600
                               ),),
                               const SizedBox(height: 2,),
-                              Text("${snapshot.data!.data![index].jumlahpoin!.toString()} Poin", style: GoogleFonts.inter(
+                              Text("${snapshot.data!.data![index].jumlahpoin!.toString()} Poin", style: GoogleFonts.openSans(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400
                                 ),
@@ -115,7 +115,7 @@ class RewardListTab extends StatelessWidget {
                           backgroundColor: Colors.orange,
                           surfaceTintColor: Colors.white
                         ),
-                        child: Text("Tukar", style: GoogleFonts.inter(
+                        child: Text("Tukar", style: GoogleFonts.openSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                           color: Colors.white

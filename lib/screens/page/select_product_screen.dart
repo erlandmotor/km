@@ -125,7 +125,7 @@ class _SelectProductScreenState extends State<SelectProductScreen> {
                   barrierColor: Colors.black54,
                   showArrow: true,
                   
-                  child: const Icon(Icons.search_outlined, size: 32, color: Colors.white,)
+                  child: const Icon(Iconsax.search_normal_1, size: 24, color: Colors.white,)
                 )
               ),
               Expanded(

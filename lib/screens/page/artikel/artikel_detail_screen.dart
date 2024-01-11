@@ -57,7 +57,7 @@ class ArtikelDetailScreen extends StatelessWidget {
                           children: [
                             const SizedBox(width: 28,),
                             Expanded(
-                              child: Text(snapshot.data!.title!, style: GoogleFonts.inter(
+                              child: Text(snapshot.data!.title!, style: GoogleFonts.openSans(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600
                               ),),

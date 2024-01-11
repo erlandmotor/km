@@ -70,7 +70,7 @@ class SelectDistrictScreen extends StatelessWidget {
                     },
                     title: Text(
                       snapshot.data!.data!.districts![index].districtName!,
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.openSans(
                         fontSize: 16,
                         fontWeight: FontWeight.w500
                       ),

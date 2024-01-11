@@ -41,7 +41,7 @@ class InboxDetailScreen extends StatelessWidget {
             systemNavigationBarDividerColor: Colors.white),
         title: Text(
           "Detail Inbox",
-          style: GoogleFonts.inter(
+          style: GoogleFonts.openSans(
               fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
         ),
       ),
@@ -69,7 +69,7 @@ class InboxDetailScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text(snapshot.data!.title!, style: GoogleFonts.inter(
+                        Text(snapshot.data!.title!, style: GoogleFonts.openSans(
                           fontSize: 16,
                           fontWeight: FontWeight.w600
                         ),),

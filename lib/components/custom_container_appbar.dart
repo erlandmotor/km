@@ -29,7 +29,7 @@ class CustomContainerAppBar extends StatelessWidget {
                 onTap: () {
                   context.pop();
                 },
-                child: const Icon(Iconsax.arrow_circle_left, size: 28, color: Colors.white,)
+                child: const Icon(Iconsax.arrow_circle_left, size: 36, color: Colors.white,)
               ),
               Expanded(
                 child: Center(
@@ -37,7 +37,7 @@ class CustomContainerAppBar extends StatelessWidget {
                     title,
                     maxFontSize: 18,
                     maxLines: 2, 
-                    style: GoogleFonts.inter(
+                    style: GoogleFonts.openSans(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                     color: Colors.white

@@ -101,12 +101,12 @@ class _RekapTransaksiTabState extends State<RekapTransaksiTab> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text("Total Transaksi ($jumlah) :", style: GoogleFonts.inter(
+                    Text("Total Transaksi ($jumlah) :", style: GoogleFonts.openSans(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Colors.white
                     ),),
-                    Text(FormatCurrency.convertToIdr(total, 0), style: GoogleFonts.inter(
+                    Text(FormatCurrency.convertToIdr(total, 0), style: GoogleFonts.openSans(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                       color: Colors.white

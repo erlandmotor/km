@@ -29,7 +29,7 @@ class CustomRegularAppbar extends StatelessWidget implements PreferredSizeWidget
         systemNavigationBarDividerColor: Colors.white
       ),
       backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
-      title: Text(title, style: GoogleFonts.inter(
+      title: Text(title, style: GoogleFonts.openSans(
         fontSize: 18,
         fontWeight: FontWeight.w500,
         color: Colors.white

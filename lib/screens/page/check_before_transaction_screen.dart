@@ -233,7 +233,7 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                                     const SizedBox(width: 8,),
                                     Flexible(
                                       child: Text(
-                                        state.result.msg!, style: GoogleFonts.inter(
+                                        state.result.msg!, style: GoogleFonts.openSans(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
                                           color: Colors.white

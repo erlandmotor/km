@@ -52,12 +52,12 @@ class RewardMainScreen extends StatelessWidget {
                               borderColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!),
                               borderWidth: 0,
                               unselectedBorderColor: const Color(0xff6a89cc),
-                              labelStyle: GoogleFonts.inter(
+                              labelStyle: GoogleFonts.openSans(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
                               ),
-                              unselectedLabelStyle: GoogleFonts.inter(
+                              unselectedLabelStyle: GoogleFonts.openSans(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black

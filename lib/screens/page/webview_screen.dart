@@ -268,7 +268,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
         ],
         leading: IconButton(
           icon: const Icon(
-            Iconsax.arrow_left_2,
+            Iconsax.arrow_circle_left,
             color: Colors.white,
             size: 30,
           ),

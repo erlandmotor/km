@@ -186,12 +186,12 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                         borderColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!),
                                         borderWidth: 0,
                                         unselectedBorderColor: const Color(0xff6a89cc),
-                                        labelStyle: GoogleFonts.inter(
+                                        labelStyle: GoogleFonts.openSans(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
                                           color: Colors.white
                                         ),
-                                        unselectedLabelStyle: GoogleFonts.inter(
+                                        unselectedLabelStyle: GoogleFonts.openSans(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.black
@@ -349,29 +349,29 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                     children: [
                                       const Icon(Iconsax.info_circle, color: Colors.black,),
                                       const SizedBox(width: 8,),
-                                      Text("LANGKAH TRANSAKSI", style: GoogleFonts.inter(
+                                      Text("LANGKAH TRANSAKSI", style: GoogleFonts.openSans(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600
                                       ),),
                                     ],
                                   ),
                                   const SizedBox(height: 8,),
-                                  Text("1. Masukkan Nomor Handphone Minimal 4 Digit.", style: GoogleFonts.inter(
+                                  Text("1. Masukkan Nomor Handphone Minimal 4 Digit.", style: GoogleFonts.openSans(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500
                                   ),),
                                   const SizedBox(height: 4,),
-                                  Text("2. Lalu Muncul Loading.", style: GoogleFonts.inter(
+                                  Text("2. Lalu Muncul Loading.", style: GoogleFonts.openSans(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500
                                   ),),
                                   const SizedBox(height: 4,),
-                                  Text("3. Setelah Selesai Loading Pilih Produk yang Diinginkan dengan Cara Mengklik Produk Tersebut.", style: GoogleFonts.inter(
+                                  Text("3. Setelah Selesai Loading Pilih Produk yang Diinginkan dengan Cara Mengklik Produk Tersebut.", style: GoogleFonts.openSans(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500
                                   ),),
                                   const SizedBox(height: 4,),
-                                  Text("4. Lalu Akan Muncul Form Transaksi, Masukkan PIN Anda, Selanjutnya Klik Tombol Proses Transaksi.", style: GoogleFonts.inter(
+                                  Text("4. Lalu Akan Muncul Form Transaksi, Masukkan PIN Anda, Selanjutnya Klik Tombol Proses Transaksi.", style: GoogleFonts.openSans(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500
                                   ),),

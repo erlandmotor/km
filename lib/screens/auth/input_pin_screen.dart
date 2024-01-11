@@ -111,7 +111,7 @@ class _InputPinScreenState extends State<InputPinScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Masukkan PIN Anda.", style: GoogleFonts.inter(
+                    Text("Masukkan PIN Anda.", style: GoogleFonts.openSans(
                       fontSize: 16,
                       fontWeight: FontWeight.w600
                     ),),
