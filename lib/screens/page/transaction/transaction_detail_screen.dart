@@ -8,6 +8,7 @@ import "package:adamulti_mobile_clone_new/components/print_markup_container_comp
 import "package:adamulti_mobile_clone_new/components/receipt_container_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/connect_printer_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/transaction_detail_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
@@ -19,7 +20,7 @@ import "package:blue_thermal_printer/blue_thermal_printer.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 import "package:adamulti_mobile_clone_new/constant/printer_enum.dart" as printer_enum;
 import "package:screenshot/screenshot.dart";
@@ -61,7 +62,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
     return Screenshot(
       controller: screenshotController,
       child: Scaffold(
-        backgroundColor: kLightBackgroundColor,
+        backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
         resizeToAvoidBottomInset: false,
         body: SafeArea(
           child: Stack(
@@ -75,7 +76,18 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                     child: Container(
                       width: 100.w,
                       height: 40.h,
-                      color: kMainThemeColor,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
+                            HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor2!),
+                            HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor3!),
+                          ],
+                          stops: const [0, 0.4, 0.8],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        )
+                      ),
                     ),
                   );
                 }
@@ -134,7 +146,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                                                           printStruk(snapshot.data!, totalBayar, markup, (e) {
                                                             showDynamicSnackBar(
                                                               context, 
-                                                              LineIcons.exclamationTriangle, 
+                                                              Iconsax.warning_2, 
                                                               "ERROR", 
                                                               e.toString(), 
                                                               Colors.red
@@ -167,7 +179,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                                                       printStruk(snapshot.data!, totalBayar, markup, (e) {
                                                         showDynamicSnackBar(
                                                           context, 
-                                                          LineIcons.exclamationTriangle, 
+                                                          Iconsax.warning_2, 
                                                           "ERROR", 
                                                           e.toString(), 
                                                           Colors.red
@@ -184,7 +196,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                                       } else {
                                         showDynamicSnackBar(
                                           context, 
-                                          LineIcons.exclamationTriangle, 
+                                          Iconsax.warning_2, 
                                           "ERROR", 
                                           "Hidupkan Bluetooth Anda lalu Hubungkan ke Printer.", 
                                           Colors.red
@@ -194,11 +206,11 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                                   }, 
                                   width: 30.w, 
                                   height: 30,
-                                  icon: LineIcons.print,
+                                  icon: Iconsax.printer,
                                 ),
                                 DynamicSizeButtonOutlinedIconComponent(
                                   label: "Share", 
-                                  buttonColor: kMainLightThemeColor, 
+                                  buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                                   onPressed: () {
                                     showModalBottomSheet(
                                       context: context,
@@ -263,7 +275,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 18, right: 18, bottom: 8),
                         child: DynamicSizeButtonComponent(
-                          buttonColor: kMainLightThemeColor,
+                          buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!),
                           onPressed: () {
                             context.pop();
                           },

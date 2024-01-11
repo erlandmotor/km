@@ -3,7 +3,7 @@ import 'package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart';
 import 'package:adamulti_mobile_clone_new/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:line_icons/line_icons.dart';
+import 'package:iconsax/iconsax.dart';
 
 class RegionTextFieldComponent extends StatelessWidget {
 
@@ -56,7 +56,7 @@ class RegionTextFieldComponent extends StatelessWidget {
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!))
             ),
-            suffixIcon: const Icon(LineIcons.angleDown, size: 18,),
+            suffixIcon: const Icon(Iconsax.arrow_down, size: 18,),
             hintText: hint,
             hintStyle: GoogleFonts.openSans(
               fontSize: 12,

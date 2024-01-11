@@ -1,10 +1,12 @@
 import "package:adamulti_mobile_clone_new/components/container_gradient_background.dart";
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
+import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
 import "package:adamulti_mobile_clone_new/components/loading_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/topup_history_item_component.dart";
 import "package:adamulti_mobile_clone_new/components/topup_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
@@ -16,7 +18,7 @@ import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class TopupMainScreen extends StatefulWidget {
@@ -42,15 +44,13 @@ class _TopupMainScreenState extends State<TopupMainScreen> {
         child: ContainerGradientBackground(
           child: Stack(
             children: [
-              Column(
+              const Column(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     height: 120,
                   ),
                   Expanded(
-                    child: Container(
-                      decoration: kContainerLightDecoration,
-                    )
+                    child: LightDecorationContainerComponent()
                   )
                 ],
               ),
@@ -73,7 +73,7 @@ class _TopupMainScreenState extends State<TopupMainScreen> {
                                     label: "Nominal Topup", 
                                     hint: "Minimal Rp. 50.000", 
                                     controller: topupController,
-                                    prefixIcon: LineIcons.wavyMoneyBill,
+                                    prefixIcon: Iconsax.wallet_add,
                                   ),
                                   const SizedBox(height: 18,),
                                   BlocBuilder<TopupSaldoCubit, TopupSaldoState>(
@@ -81,13 +81,13 @@ class _TopupMainScreenState extends State<TopupMainScreen> {
                                       return LoadingButtonComponent(
                                         isLoading: state.isLoading,
                                         label: "Proses", 
-                                        buttonColor: kMainLightThemeColor, 
+                                        buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                                         onPressed: () {
                                           final amount = topupController.text.replaceAll(RegExp(r"\D"), "");
                                           if(int.parse(amount) < 50000) {
                                             showDynamicSnackBar(
                                               context, 
-                                              LineIcons.exclamationTriangle, 
+                                              Iconsax.warning_2, 
                                               "ERROR", 
                                               "Nominal Topup Minimal Harus Rp. 50.000.", 
                                               Colors.red
@@ -131,7 +131,7 @@ class _TopupMainScreenState extends State<TopupMainScreen> {
                                                                 onPressed: () {
                                                                   Navigator.pop(context);
                                                                 }, 
-                                                                icon: const Icon(LineIcons.times, color: Colors.black,)
+                                                                icon: const Icon(Icons.close, color: Colors.black,)
                                                               )
                                                             ],
                                                           ),
@@ -139,7 +139,18 @@ class _TopupMainScreenState extends State<TopupMainScreen> {
                                                           Container(
                                                             padding: const EdgeInsets.all(18),
                                                             width: 100.w,
-                                                            decoration: kContainerMainDecoration,
+                                                            decoration: BoxDecoration(
+                                                              gradient: LinearGradient(
+                                                                colors: [
+                                                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
+                                                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor2!),
+                                                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor3!),
+                                                                ],
+                                                                stops: const [0, 0.4, 0.8],
+                                                                begin: Alignment.topCenter,
+                                                                end: Alignment.bottomCenter,
+                                                              )
+                                                            ),
                                                             child: Column(
                                                               crossAxisAlignment: CrossAxisAlignment.start,
                                                               children: [
@@ -183,7 +194,7 @@ class _TopupMainScreenState extends State<TopupMainScreen> {
                                             }).catchError((e) {
                                               showDynamicSnackBar(
                                                 context, 
-                                                LineIcons.exclamationTriangle, 
+                                                Iconsax.warning_2, 
                                                 "ERROR", 
                                                 "Nominal Topup Minimal Harus Rp. 50.000.", 
                                                 Colors.red

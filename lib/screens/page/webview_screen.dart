@@ -5,6 +5,7 @@ import 'package:adamulti_mobile_clone_new/components/show_loading_submit.dart';
 import 'package:adamulti_mobile_clone_new/components/transaction_check_form_component.dart';
 import 'package:adamulti_mobile_clone_new/constant/constant.dart';
 import 'package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart';
+import 'package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart';
 import 'package:adamulti_mobile_clone_new/function/custom_function.dart';
 import 'package:adamulti_mobile_clone_new/locator.dart';
@@ -16,7 +17,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:line_icons/line_icons.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -81,7 +82,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                         hint: "Contoh : 12345",
                         controller: kodePembayaranController,
                         validationMessage: "Kode pembayaran harus diisi.",
-                        prefixIcon: LineIcons.barcode,
+                        prefixIcon: Iconsax.barcode,
                         isObsecure: false
                     ),
                     const SizedBox(
@@ -93,12 +94,12 @@ class _WebviewScreenState extends State<WebviewScreen> {
                         final checkIdentityCubit = context.read<CheckIdentityCubit>();
                         return LoadingButtonComponent(
                             label: "Proses",
-                            buttonColor: kMainLightThemeColor,
+                            buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!),
                             onPressed: () {
                               if (kodePembayaranController.text.isEmpty) {
                                 showDynamicSnackBar(
                                   context,
-                                  LineIcons.exclamationTriangle,
+                                  Iconsax.warning_2,
                                   "ERROR",
                                   "ID Pelanggan harus diisi telebih dahulu.",
                                   Colors.red
@@ -172,7 +173,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                                   }).catchError((e) {
                                                     showDynamicSnackBar(
                                                       context, 
-                                                      LineIcons.exclamationTriangle, 
+                                                      Iconsax.warning_2, 
                                                       "ERROR", 
                                                       e.toString(), 
                                                       Colors.red
@@ -192,7 +193,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
 
                                               showDynamicSnackBar(
                                                 context,
-                                                LineIcons.exclamationTriangle,
+                                                Iconsax.warning_2,
                                                 "ERROR",
                                                 e.toString(),
                                                 Colors.red
@@ -203,6 +204,11 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                         );
                                       }
                                     );
+                                  } else {
+                                    locator.get<LocalNotificationService>().showLocalNotification(
+                                      title: "Transaksi ${value.produk!}",
+                                      body: value.msg!
+                                    );
                                   }
                                 }).catchError((e) {
                                   checkIdentityCubit.updateState(
@@ -211,7 +217,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                   );
                                   showDynamicSnackBar(
                                     context,
-                                    LineIcons.exclamationTriangle,
+                                    Iconsax.warning_2,
                                     "ERROR",
                                     e.toString(),
                                     Colors.red
@@ -241,7 +247,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Icon(
-                    LineIcons.wallet,
+                    Iconsax.wallet_check,
                     color: Colors.white,
                     size: 30,
                   ),
@@ -262,7 +268,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
         ],
         leading: IconButton(
           icon: const Icon(
-            LineIcons.angleLeft,
+            Iconsax.arrow_left_2,
             color: Colors.white,
             size: 30,
           ),
@@ -270,9 +276,9 @@ class _WebviewScreenState extends State<WebviewScreen> {
             context.pop();
           },
         ),
-        backgroundColor: kMainThemeColor,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: kMainThemeColor,
+        backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
+        systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
             systemNavigationBarColor: Colors.white,
             statusBarBrightness: Brightness.dark,
             statusBarIconBrightness: Brightness.light,

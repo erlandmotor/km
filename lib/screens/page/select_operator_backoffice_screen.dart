@@ -5,13 +5,14 @@ import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/search_textfield_without_debounce_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/select_operator_backoffice_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
 import "package:custom_pop_up_menu/custom_pop_up_menu.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class SelectOperatorBackofficeScreen extends StatefulWidget {
@@ -44,7 +45,7 @@ class _SelectOperatorBackofficeScreenState extends State<SelectOperatorBackoffic
     }).catchError((e) {
       showDynamicSnackBar(
         context, 
-        LineIcons.exclamationTriangle, 
+        Iconsax.warning_2, 
         "ERROR", 
         e.toString(), 
         Colors.red
@@ -125,7 +126,13 @@ class _SelectOperatorBackofficeScreenState extends State<SelectOperatorBackoffic
               ),
               Expanded(
                 child: Container(
-                  decoration: kContainerLightDecoration,
+                  decoration: BoxDecoration(
+                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(18),
+                      topRight: Radius.circular(18)
+                    )
+                  ),
                   child: BlocBuilder<SelectOperatorBackofficeCubit, SelectOperatorBackofficeState>(
                     builder: (_, state) {
                       if(state.isLoading) {
@@ -139,7 +146,7 @@ class _SelectOperatorBackofficeScreenState extends State<SelectOperatorBackoffic
                           itemBuilder: (context, index) {
                             return CategoryItemComponent(
                               categoryName: state.dataList[index].title!, 
-                              categoryColor: kMainLightThemeColor, 
+                              categoryColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                               imageUrl: "$baseUrlAuth/files/setting-kategori/image/${state.dataList[index].image!}", 
                               title: state.dataList[index].title!, 
                               onTap: () {

@@ -1,11 +1,14 @@
 import "package:adamulti_mobile_clone_new/components/container_gradient_background.dart";
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
+import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/screens/page/reward/reward_list_tab.dart";
 import "package:buttons_tabbar/buttons_tabbar.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 
 class RewardMainScreen extends StatelessWidget {
   const RewardMainScreen({ super.key });
@@ -17,15 +20,13 @@ class RewardMainScreen extends StatelessWidget {
         child: ContainerGradientBackground(
           child: Stack(
             children: [
-              Column(
+              const Column(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     height: 150,
                   ),
                   Expanded(
-                    child: Container(
-                      decoration: kContainerLightDecoration,
-                    )
+                    child: LightDecorationContainerComponent()
                   )
                 ],
               ),
@@ -46,9 +47,9 @@ class RewardMainScreen extends StatelessWidget {
                               buttonMargin: const EdgeInsets.symmetric(horizontal: 8),
                               height: 46,
                               labelSpacing: 4,
-                              backgroundColor: kMainLightThemeColor,
+                              backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!),
                               unselectedBackgroundColor: const Color(0xffdfe4ea),
-                              borderColor: kMainLightThemeColor,
+                              borderColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!),
                               borderWidth: 0,
                               unselectedBorderColor: const Color(0xff6a89cc),
                               labelStyle: GoogleFonts.inter(
@@ -63,7 +64,7 @@ class RewardMainScreen extends StatelessWidget {
                               ),
                               tabs: const [
                                 Tab(
-                                  icon: Icon(LineIcons.gift),
+                                  icon: Icon(Iconsax.gift),
                                   text: 'Reward',
                                 ),
                                 Tab(

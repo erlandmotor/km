@@ -4,10 +4,12 @@ import "package:adamulti_mobile_clone_new/components/loading_button_component.da
 import "package:adamulti_mobile_clone_new/components/select_contact_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class CheckIdentityContainer extends StatelessWidget {
@@ -53,12 +55,12 @@ class CheckIdentityContainer extends StatelessWidget {
                   children: [
                     LoadingButtonComponent(
                       label: "Check ID Pelanggan", 
-                      buttonColor: kMainLightThemeColor, 
+                      buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                       onPressed: () {
                         if(identityController.text.isEmpty) {
                           showDynamicSnackBar(
                             context, 
-                            LineIcons.exclamationTriangle, 
+                            Iconsax.warning_2, 
                             "ERROR", 
                             "ID Pelanggan harus diisi telebih dahulu.", 
                             Colors.red
@@ -82,7 +84,7 @@ class CheckIdentityContainer extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(state.result.success! ? LineIcons.infoCircle : LineIcons.exclamationTriangle, 
+                          Icon(state.result.success! ? Iconsax.info_circle : Iconsax.warning_2, 
                           color: state.result.success! ? Colors.black : Colors.white,
                           size: 32,),
                           const SizedBox(width: 12,),

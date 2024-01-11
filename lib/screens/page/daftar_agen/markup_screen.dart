@@ -2,17 +2,19 @@ import "package:adamulti_mobile_clone_new/components/container_gradient_backgrou
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar_with_nav.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
+import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
 import "package:adamulti_mobile_clone_new/components/readonly_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
 import "package:adamulti_mobile_clone_new/components/topup_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
 import "package:adamulti_mobile_clone_new/services/local_notification_service.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class MarkupScreen extends StatefulWidget {
@@ -57,15 +59,13 @@ class _MarkupScreenState extends State<MarkupScreen> {
         child: ContainerGradientBackground(
           child: Stack(
             children: [
-              Column(
+              const Column(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     height: 150,
                   ),
                   Expanded(
-                    child: Container(
-                      decoration: kContainerLightDecoration,
-                    )
+                    child: LightDecorationContainerComponent()
                   )
                 ],
               ),
@@ -89,7 +89,7 @@ class _MarkupScreenState extends State<MarkupScreen> {
                             label: "ID Agen", 
                             hint: "", 
                             controller: identityController, 
-                            prefixIcon: LineIcons.identificationCardAlt, 
+                            prefixIcon: Iconsax.personalcard, 
                             onTapTextField: () {}
                           ),
                           const SizedBox(height: 8,),
@@ -97,7 +97,7 @@ class _MarkupScreenState extends State<MarkupScreen> {
                             label: "Nama Reseller", 
                             hint: "", 
                             controller: nameController, 
-                            prefixIcon: LineIcons.userAlt, 
+                            prefixIcon: Iconsax.user_octagon, 
                             onTapTextField: () {
 
                             }
@@ -107,18 +107,18 @@ class _MarkupScreenState extends State<MarkupScreen> {
                             label: "Harga Markup", 
                             hint: "Contoh: Rp. 100", 
                             controller: markupController,
-                            prefixIcon: LineIcons.wavyMoneyBill,
+                            prefixIcon: Iconsax.money_tick,
                           ),
                           const SizedBox(height: 18,),
                           DynamicSizeButtonComponent(
                             label: "Ubah Markup", 
-                            buttonColor: kMainLightThemeColor, 
+                            buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                             onPressed: () {
                               final amount = markupController.text.replaceAll(RegExp(r"\D"), "");
                               if(markupController.text.isEmpty) {
                                 showDynamicSnackBar(
                                   context, 
-                                  LineIcons.exclamationTriangle, 
+                                  Iconsax.warning_2, 
                                   "ERROR", 
                                   "Harga Markup Harus diisi.", 
                                   Colors.red
@@ -135,7 +135,7 @@ class _MarkupScreenState extends State<MarkupScreen> {
                                     context.pop();
                                     showDynamicSnackBar(
                                       context, 
-                                      LineIcons.exclamationTriangle, 
+                                      Iconsax.warning_2, 
                                       "ERROR", 
                                       value.msg!, 
                                       Colors.red
@@ -152,7 +152,7 @@ class _MarkupScreenState extends State<MarkupScreen> {
                                   context.pop();
                                   showDynamicSnackBar(
                                     context, 
-                                    LineIcons.exclamationTriangle, 
+                                    Iconsax.warning_2, 
                                     "ERROR", 
                                     e.toString(), 
                                     Colors.red

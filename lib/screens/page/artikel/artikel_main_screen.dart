@@ -1,7 +1,7 @@
 import "package:adamulti_mobile_clone_new/components/artikel_item_component.dart";
 import "package:adamulti_mobile_clone_new/components/container_gradient_background.dart";
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
-import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/artikel_data.dart";
 import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
@@ -19,15 +19,13 @@ class ArtikelMainScreen extends StatelessWidget {
         child: ContainerGradientBackground(
           child: Stack(
             children: [
-              Column(
+              const Column(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     height: 80,
                   ),
                   Expanded(
-                    child: Container(
-                      decoration: kContainerLightDecoration,
-                    )
+                    child: LightDecorationContainerComponent()
                   )
                 ],
               ),

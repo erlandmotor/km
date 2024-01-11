@@ -1,5 +1,7 @@
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:auto_size_text/auto_size_text.dart";
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
@@ -79,7 +81,7 @@ class RekapTransaksiItemComponent extends StatelessWidget {
                           maxFontSize: 16,
                           maxLines: 1,
                           style: GoogleFonts.openSans(
-                            color: kMainLightThemeColor,
+                            color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
                             fontWeight: FontWeight.w700
                           ),
                         ),

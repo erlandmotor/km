@@ -12,7 +12,7 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
@@ -44,7 +44,7 @@ class _OtpScreenState extends State<OtpScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(
-            LineIcons.angleLeft,
+            Iconsax.arrow_left,
             color: Colors.white,
             size: 30,
           ),
@@ -162,7 +162,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                             child: CircleAvatar(
                                               radius: 36,
                                               backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),                                
-                                              child: const Icon(LineIcons.infoCircle, color: Colors.white, size: 40,),
+                                              child: const Icon(Iconsax.info_circle, color: Colors.white, size: 40,),
                                             ),
                                           ),
                                         ),
@@ -206,7 +206,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         }).catchError((e) {
                           showDynamicSnackBar(
                             context, 
-                            LineIcons.exclamationTriangle, 
+                            Iconsax.warning_2, 
                             "ERROR", 
                             "Kode OTP Salah.", 
                             Colors.red
@@ -216,7 +216,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       } else {
                         showDynamicSnackBar(
                           context, 
-                          LineIcons.exclamationTriangle, 
+                          Iconsax.warning_2, 
                           "ERROR", 
                           "Kode OTP Salah.", 
                           Colors.red
@@ -227,7 +227,7 @@ class _OtpScreenState extends State<OtpScreen> {
                   SizedBox(height: 6.h,),
                   DynamicSizeButtonComponent(
                     label: "Kirim Ulang Otp", 
-                    buttonColor: kMainLightThemeColor, 
+                    buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                     onPressed: () {
                       final randomOtpCode = generateRandomString(6);
                       locator.get<AuthService>().sendOtp(
@@ -239,7 +239,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       }).catchError((e) {
                         showDynamicSnackBar(
                           context, 
-                          LineIcons.exclamationTriangle, 
+                          Iconsax.warning_2, 
                           "ERROR", 
                           e.toString(), 
                           Colors.red

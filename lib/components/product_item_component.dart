@@ -1,6 +1,8 @@
 import "package:adamulti_mobile_clone_new/components/ribbon_clipper.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:auto_size_text/auto_size_text.dart";
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
@@ -92,7 +94,7 @@ class ProductItemComponent extends StatelessWidget {
                       height: 48,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(18),
-                        color: kLightBackgroundColor
+                        color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!)
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
@@ -138,7 +140,7 @@ class ProductItemComponent extends StatelessWidget {
                           maxFontSize: 16,
                           maxLines: 1,
                           style: GoogleFonts.openSans(
-                            color: kSecondaryColor,
+                            color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
                             fontWeight: FontWeight.w700
                           ),)
                         ],

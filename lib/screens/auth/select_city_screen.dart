@@ -8,7 +8,7 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 
 class SelectCityScreen extends StatelessWidget {
 
@@ -27,7 +27,7 @@ class SelectCityScreen extends StatelessWidget {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(
-            LineIcons.angleLeft,
+            Iconsax.arrow_left,
             color: Colors.white,
             size: 30,
           ),
@@ -77,7 +77,7 @@ class SelectCityScreen extends StatelessWidget {
                         fontWeight: FontWeight.w500
                       ),
                     ),
-                    trailing: const Icon(LineIcons.angleRight, size: 20,),
+                    trailing: const Icon(Iconsax.arrow_right, size: 20,),
                   );
                 },
                 separatorBuilder: (context, index) {

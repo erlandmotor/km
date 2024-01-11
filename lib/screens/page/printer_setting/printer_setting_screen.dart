@@ -4,15 +4,17 @@ import "package:adamulti_mobile_clone_new/components/container_gradient_backgrou
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
+import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
 import "package:adamulti_mobile_clone_new/components/markup_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/components/regular_textarea_component.dart";
 import "package:adamulti_mobile_clone_new/components/regular_textfield_without_icon_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/struk_model.dart";
 import "package:adamulti_mobile_clone_new/services/secure_storage.dart";
 import "package:flutter/material.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class PrinterSettingScreen extends StatefulWidget {
@@ -62,15 +64,13 @@ class _PrinterSettingScreenState extends State<PrinterSettingScreen> {
         child: ContainerGradientBackground(
           child: Stack(
             children: [
-              Column(
+              const Column(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     height: 150,
                   ),
                   Expanded(
-                    child: Container(
-                      decoration: kContainerLightDecoration,
-                    )
+                    child: LightDecorationContainerComponent()
                   )
                 ],
               ),
@@ -112,14 +112,14 @@ class _PrinterSettingScreenState extends State<PrinterSettingScreen> {
                                 label: "Default Markup", 
                                 hint: "Contoh : Rp. 2.000", 
                                 controller: markupController,
-                                prefixIcon: LineIcons.receipt,
+                                prefixIcon: Iconsax.money_tick,
                                 onChangedAction: (String value) {
                                 }
                               ),
                               const SizedBox(height: 18,),
                               DynamicSizeButtonComponent(
                                 label: "Simpan", 
-                                buttonColor: kMainLightThemeColor, 
+                                buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                                 onPressed: () {
                                   if(PrinterSettingScreen.strukFormKey.currentState!.validate()) {
                                     locator.get<SecureStorageService>().writeSecureData("struk", 
@@ -133,7 +133,7 @@ class _PrinterSettingScreenState extends State<PrinterSettingScreen> {
 
                                     showDynamicSnackBar(
                                       context, 
-                                      LineIcons.infoCircle, 
+                                      Iconsax.info_circle, 
                                       "STRUK", 
                                       "Data Struk Berhasil Diperbaharui.", 
                                       Colors.blue
@@ -141,7 +141,7 @@ class _PrinterSettingScreenState extends State<PrinterSettingScreen> {
                                   } else {
                                     showDynamicSnackBar(
                                       context, 
-                                      LineIcons.exclamationTriangle, 
+                                      Iconsax.warning_2, 
                                       "ERROR", 
                                       "Formulir harus dilengkapi terlebih dahulu.", 
                                       Colors.red

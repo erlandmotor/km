@@ -1,4 +1,5 @@
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/artikel_data.dart";
 import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
@@ -8,7 +9,7 @@ import "package:flutter/services.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:flutter_html/flutter_html.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 
 class ArtikelDetailScreen extends StatelessWidget {
 
@@ -30,7 +31,7 @@ class ArtikelDetailScreen extends StatelessWidget {
                     SliverAppBar(
                       leading: IconButton(
                         icon: const Icon(
-                          LineIcons.angleLeft,
+                          Iconsax.arrow_left_2,
                           color: Colors.white,
                           size: 30,
                         ),
@@ -38,9 +39,9 @@ class ArtikelDetailScreen extends StatelessWidget {
                           context.pop();
                         },
                       ),
-                      backgroundColor: kMainLightThemeColor,
-                      systemOverlayStyle: const SystemUiOverlayStyle(
-                      statusBarColor: kMainThemeColor,
+                      backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
+                      systemOverlayStyle: SystemUiOverlayStyle(
+                      statusBarColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
                       systemNavigationBarColor: Colors.white,
                       statusBarBrightness: Brightness.dark,
                       statusBarIconBrightness: Brightness.light,

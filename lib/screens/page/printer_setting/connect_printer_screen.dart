@@ -4,15 +4,17 @@ import "package:adamulti_mobile_clone_new/components/container_gradient_backgrou
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
+import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/connect_printer_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/secure_storage.dart";
 import "package:blue_thermal_printer/blue_thermal_printer.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class ConnectPrinterScreen extends StatefulWidget {
@@ -65,15 +67,13 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
         child: ContainerGradientBackground(
           child: Stack(
             children: [
-              Column(
+              const Column(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     height: 150,
                   ),
                   Expanded(
-                    child: Container(
-                      decoration: kContainerLightDecoration,
-                    )
+                    child: LightDecorationContainerComponent()
                   )
                 ],
               ),
@@ -98,7 +98,7 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(
                                     width: 0.5,
-                                    color: kSecondaryTextColor
+                                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightTextColor!)
                                   )
                                 ),
                                 child: StreamBuilder<int?>(
@@ -128,7 +128,7 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                         CircleAvatar(
                                           backgroundColor: snapshot.data == BlueThermalPrinter.STATE_OFF ? 
                                           Colors.red : const Color(0xff0a3b8c),
-                                          child: const Icon(LineIcons.bluetooth, color: Colors.white,),
+                                          child: const Icon(Iconsax.bluetooth, color: Colors.white,),
                                         ),
                                         const SizedBox(width: 12,),
                                         BlocBuilder<ConnectPrinterCubit, ConnectPrinterState>(
@@ -167,7 +167,7 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                               const SizedBox(height: 18,),
                               DynamicSizeButtonComponent(
                                 label: "Scan Device", 
-                                buttonColor: kMainLightThemeColor, 
+                                buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                                 onPressed: () {
                                   blueThermalPrinter.isOn.then((isOn) {
                                     if(isOn == true) {
@@ -186,7 +186,7 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                       }).catchError((e) {
                                         showDynamicSnackBar(
                                           context, 
-                                          LineIcons.exclamationTriangle, 
+                                          Iconsax.warning_2, 
                                           "ERROR", 
                                           "Terjadi Kesalahan dengan Bluetooth", 
                                           Colors.red
@@ -195,7 +195,7 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                     } else {
                                       showDynamicSnackBar(
                                         context, 
-                                        LineIcons.exclamationTriangle, 
+                                        Iconsax.warning_2, 
                                         "ERROR", 
                                         "Nyalakan Bluetooth Anda Terlebih Dahulu", 
                                         Colors.red
@@ -220,9 +220,9 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                       return ListView.separated(
                                         itemBuilder: (context, index) {
                                           return ListTile(
-                                            leading: const CircleAvatar(
-                                              backgroundColor: kWhiteBlueColor,
-                                              child: Icon(LineIcons.print, color: kSecondaryTextColor,),
+                                            leading: CircleAvatar(
+                                              backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
+                                              child: Icon(Iconsax.printer, color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightTextColor!),),
                                             ),
                                             title: Text(
                                               state.deviceList[index].name!,
@@ -245,7 +245,7 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                                     locator.get<SecureStorageService>().writeSecureData("printer", jsonEncode(state.deviceList[index].toMap()));
 
                                                     showDynamicSnackBar(context, 
-                                                      LineIcons.infoCircle, 
+                                                      Iconsax.info_circle, 
                                                       "Koneksi Perangkat Bluetooth", 
                                                       "Berhasil terhubung dengan perangkat ${state.deviceList[index].name}", 
                                                       Colors.blue
@@ -253,7 +253,7 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                                   }).catchError((_) {
                                                     showDynamicSnackBar(
                                                       context, 
-                                                      LineIcons.exclamationTriangle, 
+                                                      Iconsax.warning_2, 
                                                       "ERROR", 
                                                       "Gagal Menghubungkan Printer", 
                                                       Colors.red
@@ -272,7 +272,7 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                                     locator.get<SecureStorageService>().writeSecureData("printer", jsonEncode(state.deviceList[index].toMap()));
                                                     
                                                     showDynamicSnackBar(context, 
-                                                      LineIcons.infoCircle, 
+                                                      Iconsax.info_circle, 
                                                       "Koneksi Perangkat Bluetooth", 
                                                       "Berhasil terhubung dengan perangkat ${state.deviceList[index].name}", 
                                                       Colors.blue
@@ -280,7 +280,7 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                                   }).catchError((_) {
                                                     showDynamicSnackBar(
                                                       context, 
-                                                      LineIcons.exclamationTriangle, 
+                                                      Iconsax.warning_2, 
                                                       "ERROR", 
                                                       "Gagal Menghubungkan Printer", 
                                                       Colors.red
@@ -303,7 +303,7 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                                 return SizedBox(
                                                   child: state.deviceList.isNotEmpty && 
                                                   state.deviceList[index] == state.selectedDevice ? 
-                                                  const Icon(LineIcons.checkCircleAlt, color: Colors.green,) : null,
+                                                  const Icon(Iconsax.tick_circle, color: Colors.green,) : null,
                                                 );
                                               },
                                             ),

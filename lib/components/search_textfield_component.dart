@@ -4,7 +4,7 @@ import 'package:adamulti_mobile_clone_new/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:easy_debounce/easy_debounce.dart';
-import 'package:line_icons/line_icons.dart';
+import 'package:iconsax/iconsax.dart';
 
 class SearchTextfieldComponent extends StatelessWidget {
 
@@ -55,7 +55,7 @@ class SearchTextfieldComponent extends StatelessWidget {
               fontSize: 14,
               fontWeight: FontWeight.w400
             ),
-            prefixIcon: const Icon(LineIcons.search),
+            prefixIcon: const Icon(Iconsax.search_normal),
             floatingLabelBehavior: FloatingLabelBehavior.never,
             errorStyle: const TextStyle(
               fontSize: 14,

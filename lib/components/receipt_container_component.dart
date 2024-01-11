@@ -1,7 +1,9 @@
 import "package:adamulti_mobile_clone_new/components/detail_transaksi_item_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/transaction_detail_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/parsed_cetak_response.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -168,7 +170,7 @@ class ReceiptContainerComponent extends StatelessWidget {
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: kWhiteBlueColor
+                            color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!)
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,7 +178,7 @@ class ReceiptContainerComponent extends StatelessWidget {
                               Text("No. Token : ", style: GoogleFonts.openSans(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
-                                color: kSecondaryTextColor
+                                color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!)
                               ),),
                               const SizedBox(height: 6,),
                               Text(
@@ -184,7 +186,7 @@ class ReceiptContainerComponent extends StatelessWidget {
                                 style: GoogleFonts.openSans(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
-                                  color: kMainThemeColor
+                                  color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!)
                                 ),
                               ),
                             ],
@@ -258,7 +260,7 @@ class ReceiptContainerComponent extends StatelessWidget {
                             return Text(state.totalReceipt, style: GoogleFonts.openSans(
                               fontSize: 18,
                               fontWeight: FontWeight.w800,
-                              color: kMainLightThemeColor
+                              color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!)
                             ),);
                           }
                         )

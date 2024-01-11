@@ -3,10 +3,12 @@ import "package:adamulti_mobile_clone_new/components/dynamic_size_button_compone
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/regular_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class TransactionCheckFormComponent extends StatefulWidget {
@@ -74,7 +76,7 @@ class _TransactionCheckFormComponentState extends State<TransactionCheckFormComp
                       onPressed: () {
                         Navigator.pop(context);
                       }, 
-                      icon: const Icon(LineIcons.times, color: Colors.black,)
+                      icon: const Icon(Icons.close, color: Colors.black,)
                     )
                   ],
                 ),
@@ -93,7 +95,7 @@ class _TransactionCheckFormComponentState extends State<TransactionCheckFormComp
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Icon(LineIcons.infoCircle,
+                      const Icon(Iconsax.info_circle,
                       size: 32,),
                       const SizedBox(width: 8,),
                       Flexible(
@@ -115,19 +117,19 @@ class _TransactionCheckFormComponentState extends State<TransactionCheckFormComp
                   label: "PIN", 
                   controller: pinController, 
                   validationMessage: "PIN Harus Diisi.",
-                  prefixIcon: LineIcons.key,
+                  prefixIcon: Iconsax.key,
                   isObsecure: true,
                 ),
                 const SizedBox(height: 18,),
                 DynamicSizeButtonComponent(
                   label: "Bayar Sekarang", 
-                  buttonColor: kMainThemeColor, 
+                  buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                   onPressed: () {
                     FocusManager.instance.primaryFocus?.unfocus();
                     if(pinController.text.isEmpty) {
                       showDynamicSnackBar(
                         context, 
-                        LineIcons.exclamationTriangle, 
+                        Iconsax.warning_2, 
                         "ERROR", 
                         "ID Pelanggan atau PIN harus diisi terlebih dahulu sebelum melakukan pembayaran.", 
                         Colors.red

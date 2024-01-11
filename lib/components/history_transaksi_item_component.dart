@@ -2,7 +2,7 @@ import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class HistoryTransaksiItemComponent extends StatelessWidget {
@@ -51,7 +51,7 @@ class HistoryTransaksiItemComponent extends StatelessWidget {
                         color: statusTransaksi == "2" ? Colors.red : Colors.green
                       ),
                       child: Icon(
-                        statusTransaksi == "2" ? LineIcons.times : LineIcons.check,
+                        statusTransaksi == "2" ? Iconsax.close_circle : Iconsax.tick_circle,
                         color: Colors.white,
                         size: 26,
                       ),

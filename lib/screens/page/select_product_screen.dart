@@ -5,6 +5,7 @@ import "package:adamulti_mobile_clone_new/components/product_item_component.dart
 import "package:adamulti_mobile_clone_new/components/search_textfield_without_debounce_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/select_product_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/product_service.dart";
@@ -12,7 +13,7 @@ import "package:custom_pop_up_menu/custom_pop_up_menu.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class SelectProductScreen extends StatefulWidget {
@@ -46,7 +47,7 @@ class _SelectProductScreenState extends State<SelectProductScreen> {
     }).catchError((e) {
       showDynamicSnackBar(
         context, 
-        LineIcons.exclamationTriangle, 
+        Iconsax.warning_2, 
         "ERROR", 
         e.toString(), 
         Colors.red
@@ -129,7 +130,13 @@ class _SelectProductScreenState extends State<SelectProductScreen> {
               ),
               Expanded(
                 child: Container(
-                  decoration: kContainerLightDecoration,
+                  decoration: BoxDecoration(
+                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(18),
+                      topRight: Radius.circular(18)
+                    )
+                  ),
                   child: BlocBuilder<SelectProductCubit, SelectProductState>(
                     builder: (_, state) {
                       if(state.isLoading) {
@@ -143,7 +150,7 @@ class _SelectProductScreenState extends State<SelectProductScreen> {
                           itemBuilder: (context, index) {
                             return ProductItemComponent(
                               operatorName: widget.operatorName, 
-                              operatorColor: kMainLightThemeColor, 
+                              operatorColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                               imageUrl: widget.operatorName.contains("PDAM") ? state.dataList[index].imgurloperator! 
                               : state.dataList[index].imgurl!, 
                               title: widget.operatorName,

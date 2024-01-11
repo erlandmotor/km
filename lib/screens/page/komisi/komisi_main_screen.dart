@@ -3,12 +3,14 @@ import "package:adamulti_mobile_clone_new/components/custom_container_appbar_wit
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/komisi_item_component.dart";
+import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
 import "package:adamulti_mobile_clone_new/components/loading_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/no_data_component.dart";
 import "package:adamulti_mobile_clone_new/components/shimmer_list_component.dart";
 import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/komisi_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
@@ -21,8 +23,8 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:iconsax/iconsax.dart";
 import "package:intl/intl.dart";
-import "package:line_icons/line_icons.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class KomisiMainScreen extends StatefulWidget {
@@ -90,15 +92,13 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
         child: ContainerGradientBackground(
           child: Stack(
             children: [
-              Column(
+              const Column(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     height: 110,
                   ),
                   Expanded(
-                    child: Container(
-                      decoration: kContainerLightDecoration,
-                    )
+                    child: LightDecorationContainerComponent()
                   )
                 ],
               ),
@@ -147,13 +147,13 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
                                   builder: (_, state) {                              
                                     return LoadingButtonComponent(
                                       label: "Cari", 
-                                      buttonColor: kSecondaryColor, 
+                                      buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                                       onPressed: () {
                                         if(listOfCurrentDateTime.length < 2) {
                                           popupMenuController.hideMenu();
                                           showDynamicSnackBar(
                                             context,
-                                            LineIcons.exclamationTriangle,
+                                            Iconsax.warning_2,
                                             "ERROR",
                                             "Tanggal Harus Dipilih Terlebih Dahulu.",
                                             Colors.red
@@ -184,7 +184,7 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
                                             komisiCubit.updateState(false, komisiCubit.state.dataList, komisiCubit.state.totalKomisi);
                                             showDynamicSnackBar(
                                               context,
-                                              LineIcons.exclamationTriangle,
+                                              Iconsax.warning_2,
                                               "ERROR",
                                               e.toString(),
                                               Colors.red
@@ -230,12 +230,12 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
                               BlocBuilder<KomisiCubit, KomisiState>(
                                 builder: (_, state) {
                                   if(state.isLoading) {
-                                    return const SizedBox(
+                                    return SizedBox(
                                       width: 24,
                                       height: 24,
                                       child: CircularProgressIndicator(
-                                      color: kSecondaryColor,
-                                      strokeWidth: 4.0,
+                                        color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
+                                        strokeWidth: 4.0,
                                       )
                                     );
                                   } else {
@@ -251,7 +251,7 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
                           const SizedBox(height: 18,),
                           DynamicSizeButtonComponent(
                             label: "Tukar Komisi", 
-                            buttonColor: kMainLightThemeColor, 
+                            buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                             onPressed: () {
                               showDialog(
                                 context: context, 
@@ -268,7 +268,7 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
                                           const CircleAvatar(
                                             radius: 36,
                                             backgroundColor: Colors.blue,
-                                            child: Icon(LineIcons.exclamationTriangle, size: 38, color: Colors.white,),
+                                            child: Icon(Iconsax.warning_2, size: 38, color: Colors.white,),
                                           ),
                                           const SizedBox(height: 18,),
                                           Text("Apakah anda yakin ingin menukar komisi anda menjadi saldo???", style: GoogleFonts.inter(
@@ -306,7 +306,7 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
           
                                             showDynamicSnackBar(
                                               context, 
-                                              LineIcons.exclamationTriangle, 
+                                              Iconsax.warning_2, 
                                               "ERROR", 
                                               e.toString(), 
                                               Colors.red

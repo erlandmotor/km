@@ -4,7 +4,7 @@ import 'package:adamulti_mobile_clone_new/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:line_icons/line_icons.dart';
+import 'package:iconsax/iconsax.dart';
 
 class PinTextFieldComponent extends StatefulWidget {
 
@@ -71,7 +71,7 @@ class _PinTextFieldComponentState extends State<PinTextFieldComponent> {
                 });
               }, 
               icon: Icon(
-                isShowing ? LineIcons.eyeSlash : LineIcons.eye,
+                isShowing ? Iconsax.eye_slash : Iconsax.eye,
               ),
             ),
             hintText: widget.hint,

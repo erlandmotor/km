@@ -3,6 +3,7 @@ import "package:adamulti_mobile_clone_new/components/rekap_transaksi_item_compon
 import "package:adamulti_mobile_clone_new/components/shimmer_list_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/rekap_transaksi_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
@@ -93,7 +94,7 @@ class _RekapTransaksiTabState extends State<RekapTransaksiTab> {
               final jumlah = mappedJumlahDataList.fold(0, (prev, next) => prev + next!);
 
               return Container(
-                color: kMainLightThemeColor,
+                color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
                 width: 100.w,
                 height: 50,
                 child: Row(

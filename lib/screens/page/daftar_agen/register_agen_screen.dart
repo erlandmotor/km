@@ -2,11 +2,13 @@ import "package:adamulti_mobile_clone_new/components/container_gradient_backgrou
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar_with_nav.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
+import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
 import "package:adamulti_mobile_clone_new/components/phone_textfield_without_icon_component.dart";
 import "package:adamulti_mobile_clone_new/components/region_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/components/regular_textfield_without_icon_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/select_region_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
@@ -14,7 +16,7 @@ import "package:adamulti_mobile_clone_new/services/local_notification_service.da
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class RegisterAgenScreen extends StatefulWidget {
@@ -55,15 +57,13 @@ class _RegisterAgenScreenState extends State<RegisterAgenScreen> {
         child: ContainerGradientBackground(
           child: Stack(
             children: [
-              Column(
+              const Column(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     height: 150,
                   ),
                   Expanded(
-                    child: Container(
-                      decoration: kContainerLightDecoration,
-                    )
+                    child: LightDecorationContainerComponent()
                   )
                 ],
               ),
@@ -123,7 +123,7 @@ class _RegisterAgenScreenState extends State<RegisterAgenScreen> {
                                   if(selectRegionCubit.provinceId == 0) {
                                     showDynamicSnackBar(
                                       context, 
-                                      LineIcons.exclamationTriangle, 
+                                      Iconsax.warning_2, 
                                       "ERROR", 
                                       "Data Provinsi harus dipilih terlebih dahulu.", 
                                       Colors.red
@@ -146,7 +146,7 @@ class _RegisterAgenScreenState extends State<RegisterAgenScreen> {
                                   if(selectRegionCubit.cityId == 0) {
                                     showDynamicSnackBar(
                                       context, 
-                                      LineIcons.exclamationTriangle, 
+                                      Iconsax.warning_2, 
                                       "ERROR", 
                                       "Data Kabupaten / Kota harus dipilih terlebih dahulu.", 
                                       Colors.red
@@ -170,7 +170,7 @@ class _RegisterAgenScreenState extends State<RegisterAgenScreen> {
                               const SizedBox(height: 18,),
                               DynamicSizeButtonComponent(
                                 label: "Daftarkan", 
-                                buttonColor: kMainLightThemeColor, 
+                                buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                                 onPressed: () {
                                   if(namaUsahaController.text.isEmpty ||
                                   alamatController.text.isEmpty || handphoneController.text.isEmpty
@@ -178,7 +178,7 @@ class _RegisterAgenScreenState extends State<RegisterAgenScreen> {
                                   || cityController.text.isEmpty || districtController.text.isEmpty) {
                                     showDynamicSnackBar(
                                       context, 
-                                      LineIcons.exclamationTriangle, 
+                                      Iconsax.warning_2, 
                                       "ERROR", 
                                       "Formulir Pendaftaran Agen Harus Dilengkapi Terlebih Dahulu.", 
                                       Colors.red
@@ -196,7 +196,7 @@ class _RegisterAgenScreenState extends State<RegisterAgenScreen> {
                                       if(value.success! == false) {
                                         showDynamicSnackBar(
                                           context, 
-                                          LineIcons.exclamationTriangle, 
+                                          Iconsax.warning_2, 
                                           "ERROR", 
                                           value.msg!, 
                                           Colors.red
@@ -213,7 +213,7 @@ class _RegisterAgenScreenState extends State<RegisterAgenScreen> {
                                       context.pop();
                                       showDynamicSnackBar(
                                         context, 
-                                        LineIcons.exclamationTriangle, 
+                                        Iconsax.warning_2, 
                                         "ERROR", 
                                         e.toString(), 
                                         Colors.red

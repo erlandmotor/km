@@ -1,9 +1,11 @@
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class KomisiItemComponent extends StatelessWidget {
@@ -39,10 +41,10 @@ class KomisiItemComponent extends StatelessWidget {
                     height: 48,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(18),
-                      color: kSecondaryColor
+                      color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!)
                     ),
                     child: const Icon(
-                      LineIcons.wavyMoneyBill,
+                      Iconsax.money_tick,
                       color: Colors.white,
                       size: 36,
                     ),
@@ -75,7 +77,7 @@ class KomisiItemComponent extends StatelessWidget {
                           maxFontSize: 16,
                           maxLines: 1,
                           style: GoogleFonts.openSans(
-                            color: kSecondaryColor,
+                            color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
                             fontWeight: FontWeight.w700
                           ),
                         )

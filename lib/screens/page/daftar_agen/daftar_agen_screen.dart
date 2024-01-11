@@ -1,10 +1,12 @@
 import "package:adamulti_mobile_clone_new/components/container_gradient_background.dart";
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar_with_nav.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
+import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
 import "package:adamulti_mobile_clone_new/components/no_data_component.dart";
 import "package:adamulti_mobile_clone_new/components/search_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/downline_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
@@ -14,7 +16,7 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class DaftarAgenScreen extends StatefulWidget {
@@ -45,7 +47,7 @@ class _DaftarAgenScreenState extends State<DaftarAgenScreen> {
     }).catchError((e) {
       showDynamicSnackBar(
         context, 
-        LineIcons.exclamationTriangle, 
+        Iconsax.warning_2, 
         "ERROR", 
         e.toString(), 
         Colors.red
@@ -64,7 +66,7 @@ class _DaftarAgenScreenState extends State<DaftarAgenScreen> {
         }).catchError((e) {
           showDynamicSnackBar(
             context, 
-            LineIcons.exclamationTriangle, 
+            Iconsax.warning_2, 
             "ERROR", 
             e.toString(), 
             Colors.red
@@ -89,26 +91,24 @@ class _DaftarAgenScreenState extends State<DaftarAgenScreen> {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: kMainLightThemeColor,
+        backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!),
         onPressed: () {
           context.goNamed("register-agen");
         },
-        child: const Icon(LineIcons.userPlus, color: Colors.white,),
+        child: const Icon(Iconsax.user_add, color: Colors.white,),
       ),
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: ContainerGradientBackground(
           child: Stack(
             children: [
-              Column(
+              const Column(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     height: 150,
                   ),
                   Expanded(
-                    child: Container(
-                      decoration: kContainerLightDecoration,
-                    )
+                    child: LightDecorationContainerComponent()
                   )
                 ],
               ),
@@ -142,7 +142,7 @@ class _DaftarAgenScreenState extends State<DaftarAgenScreen> {
                           }).catchError((e) {
                             showDynamicSnackBar(
                               context, 
-                              LineIcons.exclamationTriangle, 
+                              Iconsax.warning_2, 
                               "ERROR", 
                               e.toString(), 
                               Colors.red
@@ -176,14 +176,14 @@ class _DaftarAgenScreenState extends State<DaftarAgenScreen> {
                                       width: 100.w,
                                       child: ListTile(
                                         leading: CircleAvatar(
-                                          backgroundColor: kMainThemeColor.withOpacity(0.2),
+                                          backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!).withOpacity(0.2),
                                           radius: 28,
                                           child: CircleAvatar(
-                                            backgroundColor: kMainLightThemeColor.withOpacity(0.6),
+                                            backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!).withOpacity(0.6),
                                             radius: 24,
                                             child: CircleAvatar(
                                               radius: 20,
-                                              backgroundColor: kMainThemeColor,
+                                              backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
                                               child: Text("${state.dataList[index].idreseller![0]}${state.dataList[index].idreseller![1]}", style: GoogleFonts.inter(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w600,
@@ -243,7 +243,7 @@ class _DaftarAgenScreenState extends State<DaftarAgenScreen> {
                                                       child: Row(
                                                         crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: [
-                                                          const Icon(LineIcons.wallet, color: Colors.black,),
+                                                          const Icon(Iconsax.card_send, color: Colors.black,),
                                                           const SizedBox(width: 8,),
                                                           Text("Kirim Saldo", style: GoogleFonts.inter(
                                                             fontSize: 12,
@@ -266,7 +266,7 @@ class _DaftarAgenScreenState extends State<DaftarAgenScreen> {
                                                       child: Row(
                                                         crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: [
-                                                          const Icon(LineIcons.alternateMoneyCheck, color: Colors.black,),
+                                                          const Icon(Iconsax.money_tick, color: Colors.black,),
                                                           const SizedBox(width: 8,),
                                                           Text("Ubah Markup", style: GoogleFonts.inter(
                                                             fontSize: 12,
@@ -285,7 +285,7 @@ class _DaftarAgenScreenState extends State<DaftarAgenScreen> {
                                             arrowColor: Colors.white,
                                             barrierColor: Colors.black54,
                                             showArrow: true,
-                                            child: const Icon(LineIcons.verticalEllipsis, color: Colors.black,),
+                                            child: const Icon(Iconsax.more, color: Colors.black,),
                                           ),
                                           onPressed: () {},
                                         ),

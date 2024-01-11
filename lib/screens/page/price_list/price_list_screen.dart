@@ -1,10 +1,12 @@
 import "package:adamulti_mobile_clone_new/components/container_gradient_background.dart";
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
+import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
 import "package:adamulti_mobile_clone_new/components/no_data_component.dart";
 import "package:adamulti_mobile_clone_new/components/search_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/pricelist_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
@@ -14,7 +16,7 @@ import "package:collection/collection.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class PriceListScreen extends StatefulWidget {
@@ -56,15 +58,13 @@ class _PriceListScreenState extends State<PriceListScreen> {
         child: ContainerGradientBackground(
           child: Stack(
             children: [
-              Column(
+              const Column(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     height: 150,
                   ),
                   Expanded(
-                    child: Container(
-                      decoration: kContainerLightDecoration,
-                    )
+                    child: LightDecorationContainerComponent()
                   )
                 ],
               ),
@@ -100,7 +100,7 @@ class _PriceListScreenState extends State<PriceListScreen> {
                             }).catchError((e) {
                                 showDynamicSnackBar(
                                   context, 
-                                  LineIcons.exclamationTriangle, 
+                                  Iconsax.warning_2, 
                                   "ERROR", 
                                   e.toString(), 
                                   Colors.red
@@ -126,7 +126,7 @@ class _PriceListScreenState extends State<PriceListScreen> {
                             }).catchError((e) {
                                 showDynamicSnackBar(
                                   context, 
-                                  LineIcons.exclamationTriangle, 
+                                  Iconsax.warning_2, 
                                   "ERROR", 
                                   e.toString(), 
                                   Colors.red
@@ -192,7 +192,7 @@ class _PriceListScreenState extends State<PriceListScreen> {
                                                     style: GoogleFonts.inter(
                                                       fontSize: 14,
                                                       fontWeight: FontWeight.w500,
-                                                      color: kMainLightThemeColor
+                                                      color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!)
                                                     ),
                                                   ),
                                                 ],
@@ -254,7 +254,7 @@ class _PriceListScreenState extends State<PriceListScreen> {
                                                   style: GoogleFonts.inter(
                                                     fontSize: 14,
                                                     fontWeight: FontWeight.w500,
-                                                    color: kMainLightThemeColor
+                                                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!)
                                                   ),
                                                 ),
                                               ],

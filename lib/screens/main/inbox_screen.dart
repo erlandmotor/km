@@ -1,9 +1,11 @@
 import "package:adamulti_mobile_clone_new/components/container_gradient_background.dart";
+import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
 import "package:adamulti_mobile_clone_new/components/no_notification_component.dart";
 import "package:adamulti_mobile_clone_new/components/notification_item_component.dart";
 import "package:adamulti_mobile_clone_new/components/shimmer_list_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/notifications_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/notification_service.dart";
 import "package:flutter/material.dart";
@@ -61,15 +63,13 @@ class _InboxScreenState extends State<InboxScreen> {
     return ContainerGradientBackground(
       child: Stack(
         children: [
-          Column(
+          const Column(
             children: [
-              const SizedBox(
+              SizedBox(
                 height: 60,
               ),
               Expanded(
-                child: Container(
-                  decoration: kContainerLightDecoration,
-                )
+                child: LightDecorationContainerComponent()
               )
             ],
           ),
@@ -79,7 +79,7 @@ class _InboxScreenState extends State<InboxScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Inbox", style: GoogleFonts.inter(
+                  Text("Inbox", style: GoogleFonts.openSans(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: Colors.white
@@ -101,15 +101,21 @@ class _InboxScreenState extends State<InboxScreen> {
                           controller: scrollController,
                           itemBuilder: (context, index) {
                             if(index < state.notificationList.length) {
-                              return NotificationItemComponent(
-                                title: state.notificationList[index].title!, 
-                                containerColor: index % 2 == 0 ? Colors.white : Colors.blue, 
-                                onTapAction: () {
-                                  context.pushNamed("inbox-detail", extra: {
-                                    "notificationId": state.notificationList[index].id!
-                                  });
-                                },
-                                notificationDate: dateFormat.format(DateTime.parse(state.notificationList[index].createdAt!)),
+                              return BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
+                                bloc: locator.get<SettingApplikasiCubit>(),
+                                builder: (_, stateSetting) {
+                                  return NotificationItemComponent(
+                                    title: state.notificationList[index].title!, 
+                                    surfaceColor: index % 2 == 0 ? Colors.white : HexColor.fromHex(stateSetting.settingData.surfaceColor!), 
+                                    onTapAction: () {
+                                      context.pushNamed("inbox-detail", extra: {
+                                        "notificationId": state.notificationList[index].id!
+                                      });
+                                    },
+                                    notificationDate: dateFormat.format(DateTime.parse(state.notificationList[index].createdAt!)),
+                                    iconColor: HexColor.fromHex(stateSetting.settingData.infoColor!),
+                                  );
+                                }
                               );
                             } else {
                               return const Padding(

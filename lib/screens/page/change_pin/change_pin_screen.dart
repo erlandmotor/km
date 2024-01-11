@@ -2,15 +2,17 @@ import "package:adamulti_mobile_clone_new/components/container_gradient_backgrou
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
+import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
 import "package:adamulti_mobile_clone_new/components/pin_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class ChangePinScreen extends StatefulWidget {
@@ -42,15 +44,13 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
         child: ContainerGradientBackground(
           child: Stack(
             children: [
-              Column(
+              const Column(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     height: 150,
                   ),
                   Expanded(
-                    child: Container(
-                      decoration: kContainerLightDecoration,
-                    )
+                    child: LightDecorationContainerComponent()
                   )
                 ],
               ),
@@ -70,14 +70,14 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                           children: [
                             CircleAvatar(
                               radius: 48,
-                              backgroundColor: kMainLightThemeColor.withOpacity(0.2),
+                              backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!).withOpacity(0.2),
                               child: CircleAvatar(
                                 radius: 40,
-                                backgroundColor: kMainLightThemeColor.withOpacity(0.6),
-                                child: const CircleAvatar(
+                                backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!).withOpacity(0.6),
+                                child: CircleAvatar(
                                   radius: 36,
-                                  backgroundColor: kMainLightThemeColor,                                
-                                  child: Icon(LineIcons.userLock, color: Colors.white, size: 40,),
+                                  backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),                                
+                                  child: const Icon(Iconsax.security_user, color: Colors.white, size: 40,),
                                 ),
                               ),
                             ),
@@ -98,12 +98,12 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                             const SizedBox(height: 18,),
                             DynamicSizeButtonComponent(
                               label: "Ganti Pin", 
-                              buttonColor: kMainLightThemeColor, 
+                              buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                               onPressed: () {
                                 if(ChangePinScreen.changePinFormKey.currentState!.validate()) {
                                   showDynamicSnackBar(
                                     context, 
-                                    LineIcons.exclamationTriangle, 
+                                    Iconsax.warning_2, 
                                     "ERROR", 
                                     "PIN Lama atau PIN Baru harus diisi terlebih dahulu.", 
                                     Colors.red
@@ -125,7 +125,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                                     if(value.success! == true) {
                                       showDynamicSnackBar(
                                         context, 
-                                        LineIcons.exclamationTriangle, 
+                                        Iconsax.warning_2, 
                                         "SUKSES", 
                                         value.msg!, 
                                         Colors.blue
@@ -133,7 +133,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                                     } else {
                                       showDynamicSnackBar(
                                         context, 
-                                        LineIcons.exclamationTriangle, 
+                                        Iconsax.warning_2, 
                                         "ERROR", 
                                         value.msg!, 
                                         Colors.red
@@ -142,7 +142,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                                   }).catchError((e) {
                                     showDynamicSnackBar(
                                       context, 
-                                      LineIcons.exclamationTriangle, 
+                                      Iconsax.warning_2, 
                                       "ERROR", 
                                       e.toString(), 
                                       Colors.red

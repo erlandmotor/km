@@ -6,38 +6,19 @@ const baseUrlV8 = "http://wan1.adamulti.com:90/apps/v8";
 const baseUrlSocket = "http://wan1.adamulti.com:8999";
 const baseUrlFile = "http://wan1.adamulti.com:8999/api/files";
 
-const kMainThemeColor = Color(0xff192a56);
-const kSecondaryColor = Color(0xff273c75);
-const kStatusbarColor = Color(0xff22386e);
-const kMainLightThemeColor = Color(0xff4a69bd);
-const kNavigationBarColor = Color(0xff273870);
-const kLightBackgroundColor = Color(0xfff4f5f8);
-const kProcessTransactionColor = Color(0xff38ada9);
-const kWhiteBlueColor = Color(0xffdff9fb);
-const kSecondaryTextColor = Color(0xff636e72);
+// const kMainThemeColor = Color(0xff192a56);
+// const kSecondaryColor = Color(0xff273c75);
+// const kStatusbarColor = Color(0xff22386e);
+// const kMainLightThemeColor = Color(0xff4a69bd);
+// const kNavigationBarColor = Color(0xff273870);
+// const kLightBackgroundColor = Color(0xfff4f5f8);
+// const kProcessTransactionColor = Color(0xff38ada9);
+// const kWhiteBlueColor = Color(0xffdff9fb);
+// const kSecondaryTextColor = Color(0xff636e72);
 const kKeteranganContainerColor = Color(0xffc8d6e5);
 
 const kDummyPasswordUser = "ADAMULTITOSHITA2202";
 
-// Container Light Decoration
-const kContainerLightDecoration = BoxDecoration(
-  color: kLightBackgroundColor,
-  borderRadius: BorderRadius.only(
-    topLeft: Radius.circular(18),
-    topRight: Radius.circular(18)
-  )
-);
-
-// Container Main Theme Decoration
-final kContainerMainDecoration = BoxDecoration(
-  gradient: const LinearGradient(
-    colors: [kMainThemeColor, kSecondaryColor],
-    stops: [0, 0.2],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-  ),
-  borderRadius: BorderRadius.circular(18)
-);
 
 // Operator Color
 const kAxisColor = Color(0xff8e44ad);

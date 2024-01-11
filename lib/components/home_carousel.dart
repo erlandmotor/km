@@ -1,5 +1,6 @@
 import 'package:adamulti_mobile_clone_new/constant/constant.dart';
 import 'package:adamulti_mobile_clone_new/cubit/carousel_indicator_cubit.dart';
+import 'package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart';
 import 'package:adamulti_mobile_clone_new/locator.dart';
 import 'package:adamulti_mobile_clone_new/model/carousel_data.dart';
 import 'package:adamulti_mobile_clone_new/services/backoffice_service.dart';
@@ -64,7 +65,7 @@ class HomeCarousel extends StatelessWidget {
                                   width: 15,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
-                                    color: state.indicatorIndex != i ? const Color(0xffd8d8d8) : kMainLightThemeColor,
+                                    color: state.indicatorIndex != i ? const Color(0xffd8d8d8) : HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
                                   ),
                                 );
                               },

@@ -2,8 +2,8 @@ import "package:adamulti_mobile_clone_new/cubit/show_balance_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:iconsax/iconsax.dart";
 
 class SaldoComponent extends StatelessWidget {
   const SaldoComponent({super.key, required this.amount});
@@ -48,8 +48,8 @@ class SaldoComponent extends StatelessWidget {
                         },
                         child: Icon(
                           state.isShowBalance
-                              ? LineIcons.eyeAlt
-                              : LineIcons.eyeSlashAlt,
+                              ? Iconsax.eye
+                              : Iconsax.eye_slash,
                           size: 22,
                           color: Colors.white,
                         ),

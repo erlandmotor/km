@@ -1,6 +1,7 @@
 import "package:adamulti_mobile_clone_new/components/container_gradient_background.dart";
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
+import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
 import "package:adamulti_mobile_clone_new/components/product_item_component.dart";
 import "package:adamulti_mobile_clone_new/components/select_contact_component.dart";
 import "package:adamulti_mobile_clone_new/components/shimmer_list_component.dart";
@@ -9,6 +10,7 @@ import "package:adamulti_mobile_clone_new/components/textfield_with_event_compon
 import "package:adamulti_mobile_clone_new/components/transaction_without_identity_form_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/pulsa_and_data_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
@@ -22,7 +24,7 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class PulsaAndDataMainScreen extends StatefulWidget {
@@ -56,15 +58,13 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
           child: ContainerGradientBackground(
             child: Stack(
               children: [
-                Column(
+                const Column(
                   children: [
-                    const SizedBox(
+                    SizedBox(
                       height: 150,
                     ),
                     Expanded(
-                      child: Container(
-                        decoration: kContainerLightDecoration,
-                      )
+                      child: LightDecorationContainerComponent()
                     )
                   ],
                 ),
@@ -96,7 +96,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                         pulsaAndDataCubit.updateState(false, GetProductByTujuanResponse());
                                         showDynamicSnackBar(
                                           context, 
-                                          LineIcons.exclamationTriangle, 
+                                          Iconsax.warning_2, 
                                           "ERROR", 
                                           "Terjadi Kesalahan Ketika Mendapatkan Data Produk, Silahkan Coba Lagi untuk Memasukkan No. HP Pelanggan.", 
                                           Colors.red
@@ -108,7 +108,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                     }).catchError((_) {
                                       showDynamicSnackBar(
                                         context, 
-                                        LineIcons.exclamationTriangle, 
+                                        Iconsax.warning_2, 
                                         "ERROR", 
                                         "Terjadi Kesalahan Ketika Mendapatkan Data Produk, Silahkan Coba Lagi untuk Memasukkan No. HP Pelanggan.", 
                                         Colors.red
@@ -136,7 +136,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                     pulsaAndDataCubit.updateState(false, GetProductByTujuanResponse());
                                     showDynamicSnackBar(
                                       context, 
-                                      LineIcons.exclamationTriangle, 
+                                      Iconsax.warning_2, 
                                       "ERROR", 
                                       "Terjadi Kesalahan Ketika Mendapatkan Data Produk, Silahkan Coba Lagi untuk Memasukkan No. HP Pelanggan.", 
                                       Colors.red
@@ -148,7 +148,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                 }).catchError((_) {
                                   showDynamicSnackBar(
                                     context, 
-                                    LineIcons.exclamationTriangle, 
+                                    Iconsax.warning_2, 
                                     "ERROR", 
                                     "Terjadi Kesalahan Ketika Mendapatkan Data Produk, Silahkan Coba Lagi untuk Memasukkan No. HP Pelanggan.", 
                                     Colors.red
@@ -181,9 +181,9 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                         buttonMargin: const EdgeInsets.symmetric(horizontal: 8),
                                         height: 46,
                                         labelSpacing: 4,
-                                        backgroundColor: kMainLightThemeColor,
+                                        backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!),
                                         unselectedBackgroundColor: const Color(0xffdfe4ea),
-                                        borderColor: kMainLightThemeColor,
+                                        borderColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!),
                                         borderWidth: 0,
                                         unselectedBorderColor: const Color(0xff6a89cc),
                                         labelStyle: GoogleFonts.inter(
@@ -226,7 +226,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                               itemBuilder: (context, index) {
                                                 return ProductItemComponent(
                                                   operatorName: data.namaoperator!, 
-                                                  operatorColor: kMainLightThemeColor, 
+                                                  operatorColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                                                   imageUrl: data.imgurl!.isEmpty ? state.productData.data!.firstWhere((element) => element.imgurl!.isNotEmpty).imgurl! : 
                                                   data.imgurl!, 
                                                   title: data.namaoperator!,
@@ -235,7 +235,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                                     if(identityController.text.length < 10) {
                                                       showDynamicSnackBar(
                                                         context, 
-                                                        LineIcons.exclamationTriangle, 
+                                                        Iconsax.warning_2, 
                                                         "ERROR", 
                                                         "Nomor HP Pelanggan Harus Dilengkapi Terlebih Dahulu.", 
                                                         Colors.red
@@ -286,7 +286,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                                                   }).catchError((e) {
                                                                     showDynamicSnackBar(
                                                                       context, 
-                                                                      LineIcons.exclamationTriangle, 
+                                                                      Iconsax.warning_2, 
                                                                       "ERROR", 
                                                                       e.toString(), 
                                                                       Colors.red
@@ -303,7 +303,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                       
                                                                 showDynamicSnackBar(
                                                                   context, 
-                                                                  LineIcons.exclamationTriangle, 
+                                                                  Iconsax.warning_2, 
                                                                   "ERROR", 
                                                                   e.toString(), 
                                                                   Colors.red
@@ -347,7 +347,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                   Row(
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      const Icon(LineIcons.infoCircle, color: Colors.black,),
+                                      const Icon(Iconsax.info_circle, color: Colors.black,),
                                       const SizedBox(width: 8,),
                                       Text("LANGKAH TRANSAKSI", style: GoogleFonts.inter(
                                         fontSize: 16,

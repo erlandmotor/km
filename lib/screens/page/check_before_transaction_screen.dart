@@ -8,6 +8,7 @@ import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
 import "package:adamulti_mobile_clone_new/components/transaction_check_form_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
@@ -17,7 +18,7 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class CheckBeforeTransactionScreen extends StatefulWidget {
@@ -57,7 +58,13 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
               ),
               Expanded(
                 child: Container(
-                  decoration: kContainerLightDecoration,
+                  decoration: BoxDecoration(
+                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(18),
+                      topRight: Radius.circular(18)
+                    )
+                  ),
                   padding: const EdgeInsets.all(18),
                   child: Column(
                     children: [
@@ -85,13 +92,13 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                             children: [
                               LoadingButtonComponent(
                                 label: "Proses", 
-                                buttonColor: kMainLightThemeColor, 
+                                buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                                 onPressed: () {
                                   FocusManager.instance.primaryFocus?.unfocus();
                                   if(identityController.text.isEmpty) {
                                     showDynamicSnackBar(
                                       context, 
-                                      LineIcons.exclamationTriangle, 
+                                      Iconsax.warning_2, 
                                       "ERROR", 
                                       "ID Pelanggan harus diisi telebih dahulu.", 
                                       Colors.red
@@ -156,7 +163,7 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                                                     }).catchError((e) {
                                                       showDynamicSnackBar(
                                                         context, 
-                                                        LineIcons.exclamationTriangle, 
+                                                        Iconsax.warning_2, 
                                                         "ERROR", 
                                                         e.toString(), 
                                                         Colors.red
@@ -182,7 +189,7 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
 
                                                   showDynamicSnackBar(
                                                     context, 
-                                                    LineIcons.exclamationTriangle, 
+                                                    Iconsax.warning_2, 
                                                     "ERROR", 
                                                     e.toString(), 
                                                     Colors.red
@@ -198,7 +205,7 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                                       checkIdentityCubit.updateState(false, checkIdentityCubit.state.result);
                                       showDynamicSnackBar(
                                         context, 
-                                        LineIcons.exclamationTriangle, 
+                                        Iconsax.warning_2, 
                                         "ERROR", 
                                         e.toString(), 
                                         Colors.red
@@ -221,7 +228,7 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    const Icon(LineIcons.exclamationTriangle, color: Colors.white,
+                                    const Icon(Iconsax.warning_2, color: Colors.white,
                                     size: 32,),
                                     const SizedBox(width: 8,),
                                     Flexible(

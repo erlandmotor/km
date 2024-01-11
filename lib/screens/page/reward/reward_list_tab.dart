@@ -9,7 +9,7 @@ import "package:adamulti_mobile_clone_new/services/reward_service.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class RewardListTab extends StatelessWidget {
@@ -51,7 +51,7 @@ class RewardListTab extends StatelessWidget {
                               borderRadius: BorderRadius.circular(18),
                               color: const Color(0xff5f27cd)
                             ),
-                            child: const Icon(LineIcons.gift, color: Colors.white, size: 32,)
+                            child: const Icon(Iconsax.gift, color: Colors.white, size: 32,)
                           ),
                           const SizedBox(width: 18,),
                           Column(
@@ -95,7 +95,7 @@ class RewardListTab extends StatelessWidget {
                               context.pop();
                               showDynamicSnackBar(
                                 context, 
-                                LineIcons.exclamationTriangle, 
+                                Iconsax.warning_2, 
                                 "ERROR", 
                                 value.msg!, 
                                 Colors.red
@@ -104,7 +104,7 @@ class RewardListTab extends StatelessWidget {
                           }).catchError((e) {
                             showDynamicSnackBar(
                               context, 
-                              LineIcons.exclamationTriangle, 
+                              Iconsax.warning_2, 
                               "ERROR", 
                               e.toString(), 
                               Colors.red

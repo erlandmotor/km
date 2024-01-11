@@ -2,11 +2,13 @@ import "package:adamulti_mobile_clone_new/components/check_identity_container.da
 import "package:adamulti_mobile_clone_new/components/container_gradient_background.dart";
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
+import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
 import "package:adamulti_mobile_clone_new/components/product_item_component.dart";
 import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
 import 'package:adamulti_mobile_clone_new/components/transaction_without_identity_form_component.dart';
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
@@ -17,7 +19,7 @@ import "package:adamulti_mobile_clone_new/services/transaction_service.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 
 class PlnTokenScreen extends StatefulWidget {
   const PlnTokenScreen({ super.key, required this.operatorId, required this.operatorName,
@@ -52,15 +54,13 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
           child: ContainerGradientBackground(
             child: Stack(
               children: [
-                Column(
+                const Column(
                   children: [
-                    const SizedBox(
+                    SizedBox(
                       height: 120,
                     ),
                     Expanded(
-                      child: Container(
-                        decoration: kContainerLightDecoration,
-                      )
+                      child: LightDecorationContainerComponent()
                     )
                   ],
                 ),
@@ -90,7 +90,7 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                             checkIdentityCubit.updateState(false, checkIdentityCubit.state.result);
                             showDynamicSnackBar(
                               context, 
-                              LineIcons.exclamationTriangle, 
+                              Iconsax.warning_2, 
                               "ERROR", 
                               e.toString(), 
                               Colors.red
@@ -118,7 +118,7 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                                   itemBuilder: (context, index) {
                                     return ProductItemComponent(
                                       operatorName: widget.operatorName, 
-                                      operatorColor: kMainLightThemeColor, 
+                                      operatorColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                                       imageUrl: snapshot.data!.data![index].imgurloperator!, 
                                       title: widget.operatorName,
                                       productName: snapshot.data!.data![index].namaproduk!, 
@@ -126,7 +126,7 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                                         if(identityController.text.isEmpty) {
                                           showDynamicSnackBar(
                                             context, 
-                                            LineIcons.exclamationTriangle, 
+                                            Iconsax.warning_2, 
                                             "ERROR", 
                                             "ID Pelanggan harus diisi terlebih dahulu.", 
                                             Colors.red
@@ -177,7 +177,7 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                                                       }).catchError((e) {
                                                         showDynamicSnackBar(
                                                           context, 
-                                                          LineIcons.exclamationTriangle, 
+                                                          Iconsax.warning_2, 
                                                           "ERROR", 
                                                           e.toString(), 
                                                           Colors.red
@@ -194,7 +194,7 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
           
                                                     showDynamicSnackBar(
                                                       context, 
-                                                      LineIcons.exclamationTriangle, 
+                                                      Iconsax.warning_2, 
                                                       "ERROR", 
                                                       e.toString(), 
                                                       Colors.red

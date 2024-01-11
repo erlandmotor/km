@@ -1,5 +1,8 @@
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
 
 class SaldoActionComponent extends StatelessWidget {
@@ -21,10 +24,15 @@ class SaldoActionComponent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(
-            icon,
-            size: 28,
-            color: kMainLightThemeColor,
+          BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
+            bloc: locator.get<SettingApplikasiCubit>(),
+            builder: (_, state) {
+              return Icon(
+                icon,
+                size: 28,
+                color: HexColor.fromHex(state.settingData.infoColor!),
+              );
+            },
           ),
           const SizedBox(height: 4,),
           Text(label, style: GoogleFonts.openSans(

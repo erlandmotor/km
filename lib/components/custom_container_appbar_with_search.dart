@@ -3,7 +3,7 @@ import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class CustomContainerAppBarWithSearch extends StatelessWidget {
@@ -32,15 +32,7 @@ class CustomContainerAppBarWithSearch extends StatelessWidget {
                 onTap: () {
                   context.pop();
                 },
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: const Color(0xffE3E9ED)),
-                  ),
-                  child: const Icon(LineIcons.angleLeft, color: Colors.white),
-                ),
+                child: const Icon(Iconsax.arrow_circle_left, size: 28, color: Colors.white,)
               ),
               Expanded(
                 child: AutoSizeText(title, 

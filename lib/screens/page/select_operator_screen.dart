@@ -5,6 +5,7 @@ import "package:adamulti_mobile_clone_new/components/operator_item_component.dar
 import "package:adamulti_mobile_clone_new/components/search_textfield_without_debounce_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/select_operator_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/product_service.dart";
@@ -12,7 +13,7 @@ import "package:custom_pop_up_menu/custom_pop_up_menu.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class SelectOperatorScreen extends StatefulWidget {
@@ -45,7 +46,7 @@ class _PulsaSelectOperatorScreenState extends State<SelectOperatorScreen> {
     }).catchError((e) {
       showDynamicSnackBar(
         context, 
-        LineIcons.exclamationTriangle, 
+        Iconsax.warning_2, 
         "ERROR", 
         e.toString(), 
         Colors.red
@@ -126,7 +127,13 @@ class _PulsaSelectOperatorScreenState extends State<SelectOperatorScreen> {
               ),
               Expanded(
                 child: Container(
-                  decoration: kContainerLightDecoration,
+                  decoration: BoxDecoration(
+                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(18),
+                      topRight: Radius.circular(18)
+                    )
+                  ),
                   child: BlocBuilder<SelectOperatorCubit, SelectOperatorState>(
                     builder: (_, state) {
                       if(state.isLoading) {
@@ -140,7 +147,7 @@ class _PulsaSelectOperatorScreenState extends State<SelectOperatorScreen> {
                           itemBuilder: (context, index) {
                             return OperatorItemComponent(
                               operatorName: widget.operatorName, 
-                              operatorColor: kMainLightThemeColor, 
+                              operatorColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                               imageUrl: state.dataList[index].imgurl!, 
                               title: state.dataList[index].namaoperator!, 
                               onTap: () {

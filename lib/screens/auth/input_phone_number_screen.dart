@@ -13,7 +13,7 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class InputPhoneNumberScreen extends StatefulWidget {
@@ -42,7 +42,7 @@ class _InputPhoneNumberScreenState extends State<InputPhoneNumberScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(
-            LineIcons.angleLeft,
+            Iconsax.arrow_left,
             color: Colors.white,
             size: 30,
           ),
@@ -52,12 +52,13 @@ class _InputPhoneNumberScreenState extends State<InputPhoneNumberScreen> {
         ),
         backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
         systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
-            systemNavigationBarColor: Colors.white,
-            statusBarBrightness: Brightness.dark,
-            statusBarIconBrightness: Brightness.light,
-            systemNavigationBarIconBrightness: Brightness.light,
-            systemNavigationBarDividerColor: Colors.white),
+          statusBarColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
+          systemNavigationBarColor: Colors.white,
+          statusBarBrightness: Brightness.dark,
+          statusBarIconBrightness: Brightness.light,
+          systemNavigationBarIconBrightness: Brightness.light,
+          systemNavigationBarDividerColor: Colors.white
+        ),
         title: Text(
           "Verifikasi Nomor HP",
             style: GoogleFonts.openSans(
@@ -110,7 +111,7 @@ class _InputPhoneNumberScreenState extends State<InputPhoneNumberScreen> {
                       label: "Masukkan Nomor HP Anda", 
                       hint: "Tanpa Prefix +62", 
                       controller: phoneController, 
-                      prefixIcon: LineIcons.mobilePhone
+                      prefixIcon: Iconsax.mobile
                     ),
                     const SizedBox(height: 18,),
                     DynamicSizeButtonComponent(
@@ -131,7 +132,7 @@ class _InputPhoneNumberScreenState extends State<InputPhoneNumberScreen> {
                           }).catchError((e) {
                             showDynamicSnackBar(
                               context, 
-                              LineIcons.exclamationTriangle, 
+                              Iconsax.warning_2, 
                               "ERROR", 
                               e.toString(), 
                               Colors.red
@@ -140,7 +141,7 @@ class _InputPhoneNumberScreenState extends State<InputPhoneNumberScreen> {
                         } else {
                           showDynamicSnackBar(
                             context, 
-                            LineIcons.exclamationTriangle, 
+                            Iconsax.warning_2, 
                             "ERROR", 
                             "Nomor HP harus diisi terlebih dahulu.", 
                             Colors.red

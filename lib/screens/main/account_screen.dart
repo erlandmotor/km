@@ -1,6 +1,6 @@
 import "package:adamulti_mobile_clone_new/components/account_menu_section_component.dart";
 import "package:adamulti_mobile_clone_new/components/container_gradient_background.dart";
-import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
 import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/getme_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
@@ -12,7 +12,8 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
+
 
 class AccountScreen extends StatelessWidget {
 
@@ -23,15 +24,13 @@ class AccountScreen extends StatelessWidget {
     return ContainerGradientBackground(
       child: Stack(
         children: [
-          Column(
+          const Column(
             children: [
-              const SizedBox(
+              SizedBox(
                 height: 120,
               ),
               Expanded(
-                child: Container(
-                  decoration: kContainerLightDecoration,
-                )
+                child: LightDecorationContainerComponent()
               )
             ],
           ),
@@ -71,7 +70,7 @@ class AccountScreen extends StatelessWidget {
                           const SizedBox(height: 6,),
                           Row(
                             children: [
-                              const Icon(LineIcons.store, color: Colors.white, size: 18,),
+                              const Icon(Iconsax.shop, color: Colors.white, size: 18,),
                               const SizedBox(width: 6,),
                               Text(locator.get<AuthenticatedCubit>().state.authenticatedUser.nAMARESELLER!, style: GoogleFonts.inter(
                                 fontSize: 12,
@@ -101,7 +100,7 @@ class AccountScreen extends StatelessWidget {
                                 children: [
                                   const CircleAvatar(
                                     backgroundColor: Colors.blue,
-                                    child: Icon(LineIcons.users, color: Colors.white,),
+                                    child: Icon(Iconsax.group, color: Colors.white,),
                                   ),
                                   const SizedBox(height: 4,),
                                   Text("Downline", style: GoogleFonts.inter(
@@ -122,7 +121,7 @@ class AccountScreen extends StatelessWidget {
                                 children: [
                                   const CircleAvatar(
                                     backgroundColor: Colors.yellow,
-                                    child: Icon(LineIcons.coins, color: Colors.white,),
+                                    child: Icon(Iconsax.coin_1, color: Colors.white,),
                                   ),
                                   const SizedBox(height: 4,),
                                   Text("Poin", style: GoogleFonts.inter(
@@ -143,7 +142,7 @@ class AccountScreen extends StatelessWidget {
                                 children: [
                                   const CircleAvatar(
                                     backgroundColor: Colors.green,
-                                    child: Icon(LineIcons.wavyMoneyBill, color: Colors.white,),
+                                    child: Icon(Iconsax.money_tick, color: Colors.white,),
                                   ),
                                   const SizedBox(height: 4,),
                                   Text("Komisi", style: GoogleFonts.inter(
@@ -177,7 +176,7 @@ class AccountScreen extends StatelessWidget {
                               context.pushNamed("price-list");
                             },
                             child: const AccountMenuSectionComponent(
-                              icon: LineIcons.tags, 
+                              icon: Iconsax.tag, 
                               label: "Daftar Harga",
                               iconColor: Colors.green, 
                             ),
@@ -188,7 +187,7 @@ class AccountScreen extends StatelessWidget {
                               context.pushNamed("daftar-agen");
                             },
                             child: const AccountMenuSectionComponent(
-                              icon: LineIcons.users, 
+                              icon: Iconsax.user_square, 
                               label: "Daftar Agen",
                               iconColor: Colors.blue, 
                             )
@@ -199,7 +198,7 @@ class AccountScreen extends StatelessWidget {
                               context.pushNamed("connect-printer");
                             },
                             child: const AccountMenuSectionComponent(
-                              icon: LineIcons.bluetooth, 
+                              icon: Iconsax.bluetooth, 
                               label: "Connect Printer",
                               iconColor: Color(0xff0a3b8c), 
                             ),
@@ -210,7 +209,7 @@ class AccountScreen extends StatelessWidget {
                               context.pushNamed("printer-setting");
                             },
                             child: const AccountMenuSectionComponent(
-                              icon: LineIcons.print, 
+                              icon: Iconsax.printer, 
                               label: "Atur Struk",
                               iconColor: Colors.purple,
                             ),
@@ -221,7 +220,7 @@ class AccountScreen extends StatelessWidget {
                               context.pushNamed("change-pin");
                             },
                             child: const AccountMenuSectionComponent(
-                              icon: LineIcons.lockOpen, 
+                              icon: Iconsax.unlock, 
                               label: "Ganti Pin",
                               iconColor: Color(0xff636e72),
                             ),
@@ -232,7 +231,7 @@ class AccountScreen extends StatelessWidget {
                               context.pushNamed("privacy-policy");
                             },
                             child: const AccountMenuSectionComponent(
-                              icon: LineIcons.userShield, 
+                              icon: Iconsax.security_user, 
                               label: "Privacy & Policy",
                               iconColor: Color(0xff7d5fff), 
                             ),
@@ -245,7 +244,7 @@ class AccountScreen extends StatelessWidget {
                               context.goNamed("select-google-account");
                             },
                             child: const AccountMenuSectionComponent(
-                              icon: LineIcons.alternateSignOut, 
+                              icon: Iconsax.logout, 
                               label: "Keluar",
                               iconColor: Colors.red,
                             ),

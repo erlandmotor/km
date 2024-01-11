@@ -4,11 +4,9 @@ import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
-class ContainerGradientBackground extends StatelessWidget {
+class LightDecorationContainerComponent extends StatelessWidget {
 
-  const ContainerGradientBackground({ super.key, required this.child });
-
-  final Widget child;
+  const LightDecorationContainerComponent({ super.key });
 
   @override
   Widget build(BuildContext context) {
@@ -17,18 +15,12 @@ class ContainerGradientBackground extends StatelessWidget {
       builder: (_, stateSetting) {
         return Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                HexColor.fromHex(stateSetting.settingData.mainColor1!),
-                HexColor.fromHex(stateSetting.settingData.mainColor2!),
-                HexColor.fromHex(stateSetting.settingData.mainColor3!),
-              ],
-              stops: const [0, 0.4, 0.8],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
+            color: HexColor.fromHex(stateSetting.settingData.lightColor!),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(18),
+              topRight: Radius.circular(18)
             )
           ),
-          child: child,
         );
       }
     );

@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class CustomContainerAppBarWithNav extends StatelessWidget {
@@ -28,15 +28,7 @@ class CustomContainerAppBarWithNav extends StatelessWidget {
                 onTap: () {
                   onTapNav();
                 },
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: const Color(0xffE3E9ED)),
-                  ),
-                  child: const Icon(LineIcons.angleLeft, color: Colors.white),
-                ),
+                child: const Icon(Iconsax.arrow_circle_left, size: 28, color: Colors.white,)
               ),
               SizedBox(
                 width: 18.w,

@@ -1,8 +1,10 @@
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class TopupHistoryItemComponent extends StatelessWidget {
@@ -18,7 +20,7 @@ class TopupHistoryItemComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: Colors.white,
-      surfaceTintColor: kLightBackgroundColor,
+      surfaceTintColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.surfaceColor!),
       elevation: 2,
       child: Container(
         padding: const EdgeInsets.all(8),
@@ -41,7 +43,7 @@ class TopupHistoryItemComponent extends StatelessWidget {
                     color: (status == "0") ? Colors.lightBlue : (status == "1") ? Colors.green : Colors.red
                   ),
                   child: Icon(
-                    (status == "0") ? LineIcons.alternateRedo : (status == "1") ? LineIcons.checkCircle : LineIcons.timesCircle,
+                    (status == "0") ? Iconsax.refresh : (status == "1") ? Iconsax.tick_circle : Iconsax.close_circle,
                     color: Colors.white,
                   ),
                 ),

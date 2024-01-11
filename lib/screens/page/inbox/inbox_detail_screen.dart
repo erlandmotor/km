@@ -1,4 +1,5 @@
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/notification_paginate_response.dart";
 import "package:adamulti_mobile_clone_new/services/notification_service.dart";
@@ -6,8 +7,8 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
 import "package:flutter_html/flutter_html.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class InboxDetailScreen extends StatelessWidget {
@@ -22,7 +23,7 @@ class InboxDetailScreen extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(
-            LineIcons.angleLeft,
+            Iconsax.arrow_circle_left,
             color: Colors.white,
             size: 30,
           ),
@@ -30,9 +31,9 @@ class InboxDetailScreen extends StatelessWidget {
             context.pop();
           },
         ),
-        backgroundColor: kMainThemeColor,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: kMainThemeColor,
+        backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
+        systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
             systemNavigationBarColor: Colors.white,
             statusBarBrightness: Brightness.dark,
             statusBarIconBrightness: Brightness.light,
@@ -49,9 +50,9 @@ class InboxDetailScreen extends StatelessWidget {
           Container(
             width: 100.w,
             height: 100.h,
-            decoration: const BoxDecoration(
-              color: kLightBackgroundColor,
-              image: DecorationImage(
+            decoration: BoxDecoration(
+              color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
+              image: const DecorationImage(
                 image: AssetImage("assets/pattern-samping.png"),
                 fit: BoxFit.fill
               )

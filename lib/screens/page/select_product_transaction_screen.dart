@@ -7,6 +7,7 @@ import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
 import "package:adamulti_mobile_clone_new/components/transaction_form_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/select_product_transaction_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
@@ -16,8 +17,8 @@ import "package:custom_pop_up_menu/custom_pop_up_menu.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
-import "package:line_icons/line_icons.dart";
 import "package:adamulti_mobile_clone_new/services/local_notification_service.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class SelectProductTransactionScreen extends StatefulWidget {
@@ -51,7 +52,7 @@ class _SelectProductTransactionScreenState extends State<SelectProductTransactio
     }).catchError((e) {
       showDynamicSnackBar(
         context, 
-        LineIcons.exclamationTriangle, 
+        Iconsax.warning_2, 
         "ERROR", 
         e.toString(), 
         Colors.red
@@ -133,7 +134,13 @@ class _SelectProductTransactionScreenState extends State<SelectProductTransactio
               ),
               Expanded(
                 child: Container(
-                  decoration: kContainerLightDecoration,
+                  decoration: BoxDecoration(
+                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(18),
+                      topRight: Radius.circular(18)
+                    )
+                  ),
                   child: BlocBuilder<SelectProductTransactionCubit, SelectProductTransactionState>(
                     builder: (_, state) {
                       if(state.isLoading) {
@@ -146,7 +153,7 @@ class _SelectProductTransactionScreenState extends State<SelectProductTransactio
                           itemBuilder: (context, index) {
                             return ProductItemComponent(
                               operatorName: widget.operatorName, 
-                              operatorColor: kMainLightThemeColor, 
+                              operatorColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                               imageUrl: state.dataList[index].imgurloperator!, 
                               title: widget.operatorName,
                               productName: state.dataList[index].namaproduk!, 
@@ -195,7 +202,7 @@ class _SelectProductTransactionScreenState extends State<SelectProductTransactio
                                             }).catchError((e) {
                                               showDynamicSnackBar(
                                                 context, 
-                                                LineIcons.exclamationTriangle, 
+                                                Iconsax.warning_2, 
                                                 "ERROR", 
                                                 e.toString(), 
                                                 Colors.red
@@ -214,7 +221,7 @@ class _SelectProductTransactionScreenState extends State<SelectProductTransactio
 
                                           showDynamicSnackBar(
                                             context, 
-                                            LineIcons.exclamationTriangle, 
+                                            Iconsax.warning_2, 
                                             "ERROR", 
                                             e.toString(), 
                                             Colors.red

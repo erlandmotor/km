@@ -21,7 +21,7 @@ import "package:flutter/services.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class RegisterScreen extends StatefulWidget {
@@ -70,7 +70,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(
-            LineIcons.angleLeft,
+            Iconsax.arrow_left,
             color: Colors.white,
             size: 30,
           ),
@@ -98,9 +98,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Container(
               width: 100.w,
               height: 100.h,
-              decoration: const BoxDecoration(
-                color: kLightBackgroundColor,
-                image: DecorationImage(
+              decoration: BoxDecoration(
+                color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
+                image: const DecorationImage(
                   image: AssetImage("assets/pattern-samping.png"),
                   fit: BoxFit.fill
                 )
@@ -151,7 +151,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if(selectRegionCubit.provinceId == 0) {
                             showDynamicSnackBar(
                               context, 
-                              LineIcons.exclamationTriangle, 
+                              Iconsax.warning_2, 
                               "ERROR", 
                               "Data Provinsi harus dipilih terlebih dahulu.", 
                               Colors.red
@@ -174,7 +174,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if(selectRegionCubit.cityId == 0) {
                             showDynamicSnackBar(
                               context, 
-                              LineIcons.exclamationTriangle, 
+                              Iconsax.warning_2, 
                               "ERROR", 
                               "Data Kabupaten / Kota harus dipilih terlebih dahulu.", 
                               Colors.red
@@ -236,14 +236,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const SizedBox(height: 18,),
                       DynamicSizeButtonComponent(
                         label: "Selanjutnya", 
-                        buttonColor: kMainLightThemeColor, 
+                        buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                         onPressed: () {
                           if(namaUsahaController.text.isEmpty || alamatController.text.isEmpty || selectRegionCubit.provinceId == 0 ||
                           selectRegionCubit.cityId == 0 || selectRegionCubit.districtsId == 0 || pinController.text.isEmpty || isCheckedTerm == false) {
                             if(isCheckedTerm == false) {
                               showDynamicSnackBar(
                                 context, 
-                                LineIcons.exclamationTriangle, 
+                                Iconsax.warning_2, 
                                 "ERROR", 
                                 "Term Harus Disetujui Terlebih Dahulu Sebelum Melakukan Registrasi.", 
                                 Colors.red
@@ -251,7 +251,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             } else {
                               showDynamicSnackBar(
                                 context, 
-                                LineIcons.exclamationTriangle, 
+                                Iconsax.warning_2, 
                                 "ERROR", 
                                 "Formulir Pendaftaran Harus Dilengkapi Terlebih Dahulu.", 
                                 Colors.red
@@ -261,7 +261,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             if(pinController.text.length < 4) {
                               showDynamicSnackBar(
                                 context, 
-                                LineIcons.exclamationTriangle, 
+                                Iconsax.warning_2, 
                                 "ERROR", 
                                 "PIN Minimal Harus 4 Digit.", 
                                 Colors.red
@@ -299,7 +299,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   context.pop();
                                   showDynamicSnackBar(
                                     context, 
-                                    LineIcons.exclamationTriangle, 
+                                    Iconsax.warning_2, 
                                     "ERROR", 
                                     registerResponse.msg!, 
                                     Colors.red
@@ -309,7 +309,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 context.pop();
                                 showDynamicSnackBar(
                                   context, 
-                                  LineIcons.exclamationTriangle, 
+                                  Iconsax.warning_2, 
                                   "ERROR", 
                                   e.toString(), 
                                   Colors.red

@@ -3,7 +3,7 @@ import 'package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart';
 import 'package:adamulti_mobile_clone_new/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:line_icons/line_icons.dart';
+import 'package:iconsax/iconsax.dart';
 
 class SearchTextfieldWithoutDebounceComponent extends StatelessWidget {
 
@@ -55,7 +55,7 @@ class SearchTextfieldWithoutDebounceComponent extends StatelessWidget {
               fontSize: 14,
               fontWeight: FontWeight.w400
             ),
-            prefixIcon: const Icon(LineIcons.search),
+            prefixIcon: const Icon(Iconsax.search_normal),
             floatingLabelBehavior: FloatingLabelBehavior.never,
             errorStyle: const TextStyle(
               fontSize: 14,

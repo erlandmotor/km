@@ -1,11 +1,14 @@
 import "package:adamulti_mobile_clone_new/components/container_gradient_background.dart";
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
+import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
 import "package:adamulti_mobile_clone_new/components/loading_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/regular_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/components/topup_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:flutter/material.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class TransferMainScreen extends StatefulWidget {
@@ -35,15 +38,13 @@ class _TransferMainScreenState extends State<TransferMainScreen> {
         child: ContainerGradientBackground(
           child: Stack(
             children: [
-              Column(
+              const Column(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     height: 120,
                   ),
                   Expanded(
-                    child: Container(
-                      decoration: kContainerLightDecoration,
-                    )
+                    child: LightDecorationContainerComponent()
                   )
                 ],
               ),
@@ -67,20 +68,20 @@ class _TransferMainScreenState extends State<TransferMainScreen> {
                                     hint: "Contoh : ID00001", 
                                     controller: identityController, 
                                     validationMessage: "Nomor HP / ID Agen Harus Diisi.", 
-                                    prefixIcon: LineIcons.identificationCardAlt, 
+                                    prefixIcon: Iconsax.personalcard, 
                                     isObsecure: false
                                   ),
                                   const SizedBox(height: 8,),
                                   TopupTextFieldComponent(
-                                    label: "Nominal Topup", 
+                                    label: "Nominal Transfer", 
                                     hint: "Minimal Rp. 50.000", 
                                     controller: topupController,
-                                    prefixIcon: LineIcons.wavyMoneyBill,
+                                    prefixIcon: Iconsax.empty_wallet_change,
                                   ),
                                   const SizedBox(height: 18,),
                                   LoadingButtonComponent(
                                     label: "Transfer Saldo", 
-                                    buttonColor: kMainLightThemeColor, 
+                                    buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                                     onPressed: () {
                                       
                                     }, 

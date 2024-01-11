@@ -1,4 +1,6 @@
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
@@ -21,7 +23,7 @@ class DetailTransaksiItemComponent extends StatelessWidget {
             SizedBox(
               width: 40.w,
               child: Text(title, style: GoogleFonts.inter(
-                color: kSecondaryTextColor,
+                color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightTextColor!),
                 fontSize: 12,
                 fontWeight: FontWeight.w500
               ),),

@@ -3,6 +3,7 @@ import "dart:convert";
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/markup_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/transaction_detail_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
@@ -11,7 +12,7 @@ import "package:adamulti_mobile_clone_new/services/secure_storage.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class PrintMarkupContainerComponent extends StatefulWidget {
@@ -79,7 +80,7 @@ class _PrintMarkupContainerComponentState extends State<PrintMarkupContainerComp
                   label: "Jasa Loket / Markup", 
                   hint: "Contoh : Rp. 2.000", 
                   controller: markupController,
-                  prefixIcon: LineIcons.receipt,
+                  prefixIcon: Iconsax.money_tick,
                   onChangedAction: (String value) {
                     final transactionDetailCubit = context.read<TransactionDetailCubit>();
                     final markup = int.parse(value.replaceAll(RegExp(r"\D"), ""));              
@@ -96,7 +97,7 @@ class _PrintMarkupContainerComponentState extends State<PrintMarkupContainerComp
                   width: 100.w,
                   padding: const EdgeInsets.all(18),
                   decoration: BoxDecoration(
-                    color: kMainThemeColor,
+                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
                     borderRadius: BorderRadius.circular(8)
                   ),
                   child: Column(
@@ -124,7 +125,7 @@ class _PrintMarkupContainerComponentState extends State<PrintMarkupContainerComp
                 const SizedBox(height: 18,),
                 DynamicSizeButtonComponent(
                   label: widget.buttonLabel, 
-                  buttonColor: kMainLightThemeColor, 
+                  buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                   onPressed: () {
                     final transactionDetailCubit = context.read<TransactionDetailCubit>();
     

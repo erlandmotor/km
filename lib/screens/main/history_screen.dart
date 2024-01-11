@@ -1,5 +1,6 @@
 import "package:adamulti_mobile_clone_new/components/container_gradient_background.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
+import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
 import "package:adamulti_mobile_clone_new/components/loading_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/regular_textfield_without_validators_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
@@ -8,6 +9,7 @@ import "package:adamulti_mobile_clone_new/cubit/history_topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_transaksi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/rekap_transaksi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/search_history_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/screens/main/history_tab/rekap_transaksi_tab.dart";
@@ -21,8 +23,8 @@ import "package:custom_pop_up_menu/custom_pop_up_menu.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:iconsax/iconsax.dart";
 import "package:intl/intl.dart";
-import "package:line_icons/line_icons.dart";
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import "package:responsive_sizer/responsive_sizer.dart";
 
@@ -63,26 +65,25 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return ContainerGradientBackground(
       child: Stack(
         children: [
-          Column(
+          const Column(
             children: [
-              const SizedBox(
-                height: 120,
+              SizedBox(
+                height: 130,
               ),
               Expanded(
-                child: Container(
-                  decoration: kContainerLightDecoration,
-                )
+                child: LightDecorationContainerComponent()
               )
             ],
           ),
           Column(
             children: [
+              const SizedBox(height: 18,),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18),
+                padding: const EdgeInsets.symmetric(horizontal: 18,),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Riwayat", style: GoogleFonts.inter(
+                    Text("Riwayat", style: GoogleFonts.openSans(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                       color: Colors.white
@@ -114,7 +115,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                           label: state.currentIndex == 0 ? "ID Pelanggan / No. Tujuan" : "Keterangan",
                                           hint: "Contoh : 082xxx",
                                           controller: searchController,
-                                          prefixIcon: LineIcons.search,
+                                          prefixIcon: Iconsax.search_normal,
                                         ),
                                       );
                                     } else {
@@ -124,7 +125,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(18.0),
-                                  child: Text("Pilih Tanggal", style: GoogleFonts.inter(
+                                  child: Text("Pilih Tanggal", style: GoogleFonts.openSans(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500
                                   ),),
@@ -166,13 +167,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 
                                       return LoadingButtonComponent(
                                         label: "Cari", 
-                                        buttonColor: kSecondaryColor, 
+                                        buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                                         onPressed: () {                 
                                           if(listOfCurrentDateTime.length < 2) {
                                             popupMenuController.hideMenu();
                                             showDynamicSnackBar(
                                               context,
-                                              LineIcons.exclamationTriangle,
+                                              Iconsax.warning_2,
                                               "ERROR",
                                               "Tanggal Harus Dipilih Terlebih Dahulu.",
                                               Colors.red
@@ -208,7 +209,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                 searchHistoryCubit.updateState(false, searchHistoryCubit.state.currentIndex);
                                                 showDynamicSnackBar(
                                                   context,
-                                                  LineIcons.exclamationTriangle,
+                                                  Iconsax.warning_2,
                                                   "ERROR",
                                                   e.toString(),
                                                   Colors.red
@@ -243,7 +244,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                 popupMenuController.hideMenu();
                                                 showDynamicSnackBar(
                                                   context,
-                                                  LineIcons.exclamationTriangle,
+                                                  Iconsax.warning_2,
                                                   "ERROR",
                                                   e.toString(),
                                                   Colors.red
@@ -274,7 +275,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                 popupMenuController.hideMenu();
                                                 showDynamicSnackBar(
                                                   context,
-                                                  LineIcons.exclamationTriangle,
+                                                  Iconsax.warning_2,
                                                   "ERROR",
                                                   e.toString(),
                                                   Colors.red
@@ -309,7 +310,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                 popupMenuController.hideMenu();
                                                 showDynamicSnackBar(
                                                   context,
-                                                  LineIcons.exclamationTriangle,
+                                                  Iconsax.warning_2,
                                                   "ERROR",
                                                   e.toString(),
                                                   Colors.red
@@ -337,7 +338,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       barrierColor: Colors.black54,
                       showArrow: true,
                       
-                      child: const Icon(Icons.search_outlined, size: 32, color: Colors.white,)
+                      child: const Icon(Iconsax.search_normal, color: Colors.white,)
                     )
                   ],
                 ),
@@ -350,73 +351,78 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     padding: const EdgeInsets.all(4),
                     child: Column(
                       children: [
-                        ButtonsTabBar(
-                          onTap: (index) {
-                            currentTabIndex = index;
-                            final searchHistoryCubit = context.read<SearchHistoryCubit>();
-                            searchHistoryCubit.updateState(false, index);
-                            
-                            if(index == 0) {
-                              final historyTransaksiCubit = context.read<HistoryTransaksiCubit>();
-                              historyTransaksiCubit.resetState();
-                            }
-                            if(index == 1) {
-                              final historySaldoCubit = context.read<HistorySaldoCubit>();
-                              historySaldoCubit.resetState();
-                            }
+                        BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
+                          bloc: locator.get<SettingApplikasiCubit>(),
+                          builder: (_, state) {
+                            return ButtonsTabBar(
+                              onTap: (index) {
+                                currentTabIndex = index;
+                                final searchHistoryCubit = context.read<SearchHistoryCubit>();
+                                searchHistoryCubit.updateState(false, index);
+                                
+                                if(index == 0) {
+                                  final historyTransaksiCubit = context.read<HistoryTransaksiCubit>();
+                                  historyTransaksiCubit.resetState();
+                                }
+                                if(index == 1) {
+                                  final historySaldoCubit = context.read<HistorySaldoCubit>();
+                                  historySaldoCubit.resetState();
+                                }
 
-                            if(index == 2) {
-                              final rekapTransaksiCubit = context.read<RekapTransaksiCubit>();
-                              rekapTransaksiCubit.resetState();
-                            }
+                                if(index == 2) {
+                                  final rekapTransaksiCubit = context.read<RekapTransaksiCubit>();
+                                  rekapTransaksiCubit.resetState();
+                                }
 
-                            if(index == 3) {
-                              final historyTopupSaldoCubit = context.read<HistoryTopupSaldoCubit>();
-                              historyTopupSaldoCubit.resetState();
-                            }
-                          },
-                          radius: 8,
-                          contentPadding: const EdgeInsets.all(12),
-                          buttonMargin: const EdgeInsets.symmetric(horizontal: 8),
-                          height: 46,
-                          labelSpacing: 4,
-                          backgroundColor: kMainLightThemeColor,
-                          unselectedBackgroundColor: const Color(0xffdfe4ea),
-                          borderColor: kMainLightThemeColor,
-                          borderWidth: 0,
-                          unselectedBorderColor: const Color(0xff6a89cc),
-                          labelStyle: GoogleFonts.inter(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white
-                          ),
-                          unselectedLabelStyle: GoogleFonts.inter(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black
-                          ),
-                          tabs: const [
-                            Tab(
-                              icon: Icon(LineIcons.wavyMoneyBill),
-                              text: 'Transaksi',
-                            ),
-                            Tab(
-                              icon: Icon(LineIcons.wallet),
-                              text: 'Saldo',
-                            ),
-                            Tab(
-                              icon: Icon(LineIcons.fileInvoiceWithUsDollar),
-                              text: 'Rekap Transaksi',
-                            ),
-                            Tab(
-                              icon: Icon(LineIcons.handHoldingUsDollar),
-                              text: 'Topup Saldo',
-                            ),
-                            Tab(
-                              icon: Icon(LineIcons.alternateMoneyCheck),
-                              text: 'Transfer Saldo',
-                            ),
-                          ],
+                                if(index == 3) {
+                                  final historyTopupSaldoCubit = context.read<HistoryTopupSaldoCubit>();
+                                  historyTopupSaldoCubit.resetState();
+                                }
+                              },
+                              radius: 8,
+                              contentPadding: const EdgeInsets.all(12),
+                              buttonMargin: const EdgeInsets.symmetric(horizontal: 8),
+                              height: 46,
+                              labelSpacing: 4,
+                              backgroundColor: HexColor.fromHex(state.settingData.secondaryColor!),
+                              unselectedBackgroundColor: HexColor.fromHex(state.settingData.lightColor!),
+                              borderColor: HexColor.fromHex(state.settingData.secondaryColor!),
+                              borderWidth: 0,
+                              unselectedBorderColor: HexColor.fromHex(state.settingData.mainColor1!),
+                              labelStyle: GoogleFonts.openSans(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white
+                              ),
+                              unselectedLabelStyle: GoogleFonts.openSans(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black
+                              ),
+                              tabs: const [
+                                Tab(
+                                  icon: Icon(Iconsax.money_tick),
+                                  text: 'Transaksi',
+                                ),
+                                Tab(
+                                  icon: Icon(Iconsax.wallet_money),
+                                  text: 'Saldo',
+                                ),
+                                Tab(
+                                  icon: Icon(Iconsax.receipt_edit),
+                                  text: 'Rekap Transaksi',
+                                ),
+                                Tab(
+                                  icon: Icon(Iconsax.wallet_add),
+                                  text: 'Topup Saldo',
+                                ),
+                                Tab(
+                                  icon: Icon(Iconsax.card_send),
+                                  text: 'Transfer Saldo',
+                                ),
+                              ],
+                            );
+                          }
                         ),
                         const SizedBox(height: 30,),
                         const Expanded(

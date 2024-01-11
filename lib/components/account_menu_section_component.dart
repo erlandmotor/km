@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 
 class AccountMenuSectionComponent extends StatelessWidget {
 
@@ -27,7 +27,7 @@ class AccountMenuSectionComponent extends StatelessWidget {
             ),)
           ),
           const SizedBox(width: 6,),
-          const Icon(LineIcons.angleRight, color: Colors.black, size: 18,)
+          const Icon(Iconsax.arrow_right3, color: Colors.black, size: 18,)
         ],
       ),
     );

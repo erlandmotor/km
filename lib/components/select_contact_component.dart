@@ -1,7 +1,7 @@
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:flutter/material.dart";
 import "package:flutter_contacts/flutter_contacts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 
 class SelectContactComponent extends StatelessWidget {
 
@@ -22,7 +22,7 @@ class SelectContactComponent extends StatelessWidget {
           } else {
             showDynamicSnackBar(
               context, 
-              LineIcons.exclamationTriangle, 
+              Iconsax.warning_2, 
               "ERROR", 
               "Anda harus mengizinkan applikasi untuk mengakses kontak anda.", 
               Colors.red
@@ -38,7 +38,7 @@ class SelectContactComponent extends StatelessWidget {
           color: const Color(0xff079992)
         ),
         child: const Center(
-          child: Icon(LineIcons.addressBookAlt, color: Colors.white, size: 32,),
+          child: Icon(Iconsax.archive_book, color: Colors.white, size: 32,),
         ),
       ),
     );

@@ -16,7 +16,7 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class InputPinScreen extends StatefulWidget {
@@ -47,7 +47,7 @@ class _InputPinScreenState extends State<InputPinScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(
-            LineIcons.angleLeft,
+            Iconsax.arrow_left,
             color: Colors.white,
             size: 30,
           ),
@@ -56,8 +56,8 @@ class _InputPinScreenState extends State<InputPinScreen> {
           },
         ),
         backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
-        systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: kMainThemeColor,
+        systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
             systemNavigationBarColor: Colors.white,
             statusBarBrightness: Brightness.dark,
             statusBarIconBrightness: Brightness.light,
@@ -124,7 +124,7 @@ class _InputPinScreenState extends State<InputPinScreen> {
                     const SizedBox(height: 30,),
                     DynamicSizeButtonComponent(
                       label: "Masuk", 
-                      buttonColor: kMainLightThemeColor, 
+                      buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                       onPressed: () {
                         showLoadingSubmit(context, "Proses Login ke Applikasi...");
               
@@ -143,7 +143,7 @@ class _InputPinScreenState extends State<InputPinScreen> {
                                 context.pop();
                                 showDynamicSnackBar(
                                   context, 
-                                  LineIcons.exclamationTriangle, 
+                                  Iconsax.warning_2, 
                                   "ERROR", 
                                   e.toString(), 
                                   Colors.red
@@ -153,7 +153,7 @@ class _InputPinScreenState extends State<InputPinScreen> {
                               context.pop();
                               showDynamicSnackBar(
                                 context, 
-                                LineIcons.exclamationTriangle, 
+                                Iconsax.warning_2, 
                                 "ERROR", 
                                 e.toString(), 
                                 Colors.red
@@ -163,7 +163,7 @@ class _InputPinScreenState extends State<InputPinScreen> {
                             context.pop();
                             showDynamicSnackBar(
                               context, 
-                              LineIcons.exclamationTriangle, 
+                              Iconsax.warning_2, 
                               "ERROR", 
                               accountKitResponse.msg!, 
                               Colors.red
@@ -173,7 +173,7 @@ class _InputPinScreenState extends State<InputPinScreen> {
                             context.pop();
                             showDynamicSnackBar(
                               context, 
-                              LineIcons.exclamationTriangle, 
+                              Iconsax.warning_2, 
                               "ERROR", 
                               e.toString(), 
                               Colors.red

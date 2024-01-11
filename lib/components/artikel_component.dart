@@ -1,10 +1,12 @@
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/artikel_data.dart";
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
 
 class ArtikelComponent extends StatelessWidget {
 
@@ -54,17 +56,22 @@ class ArtikelComponent extends StatelessWidget {
                             fontSize: 14,
                             fontWeight: FontWeight.w500
                           ),),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              fixedSize: const Size(140, 15),
-                              backgroundColor: kMainLightThemeColor
-                            ),
-                            onPressed: () {}, 
-                            child: Text("Selengkapnya", style: GoogleFonts.openSans(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white
-                            ),)
+                          BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
+                            bloc: locator.get<SettingApplikasiCubit>(),
+                            builder: (_, state) {
+                              return ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  fixedSize: const Size(140, 15),
+                                  backgroundColor: HexColor.fromHex(state.settingData.secondaryColor!)
+                                ),
+                                onPressed: () {}, 
+                                child: Text("Selengkapnya", style: GoogleFonts.openSans(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white
+                                ),)
+                              );
+                            },
                           )
                         ],
                       ),

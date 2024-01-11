@@ -9,7 +9,7 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
@@ -39,7 +39,7 @@ class _OtpAlreadyRegisteredScreenState extends State<OtpAlreadyRegisteredScreen>
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(
-            LineIcons.angleLeft,
+            Iconsax.arrow_left,
             color: Colors.white,
             size: 30,
           ),
@@ -133,7 +133,7 @@ class _OtpAlreadyRegisteredScreenState extends State<OtpAlreadyRegisteredScreen>
                           if(difference <= 0) {
                             showDynamicSnackBar(
                               context, 
-                              LineIcons.exclamationTriangle, 
+                              Iconsax.warning_2, 
                               "ERROR", 
                               "Kode OTP Sudah Expired", 
                               Colors.red
@@ -146,7 +146,7 @@ class _OtpAlreadyRegisteredScreenState extends State<OtpAlreadyRegisteredScreen>
                         }).catchError((e) {
                           showDynamicSnackBar(
                             context, 
-                            LineIcons.exclamationTriangle, 
+                            Iconsax.warning_2, 
                             "ERROR", 
                             "Kode OTP Salah", 
                             Colors.red

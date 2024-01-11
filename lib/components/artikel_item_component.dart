@@ -1,7 +1,10 @@
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/artikel_data.dart";
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:intl/intl.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
@@ -39,23 +42,28 @@ class ArtikelItemComponent extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      alignment: Alignment.center,
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(18),
-                        color: kLightBackgroundColor
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: CachedNetworkImage(
-                          imageUrl: "$baseUrlAuth/files/berita/image/${data.coverImage!}",
-                          width: 42,
-                          height: 42,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                    BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
+                      bloc: locator.get<SettingApplikasiCubit>(),
+                      builder: (_, state) {
+                        return Container(
+                          alignment: Alignment.center,
+                          width: 48,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(18),
+                            color: HexColor.fromHex(state.settingData.lightColor!)
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: CachedNetworkImage(
+                              imageUrl: "$baseUrlAuth/files/berita/image/${data.coverImage!}",
+                              width: 42,
+                              height: 42,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                      }
                     ),
                     const SizedBox(width: 12,),
                     Expanded(

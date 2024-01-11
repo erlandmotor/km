@@ -1,19 +1,19 @@
-import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class NotificationItemComponent extends StatelessWidget {
 
   const NotificationItemComponent({ super.key,
-  required this.title, required this.containerColor,
-  required this.onTapAction, required this.notificationDate });
+  required this.title, required this.surfaceColor,
+  required this.onTapAction, required this.notificationDate, required this.iconColor });
 
   final String title;
-  final Color containerColor;
+  final Color surfaceColor;
   final Function onTapAction;
   final String notificationDate;
+  final Color iconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class NotificationItemComponent extends StatelessWidget {
       },
       child: Card(
         color: Colors.white,
-        surfaceTintColor: containerColor,
+        surfaceTintColor: surfaceColor,
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18)
@@ -37,7 +37,7 @@ class NotificationItemComponent extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Icon(LineIcons.envelopeOpenText, color: kMainLightThemeColor, size: 48,),
+                    Icon(Iconsax.sms_notification, color: iconColor, size: 48,),
                     const SizedBox(width: 18,),
                     Expanded(
                       child: Column(

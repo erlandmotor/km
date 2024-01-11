@@ -4,6 +4,7 @@ import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/bottom_navigation_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/favorite_menu_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/notification_count_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/screens/main/account_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/main/history_screen.dart";
@@ -14,9 +15,10 @@ import "package:adamulti_mobile_clone_new/services/local_notification_service.da
 import "package:adamulti_mobile_clone_new/services/notification_service.dart";
 import "package:double_back_to_close_app/double_back_to_close_app.dart";
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import 'package:badges/badges.dart' as badges;
 import 'package:socket_io_client/socket_io_client.dart';
 
@@ -57,7 +59,7 @@ class _MainScreenState extends State<MainScreen> {
     }).catchError((e) {
       showDynamicSnackBar(
         context, 
-        LineIcons.exclamationTriangle, 
+        Iconsax.warning_2, 
         "ERROR", 
         "Terjadi Kesalahan, Silahkan Periksa Koneksi Internet Anda.", 
         Colors.red
@@ -104,6 +106,17 @@ class _MainScreenState extends State<MainScreen> {
     final bottomNavigationCubit = context.read<BottomNavigationCubit>();
 
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 0,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
+          systemNavigationBarColor: Colors.white,
+          statusBarBrightness: Brightness.dark,
+          statusBarIconBrightness: Brightness.light,
+          systemNavigationBarIconBrightness: Brightness.light,
+          systemNavigationBarDividerColor: Colors.white
+        ),
+      ),
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
@@ -111,11 +124,10 @@ class _MainScreenState extends State<MainScreen> {
           backgroundColor: Colors.white,
           surfaceTintColor: Colors.white,
           height: 60,
-          indicatorColor: kNavigationBarColor,
           labelTextStyle: MaterialStatePropertyAll(
-            GoogleFonts.inter(
+            GoogleFonts.openSans(
               fontSize: 12,
-              fontWeight: FontWeight.w600
+              fontWeight: FontWeight.w500,
             )
           ),
           labelBehavior: NavigationDestinationLabelBehavior.alwaysShow
@@ -123,63 +135,71 @@ class _MainScreenState extends State<MainScreen> {
         child: DoubleBackToCloseApp(
           snackBar: const SnackBar(content: Text("Tekan Sekali Lagi untuk Keluar")),
           child: BlocBuilder<BottomNavigationCubit, BottomNavigationState>(
-            builder: (context, state) {
-              return NavigationBar(
-                elevation: 1,
-                selectedIndex: state.navigationIndex,
-                onDestinationSelected: (index) {
-                  bottomNavigationCubit.changeNavigationIndex(index);
-                },
-                destinations: [
-                  NavigationDestination(
-                    icon: Icon(
-                      LineIcons.home,
-                      color: state.navigationIndex == 0 ? Colors.white : const Color(0xff4d4d4d),
-                    ), 
-                    label: "Home",
-                  ),
-                  NavigationDestination(
-                    icon: BlocBuilder<NotificationCountCubit, NotificationCountState>(
-                      bloc: locator.get<NotificationCountCubit>(),
-                      builder: (_, stateNotification) {
-                        if(stateNotification.notificationCount > 0) {
-                          return badges.Badge(
-                            position: badges.BadgePosition.topEnd(top: -12, end: -8),
-                            badgeContent: Text(stateNotification.notificationCount.toString(), style: GoogleFonts.inter(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white
-                            ),),
-                            child: Icon(
-                              LineIcons.envelopeOpenText,
-                              color: state.navigationIndex == 1 ? Colors.white : const Color(0xff4d4d4d),
-                            ),
-                          );
-                        } else {
-                          return Icon(
-                            LineIcons.inbox,
-                            color: state.navigationIndex == 1 ? Colors.white : const Color(0xff4d4d4d),
-                          );
-                        }
-                      }
-                    ), 
-                    label: "Inbox",
-                  ),
-                  NavigationDestination(
-                    icon: Icon(
-                      LineIcons.fileInvoice,
-                      color: state.navigationIndex == 2 ? Colors.white : const Color(0xff4d4d4d),
-                    ), 
-                    label: "Riwayat",
-                  ),
-                  NavigationDestination(
-                    icon: Icon(
-                      LineIcons.userCircleAlt,
-                      color: state.navigationIndex == 3 ? Colors.white : const Color(0xff4d4d4d),
-                    ), 
-                    label: "Akun",
-                  ),
-                ]
+            builder: (_, state) {
+              return BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
+                bloc: locator.get<SettingApplikasiCubit>(),
+                builder: (_, stateSetting) {
+                  return NavigationBar(
+                    indicatorColor: HexColor.fromHex(stateSetting.settingData.indicatorColor!),
+                    labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+                    surfaceTintColor: HexColor.fromHex(stateSetting.settingData.surfaceColor!),
+                    elevation: 1,
+                    selectedIndex: state.navigationIndex,
+                    onDestinationSelected: (index) {
+                      bottomNavigationCubit.changeNavigationIndex(index);
+                    },
+                    destinations: [
+                      NavigationDestination(
+                        icon: Icon(
+                          Iconsax.home_1,
+                          color: state.navigationIndex == 0 ? Colors.white : HexColor.fromHex(stateSetting.settingData.lightTextColor!),
+                        ), 
+                        label: "Home",
+                      ),
+                      NavigationDestination(
+                        icon: BlocBuilder<NotificationCountCubit, NotificationCountState>(
+                          bloc: locator.get<NotificationCountCubit>(),
+                          builder: (_, stateNotification) {
+                            if(stateNotification.notificationCount > 0) {
+                              return badges.Badge(
+                                position: badges.BadgePosition.topEnd(top: -12, end: -8),
+                                badgeContent: Text(stateNotification.notificationCount.toString(), style: GoogleFonts.openSans(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white
+                                ),),
+                                child: Icon(
+                                  Iconsax.directbox_notif,
+                                  color: state.navigationIndex == 1 ? Colors.white : HexColor.fromHex(stateSetting.settingData.lightTextColor!),
+                                ),
+                              );
+                            } else {
+                              return Icon(
+                                Iconsax.directbox_notif,
+                                color: state.navigationIndex == 1 ? Colors.white : HexColor.fromHex(stateSetting.settingData.lightTextColor!),
+                              );
+                            }
+                          }
+                        ), 
+                        label: "Inbox",
+                      ),
+                      NavigationDestination(
+                        icon: Icon(
+                          Iconsax.document_text,
+                          color: state.navigationIndex == 2 ? Colors.white : HexColor.fromHex(stateSetting.settingData.lightTextColor!),
+                        ), 
+                        label: "Riwayat",
+                      ),
+                      NavigationDestination(
+                        icon: Icon(
+                          Iconsax.user_octagon,
+                          color: state.navigationIndex == 3 ? Colors.white : HexColor.fromHex(stateSetting.settingData.lightTextColor!),
+                        ), 
+                        label: "Akun",
+                      ),
+                    ]
+                  );
+                }
               );
             },
           ),

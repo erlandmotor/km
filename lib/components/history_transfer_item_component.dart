@@ -1,5 +1,7 @@
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
@@ -40,7 +42,7 @@ class HistoryTransferItemComponent extends StatelessWidget {
                     height: 48,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(18),
-                      color: kMainLightThemeColor.withOpacity(0.2)
+                      color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!)
                     ),
                     child: Image.asset(
                       "assets/icon-transfer.png",
@@ -85,7 +87,7 @@ class HistoryTransferItemComponent extends StatelessWidget {
                               maxFontSize: 16,
                               maxLines: 1,
                               style: GoogleFonts.openSans(
-                                color: kMainLightThemeColor,
+                                color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
                                 fontWeight: FontWeight.w700
                               ),
                             ),

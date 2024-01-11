@@ -2,6 +2,7 @@ import "package:adamulti_mobile_clone_new/components/category_item_component.dar
 import "package:adamulti_mobile_clone_new/components/container_gradient_background.dart";
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/setting_kategori_response.dart";
 import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
@@ -22,7 +23,13 @@ class PlnMainScreen extends StatelessWidget {
               const CustomContainerAppBar(title: "Listrik", height: 90,),
               Expanded(
                 child: Container(
-                  decoration: kContainerLightDecoration,
+                  decoration: BoxDecoration(
+                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(18),
+                      topRight: Radius.circular(18)
+                    )
+                  ),
                   child: FutureBuilder<List<SettingKategoriResponse>>(
                   future: locator.get<BackOfficeService>().getSettingKategoriByKategori("PLN"),
                   builder: (context, snapshot) {
@@ -38,7 +45,7 @@ class PlnMainScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return CategoryItemComponent(
                               categoryName: snapshot.data![index].title!, 
-                              categoryColor: kMainLightThemeColor, 
+                              categoryColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                               imageUrl: "$baseUrlAuth/files/setting-kategori/image/${snapshot.data![index].image!}", 
                               title: snapshot.data![index].title!, 
                               onTap: () {

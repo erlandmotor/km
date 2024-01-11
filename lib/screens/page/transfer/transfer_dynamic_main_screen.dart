@@ -3,11 +3,13 @@ import "package:adamulti_mobile_clone_new/components/custom_container_appbar_wit
 import "package:adamulti_mobile_clone_new/components/dashed_separator.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
+import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
 import "package:adamulti_mobile_clone_new/components/readonly_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/components/regular_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
 import "package:adamulti_mobile_clone_new/components/topup_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
@@ -17,7 +19,7 @@ import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class TransferDynamicMainScreen extends StatefulWidget {
@@ -58,15 +60,13 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
         child: ContainerGradientBackground(
           child: Stack(
             children: [
-              Column(
+              const Column(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     height: 120,
                   ),
                   Expanded(
-                    child: Container(
-                      decoration: kContainerLightDecoration,
-                    )
+                    child: LightDecorationContainerComponent()
                   )
                 ],
               ),
@@ -95,7 +95,7 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                     label: "ID Agen", 
                                     hint: "", 
                                     controller: identityController, 
-                                    prefixIcon: LineIcons.identificationCardAlt, 
+                                    prefixIcon: Iconsax.personalcard, 
                                     onTapTextField: () {}
                                   ),
                                   const SizedBox(height: 8,),
@@ -103,12 +103,12 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                     label: "Jumlah Transfer", 
                                     hint: "Minimal Rp. 50.000", 
                                     controller: topupController,
-                                    prefixIcon: LineIcons.wavyMoneyBill,
+                                    prefixIcon: Iconsax.empty_wallet_change,
                                   ),
                                   const SizedBox(height: 18,),
                                   DynamicSizeButtonComponent(
                                     label: "Transfer Saldo", 
-                                    buttonColor: kMainLightThemeColor, 
+                                    buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                                     onPressed: () {
                                       final amount = topupController.text.replaceAll(RegExp(r"\D"), "");
                                       showModalBottomSheet(
@@ -154,7 +154,7 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                                             onPressed: () {
                                                               Navigator.pop(context);
                                                             }, 
-                                                            icon: const Icon(LineIcons.times, color: Colors.black,)
+                                                            icon: const Icon(Icons.close, color: Colors.black,)
                                                           )
                                                         ],
                                                       ),
@@ -349,18 +349,18 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                                         hint: "Masukkan PIN Anda.", 
                                                         controller: pinController, 
                                                         validationMessage: "PIN Harus Diisi.",
-                                                        prefixIcon: LineIcons.key,
+                                                        prefixIcon: Iconsax.key,
                                                         isObsecure: true,
                                                       ),
                                                       const SizedBox(height: 18,),
                                                       DynamicSizeButtonComponent(
                                                         label: "Transfer Saldo", 
-                                                        buttonColor: kMainLightThemeColor, 
+                                                        buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                                                         onPressed: () {
                                                           if(pinController.text.isEmpty) {
                                                             showDynamicSnackBar(
                                                               context, 
-                                                              LineIcons.exclamationTriangle, 
+                                                              Iconsax.warning_2, 
                                                               "ERROR", 
                                                               "PIN harus diisi terlebih dahulu", 
                                                               Colors.red
@@ -378,7 +378,7 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                                                 context.pop();
                                                                 showDynamicSnackBar(
                                                                   context, 
-                                                                  LineIcons.exclamationTriangle, 
+                                                                  Iconsax.warning_2, 
                                                                   "ERROR", 
                                                                     value.msg!, 
                                                                   Colors.red
@@ -403,7 +403,7 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                                               context.pop();
                                                               showDynamicSnackBar(
                                                                 context, 
-                                                                LineIcons.exclamationTriangle, 
+                                                                Iconsax.warning_2, 
                                                                 "ERROR", 
                                                                 e.toString(), 
                                                                 Colors.red

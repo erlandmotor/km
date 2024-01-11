@@ -1,6 +1,6 @@
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 
 class PopupImageDialog extends StatelessWidget {
 
@@ -37,7 +37,7 @@ class PopupImageDialog extends StatelessWidget {
                 CircleAvatar(
                   radius: 12,
                   backgroundColor: const Color(0xff353b48).withOpacity(0.8),
-                  child: const Icon(LineIcons.times, color: Colors.white, size: 18,),
+                  child: const Icon(Iconsax.close_circle, color: Colors.white, size: 18,),
                 )
               ],
             ),

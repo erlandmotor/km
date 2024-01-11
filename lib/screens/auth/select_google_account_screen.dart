@@ -9,7 +9,7 @@ import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:line_icons/line_icons.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class SelectGoogleAccountScreen extends StatefulWidget {
@@ -116,7 +116,7 @@ class _SelectGoogleAccountScreenState extends State<SelectGoogleAccountScreen> {
                                   }).catchError((e) {
                                     showDynamicSnackBar(
                                       context, 
-                                      LineIcons.exclamationTriangle, 
+                                      Iconsax.warning_2, 
                                       "ERROR", 
                                       e.toString(), 
                                       Colors.red
@@ -126,7 +126,7 @@ class _SelectGoogleAccountScreenState extends State<SelectGoogleAccountScreen> {
                               }).catchError((e) {
                                 showDynamicSnackBar(
                                   context, 
-                                  LineIcons.exclamationTriangle, 
+                                  Iconsax.warning_2, 
                                   "ERROR", 
                                   e.toString(), 
                                   Colors.red
@@ -134,7 +134,7 @@ class _SelectGoogleAccountScreenState extends State<SelectGoogleAccountScreen> {
                               }).catchError((e) {
                                 showDynamicSnackBar(
                                   context, 
-                                  LineIcons.exclamationTriangle, 
+                                  Iconsax.warning_2, 
                                   "ERROR", 
                                   e.toString(), 
                                   Colors.red
@@ -143,7 +143,7 @@ class _SelectGoogleAccountScreenState extends State<SelectGoogleAccountScreen> {
                             }).catchError((e) {
                               showDynamicSnackBar(
                                 context, 
-                                LineIcons.exclamationTriangle, 
+                                Iconsax.warning_2, 
                                 "ERROR", 
                                 e.toString(), 
                                 Colors.red
