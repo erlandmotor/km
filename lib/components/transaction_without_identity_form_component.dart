@@ -296,7 +296,7 @@ class _TransactionPlnTokenFormComponentState extends State<TransactionWithoutIde
                         Iconsax.warning_2, 
                         "ERROR", 
                         "PIN harus diisi terlebih dahulu sebelum melakukan pembayaran.", 
-                        Colors.red
+                        HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                       );
                     } else {
                       widget.onSubmit(pinController.text);

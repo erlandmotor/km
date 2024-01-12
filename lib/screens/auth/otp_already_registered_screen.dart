@@ -136,7 +136,7 @@ class _OtpAlreadyRegisteredScreenState extends State<OtpAlreadyRegisteredScreen>
                               Iconsax.warning_2, 
                               "ERROR", 
                               "Kode OTP Sudah Expired", 
-                              Colors.red
+                              HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                             );
                           } else {
                             context.pushNamed("input-pin-already-registered", extra: {
@@ -149,7 +149,7 @@ class _OtpAlreadyRegisteredScreenState extends State<OtpAlreadyRegisteredScreen>
                             Iconsax.warning_2, 
                             "ERROR", 
                             "Kode OTP Salah", 
-                            Colors.red
+                            HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                           );
                         });
                       }, // end onSubmit

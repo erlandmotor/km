@@ -126,7 +126,7 @@ class _RegisterAgenScreenState extends State<RegisterAgenScreen> {
                                       Iconsax.warning_2, 
                                       "ERROR", 
                                       "Data Provinsi harus dipilih terlebih dahulu.", 
-                                      Colors.red
+                                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                     );
                                   } else {
                                     context.pushNamed("select-city", extra: {
@@ -149,7 +149,7 @@ class _RegisterAgenScreenState extends State<RegisterAgenScreen> {
                                       Iconsax.warning_2, 
                                       "ERROR", 
                                       "Data Kabupaten / Kota harus dipilih terlebih dahulu.", 
-                                      Colors.red
+                                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                     );
                                   } else {
                                     context.pushNamed("select-district", extra: {
@@ -181,7 +181,7 @@ class _RegisterAgenScreenState extends State<RegisterAgenScreen> {
                                       Iconsax.warning_2, 
                                       "ERROR", 
                                       "Formulir Pendaftaran Agen Harus Dilengkapi Terlebih Dahulu.", 
-                                      Colors.red
+                                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                     );
                                   } else {
                                     locator.get<AuthService>().registerDownline(
@@ -199,7 +199,7 @@ class _RegisterAgenScreenState extends State<RegisterAgenScreen> {
                                           Iconsax.warning_2, 
                                           "ERROR", 
                                           value.msg!, 
-                                          Colors.red
+                                          HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                         );
                                       } else {
                                         locator.get<LocalNotificationService>().showLocalNotification(
@@ -216,7 +216,7 @@ class _RegisterAgenScreenState extends State<RegisterAgenScreen> {
                                         Iconsax.warning_2, 
                                         "ERROR", 
                                         e.toString(), 
-                                        Colors.red
+                                        HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                       );
                                     });
                                   }

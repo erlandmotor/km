@@ -11,13 +11,14 @@ import "package:responsive_sizer/responsive_sizer.dart";
 class CategoryItemComponent extends StatelessWidget {
 
   const CategoryItemComponent({ super.key, required this.categoryName, required this.categoryColor,
-  required this.imageUrl, required this.title, required this.onTap });
+  required this.imageUrl, required this.title, required this.onTap, required this.surfaceColor });
 
   final String categoryName;
   final Color categoryColor;
   final String imageUrl;
   final String title;
   final Function onTap;
+  final Color surfaceColor;
 
   @override
   Widget build(BuildContext context) {

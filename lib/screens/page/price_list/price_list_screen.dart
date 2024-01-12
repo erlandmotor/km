@@ -103,7 +103,7 @@ class _PriceListScreenState extends State<PriceListScreen> {
                                   Iconsax.warning_2, 
                                   "ERROR", 
                                   e.toString(), 
-                                  Colors.red
+                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                 );
                             });
                           } else {
@@ -129,7 +129,7 @@ class _PriceListScreenState extends State<PriceListScreen> {
                                   Iconsax.warning_2, 
                                   "ERROR", 
                                   e.toString(), 
-                                  Colors.red
+                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                 );
                             });
                           }

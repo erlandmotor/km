@@ -121,7 +121,7 @@ class _MarkupScreenState extends State<MarkupScreen> {
                                   Iconsax.warning_2, 
                                   "ERROR", 
                                   "Harga Markup Harus diisi.", 
-                                  Colors.red
+                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                 );
                               } else {
                                 showLoadingSubmit(context, "Proses Merubah Harga Markup Downline...");
@@ -138,7 +138,7 @@ class _MarkupScreenState extends State<MarkupScreen> {
                                       Iconsax.warning_2, 
                                       "ERROR", 
                                       value.msg!, 
-                                      Colors.red
+                                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                     );
                                   } else {
                                     context.pop();
@@ -155,7 +155,7 @@ class _MarkupScreenState extends State<MarkupScreen> {
                                     Iconsax.warning_2, 
                                     "ERROR", 
                                     e.toString(), 
-                                    Colors.red
+                                    HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                   );
                                 });
                               }

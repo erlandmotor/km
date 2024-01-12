@@ -126,7 +126,7 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                       children: [
                                         CircleAvatar(
                                           backgroundColor: snapshot.data == BlueThermalPrinter.STATE_OFF ? 
-                                          Colors.red : const Color(0xff0a3b8c),
+                                          HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!) : const Color(0xff0a3b8c),
                                           child: const Icon(Iconsax.bluetooth, color: Colors.white,),
                                         ),
                                         const SizedBox(width: 12,),
@@ -188,7 +188,7 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                           Iconsax.warning_2, 
                                           "ERROR", 
                                           "Terjadi Kesalahan dengan Bluetooth", 
-                                          Colors.red
+                                          HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                         );
                                       });
                                     } else {
@@ -197,7 +197,7 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                         Iconsax.warning_2, 
                                         "ERROR", 
                                         "Nyalakan Bluetooth Anda Terlebih Dahulu", 
-                                        Colors.red
+                                        HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                       );
                                     }
                                   });
@@ -255,7 +255,7 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                                       Iconsax.warning_2, 
                                                       "ERROR", 
                                                       "Gagal Menghubungkan Printer", 
-                                                      Colors.red
+                                                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                     );
                                                   });
                                                 } else {
@@ -282,7 +282,7 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                                       Iconsax.warning_2, 
                                                       "ERROR", 
                                                       "Gagal Menghubungkan Printer", 
-                                                      Colors.red
+                                                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                     );
                                                   });
                                                 }

@@ -24,7 +24,9 @@ class RekapTransaksiItemComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: Colors.white,
-      surfaceTintColor: jumlah < 0 ? Colors.red : Colors.blue,
+      surfaceTintColor: jumlah < 0 ? 
+      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!) : 
+      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18)
@@ -44,6 +46,7 @@ class RekapTransaksiItemComponent extends StatelessWidget {
                     height: 48,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(18),
+                      color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!).withOpacity(0.2)
                     ),
                     child: CachedNetworkImage(
                       progressIndicatorBuilder: (context, _, __) => const CircularProgressIndicator(),

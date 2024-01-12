@@ -48,7 +48,7 @@ class _SelectOperatorBackofficeScreenState extends State<SelectOperatorBackoffic
         Iconsax.warning_2, 
         "ERROR", 
         e.toString(), 
-        Colors.red
+        HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
       );
     });
 
@@ -148,7 +148,8 @@ class _SelectOperatorBackofficeScreenState extends State<SelectOperatorBackoffic
                               categoryName: state.dataList[index].title!, 
                               categoryColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                               imageUrl: "$baseUrlAuth/files/setting-kategori/image/${state.dataList[index].image!}", 
-                              title: state.dataList[index].title!, 
+                              title: state.dataList[index].title!,
+                              surfaceColor: index % 2 == 0 ? HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.surfaceColor!) : Colors.white, 
                               onTap: () {
                                 context.pushNamed("select-product", extra: {
                                   "operatorName": state.dataList[index].name,

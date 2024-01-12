@@ -176,7 +176,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                               Iconsax.warning_2,
                                               "ERROR",
                                               "Tanggal Harus Dipilih Terlebih Dahulu.",
-                                              Colors.red
+                                              HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                             );
                                           } else {
                                             searchHistoryCubit.updateState(true, searchHistoryCubit.state.currentIndex);
@@ -212,7 +212,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                   Iconsax.warning_2,
                                                   "ERROR",
                                                   e.toString(),
-                                                  Colors.red
+                                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                 );  
                                               });
                                             }
@@ -247,7 +247,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                   Iconsax.warning_2,
                                                   "ERROR",
                                                   e.toString(),
-                                                  Colors.red
+                                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                 );  
                                               });
                                             }
@@ -278,7 +278,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                   Iconsax.warning_2,
                                                   "ERROR",
                                                   e.toString(),
-                                                  Colors.red
+                                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                 );  
                                               });
                                             }
@@ -313,7 +313,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                   Iconsax.warning_2,
                                                   "ERROR",
                                                   e.toString(),
-                                                  Colors.red
+                                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                 );  
                                               });
                                             }
@@ -413,7 +413,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   text: 'Rekap Transaksi',
                                 ),
                                 Tab(
-                                  icon: Icon(Iconsax.wallet_add),
+                                  icon: Icon(Iconsax.empty_wallet_add),
                                   text: 'Topup Saldo',
                                 ),
                                 Tab(

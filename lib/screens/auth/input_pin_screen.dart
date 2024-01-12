@@ -146,7 +146,7 @@ class _InputPinScreenState extends State<InputPinScreen> {
                                   Iconsax.warning_2, 
                                   "ERROR", 
                                   e.toString(), 
-                                  Colors.red
+                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                 );
                               });
                             }).catchError((e) {
@@ -156,7 +156,7 @@ class _InputPinScreenState extends State<InputPinScreen> {
                                 Iconsax.warning_2, 
                                 "ERROR", 
                                 e.toString(), 
-                                Colors.red
+                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                               );
                             });
                           } else {
@@ -166,7 +166,7 @@ class _InputPinScreenState extends State<InputPinScreen> {
                               Iconsax.warning_2, 
                               "ERROR", 
                               accountKitResponse.msg!, 
-                              Colors.red
+                              HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                             );
                           }
                         }).catchError((e) {
@@ -176,7 +176,7 @@ class _InputPinScreenState extends State<InputPinScreen> {
                               Iconsax.warning_2, 
                               "ERROR", 
                               e.toString(), 
-                              Colors.red
+                              HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                             );
                         });
                       }, 

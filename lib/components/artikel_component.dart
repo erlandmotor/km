@@ -28,6 +28,7 @@ class ArtikelComponent extends StatelessWidget {
           },
           child: Card(
             surfaceTintColor: Colors.white,
+            elevation: 0,
             color: Colors.white,
             child: SizedBox(
               width: 250,

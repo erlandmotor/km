@@ -35,10 +35,10 @@ class SelectContactComponent extends StatelessWidget {
         height: 48,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18),
-          color: const Color(0xff079992)
+          color: const Color(0xff079992).withOpacity(0.2)
         ),
         child: const Center(
-          child: Icon(Iconsax.user_search, color: Colors.white,),
+          child: Icon(Iconsax.user_search4, color: Color(0xff079992),),
         ),
       ),
     );

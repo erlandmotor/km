@@ -102,7 +102,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                   Iconsax.warning_2,
                                   "ERROR",
                                   "ID Pelanggan harus diisi telebih dahulu.",
-                                  Colors.red
+                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                 );
                               } else {
                                 final generatedIdTrxCheck = generateRandomString(8);
@@ -176,7 +176,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                                       Iconsax.warning_2, 
                                                       "ERROR", 
                                                       e.toString(), 
-                                                      Colors.red
+                                                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                     );
                                                   });
                                                 } else {
@@ -196,7 +196,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                                 Iconsax.warning_2,
                                                 "ERROR",
                                                 e.toString(),
-                                                Colors.red
+                                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                               );
                                             }
                                           );
@@ -220,7 +220,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                     Iconsax.warning_2,
                                     "ERROR",
                                     e.toString(),
-                                    Colors.red
+                                    HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                   );
                                 });
                               }

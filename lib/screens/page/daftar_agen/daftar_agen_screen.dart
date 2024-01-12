@@ -50,7 +50,7 @@ class _DaftarAgenScreenState extends State<DaftarAgenScreen> {
         Iconsax.warning_2, 
         "ERROR", 
         e.toString(), 
-        Colors.red
+        HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
       );
     });
 
@@ -69,7 +69,7 @@ class _DaftarAgenScreenState extends State<DaftarAgenScreen> {
             Iconsax.warning_2, 
             "ERROR", 
             e.toString(), 
-            Colors.red
+            HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
           );
         });
       }
@@ -145,7 +145,7 @@ class _DaftarAgenScreenState extends State<DaftarAgenScreen> {
                               Iconsax.warning_2, 
                               "ERROR", 
                               e.toString(), 
-                              Colors.red
+                              HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                             );
                           });
                         }

@@ -326,7 +326,7 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                         Iconsax.warning_2, 
                         "ERROR", 
                         "ID Pelanggan atau PIN harus diisi terlebih dahulu sebelum melakukan pembayaran.", 
-                        Colors.red
+                        HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                       );
                     } else {
                       widget.onSubmit(identityController.text, pinController.text);

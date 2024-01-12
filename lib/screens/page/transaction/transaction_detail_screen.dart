@@ -149,7 +149,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                                                               Iconsax.warning_2, 
                                                               "ERROR", 
                                                               e.toString(), 
-                                                              Colors.red
+                                                              HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                             );
                                                           });
                                                         },
@@ -182,7 +182,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                                                           Iconsax.warning_2, 
                                                           "ERROR", 
                                                           e.toString(), 
-                                                          Colors.red
+                                                          HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                         );
                                                       });
                                                     },
@@ -199,14 +199,14 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                                           Iconsax.warning_2, 
                                           "ERROR", 
                                           "Hidupkan Bluetooth Anda lalu Hubungkan ke Printer.", 
-                                          Colors.red
+                                          HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                         );
                                       }
                                     });
                                   }, 
                                   width: 30.w, 
                                   height: 30,
-                                  icon: Iconsax.printer,
+                                  icon: Iconsax.printer5,
                                 ),
                                 DynamicSizeButtonOutlinedIconComponent(
                                   label: "Share", 
@@ -250,7 +250,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                                   }, 
                                   width: 30.w, 
                                   height: 30,
-                                  icon: Icons.share_outlined,
+                                  icon: Iconsax.share5,
                                 ),
                               ],
                             );

@@ -156,7 +156,7 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
                                             Iconsax.warning_2,
                                             "ERROR",
                                             "Tanggal Harus Dipilih Terlebih Dahulu.",
-                                            Colors.red
+                                            HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                           );
                                         } else {
                                           final komisiCubit = context.read<KomisiCubit>();
@@ -187,7 +187,7 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
                                               Iconsax.warning_2,
                                               "ERROR",
                                               e.toString(),
-                                              Colors.red
+                                              HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                             );  
                                           });
                                         }
@@ -309,7 +309,7 @@ class _KomisiMainScreenState extends State<KomisiMainScreen> {
                                               Iconsax.warning_2, 
                                               "ERROR", 
                                               e.toString(), 
-                                              Colors.red
+                                              HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                             );
                                           });
                                         },

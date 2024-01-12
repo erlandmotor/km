@@ -11,13 +11,14 @@ import "package:responsive_sizer/responsive_sizer.dart";
 class OperatorItemComponent extends StatelessWidget {
 
   const OperatorItemComponent({ super.key, required this.operatorName, required this.operatorColor,
-  required this.imageUrl, required this.title, required this.onTap });
+  required this.imageUrl, required this.title, required this.onTap, required this.surfaceColor });
 
   final String operatorName;
   final Color operatorColor;
   final String imageUrl;
   final String title;
   final Function onTap;
+  final Color surfaceColor;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class OperatorItemComponent extends StatelessWidget {
       },
       child: Card(
         color: Colors.white,
-        surfaceTintColor: Colors.white,
+        surfaceTintColor: surfaceColor,
         child: SizedBox(
           width: 100.w,
           child: Column(

@@ -55,7 +55,7 @@ class _SelectProductTransactionScreenState extends State<SelectProductTransactio
         Iconsax.warning_2, 
         "ERROR", 
         e.toString(), 
-        Colors.red
+        HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
       );
     });
     super.initState();
@@ -156,7 +156,8 @@ class _SelectProductTransactionScreenState extends State<SelectProductTransactio
                               operatorColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                               imageUrl: state.dataList[index].imgurloperator!, 
                               title: widget.operatorName,
-                              productName: state.dataList[index].namaproduk!, 
+                              productName: state.dataList[index].namaproduk!,
+                              surfaceColor: index % 2 == 0 ? HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.surfaceColor!) : Colors.white, 
                               onTap: () {
                                 showModalBottomSheet(
                                   context: context,
@@ -205,7 +206,7 @@ class _SelectProductTransactionScreenState extends State<SelectProductTransactio
                                                 Iconsax.warning_2, 
                                                 "ERROR", 
                                                 e.toString(), 
-                                                Colors.red
+                                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                               );
                                             });
                                           } else {
@@ -224,7 +225,7 @@ class _SelectProductTransactionScreenState extends State<SelectProductTransactio
                                             Iconsax.warning_2, 
                                             "ERROR", 
                                             e.toString(), 
-                                            Colors.red
+                                            HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                           );
                                         });
                                       }

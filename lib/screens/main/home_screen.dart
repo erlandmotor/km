@@ -1,16 +1,23 @@
 
+import "package:adamulti_mobile_clone_new/components/artikel_component.dart";
 import "package:adamulti_mobile_clone_new/components/curve_clipper.dart";
+import "package:adamulti_mobile_clone_new/components/home_carousel.dart";
 import "package:adamulti_mobile_clone_new/components/layanan_component.dart";
 import "package:adamulti_mobile_clone_new/components/main_menu_shimmer.dart";
 import "package:adamulti_mobile_clone_new/components/saldo_action_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/favorite_menu_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/getme_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/google_account_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
+import "package:adamulti_mobile_clone_new/model/artikel_data.dart";
+import "package:adamulti_mobile_clone_new/services/auth_service.dart";
 import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
+import "package:adamulti_mobile_clone_new/services/secure_storage.dart";
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
@@ -30,15 +37,18 @@ class HomeScreen extends StatelessWidget {
         locator.get<BackOfficeService>().findFirstSettingApplikasi("MPN").then((value) {
           locator.get<SettingApplikasiCubit>().updateState(value);
         });
-        // locator.get<AuthService>().authenticated().then((authenticated) {
-        //   locator.get<AuthenticatedCubit>().updateUserState(authenticated.user!);
-        //   locator.get<AuthService>().decryptToken(authenticated.user!.idreseller!, widget.jwtToken!).then((decrypt) {
-        //     locator.get<UserAppidCubit>().updateState(decrypt);
-        //     locator.get<AuthService>().getMe(decrypt.appId).then((me) {
-        //       locator.get<GetmeCubit>().updateState(me);
-        //     });
-        //   });
-        // });
+
+        locator.get<AuthService>().authenticated().then((authenticated) {
+          locator.get<AuthenticatedCubit>().updateUserState(authenticated.user!);
+          locator.get<SecureStorageService>().readSecureData("jwt").then((jwt) {
+            locator.get<AuthService>().decryptToken(authenticated.user!.idreseller!, jwt!).then((decrypt) {
+              locator.get<UserAppidCubit>().updateState(decrypt);
+              locator.get<AuthService>().getMe(decrypt.appId).then((me) {
+                locator.get<GetmeCubit>().updateState(me);
+              });
+            });
+          });
+        });
       },
       child: SingleChildScrollView(
         child: Stack(
@@ -336,6 +346,63 @@ class HomeScreen extends StatelessWidget {
                         ),
                       );
                     }
+                  ),
+                ),
+                const HomeCarousel(),
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
+                    bloc: locator.get<SettingApplikasiCubit>(),
+                    builder: (_, stateSetting) {
+                      return Card(
+                        surfaceTintColor: HexColor.fromHex(stateSetting.settingData.surfaceColor!),
+                        color: Colors.white.withOpacity(0.9),
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          width: 100.w,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text("Artikel Terkini", style: GoogleFonts.openSans(
+                                    fontSize: 16,
+                                    color: HexColor.fromHex(stateSetting.settingData.textColor!),
+                                    fontWeight: FontWeight.w600
+                                  ),),
+                                  GestureDetector(
+                                    onTap: () {
+                                      context.pushNamed("artikel-main");
+                                    },
+                                    child: Text("See All", style: GoogleFonts.openSans(
+                                      fontSize: 14,
+                                      color: HexColor.fromHex(stateSetting.settingData.infoColor!),
+                                      fontWeight: FontWeight.w500
+                                    ),),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8,),
+                              SizedBox(
+                                height: 280,
+                                child: FutureBuilder<List<ArtikelData>>(
+                                  future: locator.get<BackOfficeService>().findManyArtikelByStatus(1),
+                                  builder: (context, snapshot) {
+                                    if(snapshot.connectionState == ConnectionState.done) {
+                                      return ArtikelComponent(artikelData: snapshot.data!);
+                                    } else {
+                                      return const SizedBox();
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 )
               ],

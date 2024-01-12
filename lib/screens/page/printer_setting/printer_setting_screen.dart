@@ -146,7 +146,7 @@ class _PrinterSettingScreenState extends State<PrinterSettingScreen> {
                                         Iconsax.warning_2, 
                                         "ERROR", 
                                         "Formulir harus dilengkapi terlebih dahulu.", 
-                                        Colors.red
+                                        HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                       );
                                     }
                                   }, 

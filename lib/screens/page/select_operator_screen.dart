@@ -49,7 +49,7 @@ class _PulsaSelectOperatorScreenState extends State<SelectOperatorScreen> {
         Iconsax.warning_2, 
         "ERROR", 
         e.toString(), 
-        Colors.red
+        HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
       );
     });
     super.initState();
@@ -149,7 +149,8 @@ class _PulsaSelectOperatorScreenState extends State<SelectOperatorScreen> {
                               operatorName: widget.operatorName, 
                               operatorColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                               imageUrl: state.dataList[index].imgurl!, 
-                              title: state.dataList[index].namaoperator!, 
+                              title: state.dataList[index].namaoperator!,
+                              surfaceColor: index % 2 == 0 ? HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.surfaceColor!) : Colors.white, 
                               onTap: () {
                                 context.pushNamed("select-product-transaction", extra: {
                                   "operatorName": state.dataList[index].namaoperator!,

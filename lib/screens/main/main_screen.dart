@@ -67,7 +67,7 @@ class _MainScreenState extends State<MainScreen> {
         Iconsax.warning_2, 
         "ERROR", 
         "Terjadi Kesalahan, Silahkan Periksa Koneksi Internet Anda.", 
-        Colors.red
+        HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
       );
     });
 
@@ -188,14 +188,17 @@ class _MainScreenState extends State<MainScreen> {
                                   color: Colors.white
                                 ),),
                                 child: Icon(
-                                  Iconsax.directbox_notif,
-                                  color: state.navigationIndex == 1 ? Colors.white : HexColor.fromHex(stateSetting.settingData.lightTextColor!),
+                                  state.navigationIndex == 1 ? Iconsax.directbox_notif5 : Iconsax.directbox_notif,
+                                  color: state.navigationIndex == 1 ? HexColor.fromHex(stateSetting.settingData.mainColor1!) : HexColor.fromHex(stateSetting.settingData.lightTextColor!),
                                 ),
                               );
                             } else {
-                              return Icon(
-                                state.navigationIndex == 1 ? Iconsax.directbox_notif5 : Iconsax.directbox_notif,
-                                color: state.navigationIndex == 1 ? HexColor.fromHex(stateSetting.settingData.mainColor1!) : HexColor.fromHex(stateSetting.settingData.lightTextColor!),
+                              return badges.Badge(
+                                position: badges.BadgePosition.topEnd(top: -2, end: -2),
+                                child: Icon(
+                                  state.navigationIndex == 1 ? Iconsax.directbox_notif5 : Iconsax.directbox_notif,
+                                  color: state.navigationIndex == 1 ? HexColor.fromHex(stateSetting.settingData.mainColor1!) : HexColor.fromHex(stateSetting.settingData.lightTextColor!),
+                                ),
                               );
                             }
                           }

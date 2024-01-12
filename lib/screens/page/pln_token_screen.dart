@@ -93,7 +93,7 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                               Iconsax.warning_2, 
                               "ERROR", 
                               e.toString(), 
-                              Colors.red
+                              HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                             );
                           });
                         },
@@ -122,6 +122,7 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                                       imageUrl: snapshot.data!.data![index].imgurloperator!, 
                                       title: widget.operatorName,
                                       productName: snapshot.data!.data![index].namaproduk!, 
+                                      surfaceColor: index % 2 == 0 ? HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.surfaceColor!) : Colors.white,
                                       onTap: () {
                                         if(identityController.text.isEmpty) {
                                           showDynamicSnackBar(
@@ -129,7 +130,7 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                                             Iconsax.warning_2, 
                                             "ERROR", 
                                             "ID Pelanggan harus diisi terlebih dahulu.", 
-                                            Colors.red
+                                            HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                           );
                                         } else {
                                           showModalBottomSheet(
@@ -180,7 +181,7 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                                                           Iconsax.warning_2, 
                                                           "ERROR", 
                                                           e.toString(), 
-                                                          Colors.red
+                                                          HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                         );
                                                       });
                                                     } else {
@@ -197,7 +198,7 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                                                       Iconsax.warning_2, 
                                                       "ERROR", 
                                                       e.toString(), 
-                                                      Colors.red
+                                                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                     );
                                                   });                                            
                                                 }

@@ -108,7 +108,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                                       Iconsax.warning_2, 
                                       "ERROR", 
                                       "PIN Lama atau PIN Baru harus diisi terlebih dahulu.", 
-                                      Colors.red
+                                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                     );
                                   } else {
                                     showLoadingSubmit(context, "Proses Mengganti PIN");
@@ -138,7 +138,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                                           Iconsax.warning_2, 
                                           "ERROR", 
                                           value.msg!, 
-                                          Colors.red
+                                          HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                         );
                                       }
                                     }).catchError((e) {
@@ -147,7 +147,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                                         Iconsax.warning_2, 
                                         "ERROR", 
                                         e.toString(), 
-                                        Colors.red
+                                        HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                       );
                                     });
                                   }

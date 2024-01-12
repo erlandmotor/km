@@ -99,7 +99,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                           Iconsax.warning_2, 
                                           "ERROR", 
                                           "Terjadi Kesalahan Ketika Mendapatkan Data Produk, Silahkan Coba Lagi untuk Memasukkan No. HP Pelanggan.", 
-                                          Colors.red
+                                          HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                         );
                                       } else {
                                         FocusManager.instance.primaryFocus?.unfocus();
@@ -111,7 +111,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                         Iconsax.warning_2, 
                                         "ERROR", 
                                         "Terjadi Kesalahan Ketika Mendapatkan Data Produk, Silahkan Coba Lagi untuk Memasukkan No. HP Pelanggan.", 
-                                        Colors.red
+                                        HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                       );
                                     });
                                   } else {
@@ -139,7 +139,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                       Iconsax.warning_2, 
                                       "ERROR", 
                                       "Terjadi Kesalahan Ketika Mendapatkan Data Produk, Silahkan Coba Lagi untuk Memasukkan No. HP Pelanggan.", 
-                                      Colors.red
+                                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                     );
                                   } else {
                                     FocusManager.instance.primaryFocus?.unfocus();
@@ -151,7 +151,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                     Iconsax.warning_2, 
                                     "ERROR", 
                                     "Terjadi Kesalahan Ketika Mendapatkan Data Produk, Silahkan Coba Lagi untuk Memasukkan No. HP Pelanggan.", 
-                                    Colors.red
+                                    HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                   );
                                 });
                               }
@@ -231,6 +231,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                                   data.imgurl!, 
                                                   title: data.namaoperator!,
                                                   productName: data.produk![index].namaproduk!, 
+                                                  surfaceColor: index % 2 == 0 ? HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.surfaceColor!) : Colors.white,
                                                   onTap: () {
                                                     if(identityController.text.length < 10) {
                                                       showDynamicSnackBar(
@@ -238,7 +239,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                                         Iconsax.warning_2, 
                                                         "ERROR", 
                                                         "Nomor HP Pelanggan Harus Dilengkapi Terlebih Dahulu.", 
-                                                        Colors.red
+                                                        HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                       );
                                                     } else {
                                                       showModalBottomSheet(
@@ -289,7 +290,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                                                       Iconsax.warning_2, 
                                                                       "ERROR", 
                                                                       e.toString(), 
-                                                                      Colors.red
+                                                                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                                     );
                                                                   });
                                                                 } else {
@@ -306,7 +307,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                                                   Iconsax.warning_2, 
                                                                   "ERROR", 
                                                                   e.toString(), 
-                                                                  Colors.red
+                                                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                                 );
                                                               });                                            
                                                             }

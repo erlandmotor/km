@@ -5,6 +5,7 @@ import "package:adamulti_mobile_clone_new/cubit/transaction_detail_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/parsed_cetak_response.dart";
+import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
@@ -42,7 +43,14 @@ class ReceiptContainerComponent extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Image.asset("assets/ada-logo-blue.png", width: 64, height: 64,),
+                    SizedBox(
+                      width: 96,
+                      height: 96,
+                      child: CachedNetworkImage(
+                      imageUrl: "$baseUrlFile/setting-applikasi/image/${locator.get<SettingApplikasiCubit>().state.settingData.logoMain!}",
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                     const SizedBox(height: 12,),
                     Text("Transaksi Berhasil", style: GoogleFonts.openSans(
                       fontSize: 18,

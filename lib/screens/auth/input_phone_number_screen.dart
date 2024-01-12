@@ -135,7 +135,7 @@ class _InputPhoneNumberScreenState extends State<InputPhoneNumberScreen> {
                               Iconsax.warning_2, 
                               "ERROR", 
                               e.toString(), 
-                              Colors.red
+                              HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                             );
                           });
                         } else {
@@ -144,7 +144,7 @@ class _InputPhoneNumberScreenState extends State<InputPhoneNumberScreen> {
                             Iconsax.warning_2, 
                             "ERROR", 
                             "Nomor HP harus diisi terlebih dahulu.", 
-                            Colors.red
+                            HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                           );
                         }
                       }, 

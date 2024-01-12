@@ -13,7 +13,7 @@ class ProductItemComponent extends StatelessWidget {
 
   const ProductItemComponent({ super.key, required this.operatorName, required this.operatorColor,
   required this.imageUrl, required this.title, required this.productName,
-  required this.productCode, required this.description, required this.price, required this.onTap });
+  required this.productCode, required this.description, required this.price, required this.onTap, required this.surfaceColor });
 
   final String operatorName;
   final Color operatorColor;
@@ -24,6 +24,7 @@ class ProductItemComponent extends StatelessWidget {
   final String description;
   final String price;
   final Function onTap;
+  final Color surfaceColor;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class ProductItemComponent extends StatelessWidget {
       },
       child: Card(
         color: Colors.white,
-        surfaceTintColor: Colors.white,
+        surfaceTintColor: surfaceColor,
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18)

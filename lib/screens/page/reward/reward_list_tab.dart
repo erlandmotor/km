@@ -1,6 +1,8 @@
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/shimmer_list_component.dart";
 import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
+import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/reward_response.dart";
@@ -98,7 +100,7 @@ class RewardListTab extends StatelessWidget {
                                 Iconsax.warning_2, 
                                 "ERROR", 
                                 value.msg!, 
-                                Colors.red
+                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                               );
                             }
                           }).catchError((e) {
@@ -107,7 +109,7 @@ class RewardListTab extends StatelessWidget {
                               Iconsax.warning_2, 
                               "ERROR", 
                               e.toString(), 
-                              Colors.red
+                              HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                             );
                           });
                         }, 

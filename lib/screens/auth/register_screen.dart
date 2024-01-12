@@ -154,7 +154,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               Iconsax.warning_2, 
                               "ERROR", 
                               "Data Provinsi harus dipilih terlebih dahulu.", 
-                              Colors.red
+                              HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                             );
                           } else {
                             context.pushNamed("select-city", extra: {
@@ -177,7 +177,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               Iconsax.warning_2, 
                               "ERROR", 
                               "Data Kabupaten / Kota harus dipilih terlebih dahulu.", 
-                              Colors.red
+                              HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                             );
                           } else {
                             context.pushNamed("select-district", extra: {
@@ -246,7 +246,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 Iconsax.warning_2, 
                                 "ERROR", 
                                 "Term Harus Disetujui Terlebih Dahulu Sebelum Melakukan Registrasi.", 
-                                Colors.red
+                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                               );
                             } else {
                               showDynamicSnackBar(
@@ -254,7 +254,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 Iconsax.warning_2, 
                                 "ERROR", 
                                 "Formulir Pendaftaran Harus Dilengkapi Terlebih Dahulu.", 
-                                Colors.red
+                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                               );
                             }
                           } else {
@@ -264,7 +264,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 Iconsax.warning_2, 
                                 "ERROR", 
                                 "PIN Minimal Harus 4 Digit.", 
-                                Colors.red
+                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                               );
                             } else {
                               showLoadingSubmit(context, "Proses Registrasi...");
@@ -302,7 +302,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     Iconsax.warning_2, 
                                     "ERROR", 
                                     registerResponse.msg!, 
-                                    Colors.red
+                                    HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                   );
                                 }
                               }).catchError((e) {
@@ -312,7 +312,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   Iconsax.warning_2, 
                                   "ERROR", 
                                   e.toString(), 
-                                  Colors.red
+                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                 );
                               });
                             }

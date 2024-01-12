@@ -209,7 +209,7 @@ class _OtpScreenState extends State<OtpScreen> {
                             Iconsax.warning_2, 
                             "ERROR", 
                             "Kode OTP Salah.", 
-                            Colors.red
+                            HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                           );
                         });
             
@@ -219,7 +219,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           Iconsax.warning_2, 
                           "ERROR", 
                           "Kode OTP Salah.", 
-                          Colors.red
+                          HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                         );
                       }
                     }, // end onSubmit
@@ -242,7 +242,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           Iconsax.warning_2, 
                           "ERROR", 
                           e.toString(), 
-                          Colors.red
+                          HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                         );
                       });
                     }, 

@@ -5,6 +5,7 @@ import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class HistorySaldoItemComponent extends StatelessWidget {
@@ -22,7 +23,9 @@ class HistorySaldoItemComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: Colors.white,
-      surfaceTintColor: jumlah < 0 ? Colors.red : Colors.blue,
+      surfaceTintColor: jumlah < 0 ? 
+      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!) : 
+      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18)
@@ -42,12 +45,18 @@ class HistorySaldoItemComponent extends StatelessWidget {
                     height: 48,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(18),
+                      color: jumlah < 0 ?
+                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!).withOpacity(0.2) :
+                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!).withOpacity(0.2)
                     ),
-                    child: Image.asset(
-                      jumlah < 0 ? "assets/pengeluaran.png" : "assets/pemasukan.png",
-                      width: 42,
-                      height: 42,
-                      fit: BoxFit.contain,
+                    child: Icon(
+                      jumlah < 0 ? 
+                      Iconsax.empty_wallet_remove5 :
+                      Iconsax.empty_wallet_add5,
+                      color: jumlah < 0 ?
+                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!) :
+                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
+                      size: 32,
                     ),
                   ),
                   const SizedBox(width: 12,),
@@ -89,7 +98,9 @@ class HistorySaldoItemComponent extends StatelessWidget {
                               maxFontSize: 12,
                               maxLines: 1,
                               style: GoogleFonts.openSans(
-                                color: jumlah < 0 ? Colors.red : Colors.green,
+                                color: jumlah < 0 ? 
+                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!) : 
+                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.successColor!),
                                 fontWeight: FontWeight.w700
                               ),
                             ), 

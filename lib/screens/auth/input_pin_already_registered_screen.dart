@@ -138,7 +138,7 @@ class _InputPinAlreadyRegisteredScreenState extends State<InputPinAlreadyRegiste
                               Iconsax.warning_2, 
                               "ERROR", 
                               "PIN SALAH!!!", 
-                              Colors.red
+                              HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                             );
                           } else {
                             locator.get<AuthService>().login(widget.idreseller).then((loginResponse) {
@@ -154,7 +154,7 @@ class _InputPinAlreadyRegisteredScreenState extends State<InputPinAlreadyRegiste
                                   Iconsax.warning_2, 
                                   "ERROR", 
                                   e.toString(), 
-                                  Colors.red
+                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                 );
                               });
                             }).catchError((e) {
@@ -164,7 +164,7 @@ class _InputPinAlreadyRegisteredScreenState extends State<InputPinAlreadyRegiste
                                 Iconsax.warning_2, 
                                 "ERROR", 
                                 e.toString(), 
-                                Colors.red
+                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                               );
                             });
                           }
@@ -175,7 +175,7 @@ class _InputPinAlreadyRegisteredScreenState extends State<InputPinAlreadyRegiste
                             Iconsax.warning_2, 
                             "ERROR", 
                             e.toString(), 
-                            Colors.red
+                            HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                           );
                         });
                       }, 

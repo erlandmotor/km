@@ -119,7 +119,7 @@ class _SelectGoogleAccountScreenState extends State<SelectGoogleAccountScreen> {
                                       Iconsax.warning_2, 
                                       "ERROR", 
                                       e.toString(), 
-                                      Colors.red
+                                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                     );
                                   });
                                 }
@@ -129,7 +129,7 @@ class _SelectGoogleAccountScreenState extends State<SelectGoogleAccountScreen> {
                                   Iconsax.warning_2, 
                                   "ERROR", 
                                   e.toString(), 
-                                  Colors.red
+                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                 );
                               }).catchError((e) {
                                 showDynamicSnackBar(
@@ -137,7 +137,7 @@ class _SelectGoogleAccountScreenState extends State<SelectGoogleAccountScreen> {
                                   Iconsax.warning_2, 
                                   "ERROR", 
                                   e.toString(), 
-                                  Colors.red
+                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                 );
                               });
                             }).catchError((e) {
@@ -146,7 +146,7 @@ class _SelectGoogleAccountScreenState extends State<SelectGoogleAccountScreen> {
                                 Iconsax.warning_2, 
                                 "ERROR", 
                                 e.toString(), 
-                                Colors.red
+                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                               );
                             });
                           }).catchError((e) {

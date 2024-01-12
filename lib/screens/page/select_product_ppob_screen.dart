@@ -51,7 +51,7 @@ class _SelectProductPpobScreenState extends State<SelectProductPpobScreen> {
         Iconsax.warning_2, 
         "ERROR", 
         e.toString(), 
-        Colors.red
+        HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
       );
     });
     super.initState();
@@ -153,6 +153,7 @@ class _SelectProductPpobScreenState extends State<SelectProductPpobScreen> {
                               : state.dataList[index].imgurl!, 
                               title: widget.operatorName,
                               productName: state.dataList[index].namaproduk!, 
+                              surfaceColor: index % 2 == 0 ? HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.surfaceColor!) : Colors.white,
                               onTap: () {
                                 context.pushNamed("check-before-transaction", extra: {
                                   "operatorName": state.dataList[index].namaproduk,

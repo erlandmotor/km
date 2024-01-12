@@ -101,7 +101,7 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                                       Iconsax.warning_2, 
                                       "ERROR", 
                                       "ID Pelanggan harus diisi telebih dahulu.", 
-                                      Colors.red
+                                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                     );
                                   } else {
                                     checkIdentityCubit.updateState(true, checkIdentityCubit.state.result);
@@ -166,7 +166,7 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                                                         Iconsax.warning_2, 
                                                         "ERROR", 
                                                         e.toString(), 
-                                                        Colors.red
+                                                        HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                       );
                                                     });
                                                   } else {
@@ -180,7 +180,7 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                                                     //   LineIcons.exclamationTriangle, 
                                                     //   "ERROR", 
                                                     //   value.msg!, 
-                                                    //   Colors.red
+                                                    //   HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                     // );
                                                   }
                                                 }).catchError((e) {
@@ -192,7 +192,7 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                                                     Iconsax.warning_2, 
                                                     "ERROR", 
                                                     e.toString(), 
-                                                    Colors.red
+                                                    HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                   );
                                                 });                                            
                                               }
@@ -208,7 +208,7 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                                         Iconsax.warning_2, 
                                         "ERROR", 
                                         e.toString(), 
-                                        Colors.red
+                                        HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                       );
                                     });
                                   }
@@ -222,7 +222,7 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                                 width: 100.w,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
-                                  color: Colors.red,
+                                  color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!),
                                 ),
                                 padding: const EdgeInsets.all(8),
                                 child: Row(

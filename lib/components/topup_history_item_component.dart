@@ -40,11 +40,15 @@ class TopupHistoryItemComponent extends StatelessWidget {
                   height: 48,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(18),
-                    color: (status == "0") ? Colors.lightBlue : (status == "1") ? Colors.green : Colors.red
+                    color: (status == "0") ? HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!).withOpacity(0.2) 
+                    : (status == "1") ? HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.successColor!).withOpacity(0.2) : 
+                    HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!).withOpacity(0.2)
                   ),
                   child: Icon(
-                    (status == "0") ? Iconsax.refresh : (status == "1") ? Iconsax.tick_circle : Iconsax.close_circle5,
-                    color: Colors.white,
+                    (status == "0") ? Iconsax.refresh : (status == "1") ? Icons.check : Icons.close,
+                    color: (status == "0") ? HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!) 
+                    : (status == "1") ? HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.successColor!) : 
+                    HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!),
                   ),
                 ),
                 const SizedBox(width: 12,),
@@ -67,7 +71,9 @@ class TopupHistoryItemComponent extends StatelessWidget {
             Text((status == "0") ? "PROSES" : (status == "1") ? "SUKSES" : "GAGAL", style: GoogleFonts.openSans(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: (status == "0") ? Colors.lightBlue : (status == "1") ? Colors.green : Colors.red
+              color: (status == "0") ? HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!)
+              : (status == "1") ? HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.successColor!) : 
+              HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
             ),)
           ],
         ),

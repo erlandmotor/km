@@ -90,7 +90,7 @@ class _TopupMainScreenState extends State<TopupMainScreen> {
                                               Iconsax.warning_2, 
                                               "ERROR", 
                                               "Nominal Topup Minimal Harus Rp. 50.000.", 
-                                              Colors.red
+                                              HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                             );
                                           } else {
                                             FocusManager.instance.primaryFocus?.unfocus();
@@ -198,7 +198,7 @@ class _TopupMainScreenState extends State<TopupMainScreen> {
                                                 Iconsax.warning_2, 
                                                 "ERROR", 
                                                 "Nominal Topup Minimal Harus Rp. 50.000.", 
-                                                Colors.red
+                                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                               );
                                             });
                                           }                                          
@@ -239,9 +239,7 @@ class _TopupMainScreenState extends State<TopupMainScreen> {
                                   }
                                 } else {
                                   return const Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.red,
-                                    ),
+                                    child: CircularProgressIndicator(),
                                   );
                                 }
                               }

@@ -363,7 +363,7 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                                               Iconsax.warning_2, 
                                                               "ERROR", 
                                                               "PIN harus diisi terlebih dahulu", 
-                                                              Colors.red
+                                                              HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                             );
                                                           } else {
                                                             showLoadingSubmit(context, "Proses Transfer Saldo...");
@@ -381,7 +381,7 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                                                   Iconsax.warning_2, 
                                                                   "ERROR", 
                                                                     value.msg!, 
-                                                                  Colors.red
+                                                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                                 );
                                                               } else {
                                                                 pinController.clear();
@@ -406,7 +406,7 @@ class _TransferDynamicMainScreenState extends State<TransferDynamicMainScreen> {
                                                                 Iconsax.warning_2, 
                                                                 "ERROR", 
                                                                 e.toString(), 
-                                                                Colors.red
+                                                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                               );
                                                             });
                                                           }

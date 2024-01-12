@@ -5,6 +5,7 @@ import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class HistoryTopupItemComponent extends StatelessWidget {
@@ -22,7 +23,7 @@ class HistoryTopupItemComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: Colors.white,
-      surfaceTintColor: Colors.blue,
+      surfaceTintColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.successColor!),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18)
@@ -42,12 +43,12 @@ class HistoryTopupItemComponent extends StatelessWidget {
                     height: 48,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(18),
+                      color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.successColor!).withOpacity(0.2)
                     ),
-                    child: Image.asset(
-                      "assets/pemasukan.png",
-                      width: 42,
-                      height: 42,
-                      fit: BoxFit.contain,
+                    child: Icon(
+                      Iconsax.empty_wallet_add5,
+                      size: 32,
+                      color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.successColor!),
                     ),
                   ),
                   const SizedBox(width: 12,),
