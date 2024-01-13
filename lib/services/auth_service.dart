@@ -212,13 +212,13 @@ class AuthService {
   }
 
   Future<AccountKitResponse> accountKit(String uuid, String phone, String pin) async {
-    final hash = md5.convert(utf8.encode("8A43D1931B899AD9D40993DF71D5DFF2$uuid")).toString();
+    final hash = md5.convert(utf8.encode("8A43D1931B899AD9D40993DF71D5DFF2$uuid"));
     final encryptedPin = encryptAes256(pin);
     final response = await _dio.post("$baseUrlCore/accountKit",
     data: {
       "uuid": uuid,
       "phone": phone,
-      "pin": encryptedPin
+      "pin": encryptedPin.toString()
     },
     options: Options(
       headers: {

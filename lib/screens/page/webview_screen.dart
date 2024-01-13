@@ -97,13 +97,10 @@ class _WebviewScreenState extends State<WebviewScreen> {
                             buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!),
                             onPressed: () {
                               if (kodePembayaranController.text.isEmpty) {
-                                showDynamicSnackBar(
-                                  context,
-                                  Iconsax.warning_2,
-                                  "ERROR",
-                                  "ID Pelanggan harus diisi telebih dahulu.",
-                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
-                                );
+                                  locator.get<LocalNotificationService>().showLocalNotification(
+                                    title: "❌ ERROR",
+                                    body: "Kode Pembayaran Harus Diisi Terlebih Dahulu."
+                                  );
                               } else {
                                 final generatedIdTrxCheck = generateRandomString(8);
 
@@ -160,7 +157,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                                 if (value.success!) {
                                                   context.pop();
                                                   locator.get<LocalNotificationService>().showLocalNotification(
-                                                    title: "Transaksi ${value.produk!}",
+                                                    title: "✅ Transaksi ${value.produk!}",
                                                     body: "Transaksi ${value.produk!} berhasil dilakukan."
                                                   );
 
@@ -181,7 +178,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                                   });
                                                 } else {
                                                   locator.get<LocalNotificationService>().showLocalNotification(
-                                                    title: "Transaksi ${value.produk!}",
+                                                    title: "❌ Gagal : Transaksi ${value.produk!}",
                                                     body: value.msg!
                                                   );
                                                   context.pop();
@@ -206,7 +203,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                     );
                                   } else {
                                     locator.get<LocalNotificationService>().showLocalNotification(
-                                      title: "Transaksi ${value.produk!}",
+                                      title: "❌ Gagal : Transaksi ${value.produk!}",
                                       body: value.msg!
                                     );
                                   }

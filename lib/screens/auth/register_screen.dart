@@ -70,9 +70,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(
-            Iconsax.arrow_left,
+            Iconsax.arrow_circle_left,
             color: Colors.white,
-            size: 30,
+            size: 36,
           ),
           onPressed: () {
             context.replaceNamed("input-phone-number");

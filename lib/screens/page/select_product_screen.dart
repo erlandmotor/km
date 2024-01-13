@@ -150,7 +150,6 @@ class _SelectProductScreenState extends State<SelectProductScreen> {
                           itemBuilder: (context, index) {
                             return ProductItemComponent(
                               operatorName: widget.operatorName, 
-                              operatorColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                               imageUrl: widget.operatorName.contains("PDAM") ? state.dataList[index].imgurloperator! 
                               : state.dataList[index].imgurl!, 
                               title: widget.operatorName,

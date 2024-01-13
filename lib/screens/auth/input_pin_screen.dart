@@ -10,7 +10,6 @@ import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
 import "package:adamulti_mobile_clone_new/services/secure_storage.dart";
-import "package:cached_network_image/cached_network_image.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
@@ -41,15 +40,15 @@ class _InputPinScreenState extends State<InputPinScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
       appBar: AppBar(
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(
-            Iconsax.arrow_left,
+            Iconsax.arrow_circle_left,
             color: Colors.white,
-            size: 30,
+            size: 36,
           ),
           onPressed: () {
             context.goNamed("select-google-account");
@@ -79,7 +78,7 @@ class _InputPinScreenState extends State<InputPinScreen> {
               clipper: CurveClipper(),
               child: Container(
                 width: 100.w,
-                height: 40.h,
+                height: 200,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -93,12 +92,17 @@ class _InputPinScreenState extends State<InputPinScreen> {
                   )
                 ),
                 child: Center(
-                  child: SizedBox(
-                    width: 256,
-                    height: 256,
-                    child: CachedNetworkImage(
-                      imageUrl: "$baseUrlFile/setting-applikasi/image/${locator.get<SettingApplikasiCubit>().state.settingData.pinImage!}",
-                      fit: BoxFit.cover,
+                  child: CircleAvatar(
+                    radius: 64,
+                    backgroundColor: Colors.white.withOpacity(0.4),
+                    child: CircleAvatar(
+                      radius: 58,
+                      backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!).withOpacity(0.6),
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!),                                
+                        child: const Icon(Iconsax.lock5, color: Colors.white, size: 64,),
+                      ),
                     ),
                   ),
                 ),
@@ -108,7 +112,6 @@ class _InputPinScreenState extends State<InputPinScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text("Masukkan PIN Anda.", style: GoogleFonts.openSans(
@@ -170,14 +173,55 @@ class _InputPinScreenState extends State<InputPinScreen> {
                             );
                           }
                         }).catchError((e) {
-                            context.pop();
-                            showDynamicSnackBar(
-                              context, 
-                              Iconsax.warning_2, 
-                              "ERROR", 
-                              e.toString(), 
-                              HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
-                            );
+                            locator.get<AuthService>().accountKit(uuid, widget.phoneNumber, pinController.text).then((accountKitResponse) {
+                              if(accountKitResponse.success! == true) {
+                                locator.get<AuthService>().login(accountKitResponse.idrs!).then((loginResponse) {
+                                  locator.get<SecureStorageService>().writeSecureData("jwt", loginResponse.token!);
+                                  locator.get<AuthenticatedCubit>().updateUserState(loginResponse.user!);
+                                  locator.get<AuthService>().decryptToken(loginResponse.user!.idreseller!, loginResponse.token!).then((decrypt) {
+                                    context.pop();
+                                    locator.get<UserAppidCubit>().updateState(decrypt);
+                                    context.goNamed("main");
+                                  }).catchError((e) {
+                                    context.pop();
+                                    showDynamicSnackBar(
+                                      context, 
+                                      Iconsax.warning_2, 
+                                      "ERROR", 
+                                      e.toString(), 
+                                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
+                                    );
+                                  });
+                                }).catchError((e) {
+                                  context.pop();
+                                  showDynamicSnackBar(
+                                    context, 
+                                    Iconsax.warning_2, 
+                                    "ERROR", 
+                                    e.toString(), 
+                                    HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
+                                  );
+                                });
+                              } else {
+                                context.pop();
+                                showDynamicSnackBar(
+                                  context, 
+                                  Iconsax.warning_2, 
+                                  "ERROR", 
+                                  accountKitResponse.msg!, 
+                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
+                                );
+                              }
+                            }).catchError((e) {
+                                context.pop();
+                                showDynamicSnackBar(
+                                  context, 
+                                  Iconsax.warning_2, 
+                                  "ERROR", 
+                                  e.toString(), 
+                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
+                                );
+                            });
                         });
                       }, 
                       width: 100.w, 

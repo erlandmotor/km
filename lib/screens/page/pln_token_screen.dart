@@ -117,8 +117,7 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                                 return ListView.separated(
                                   itemBuilder: (context, index) {
                                     return ProductItemComponent(
-                                      operatorName: widget.operatorName, 
-                                      operatorColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
+                                      operatorName: widget.operatorName,
                                       imageUrl: snapshot.data!.data![index].imgurloperator!, 
                                       title: widget.operatorName,
                                       productName: snapshot.data!.data![index].namaproduk!, 
@@ -165,7 +164,7 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                                                       identityController.clear();
                                                       context.pop();
                                                       locator.get<LocalNotificationService>().showLocalNotification(
-                                                        title: "Transaksi ${snapshot.data!.data![index].namaproduk}", 
+                                                        title: "✅ Transaksi ${snapshot.data!.data![index].namaproduk}", 
                                                         body: "Transaksi ${snapshot.data!.data![index].namaproduk} berhasil dilakukan."
                                                       );
 
@@ -185,7 +184,7 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                                                         );
                                                       });
                                                     } else {
-                                                      locator.get<LocalNotificationService>().showLocalNotification(title: "Transaksi ${snapshot.data!.data![index].namaproduk}", 
+                                                      locator.get<LocalNotificationService>().showLocalNotification(title: "❌ Gagal : Transaksi ${snapshot.data!.data![index].namaproduk}", 
                                                       body: value.msg!);
                                                       context.pop();
                                                     }

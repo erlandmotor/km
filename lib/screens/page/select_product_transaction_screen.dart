@@ -153,7 +153,6 @@ class _SelectProductTransactionScreenState extends State<SelectProductTransactio
                           itemBuilder: (context, index) {
                             return ProductItemComponent(
                               operatorName: widget.operatorName, 
-                              operatorColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                               imageUrl: state.dataList[index].imgurloperator!, 
                               title: widget.operatorName,
                               productName: state.dataList[index].namaproduk!,
@@ -190,7 +189,7 @@ class _SelectProductTransactionScreenState extends State<SelectProductTransactio
                                             context.pop();
                                             
                                             locator.get<LocalNotificationService>().showLocalNotification(
-                                              title: "Transaksi ${state.dataList[index].namaproduk}", 
+                                              title: "✅ Transaksi ${state.dataList[index].namaproduk}", 
                                               body: "Transaksi ${state.dataList[index].namaproduk} berhasil dilakukan."
                                             );
 
@@ -211,7 +210,7 @@ class _SelectProductTransactionScreenState extends State<SelectProductTransactio
                                             });
                                           } else {
                                             locator.get<LocalNotificationService>().showLocalNotification(
-                                              title: "Transaksi ${state.dataList[index].namaproduk}", 
+                                              title: "❌ Gagal : Transaksi ${state.dataList[index].namaproduk}", 
                                               body: value.msg!
                                             );
                                             context.pop();

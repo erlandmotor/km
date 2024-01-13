@@ -147,8 +147,7 @@ class _SelectProductPpobScreenState extends State<SelectProductPpobScreen> {
                           itemCount: state.dataList.length,
                           itemBuilder: (context, index) {
                             return ProductItemComponent(
-                              operatorName: widget.operatorName, 
-                              operatorColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
+                              operatorName: widget.operatorName,
                               imageUrl: widget.operatorName.contains("PDAM") ? state.dataList[index].imgurloperator! 
                               : state.dataList[index].imgurl!, 
                               title: widget.operatorName,

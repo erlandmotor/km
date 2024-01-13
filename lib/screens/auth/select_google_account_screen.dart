@@ -1,6 +1,7 @@
 import "package:adamulti_mobile_clone_new/components/curve_clipper.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/google_account_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
@@ -102,6 +103,7 @@ class _SelectGoogleAccountScreenState extends State<SelectGoogleAccountScreen> {
                     child: GestureDetector(
                       onTap: () {
                         locator.get<AuthService>().signInWithGoogle().then((value) {
+                          locator.get<GoogleAccountCubit>().updateState(value);
                           locator.get<AuthService>().checkFirebaseEmail(value!.email).then((value2) {
                             FirebaseAuth.instance.signInWithEmailAndPassword(email: value2.email!, password: kDummyPasswordUser).then((userCredential) {
                               locator.get<AuthService>().getMe(userCredential.user!.uid).then((me) {

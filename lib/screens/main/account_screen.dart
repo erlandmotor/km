@@ -198,6 +198,7 @@ class AccountScreen extends StatelessWidget {
                   const SizedBox(height: 18,),
                   Card(
                     surfaceTintColor: Colors.white,
+                    color: Colors.white,
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       child: Column(

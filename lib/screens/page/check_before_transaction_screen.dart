@@ -150,7 +150,7 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                                                   if(value.success!) {
                                                     context.pop();
                                                     locator.get<LocalNotificationService>().showLocalNotification(
-                                                      title: "Transaksi ${value.produk!}", 
+                                                      title: "✅ Transaksi ${value.produk!}", 
                                                       body: value.msg!
                                                     );
 
@@ -171,7 +171,7 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                                                     });
                                                   } else {
                                                     locator.get<LocalNotificationService>().showLocalNotification(
-                                                      title: "Transaksi ${value.produk!}", 
+                                                      title: "❌ Gagal : Transaksi ${value.produk!}", 
                                                       body: value.msg!
                                                     );
                                                     context.pop();

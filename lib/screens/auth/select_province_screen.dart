@@ -28,9 +28,9 @@ class SelectProvinceScreen extends StatelessWidget {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(
-            Iconsax.arrow_left_2,
+            Iconsax.arrow_circle_left,
             color: Colors.white,
-            size: 30,
+            size: 36,
           ),
           onPressed: () {
             context.pop();

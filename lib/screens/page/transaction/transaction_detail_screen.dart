@@ -206,7 +206,7 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
                                   }, 
                                   width: 30.w, 
                                   height: 30,
-                                  icon: Iconsax.printer5,
+                                  icon: Iconsax.printer,
                                 ),
                                 DynamicSizeButtonOutlinedIconComponent(
                                   label: "Share", 

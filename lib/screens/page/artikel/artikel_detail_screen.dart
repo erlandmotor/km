@@ -3,6 +3,7 @@ import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/artikel_data.dart";
 import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
+import "package:auto_size_text/auto_size_text.dart";
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
@@ -31,7 +32,7 @@ class ArtikelDetailScreen extends StatelessWidget {
                     SliverAppBar(
                       leading: IconButton(
                         icon: const Icon(
-                          Iconsax.arrow_left_2,
+                          Iconsax.arrow_circle_left,
                           color: Colors.white,
                           size: 30,
                         ),
@@ -51,13 +52,17 @@ class ArtikelDetailScreen extends StatelessWidget {
                       expandedHeight: 160,
                       collapsedHeight: 60,
                       flexibleSpace: FlexibleSpaceBar(
-                        centerTitle: false,
-                        titlePadding: const EdgeInsets.only(bottom: 18, left: 18),
+                        centerTitle: true,
+                        titlePadding: const EdgeInsets.only(bottom: 22, left: 18),
                         title: Row(
                           children: [
-                            const SizedBox(width: 28,),
+                            const SizedBox(width: 38,),
                             Expanded(
-                              child: Text(snapshot.data!.title!, style: GoogleFonts.openSans(
+                              child: AutoSizeText(
+                                snapshot.data!.title!, 
+                                maxFontSize: 16,
+                                maxLines: 1,
+                                style: GoogleFonts.openSans(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600
                               ),),

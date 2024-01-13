@@ -4,9 +4,6 @@ class SettingApplikasiResponse {
   final String? logoMain;
   final String? logoLight;
   final String? loginImage;
-  final String? phoneImage;
-  final String? otpImage;
-  final String? pinImage;
   final String? mainColor1;
   final String? mainColor2;
   final String? mainColor3;
@@ -28,9 +25,6 @@ class SettingApplikasiResponse {
     this.logoMain,
     this.logoLight,
     this.loginImage,
-    this.phoneImage,
-    this.otpImage,
-    this.pinImage,
     this.mainColor1,
     this.mainColor2,
     this.mainColor3,
@@ -53,9 +47,6 @@ class SettingApplikasiResponse {
       logoMain = json['logo_main'] as String?,
       logoLight = json['logo_light'] as String?,
       loginImage = json['login_image'] as String?,
-      phoneImage = json['phone_image'] as String?,
-      otpImage = json['otp_image'] as String?,
-      pinImage = json['pin_image'] as String?,
       mainColor1 = json['main_color1'] as String?,
       mainColor2 = json['main_color2'] as String?,
       mainColor3 = json['main_color3'] as String?,
@@ -77,9 +68,6 @@ class SettingApplikasiResponse {
     'logo_main' : logoMain,
     'logo_light' : logoLight,
     'login_image' : loginImage,
-    'phone_image' : phoneImage,
-    'otp_image' : otpImage,
-    'pin_image' : pinImage,
     'main_color1' : mainColor1,
     'main_color2' : mainColor2,
     'main_color3' : mainColor3,

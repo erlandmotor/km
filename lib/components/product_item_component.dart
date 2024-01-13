@@ -1,4 +1,3 @@
-import "package:adamulti_mobile_clone_new/components/ribbon_clipper.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
@@ -11,12 +10,11 @@ import "package:responsive_sizer/responsive_sizer.dart";
 
 class ProductItemComponent extends StatelessWidget {
 
-  const ProductItemComponent({ super.key, required this.operatorName, required this.operatorColor,
+  const ProductItemComponent({ super.key, required this.operatorName,
   required this.imageUrl, required this.title, required this.productName,
   required this.productCode, required this.description, required this.price, required this.onTap, required this.surfaceColor });
 
   final String operatorName;
-  final Color operatorColor;
   final String imageUrl;
   final String title;
   final String productName;
@@ -36,52 +34,44 @@ class ProductItemComponent extends StatelessWidget {
       child: Card(
         color: Colors.white,
         surfaceTintColor: surfaceColor,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18)
-          ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18)
+        ),
+        child: SizedBox(
           width: 100.w,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  ClipPath(
-                    clipper: ArcClipper(),
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      width: 60.w,
-                      decoration: BoxDecoration(
-                        color: operatorColor,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 10, left: 10),
-                        child: AutoSizeText(
-                          operatorName,
-                          maxFontSize: 14,
-                          maxLines: 1,
-                          style: GoogleFonts.openSans(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white
-                          ),
-                        ),
-                      ),
+              Container(
+                padding: const EdgeInsets.all(4),
+                width: 50.w,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
+                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor2!),
+                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor3!),
+                    ],
+                    stops: const [0, 0.4, 0.8],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(18), bottomRight: Radius.circular(18))
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10, left: 10),
+                  child: AutoSizeText(
+                    operatorName,
+                    maxFontSize: 10,
+                    minFontSize: 2,
+                    maxLines: 1,
+                    style: GoogleFonts.openSans(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white
                     ),
                   ),
-                  Positioned(
-                    bottom: -10,
-                    child: ClipPath(
-                      clipper: TriangleClipper(),
-                      child: Container(
-                        width: 10.0,
-                        height: 10.0,
-                        color: operatorColor.withAlpha(700),
-                      ),
-                    ),
-                  )
-                ],
+                ),
               ),
               const SizedBox(height: 8,),
               Padding(

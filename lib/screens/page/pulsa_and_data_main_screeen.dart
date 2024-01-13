@@ -225,8 +225,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                               padding: const EdgeInsets.all(8),
                                               itemBuilder: (context, index) {
                                                 return ProductItemComponent(
-                                                  operatorName: data.namaoperator!, 
-                                                  operatorColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
+                                                  operatorName: data.namaoperator!,
                                                   imageUrl: data.imgurl!.isEmpty ? state.productData.data!.firstWhere((element) => element.imgurl!.isNotEmpty).imgurl! : 
                                                   data.imgurl!, 
                                                   title: data.namaoperator!,
@@ -274,7 +273,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                                                   identityController.clear();
                                                                   context.pop();
                                                                   locator.get<LocalNotificationService>().showLocalNotification(
-                                                                    title: "Transaksi ${data.produk![index].namaproduk}", 
+                                                                    title: "✅ Transaksi ${data.produk![index].namaproduk}", 
                                                                     body: "Transaksi ${data.produk![index].namaproduk} berhasil dilakukan."
                                                                   );
 
@@ -294,7 +293,7 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                                                     );
                                                                   });
                                                                 } else {
-                                                                  locator.get<LocalNotificationService>().showLocalNotification(title: "Transaksi ${data.produk![index].namaproduk}", 
+                                                                  locator.get<LocalNotificationService>().showLocalNotification(title: "❌ Gagal : Transaksi ${data.produk![index].namaproduk}", 
                                                                   body: value.msg!);
                                                                   context.pop();
                                                                 }

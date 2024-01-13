@@ -1,6 +1,7 @@
 
 import "package:adamulti_mobile_clone_new/components/artikel_component.dart";
 import "package:adamulti_mobile_clone_new/components/curve_clipper.dart";
+import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/home_carousel.dart";
 import "package:adamulti_mobile_clone_new/components/layanan_component.dart";
 import "package:adamulti_mobile_clone_new/components/main_menu_shimmer.dart";
@@ -18,6 +19,7 @@ import "package:adamulti_mobile_clone_new/model/artikel_data.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
 import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
 import "package:adamulti_mobile_clone_new/services/secure_storage.dart";
+import "package:auto_size_text/auto_size_text.dart";
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
@@ -32,13 +34,29 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final favoriteMenuCubit = context.read<FavoriteMenuCubit>();
+
     return RefreshIndicator(
       onRefresh: () async {
-        locator.get<BackOfficeService>().findFirstSettingApplikasi("MPN").then((value) {
+        favoriteMenuCubit.updateStae(true, favoriteMenuCubit.state.menuData);
+        await locator.get<BackOfficeService>().getSpecificMenuByKategori(1).then((value) {
+          favoriteMenuCubit.updateStae(true, value);
+        }).catchError((e) {
+          showDynamicSnackBar(
+            context, 
+            Iconsax.warning_2, 
+            "ERROR", 
+            "Terjadi Kesalahan, Silahkan Periksa Koneksi Internet Anda.", 
+            HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
+          );
+        });
+
+
+        await locator.get<BackOfficeService>().findFirstSettingApplikasi("MPN").then((value) {
           locator.get<SettingApplikasiCubit>().updateState(value);
         });
 
-        locator.get<AuthService>().authenticated().then((authenticated) {
+        await locator.get<AuthService>().authenticated().then((authenticated) {
           locator.get<AuthenticatedCubit>().updateUserState(authenticated.user!);
           locator.get<SecureStorageService>().readSecureData("jwt").then((jwt) {
             locator.get<AuthService>().decryptToken(authenticated.user!.idreseller!, jwt!).then((decrypt) {
@@ -86,7 +104,7 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
-                        width: 80.w,
+                        width: 65.w,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -143,10 +161,15 @@ class HomeScreen extends StatelessWidget {
                                   color: Colors.white
                                 ),),
                                 const SizedBox(height: 4,),
-                                BlocBuilder<GoogleAccountCubit, GoogleAccountState>(
-                                  bloc: locator.get<GoogleAccountCubit>(),
+                                BlocBuilder<AuthenticatedCubit, AuthenticatedState>(
+                                  bloc: locator.get<AuthenticatedCubit>(),
                                   builder: (_, state) {
-                                    return Text(state.userData != null ? state.userData!.displayName! : "", style: GoogleFonts.openSans(
+                                    return Text(locator.get<AuthenticatedCubit>().state.authenticatedUser.nAMARESELLER != null ? 
+                                    locator.get<AuthenticatedCubit>().state.authenticatedUser.nAMARESELLER! 
+                                    : "", 
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.openSans(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.white
@@ -158,13 +181,45 @@ class HomeScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                      
-                        },
-                        child: const Icon(Iconsax.headphone5, size: 28, color: Colors.white,),
+                      const SizedBox(width: 4,),
+                      Expanded(
+                        child: BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
+                          bloc: locator.get<SettingApplikasiCubit>(),
+                          builder: (_, stateSetting) {
+                            return Container(
+                              padding: const EdgeInsets.all(4),
+                              height: 36,
+                              width: 50.w,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: HexColor.fromHex(stateSetting.settingData.infoColor!).withOpacity(0.4)
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.support_agent_sharp,
+                                    color: HexColor.fromHex(stateSetting.settingData.lightColor!),
+                                    size: 24,
+                                  ),
+                                  const SizedBox(width: 4,),
+                                  AutoSizeText("CS 24 Jam",
+                                  maxLines: 1,
+                                  maxFontSize: 10,
+                                  minFontSize: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: GoogleFonts.openSans(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w500,
+                                    color: HexColor.fromHex(stateSetting.settingData.lightColor!)
+                                  ),)
+                                ],
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                      const SizedBox(height: 18,),
                     ],
                   ),
                 ),
@@ -256,92 +311,87 @@ class HomeScreen extends StatelessWidget {
                         color: Colors.white,
                         child: SizedBox(
                           width: 100.w,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                                child: Text("Produk Favorit", style: GoogleFonts.openSans(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: HexColor.fromHex(settingState.settingData.textColor!)
-                                ),),
-                              ),
-                              const SizedBox(height: 6,),
-                              BlocBuilder<FavoriteMenuCubit, FavoriteMenuState>(
-                                builder: (_, state) {
-                                  if(state.isLoading) {
-                                    return const MainMenuShimmer(dataLength: 12);
-                                  } else {
-                                    return Wrap(
-                                      alignment: WrapAlignment.start,
-                                      spacing: 4.w,
-                                      runSpacing: 12,
-                                      children: [
-                                        for(var i = 0; i < state.menuData.menulist!.length; i++) LayananComponent(
-                                          containerWidth: 40,
-                                          containerHeight: 40,
-                                          imageWidth: 28,
-                                          imageHeight: 28,
-                                          imageUrl: "$baseUrlAuth/files/menu-mobile/image/${state.menuData.menulist![i].icon!}", 
-                                          label: state.menuData.menulist![i].name!, 
-                                          onTapAction: () {
-                                            if(state.menuData.menulist![i].type! == "PULSA") {
-                                              context.pushNamed("pulsa-and-data");
-                                            }
-                                            
-                                            if(state.menuData.menulist![i].type! == "WEBVIEW") {
-                                              context.pushNamed("web-view", extra: {
-                                                "title": state.menuData.menulist![i].name,
-                                                "operatorId": state.menuData.menulist![i].operatorid,
-                                                "url": state.menuData.menulist![i].url
-                                              });
-                                            }
-                  
-                                            if(state.menuData.menulist![i].type == "PLN") {
-                                              context.pushNamed("pln-main");
-                                            }
-                  
-                                            if(state.menuData.menulist![i].type == "SINGLE PPOB") {
-                                              context.pushNamed("check-before-transaction", extra: {
-                                                "operatorName": state.menuData.menulist![i].name,
-                                                "kodeproduk": state.menuData.menulist![i].operatorid
-                                              });
-                                            }
-                  
-                                            if(state.menuData.menulist![i].type == "DOUBLE PPOB") {
-                                              context.pushNamed("select-product-ppob", extra: {
-                                                "operatorName": state.menuData.menulist![i].name,
-                                                "operatorId": state.menuData.menulist![i].operatorid
-                                              });
-                                            }
-                  
-                                            if(state.menuData.menulist![i].type == "TRIPLE PPOB") {
-                                              context.pushNamed("select-operator-backoffice", extra: {
-                                                "operatorName": state.menuData.menulist![i].name,
-                                                "operatorId": state.menuData.menulist![i].operatorid
-                                              });
-                                            }
-                  
-                                            if(state.menuData.menulist![i].type == "DOUBLE PRODUCT") {
-                                              context.pushNamed("select-operator", extra: {
-                                                "operatorName": state.menuData.menulist![i].operatorid
-                                              });
-                                            }
-                  
-                                            if(state.menuData.menulist![i].type == "LAINNYA") {
-                                              context.pushNamed("more");
-                                            }
-                                          }, 
-                                          menuColor: HexColor.fromHex(state.menuData.menulist![i].containercolor!)
-                                        )
-                                      ],
-                                    );
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 18),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                BlocBuilder<FavoriteMenuCubit, FavoriteMenuState>(
+                                  bloc: favoriteMenuCubit,
+                                  builder: (_, state) {
+                                    if(state.isLoading) {
+                                      return const MainMenuShimmer(dataLength: 12);
+                                    } else {
+                                      return Wrap(
+                                        alignment: WrapAlignment.start,
+                                        spacing: 4.w,
+                                        runSpacing: 12,
+                                        children: [
+                                          for(var i = 0; i < state.menuData.menulist!.length; i++) LayananComponent(
+                                            containerWidth: 40,
+                                            containerHeight: 40,
+                                            imageWidth: 28,
+                                            imageHeight: 28,
+                                            imageUrl: "$baseUrlAuth/files/menu-mobile/image/${state.menuData.menulist![i].icon!}", 
+                                            label: state.menuData.menulist![i].name!, 
+                                            onTapAction: () {
+                                              if(state.menuData.menulist![i].type! == "PULSA") {
+                                                context.pushNamed("pulsa-and-data");
+                                              }
+                                              
+                                              if(state.menuData.menulist![i].type! == "WEBVIEW") {
+                                                context.pushNamed("web-view", extra: {
+                                                  "title": state.menuData.menulist![i].name,
+                                                  "operatorId": state.menuData.menulist![i].operatorid,
+                                                  "url": state.menuData.menulist![i].url
+                                                });
+                                              }
+                                              
+                                              if(state.menuData.menulist![i].type == "PLN") {
+                                                context.pushNamed("pln-main");
+                                              }
+                                              
+                                              if(state.menuData.menulist![i].type == "SINGLE PPOB") {
+                                                context.pushNamed("check-before-transaction", extra: {
+                                                  "operatorName": state.menuData.menulist![i].name,
+                                                  "kodeproduk": state.menuData.menulist![i].operatorid
+                                                });
+                                              }
+                                              
+                                              if(state.menuData.menulist![i].type == "DOUBLE PPOB") {
+                                                context.pushNamed("select-product-ppob", extra: {
+                                                  "operatorName": state.menuData.menulist![i].name,
+                                                  "operatorId": state.menuData.menulist![i].operatorid
+                                                });
+                                              }
+                                              
+                                              if(state.menuData.menulist![i].type == "TRIPLE PPOB") {
+                                                context.pushNamed("select-operator-backoffice", extra: {
+                                                  "operatorName": state.menuData.menulist![i].name,
+                                                  "operatorId": state.menuData.menulist![i].operatorid
+                                                });
+                                              }
+                                              
+                                              if(state.menuData.menulist![i].type == "DOUBLE PRODUCT") {
+                                                context.pushNamed("select-operator", extra: {
+                                                  "operatorName": state.menuData.menulist![i].operatorid
+                                                });
+                                              }
+                                              
+                                              if(state.menuData.menulist![i].type == "LAINNYA") {
+                                                context.pushNamed("more");
+                                              }
+                                            }, 
+                                            menuColor: HexColor.fromHex(state.menuData.menulist![i].containercolor!)
+                                          )
+                                        ],
+                                      );
+                                    }
                                   }
-                                }
-                              ),
-                              const SizedBox(height: 8,)
-                            ],
+                                ),
+                                const SizedBox(height: 8,)
+                              ],
+                            ),
                           ),
                         ),
                       );

@@ -7,7 +7,6 @@ import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
-import "package:cached_network_image/cached_network_image.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
@@ -42,9 +41,9 @@ class _InputPhoneNumberScreenState extends State<InputPhoneNumberScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(
-            Iconsax.arrow_left,
+            Iconsax.arrow_circle_left,
             color: Colors.white,
-            size: 30,
+            size: 36,
           ),
           onPressed: () {
             context.goNamed("select-google-account");
@@ -75,7 +74,7 @@ class _InputPhoneNumberScreenState extends State<InputPhoneNumberScreen> {
               clipper: CurveClipper(),
               child: Container(
                 width: 100.w,
-                height: 40.h,
+                height: 200,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -89,12 +88,17 @@ class _InputPhoneNumberScreenState extends State<InputPhoneNumberScreen> {
                   )
                 ),
                 child: Center(
-                  child: SizedBox(
-                    width: 256,
-                    height: 256,
-                    child: CachedNetworkImage(
-                      imageUrl: "$baseUrlFile/setting-applikasi/image/${locator.get<SettingApplikasiCubit>().state.settingData.phoneImage!}",
-                      fit: BoxFit.cover,
+                  child: CircleAvatar(
+                    radius: 64,
+                    backgroundColor: Colors.white.withOpacity(0.4),
+                    child: CircleAvatar(
+                      radius: 58,
+                      backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!).withOpacity(0.6),
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!),                                
+                        child: const Icon(Iconsax.mobile5, color: Colors.white, size: 64,),
+                      ),
                     ),
                   ),
                 ),

@@ -4,7 +4,6 @@ import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
-import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:go_router/go_router.dart";
@@ -39,9 +38,9 @@ class _OtpAlreadyRegisteredScreenState extends State<OtpAlreadyRegisteredScreen>
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(
-            Iconsax.arrow_left,
+            Iconsax.arrow_circle_left,
             color: Colors.white,
-            size: 30,
+            size: 36,
           ),
           onPressed: () {
             context.pop();
@@ -64,7 +63,7 @@ class _OtpAlreadyRegisteredScreenState extends State<OtpAlreadyRegisteredScreen>
           ),
         ),
       ),
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: Column(
           children: [
@@ -72,7 +71,7 @@ class _OtpAlreadyRegisteredScreenState extends State<OtpAlreadyRegisteredScreen>
               clipper: CurveClipper(),
               child: Container(
                 width: 100.w,
-                height: 40.h,
+                height: 200,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -86,12 +85,17 @@ class _OtpAlreadyRegisteredScreenState extends State<OtpAlreadyRegisteredScreen>
                   )
                 ),
                 child: Center(
-                  child: SizedBox(
-                    width: 256,
-                    height: 256,
-                    child: CachedNetworkImage(
-                      imageUrl: "$baseUrlFile/setting-applikasi/image/${locator.get<SettingApplikasiCubit>().state.settingData.otpImage!}",
-                      fit: BoxFit.cover,
+                  child: CircleAvatar(
+                    radius: 64,
+                    backgroundColor: Colors.white.withOpacity(0.4),
+                    child: CircleAvatar(
+                      radius: 58,
+                      backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!).withOpacity(0.6),
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!),                                
+                        child: const Icon(Iconsax.message_notif5, color: Colors.white, size: 64,),
+                      ),
                     ),
                   ),
                 ),
