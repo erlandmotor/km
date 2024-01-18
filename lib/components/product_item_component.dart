@@ -53,8 +53,8 @@ class ProductItemComponent extends StatelessWidget {
                       HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor3!),
                     ],
                     stops: const [0, 0.4, 0.8],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
                   ),
                   borderRadius: const BorderRadius.only(topLeft: Radius.circular(18), bottomRight: Radius.circular(18))
                 ),
@@ -73,7 +73,6 @@ class ProductItemComponent extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 8,),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -85,16 +84,11 @@ class ProductItemComponent extends StatelessWidget {
                       height: 48,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(18),
-                        color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!)
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: CachedNetworkImage(
-                          imageUrl: imageUrl,
-                          width: 42,
-                          height: 42,
-                          fit: BoxFit.contain,
-                        ),
+                        color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: CachedNetworkImageProvider(imageUrl)
+                        )
                       ),
                     ),
                     const SizedBox(width: 12,),
@@ -109,24 +103,26 @@ class ProductItemComponent extends StatelessWidget {
                               children: [
                                 AutoSizeText(productName, 
                                 maxLines: 2,
-                                maxFontSize: 16,
+                                maxFontSize: 14,
+                                minFontSize: 2,
                                 style: GoogleFonts.openSans(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600
                                 ),),
                                 const SizedBox(height: 8,),
                                 AutoSizeText("$productCode - $description",
                                 maxLines: 3,
-                                maxFontSize: 12, 
+                                maxFontSize: 12,
+                                minFontSize: 2,
                                 style: GoogleFonts.openSans(
                                   fontSize: 12,
-                                  fontWeight: FontWeight.w400
+                                  fontWeight: FontWeight.w400,
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          const SizedBox(width: 8,),
+                          const SizedBox(width: 12,),
                           if(int.parse(price) > 0) AutoSizeText(FormatCurrency.convertToIdr(int.parse(price), 0), 
                           maxFontSize: 16,
                           maxLines: 1,

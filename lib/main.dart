@@ -111,7 +111,10 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           title: 'ADAMULTI MOBILE',
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.deepPurple, 
+              primary: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!)
+            ),
             useMaterial3: true,
           ),
           routerConfig: screenRouter(widget.jwtToken),

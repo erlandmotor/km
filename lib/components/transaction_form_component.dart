@@ -3,6 +3,7 @@ import "package:adamulti_mobile_clone_new/components/dashed_separator.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/regular_textfield_component.dart";
+import "package:adamulti_mobile_clone_new/components/scan_barcode_component.dart";
 import "package:adamulti_mobile_clone_new/components/select_contact_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
@@ -105,6 +106,13 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                         hint: "Conth: 123456",
                         controller: identityController,
                       ),
+                    ),
+                    const SizedBox(width: 6,),
+                    ScanBarcodeComponent(
+                      onScanResult: (String scanResult) {
+                        final parsedPhoneNumber = scanResult.replaceAll("tel:", "").replaceAll("+62", "0");
+                        identityController.text = parsedPhoneNumber;
+                      }
                     ),
                     const SizedBox(width: 6,),
                     SelectContactComponent(

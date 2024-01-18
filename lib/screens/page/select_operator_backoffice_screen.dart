@@ -145,8 +145,7 @@ class _SelectOperatorBackofficeScreenState extends State<SelectOperatorBackoffic
                           itemCount: state.dataList.length,
                           itemBuilder: (context, index) {
                             return CategoryItemComponent(
-                              categoryName: state.dataList[index].title!, 
-                              categoryColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
+                              categoryName: state.dataList[index].title!,
                               imageUrl: "$baseUrlAuth/files/setting-kategori/image/${state.dataList[index].image!}", 
                               title: state.dataList[index].title!,
                               surfaceColor: index % 2 == 0 ? HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.surfaceColor!) : Colors.white, 

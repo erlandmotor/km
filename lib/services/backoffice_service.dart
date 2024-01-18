@@ -6,6 +6,7 @@ import 'package:adamulti_mobile_clone_new/model/find_first_operator_setting_resp
 import 'package:adamulti_mobile_clone_new/model/kategori_with_menu_response.dart';
 import 'package:adamulti_mobile_clone_new/model/main_menu_mobile.dart';
 import 'package:adamulti_mobile_clone_new/model/popup_response.dart';
+import 'package:adamulti_mobile_clone_new/model/running_text_data.dart';
 import 'package:adamulti_mobile_clone_new/model/setting_applikasi_response.dart';
 import 'package:adamulti_mobile_clone_new/model/setting_kategori_response.dart';
 import 'package:adamulti_mobile_clone_new/services/secure_storage.dart';
@@ -155,5 +156,17 @@ class BackOfficeService {
     ));
 
     return SettingApplikasiResponse.fromJson(response.data);
+  }
+
+  Future<RunningTextData> findFirstRunningText(String kategori) async {
+    final token = await locator.get<SecureStorageService>().readSecureData("jwt");
+    final response = await _dio.get("$baseUrlAuth/running-text/first/$kategori", options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${token!}'
+      }
+    ));
+
+    return RunningTextData.fromJson(response.data);
   }
 }

@@ -6,7 +6,10 @@ sealed class FavoriteMenuState extends Equatable {
   final bool isLoading;
   final KategoriWithMenuResponse menuData;
   @override
-  List<Object> get props => [];
+  List<Object> get props => [
+    isLoading,
+    menuData
+  ];
 }
 
 final class FavoriteMenuInitial extends FavoriteMenuState {

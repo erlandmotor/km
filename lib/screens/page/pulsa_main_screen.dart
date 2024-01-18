@@ -47,8 +47,7 @@ class PulsaMainScreen extends StatelessWidget {
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
                             return CategoryItemComponent(
-                              categoryName: snapshot.data![index].title!, 
-                              categoryColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
+                              categoryName: snapshot.data![index].title!,
                               imageUrl: "$baseUrlAuth/files/setting-kategori/image/${snapshot.data![index].image!}", 
                               title: snapshot.data![index].title!,
                               surfaceColor: index % 2 == 0 ? HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.surfaceColor!) : Colors.white, 

@@ -29,106 +29,110 @@ class RewardListTab extends StatelessWidget {
           return ListView.separated(
             padding: const EdgeInsets.all(8),
             itemBuilder: (context, index) {
-              return Card(
-                color: Colors.white,
-                surfaceTintColor: Colors.blue,
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18)
-                  ),
-                  width: 100.w,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
+              return Column(
+                children: [
+                  Card(
+                    color: Colors.white,
+                    surfaceTintColor: Colors.blue,
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18)
+                      ),
+                      width: 100.w,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Container(
-                            alignment: Alignment.center,
-                            width: 48,
-                            height: 48,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(18),
-                              color: const Color(0xff5f27cd)
-                            ),
-                            child: const Icon(Iconsax.gift, color: Colors.white, size: 32,)
-                          ),
-                          const SizedBox(width: 18,),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text(snapshot.data!.data![index].hadiah!, style: GoogleFonts.openSans(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600
-                              ),),
-                              const SizedBox(height: 2,),
-                              Text("${snapshot.data!.data![index].jumlahpoin!.toString()} Poin", style: GoogleFonts.openSans(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400
+                              Container(
+                                alignment: Alignment.center,
+                                width: 48,
+                                height: 48,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(18),
+                                  color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!).withOpacity(0.2)
                                 ),
+                                child: Icon(
+                                  Iconsax.gift5, 
+                                  color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
+                                  size: 32,
+                                )
                               ),
+                              const SizedBox(width: 18,),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(snapshot.data!.data![index].hadiah!, style: GoogleFonts.openSans(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600
+                                  ),),
+                                  const SizedBox(height: 2,),
+                                  Text("${snapshot.data!.data![index].jumlahpoin!.toString()} Poin", style: GoogleFonts.openSans(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400
+                                    ),
+                                  ),
+                                ],
+                              )
                             ],
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              showLoadingSubmit(context, "Proses Menukar Reward...");
+                  
+                              locator.get<RewardService>().redeem(
+                                locator.get<UserAppidCubit>().state.userAppId.appId, 
+                                snapshot.data!.data![index].idreward.toString()
+                              ).then((value) {
+                                if(value.success!) {
+                                  context.pop();
+                                  context.pop();
+                  
+                                  locator.get<LocalNotificationService>().showLocalNotification(
+                                    title: "✅ Penukaran Reward", 
+                                    body: value.msg!
+                                  );
+                                } else {
+                                  locator.get<LocalNotificationService>().showLocalNotification(
+                                    title: "❌ Gagal : Penukaran Reward", 
+                                    body: value.msg!
+                                  );
+                                  context.pop();
+                                }
+                              }).catchError((e) {
+                                showDynamicSnackBar(
+                                  context, 
+                                  Iconsax.warning_2, 
+                                  "ERROR", 
+                                  e.toString(), 
+                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
+                                );
+                              });
+                            }, 
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.successColor!),
+                              surfaceTintColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.surfaceColor!)
+                            ),
+                            child: Text("Tukar", style: GoogleFonts.openSans(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white
+                            ),),
                           )
                         ],
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          showLoadingSubmit(context, "Proses Menukar Reward...");
-
-                          locator.get<RewardService>().redeem(
-                            locator.get<UserAppidCubit>().state.userAppId.appId, 
-                            snapshot.data!.data![index].idreward.toString()
-                          ).then((value) {
-                            if(value.success!) {
-                              context.pop();
-                              context.pop();
-
-                              locator.get<LocalNotificationService>().showLocalNotification(
-                                title: "Penukaran Reward", 
-                                body: value.msg!
-                              );
-                            } else {
-                              locator.get<LocalNotificationService>().showLocalNotification(
-                                title: "Penukaran Reward", 
-                                body: value.msg!
-                              );
-                              context.pop();
-                              showDynamicSnackBar(
-                                context, 
-                                Iconsax.warning_2, 
-                                "ERROR", 
-                                value.msg!, 
-                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
-                              );
-                            }
-                          }).catchError((e) {
-                            showDynamicSnackBar(
-                              context, 
-                              Iconsax.warning_2, 
-                              "ERROR", 
-                              e.toString(), 
-                              HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
-                            );
-                          });
-                        }, 
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange,
-                          surfaceTintColor: Colors.white
-                        ),
-                        child: Text("Tukar", style: GoogleFonts.openSans(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white
-                        ),),
-                      )
-                    ],
+                    ),
                   ),
-                ),
+                  if(index == snapshot.data!.data!.length - 1) const SizedBox(height: 48,)
+                ],
               );
             }, 
-            separatorBuilder: (context, index) => const SizedBox(height: 6,), 
+            separatorBuilder: (context, index) {
+              return const SizedBox(height: 6,);
+            }, 
             itemCount: snapshot.data!.data!.length
           );
         } else {

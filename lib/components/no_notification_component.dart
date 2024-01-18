@@ -14,7 +14,7 @@ class NoNotificationComponent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset("assets/no_notification.png"),
+          Image.asset("assets/no-notification.png"),
           const SizedBox(height: 10,),
           Text(label, style: GoogleFonts.openSans(
             fontSize: 22,

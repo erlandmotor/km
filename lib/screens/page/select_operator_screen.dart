@@ -146,8 +146,7 @@ class _PulsaSelectOperatorScreenState extends State<SelectOperatorScreen> {
                           itemCount: state.dataList.length,
                           itemBuilder: (context, index) {
                             return OperatorItemComponent(
-                              operatorName: widget.operatorName, 
-                              operatorColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
+                              operatorName: widget.operatorName,
                               imageUrl: state.dataList[index].imgurl!, 
                               title: state.dataList[index].namaoperator!,
                               surfaceColor: index % 2 == 0 ? HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.surfaceColor!) : Colors.white, 

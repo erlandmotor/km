@@ -79,7 +79,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                                   child: CircleAvatar(
                                     radius: 36,
                                     backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),                                
-                                    child: const Icon(Iconsax.lock_circle, color: Colors.white, size: 40,),
+                                    child: const Icon(Iconsax.lock5, color: Colors.white, size: 40,),
                                   ),
                                 ),
                               ),

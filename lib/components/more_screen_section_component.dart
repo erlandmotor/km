@@ -1,5 +1,7 @@
 import "package:adamulti_mobile_clone_new/components/layanan_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/kategori_with_menu_response.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
@@ -16,7 +18,7 @@ class MoreScreenSectionComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: Colors.white,
-      surfaceTintColor: Colors.white,
+      surfaceTintColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.surfaceColor!),
       child: Container(
         padding: const EdgeInsets.all(8),
         width: 100.w,
@@ -102,7 +104,8 @@ class MoreScreenSectionComponent extends StatelessWidget {
                       });
                     }
                   }, 
-                  menuColor: HexColor.fromHex(sectionData.menulist![i].containercolor!)
+                  menuColor: HexColor.fromHex(sectionData.menulist![i].containercolor!),
+                  containerBorderRadius: 18,
                 )
               ],
             )

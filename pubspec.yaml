@@ -83,6 +83,9 @@ dependencies:
   flutter_html: ^3.0.0-beta.2
   socket_io_client: ^2.0.3+1
   iconsax: ^0.0.8
+  url_launcher: ^6.2.3
+  flutter_barcode_scanner: ^2.0.0
+  marquee: ^2.2.3
 
 dev_dependencies:
   flutter_test:

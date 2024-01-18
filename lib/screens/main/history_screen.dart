@@ -379,25 +379,25 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   historyTopupSaldoCubit.resetState();
                                 }
                               },
-                              radius: 8,
-                              contentPadding: const EdgeInsets.all(12),
-                              buttonMargin: const EdgeInsets.symmetric(horizontal: 8),
+                              radius: 18,
+                              contentPadding: const EdgeInsets.all(8),
                               height: 46,
                               labelSpacing: 4,
+                              buttonMargin: const EdgeInsets.symmetric(horizontal: 8),
                               backgroundColor: HexColor.fromHex(state.settingData.secondaryColor!),
                               unselectedBackgroundColor: HexColor.fromHex(state.settingData.lightColor!),
                               borderColor: HexColor.fromHex(state.settingData.secondaryColor!),
                               borderWidth: 0,
-                              unselectedBorderColor: HexColor.fromHex(state.settingData.mainColor1!),
+                              unselectedBorderColor: HexColor.fromHex(state.settingData.secondaryColor!),
                               labelStyle: GoogleFonts.openSans(
-                                fontSize: 14,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
                               ),
                               unselectedLabelStyle: GoogleFonts.openSans(
-                                fontSize: 14,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.black
+                                color: HexColor.fromHex(state.settingData.textColor!)
                               ),
                               tabs: const [
                                 Tab(

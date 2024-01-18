@@ -16,6 +16,7 @@ import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/artikel_data.dart";
+import "package:adamulti_mobile_clone_new/model/running_text_data.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
 import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
 import "package:adamulti_mobile_clone_new/services/secure_storage.dart";
@@ -27,6 +28,8 @@ import "package:google_fonts/google_fonts.dart";
 import "package:iconsax/iconsax.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
+import "package:url_launcher/url_launcher.dart";
+import 'package:marquee/marquee.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -40,7 +43,7 @@ class HomeScreen extends StatelessWidget {
       onRefresh: () async {
         favoriteMenuCubit.updateStae(true, favoriteMenuCubit.state.menuData);
         await locator.get<BackOfficeService>().getSpecificMenuByKategori(1).then((value) {
-          favoriteMenuCubit.updateStae(true, value);
+          favoriteMenuCubit.updateStae(false, value);
         }).catchError((e) {
           showDynamicSnackBar(
             context, 
@@ -52,7 +55,7 @@ class HomeScreen extends StatelessWidget {
         });
 
 
-        await locator.get<BackOfficeService>().findFirstSettingApplikasi("MPN").then((value) {
+        locator.get<BackOfficeService>().findFirstSettingApplikasi("MPN").then((value) {
           locator.get<SettingApplikasiCubit>().updateState(value);
         });
 
@@ -104,7 +107,7 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
-                        width: 65.w,
+                        width: 60.w,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -151,70 +154,83 @@ class HomeScreen extends StatelessWidget {
                               
                             ),
                             const SizedBox(width: 12,),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Selamat Datang", style: GoogleFonts.openSans(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white
-                                ),),
-                                const SizedBox(height: 4,),
-                                BlocBuilder<AuthenticatedCubit, AuthenticatedState>(
-                                  bloc: locator.get<AuthenticatedCubit>(),
-                                  builder: (_, state) {
-                                    return Text(locator.get<AuthenticatedCubit>().state.authenticatedUser.nAMARESELLER != null ? 
-                                    locator.get<AuthenticatedCubit>().state.authenticatedUser.nAMARESELLER! 
-                                    : "", 
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.openSans(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white
-                                    ),);
-                                  }
-                                )
-                              ],
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  BlocBuilder<AuthenticatedCubit, AuthenticatedState>(
+                                    bloc: locator.get<AuthenticatedCubit>(),
+                                    builder: (_, state) {
+                                      return Text(state.authenticatedUser.idreseller != null ?
+                                      state.authenticatedUser.idreseller! : "", style: GoogleFonts.openSans(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white
+                                      ),);
+                                    }
+                                  ),
+                                  const SizedBox(height: 4,),
+                                  BlocBuilder<AuthenticatedCubit, AuthenticatedState>(
+                                    bloc: locator.get<AuthenticatedCubit>(),
+                                    builder: (_, state) {
+                                      return Text(state.authenticatedUser.nAMARESELLER != null ? 
+                                      state.authenticatedUser.nAMARESELLER!
+                                      : "", 
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.openSans(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white
+                                      ),);
+                                    }
+                                  )
+                                ],
+                              ),
                             )
                           ],
                         ),
                       ),
-                      const SizedBox(width: 4,),
+                      const SizedBox(width: 14,),
                       Expanded(
                         child: BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
                           bloc: locator.get<SettingApplikasiCubit>(),
                           builder: (_, stateSetting) {
-                            return Container(
-                              padding: const EdgeInsets.all(4),
-                              height: 36,
-                              width: 50.w,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: HexColor.fromHex(stateSetting.settingData.infoColor!).withOpacity(0.4)
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Icon(
-                                    Icons.support_agent_sharp,
-                                    color: HexColor.fromHex(stateSetting.settingData.lightColor!),
-                                    size: 24,
-                                  ),
-                                  const SizedBox(width: 4,),
-                                  AutoSizeText("CS 24 Jam",
-                                  maxLines: 1,
-                                  maxFontSize: 10,
-                                  minFontSize: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.openSans(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w500,
-                                    color: HexColor.fromHex(stateSetting.settingData.lightColor!)
-                                  ),)
-                                ],
+                            return GestureDetector(
+                              onTap: () {
+                                final Uri csWhatsApp = Uri.parse("https://wa.me/6287811195000");
+                                launchUrl(csWhatsApp);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(4),
+                                height: 36,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: HexColor.fromHex(stateSetting.settingData.infoColor!).withOpacity(0.4)
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(
+                                      Icons.support_agent_sharp,
+                                      color: HexColor.fromHex(stateSetting.settingData.lightColor!),
+                                      size: 24,
+                                    ),
+                                    const SizedBox(width: 4,),
+                                    AutoSizeText("CS 24 JAM",
+                                    maxLines: 1,
+                                    maxFontSize: 10,
+                                    minFontSize: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.openSans(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w500,
+                                      color: HexColor.fromHex(stateSetting.settingData.lightColor!)
+                                    ),)
+                                  ],
+                                ),
                               ),
                             );
                           },
@@ -281,14 +297,14 @@ class HomeScreen extends StatelessWidget {
                                 }
                               ),
                               SaldoActionComponent(
-                                icon: Iconsax.gift5, 
-                                label: "Reward", 
+                                icon: Iconsax.coin_15, 
+                                label: "Poin", 
                                 onTapAction: () {
                                   context.pushNamed("reward-main");
                                 }
                               ),
                               SaldoActionComponent(
-                                icon: Iconsax.coin_15, 
+                                icon: Iconsax.moneys5, 
                                 label: "Komisi", 
                                 onTapAction: () {
                                   context.pushNamed("komisi-main");
@@ -300,6 +316,47 @@ class HomeScreen extends StatelessWidget {
                       );
                     }
                   ),
+                ),
+                BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
+                  bloc: locator.get<SettingApplikasiCubit>(),
+                  builder: (_, stateSetting) {
+                    return Container(
+                      width: 100.w,
+                      height: 30,
+                      alignment: Alignment.center,
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: FutureBuilder<RunningTextData>(
+                          future: locator.get<BackOfficeService>().findFirstRunningText("MPN"),
+                          builder: (context, snapshot) {
+                            if(snapshot.connectionState == ConnectionState.done) {
+                              return Marquee(
+                                text: snapshot.data!.text!,
+                                style: GoogleFonts.openSans(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: HexColor.fromHex(stateSetting.settingData.infoColor!)
+                                ),
+                                scrollAxis: Axis.horizontal,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                blankSpace: 50.w,
+                                velocity: 25,
+                                pauseAfterRound: const Duration(seconds: 2),
+                                startPadding: 10.0,
+                                accelerationDuration: const Duration(seconds: 1),
+                                accelerationCurve: Curves.linear,
+                                decelerationDuration: const Duration(milliseconds: 500),
+                                decelerationCurve: Curves.easeOut,
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          },
+                        ),
+                      ),
+                    );
+                  }
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -316,8 +373,15 @@ class HomeScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 12, bottom: 12),
+                                  child: Text("Produk Favorit", style: GoogleFonts.openSans(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: HexColor.fromHex(settingState.settingData.textColor!)
+                                  ),),
+                                ),
                                 BlocBuilder<FavoriteMenuCubit, FavoriteMenuState>(
-                                  bloc: favoriteMenuCubit,
                                   builder: (_, state) {
                                     if(state.isLoading) {
                                       return const MainMenuShimmer(dataLength: 12);
@@ -325,13 +389,13 @@ class HomeScreen extends StatelessWidget {
                                       return Wrap(
                                         alignment: WrapAlignment.start,
                                         spacing: 4.w,
-                                        runSpacing: 12,
+                                        runSpacing: 1,
                                         children: [
                                           for(var i = 0; i < state.menuData.menulist!.length; i++) LayananComponent(
-                                            containerWidth: 40,
-                                            containerHeight: 40,
-                                            imageWidth: 28,
-                                            imageHeight: 28,
+                                            containerWidth: 36,
+                                            containerHeight: 36,
+                                            imageWidth: 24,
+                                            imageHeight: 24,
                                             imageUrl: "$baseUrlAuth/files/menu-mobile/image/${state.menuData.menulist![i].icon!}", 
                                             label: state.menuData.menulist![i].name!, 
                                             onTapAction: () {
@@ -382,7 +446,8 @@ class HomeScreen extends StatelessWidget {
                                                 context.pushNamed("more");
                                               }
                                             }, 
-                                            menuColor: HexColor.fromHex(state.menuData.menulist![i].containercolor!)
+                                            menuColor: HexColor.fromHex(state.menuData.menulist![i].containercolor!),
+                                            containerBorderRadius: 12,
                                           )
                                         ],
                                       );

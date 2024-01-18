@@ -1,6 +1,7 @@
 import "package:adamulti_mobile_clone_new/components/check_text_field_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/loading_button_component.dart";
+import "package:adamulti_mobile_clone_new/components/scan_barcode_component.dart";
 import "package:adamulti_mobile_clone_new/components/select_contact_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
@@ -38,6 +39,13 @@ class CheckIdentityContainer extends StatelessWidget {
                     hint: "Conth: 123456",
                     controller: identityController,
                   ),
+                ),
+                const SizedBox(width: 6,),
+                ScanBarcodeComponent(
+                  onScanResult: (String scanResult) {
+                    final parsedPhoneNumber = scanResult.replaceAll("tel:", "").replaceAll("+62", "0");
+                    identityController.text = parsedPhoneNumber;
+                  },
                 ),
                 const SizedBox(width: 6,),
                 SelectContactComponent(

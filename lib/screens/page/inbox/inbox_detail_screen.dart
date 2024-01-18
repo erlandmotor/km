@@ -9,7 +9,6 @@ import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:flutter_html/flutter_html.dart";
 import "package:iconsax/iconsax.dart";
-import "package:responsive_sizer/responsive_sizer.dart";
 
 class InboxDetailScreen extends StatelessWidget {
 
@@ -20,6 +19,7 @@ class InboxDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(
@@ -42,56 +42,45 @@ class InboxDetailScreen extends StatelessWidget {
         title: Text(
           "Detail Inbox",
           style: GoogleFonts.openSans(
-              fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
+              fontSize: 16, 
+              fontWeight: FontWeight.w600, 
+              color: Colors.white
+            ),
         ),
       ),
-      body: Stack(
-        children: [
-          Container(
-            width: 100.w,
-            height: 100.h,
-            decoration: BoxDecoration(
-              color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
-              image: const DecorationImage(
-                image: AssetImage("assets/pattern-samping.png"),
-                fit: BoxFit.fill
-              )
-            ),
-          ),
-          FutureBuilder<NotificationData>(
-            future: locator.get<NotificationService>().findUnique(notificationId),
-            builder: (context, snapshot) {
-              if(snapshot.connectionState == ConnectionState.done) {
-                return Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(snapshot.data!.title!, style: GoogleFonts.openSans(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600
-                        ),),
-                        const Divider(),
-                        const SizedBox(height: 18,),
-                        Html(
-                          data: """
+      body: FutureBuilder<NotificationData>(
+        future: locator.get<NotificationService>().findUnique(notificationId),
+        builder: (context, snapshot) {
+          if(snapshot.connectionState == ConnectionState.done) {
+            return Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(snapshot.data!.title!, style: GoogleFonts.openSans(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.textColor!)
+                    ),),
+                    const Divider(),
+                    const SizedBox(height: 18,),
+                    Html(
+                      data: """
                           ${snapshot.data!.content!}
-                          """
-                        )
-                      ],
-                    ),
-                  ),
-                );
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } 
-            },
-          ),
-        ],
+                      """
+                    )
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } 
+        },
       )
     );
   }

@@ -11,6 +11,7 @@ import 'package:adamulti_mobile_clone_new/function/custom_function.dart';
 import 'package:adamulti_mobile_clone_new/locator.dart';
 import 'package:adamulti_mobile_clone_new/services/local_notification_service.dart';
 import 'package:adamulti_mobile_clone_new/services/transaction_service.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
@@ -239,26 +240,37 @@ class _WebviewScreenState extends State<WebviewScreen> {
             barrierColor: Colors.black54,
             showArrow: true,
             child: Padding(
-              padding: const EdgeInsets.only(right: 6),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Iconsax.wallet_check,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Text(
-                    "Bayar",
-                    style: GoogleFonts.inter(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
-                ],
+              padding: const EdgeInsets.only(right: 8),
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                height: 36,
+                width: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!).withOpacity(0.4)
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Iconsax.empty_wallet_tick5,
+                      color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
+                      size: 28,
+                    ),
+                    const SizedBox(width: 6,),
+                    AutoSizeText("Bayar",
+                    maxLines: 1,
+                    maxFontSize: 14,
+                    minFontSize: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.openSans(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!)
+                    ),)
+                  ],
+                ),
               ),
             )
           )

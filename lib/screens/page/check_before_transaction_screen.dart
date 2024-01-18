@@ -3,6 +3,7 @@ import "package:adamulti_mobile_clone_new/components/container_gradient_backgrou
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/loading_button_component.dart";
+import "package:adamulti_mobile_clone_new/components/scan_barcode_component.dart";
 import "package:adamulti_mobile_clone_new/components/select_contact_component.dart";
 import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
 import "package:adamulti_mobile_clone_new/components/transaction_check_form_component.dart";
@@ -48,6 +49,7 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
     final checkIdentityCubit = context.read<CheckIdentityCubit>();
     
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: ContainerGradientBackground(
           child: Column(
@@ -76,6 +78,13 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                             hint: "Conth: 123456",
                             controller: identityController,
                           ),),
+                          const SizedBox(width: 6,),
+                          ScanBarcodeComponent(
+                            onScanResult: (String scanResult) {
+                              final parsedPhoneNumber = scanResult.replaceAll("tel:", "").replaceAll("+62", "0");
+                              identityController.text = parsedPhoneNumber;
+                            }
+                          ),
                           const SizedBox(width: 6,),
                           SelectContactComponent(
                             onTapAction: (String contact) {
@@ -199,6 +208,11 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                                             );
                                           }
                                         );
+                                      } else {
+                                        locator.get<LocalNotificationService>().showLocalNotification(
+                                          title: "❌ Gagal : Produk ${value.produk!}", 
+                                          body: value.msg!
+                                        );
                                       }
 
                                     }).catchError((e) {
@@ -217,32 +231,52 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
                                 height: 50, 
                                 isLoading: state.isLoading
                               ),
-                              const SizedBox(height: 8,),
-                              if(state.result.success != null && state.result.success! == false) Container(
-                                width: 100.w,
+                              const SizedBox(height: 18,),
+                              Container(
+                                padding: const EdgeInsets.all(18),
+                                width: 96.w,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!),
+                                  borderRadius: BorderRadius.circular(18),
+                                  color: kKeteranganContainerColor
                                 ),
-                                padding: const EdgeInsets.all(8),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Icon(Iconsax.warning_2, color: Colors.white,
-                                    size: 32,),
-                                    const SizedBox(width: 8,),
-                                    Flexible(
-                                      child: Text(
-                                        state.result.msg!, style: GoogleFonts.openSans(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white
-                                        ),
-                                      ),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        const Icon(Iconsax.info_circle, color: Colors.black,),
+                                        const SizedBox(width: 8,),
+                                        Text("LANGKAH TRANSAKSI", style: GoogleFonts.openSans(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600
+                                        ),),
+                                      ],
                                     ),
+                                    const SizedBox(height: 8,),
+                                    Text("1. Masukkan ID Pelanggan.", style: GoogleFonts.openSans(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500
+                                    ),),
+                                    const SizedBox(height: 4,),
+                                    Text("2. Lalu Klik Tombol Proses.", style: GoogleFonts.openSans(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500
+                                    ),),
+                                    const SizedBox(height: 4,),
+                                    Text("3. Setelah Tombol Proses di Klik, Maka akan Muncul Loading pada Tombol Tersebut.", style: GoogleFonts.openSans(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500
+                                    ),),
+                                    const SizedBox(height: 4,),
+                                    Text("4. Ketika Loading Sudah Selesai, Jika Proses Cek ID Pelanggan Sukses, Maka akan Muncul Form Transaksi dan Jika Gagal, Maka akan Muncul Notifikasi Proses Cek ID Pelanggan Gagal.", style: GoogleFonts.openSans(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500
+                                    ),),
+                                    const SizedBox(height: 4,),
                                   ],
                                 ),
-                              )
+                              ),
                             ],
                           );
                         }  

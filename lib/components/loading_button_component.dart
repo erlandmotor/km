@@ -25,7 +25,7 @@ class LoadingButtonComponent extends StatelessWidget {
         },
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8)
+            borderRadius: BorderRadius.circular(18)
           ),
           backgroundColor: buttonColor,
         ),
@@ -38,8 +38,8 @@ class LoadingButtonComponent extends StatelessWidget {
             ),
           ),
         ) : Text(label, style: GoogleFonts.openSans(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
           color: Colors.white
         ),),
       ),

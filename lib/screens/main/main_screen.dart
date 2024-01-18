@@ -105,7 +105,7 @@ class _MainScreenState extends State<MainScreen> {
       );
       
       locator.get<LocalNotificationService>().showLocalNotification(
-        title: "PENGUMUMAN", 
+        title: "📢 PENGUMUMAN", 
         body: data
       );
     });

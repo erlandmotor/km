@@ -8,7 +8,7 @@ class LayananComponent extends StatelessWidget {
 
   const LayananComponent({ super.key, required this.imageUrl, required this.label, 
   required this.onTapAction, required this.menuColor, required this.containerWidth, required this.containerHeight,
-  required this.imageHeight, required this.imageWidth });
+  required this.imageHeight, required this.imageWidth, required this.containerBorderRadius });
 
   final String imageUrl;
   final String label;
@@ -18,6 +18,7 @@ class LayananComponent extends StatelessWidget {
   final double containerHeight;
   final double imageWidth;
   final double imageHeight;
+  final double containerBorderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class LayananComponent extends StatelessWidget {
               width: containerWidth,
               height: containerHeight,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(18),
+                borderRadius: BorderRadius.circular(containerBorderRadius),
                 color: menuColor,
               ),
               child: CachedNetworkImage(
