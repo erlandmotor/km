@@ -34,7 +34,7 @@ Future<void> main() async {
     return true;
   };
 
-  final settingApplikasiData = await locator.get<BackOfficeService>().findFirstSettingApplikasi("MPN");
+  final settingApplikasiData = await locator.get<BackOfficeService>().findFirstSettingApplikasi("ADAMULTI");
 
   locator.get<SettingApplikasiCubit>().updateState(settingApplikasiData);
 

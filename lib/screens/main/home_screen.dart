@@ -199,7 +199,7 @@ class HomeScreen extends StatelessWidget {
                           builder: (_, stateSetting) {
                             return GestureDetector(
                               onTap: () {
-                                final Uri csWhatsApp = Uri.parse("https://wa.me/6287811195000");
+                                final Uri csWhatsApp = Uri.parse("https://wa.me/6287865811150/?text=${Uri.parse("Halo")}");
                                 launchUrl(csWhatsApp);
                               },
                               child: Container(
@@ -317,47 +317,47 @@ class HomeScreen extends StatelessWidget {
                     }
                   ),
                 ),
-                BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
-                  bloc: locator.get<SettingApplikasiCubit>(),
-                  builder: (_, stateSetting) {
-                    return Container(
-                      width: 100.w,
-                      height: 30,
-                      alignment: Alignment.center,
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: FutureBuilder<RunningTextData>(
-                          future: locator.get<BackOfficeService>().findFirstRunningText("MPN"),
-                          builder: (context, snapshot) {
-                            if(snapshot.connectionState == ConnectionState.done) {
-                              return Marquee(
-                                text: snapshot.data!.text!,
-                                style: GoogleFonts.openSans(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: HexColor.fromHex(stateSetting.settingData.infoColor!)
-                                ),
-                                scrollAxis: Axis.horizontal,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                blankSpace: 50.w,
-                                velocity: 25,
-                                pauseAfterRound: const Duration(seconds: 2),
-                                startPadding: 10.0,
-                                accelerationDuration: const Duration(seconds: 1),
-                                accelerationCurve: Curves.linear,
-                                decelerationDuration: const Duration(milliseconds: 500),
-                                decelerationCurve: Curves.easeOut,
-                              );
-                            } else {
-                              return const SizedBox();
-                            }
-                          },
-                        ),
-                      ),
-                    );
-                  }
-                ),
+                // BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
+                //   bloc: locator.get<SettingApplikasiCubit>(),
+                //   builder: (_, stateSetting) {
+                //     return Container(
+                //       width: 100.w,
+                //       height: 30,
+                //       alignment: Alignment.center,
+                //       color: Colors.white,
+                //       child: Padding(
+                //         padding: const EdgeInsets.only(top: 4),
+                //         child: FutureBuilder<RunningTextData>(
+                //           future: locator.get<BackOfficeService>().findFirstRunningText("MPN"),
+                //           builder: (context, snapshot) {
+                //             if(snapshot.connectionState == ConnectionState.done) {
+                //               return Marquee(
+                //                 text: snapshot.data!.text!,
+                //                 style: GoogleFonts.openSans(
+                //                   fontSize: 14,
+                //                   fontWeight: FontWeight.w600,
+                //                   color: HexColor.fromHex(stateSetting.settingData.infoColor!)
+                //                 ),
+                //                 scrollAxis: Axis.horizontal,
+                //                 crossAxisAlignment: CrossAxisAlignment.start,
+                //                 blankSpace: 50.w,
+                //                 velocity: 25,
+                //                 pauseAfterRound: const Duration(seconds: 2),
+                //                 startPadding: 10.0,
+                //                 accelerationDuration: const Duration(seconds: 1),
+                //                 accelerationCurve: Curves.linear,
+                //                 decelerationDuration: const Duration(milliseconds: 500),
+                //                 decelerationCurve: Curves.easeOut,
+                //               );
+                //             } else {
+                //               return const SizedBox();
+                //             }
+                //           },
+                //         ),
+                //       ),
+                //     );
+                //   }
+                // ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
@@ -368,95 +368,91 @@ class HomeScreen extends StatelessWidget {
                         color: Colors.white,
                         child: SizedBox(
                           width: 100.w,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 18),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 12, bottom: 12),
-                                  child: Text("Produk Favorit", style: GoogleFonts.openSans(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: HexColor.fromHex(settingState.settingData.textColor!)
-                                  ),),
-                                ),
-                                BlocBuilder<FavoriteMenuCubit, FavoriteMenuState>(
-                                  builder: (_, state) {
-                                    if(state.isLoading) {
-                                      return const MainMenuShimmer(dataLength: 12);
-                                    } else {
-                                      return Wrap(
-                                        alignment: WrapAlignment.start,
-                                        spacing: 4.w,
-                                        runSpacing: 1,
-                                        children: [
-                                          for(var i = 0; i < state.menuData.menulist!.length; i++) LayananComponent(
-                                            containerWidth: 36,
-                                            containerHeight: 36,
-                                            imageWidth: 24,
-                                            imageHeight: 24,
-                                            imageUrl: "$baseUrlAuth/files/menu-mobile/image/${state.menuData.menulist![i].icon!}", 
-                                            label: state.menuData.menulist![i].name!, 
-                                            onTapAction: () {
-                                              if(state.menuData.menulist![i].type! == "PULSA") {
-                                                context.pushNamed("pulsa-and-data");
-                                              }
-                                              
-                                              if(state.menuData.menulist![i].type! == "WEBVIEW") {
-                                                context.pushNamed("web-view", extra: {
-                                                  "title": state.menuData.menulist![i].name,
-                                                  "operatorId": state.menuData.menulist![i].operatorid,
-                                                  "url": state.menuData.menulist![i].url
-                                                });
-                                              }
-                                              
-                                              if(state.menuData.menulist![i].type == "PLN") {
-                                                context.pushNamed("pln-main");
-                                              }
-                                              
-                                              if(state.menuData.menulist![i].type == "SINGLE PPOB") {
-                                                context.pushNamed("check-before-transaction", extra: {
-                                                  "operatorName": state.menuData.menulist![i].name,
-                                                  "kodeproduk": state.menuData.menulist![i].operatorid
-                                                });
-                                              }
-                                              
-                                              if(state.menuData.menulist![i].type == "DOUBLE PPOB") {
-                                                context.pushNamed("select-product-ppob", extra: {
-                                                  "operatorName": state.menuData.menulist![i].name,
-                                                  "operatorId": state.menuData.menulist![i].operatorid
-                                                });
-                                              }
-                                              
-                                              if(state.menuData.menulist![i].type == "TRIPLE PPOB") {
-                                                context.pushNamed("select-operator-backoffice", extra: {
-                                                  "operatorName": state.menuData.menulist![i].name,
-                                                  "operatorId": state.menuData.menulist![i].operatorid
-                                                });
-                                              }
-                                              
-                                              if(state.menuData.menulist![i].type == "DOUBLE PRODUCT") {
-                                                context.pushNamed("select-operator", extra: {
-                                                  "operatorName": state.menuData.menulist![i].operatorid
-                                                });
-                                              }
-                                              
-                                              if(state.menuData.menulist![i].type == "LAINNYA") {
-                                                context.pushNamed("more");
-                                              }
-                                            }, 
-                                            menuColor: HexColor.fromHex(state.menuData.menulist![i].containercolor!),
-                                            containerBorderRadius: 12,
-                                          )
-                                        ],
-                                      );
-                                    }
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 12, bottom: 12, top: 8),
+                                child: Text("Produk Favorit", style: GoogleFonts.openSans(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: HexColor.fromHex(settingState.settingData.textColor!)
+                                ),),
+                              ),
+                              BlocBuilder<FavoriteMenuCubit, FavoriteMenuState>(
+                                builder: (_, state) {
+                                  if(state.isLoading) {
+                                    return const MainMenuShimmer(dataLength: 12);
+                                  } else {
+                                    return Wrap(
+                                      alignment: WrapAlignment.start,
+                                      spacing: 1,
+                                      children: [
+                                        for(var i = 0; i < state.menuData.menulist!.length; i++) LayananComponent(
+                                          containerWidth: 48,
+                                          containerHeight: 48,
+                                          imageWidth: 32,
+                                          imageHeight: 32,
+                                          imageUrl: "$baseUrlAuth/files/menu-mobile/image/${state.menuData.menulist![i].icon!}", 
+                                          label: state.menuData.menulist![i].name!, 
+                                          onTapAction: () {
+                                            if(state.menuData.menulist![i].type! == "PULSA") {
+                                              context.pushNamed("pulsa-and-data");
+                                            }
+                                            
+                                            if(state.menuData.menulist![i].type! == "WEBVIEW") {
+                                              context.pushNamed("web-view", extra: {
+                                                "title": state.menuData.menulist![i].name,
+                                                "operatorId": state.menuData.menulist![i].operatorid,
+                                                "url": state.menuData.menulist![i].url
+                                              });
+                                            }
+                                            
+                                            if(state.menuData.menulist![i].type == "PLN") {
+                                              context.pushNamed("pln-main");
+                                            }
+                                            
+                                            if(state.menuData.menulist![i].type == "SINGLE PPOB") {
+                                              context.pushNamed("check-before-transaction", extra: {
+                                                "operatorName": state.menuData.menulist![i].name,
+                                                "kodeproduk": state.menuData.menulist![i].operatorid
+                                              });
+                                            }
+                                            
+                                            if(state.menuData.menulist![i].type == "DOUBLE PPOB") {
+                                              context.pushNamed("select-product-ppob", extra: {
+                                                "operatorName": state.menuData.menulist![i].name,
+                                                "operatorId": state.menuData.menulist![i].operatorid
+                                              });
+                                            }
+                                            
+                                            if(state.menuData.menulist![i].type == "TRIPLE PPOB") {
+                                              context.pushNamed("select-operator-backoffice", extra: {
+                                                "operatorName": state.menuData.menulist![i].name,
+                                                "operatorId": state.menuData.menulist![i].operatorid
+                                              });
+                                            }
+                                            
+                                            if(state.menuData.menulist![i].type == "DOUBLE PRODUCT") {
+                                              context.pushNamed("select-operator", extra: {
+                                                "operatorName": state.menuData.menulist![i].operatorid
+                                              });
+                                            }
+                                            
+                                            if(state.menuData.menulist![i].type == "LAINNYA") {
+                                              context.pushNamed("more");
+                                            }
+                                          }, 
+                                          menuColor: HexColor.fromHex(state.menuData.menulist![i].containercolor!),
+                                          containerBorderRadius: 12,
+                                        )
+                                      ],
+                                    );
                                   }
-                                ),
-                                const SizedBox(height: 8,)
-                              ],
-                            ),
+                                }
+                              ),
+                              const SizedBox(height: 8,)
+                            ],
                           ),
                         ),
                       );

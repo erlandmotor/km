@@ -91,7 +91,7 @@ class _SelectGoogleAccountScreenState extends State<SelectGoogleAccountScreen> {
                       color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.textColor!)
                   ),),
                   const SizedBox(height: 4,),
-                  Text("Mitra Pulsa Nusantara", 
+                  Text("ADAMULTI", 
                     textAlign: TextAlign.center,
                     style: GoogleFonts.openSans(
                       fontSize: 16,

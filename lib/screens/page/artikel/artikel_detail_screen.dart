@@ -21,92 +21,88 @@ class ArtikelDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          FutureBuilder<ArtikelData>(
-            future: locator.get<BackOfficeService>().findUniqueArtikel(artikelId),
-            builder: (context, snapshot) {
-              if(snapshot.connectionState == ConnectionState.done) {
-                return CustomScrollView(
-                  slivers: [
-                    SliverAppBar(
-                      leading: IconButton(
-                        icon: const Icon(
-                          Iconsax.arrow_circle_left,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                        onPressed: () {
-                          context.pop();
-                        },
-                      ),
-                      backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
-                      systemOverlayStyle: SystemUiOverlayStyle(
-                      statusBarColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
-                      systemNavigationBarColor: Colors.white,
-                      statusBarBrightness: Brightness.dark,
-                      statusBarIconBrightness: Brightness.light,
-                      systemNavigationBarIconBrightness: Brightness.light,
-                      systemNavigationBarDividerColor: Colors.white),
-                      pinned: true,
-                      expandedHeight: 160,
-                      collapsedHeight: 60,
-                      flexibleSpace: FlexibleSpaceBar(
-                        centerTitle: true,
-                        titlePadding: const EdgeInsets.only(bottom: 22, left: 18),
-                        title: Row(
-                          children: [
-                            const SizedBox(width: 38,),
-                            Expanded(
-                              child: AutoSizeText(
-                                snapshot.data!.title!, 
-                                maxFontSize: 16,
-                                maxLines: 1,
-                                style: GoogleFonts.openSans(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600
-                              ),),
-                            ),
-                          ],
-                        ),
-                        background: CachedNetworkImage(
-                          imageUrl: "$baseUrlAuth/files/berita/image/${snapshot.data!.coverImage!}",
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+      body: FutureBuilder<ArtikelData>(
+        future: locator.get<BackOfficeService>().findUniqueArtikel(artikelId),
+        builder: (context, snapshot) {
+          if(snapshot.connectionState == ConnectionState.done) {
+            return CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  leading: IconButton(
+                    icon: const Icon(
+                      Iconsax.arrow_circle_left,
+                      color: Colors.white,
+                      size: 30,
                     ),
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(18.0),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Html(
-                                    data: """
-                                    ${snapshot.data!.content!}
-                                    """
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        }
-                      )
-                    )
-                  ],
-                );
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } 
-            },
-          ),
-        ],
+                    onPressed: () {
+                      context.pop();
+                    },
+                  ),
+                  backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
+                  systemOverlayStyle: SystemUiOverlayStyle(
+                  statusBarColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
+                  systemNavigationBarColor: Colors.white,
+                  statusBarBrightness: Brightness.dark,
+                  statusBarIconBrightness: Brightness.light,
+                  systemNavigationBarIconBrightness: Brightness.light,
+                  systemNavigationBarDividerColor: Colors.white),
+                  pinned: true,
+                  expandedHeight: 160,
+                  collapsedHeight: 60,
+                  flexibleSpace: FlexibleSpaceBar(
+                    centerTitle: true,
+                    titlePadding: const EdgeInsets.only(bottom: 22, left: 18),
+                    title: Row(
+                      children: [
+                        const SizedBox(width: 38,),
+                        Expanded(
+                          child: AutoSizeText(
+                            snapshot.data!.title!, 
+                            maxFontSize: 16,
+                            maxLines: 1,
+                            style: GoogleFonts.openSans(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600
+                          ),),
+                        ),
+                      ],
+                    ),
+                    background: CachedNetworkImage(
+                      imageUrl: "$baseUrlAuth/files/berita/image/${snapshot.data!.coverImage!}",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Html(
+                                data: """
+                                ${snapshot.data!.content!}
+                                """
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                  )
+                )
+              ],
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } 
+        },
       )
     );
   }

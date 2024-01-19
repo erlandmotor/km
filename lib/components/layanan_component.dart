@@ -2,7 +2,6 @@ import "package:auto_size_text/auto_size_text.dart";
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:responsive_sizer/responsive_sizer.dart";
 
 class LayananComponent extends StatelessWidget {
 
@@ -24,7 +23,7 @@ class LayananComponent extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(
-      width: 20.w,
+      width: 64,
       padding: const EdgeInsets.all(6),
       child: GestureDetector(
         onTap: () {

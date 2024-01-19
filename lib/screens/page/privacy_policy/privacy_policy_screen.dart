@@ -25,7 +25,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
     webviewController
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
-      ..loadRequest(Uri.parse("https://mitrapulsanusantara.com/privacy"));
+      ..loadRequest(Uri.parse("https://www.adamulti.com/privacy"));
     super.initState();
   }
 

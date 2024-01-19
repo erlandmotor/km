@@ -137,7 +137,7 @@ class BackOfficeService {
   Future<List<CarouselData>> getCarouselImage() async {
     final token = await locator.get<SecureStorageService>().readSecureData("jwt");
 
-    final response = await _dio.get("$baseUrlAuth/carousel/many-kategori/MPN", options: Options(
+    final response = await _dio.get("$baseUrlAuth/carousel/many-kategori/ADAMULTI", options: Options(
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${token!}'

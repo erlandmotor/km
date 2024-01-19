@@ -147,8 +147,8 @@ class _MainScreenState extends State<MainScreen> {
               height: 60,
               labelTextStyle: MaterialStatePropertyAll(
                 GoogleFonts.openSans(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600,
                 )
               ),
               labelBehavior: NavigationDestinationLabelBehavior.alwaysShow
@@ -159,7 +159,7 @@ class _MainScreenState extends State<MainScreen> {
                 builder: (_, state) {
                   return NavigationBar(
                     indicatorColor: HexColor.fromHex(stateSetting.settingData.indicatorColor!),
-                    labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+                    labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
                     surfaceTintColor: HexColor.fromHex(stateSetting.settingData.surfaceColor!),
                     elevation: 1,
                     selectedIndex: state.navigationIndex,
