@@ -27,7 +27,7 @@ class AccountMenuSectionComponent extends StatelessWidget {
             ),)
           ),
           const SizedBox(width: 6,),
-          const Icon(Iconsax.arrow_right3, color: Colors.black, size: 18,)
+          const Icon(Iconsax.arrow_right_3, color: Colors.black, size: 18,)
         ],
       ),
     );

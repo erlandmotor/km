@@ -2,18 +2,19 @@ import 'package:adamulti_mobile_clone_new/constant/constant.dart';
 import 'package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart';
 import 'package:adamulti_mobile_clone_new/locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 
-class RegionTextFieldComponent extends StatelessWidget {
+class TransactionPinTextFieldComponent extends StatelessWidget {
 
-  const RegionTextFieldComponent({ Key? key, required this.label, required this.hint, required this.controller,
-  required this.onTapAction }) : super(key: key);
+  const TransactionPinTextFieldComponent({ Key? key, required this.label, required this.hint, required this.controller,
+  required this.validationMessage }) : super(key: key);
 
   final TextEditingController controller;
   final String label;
   final String hint;
-  final Function onTapAction;
+  final String validationMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +28,21 @@ class RegionTextFieldComponent extends StatelessWidget {
         ),),
         const SizedBox(height: 6,),
         TextFormField(
-          onTap: () {
-            onTapAction();
-          },
-          readOnly: true,
           style: GoogleFonts.openSans(
             fontSize: 14,
             fontWeight: FontWeight.w500
           ),
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly
+          ],
+          keyboardType: TextInputType.number,
+          obscureText: true,
           controller: controller,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!))
+            ),
             contentPadding: const EdgeInsets.all(8),
             filled: true,
             fillColor: Colors.white,
@@ -53,17 +58,24 @@ class RegionTextFieldComponent extends StatelessWidget {
                 width: 0.5
               )
             ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!))
-            ),
-            suffixIcon: const Icon(Iconsax.arrow_down_1, size: 18,),
+            prefixIcon: const Icon(Iconsax.key),
             hintText: hint,
             hintStyle: GoogleFonts.openSans(
-              fontSize: 12,
+              fontSize: 14,
               fontWeight: FontWeight.w400
             ),
             floatingLabelBehavior: FloatingLabelBehavior.never,
+            errorStyle: const TextStyle(
+              fontSize: 14,
+            ),
           ),
+          validator: (value) {
+            if(value!.isEmpty) {
+              return validationMessage;
+            } else {
+              return null;
+            }
+          },
         ),
       ],
     );

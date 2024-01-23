@@ -169,4 +169,16 @@ class BackOfficeService {
 
     return RunningTextData.fromJson(response.data);
   }
+
+  Future<List<RunningTextData>> findManyRunningText(String kategori) async {
+    final token = await locator.get<SecureStorageService>().readSecureData("jwt");
+    final response = await _dio.get("$baseUrlAuth/running-text/many/$kategori", options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${token!}'
+      }
+    ));
+
+    return (response.data as List).map((e) => RunningTextData.fromJson(e)).toList();
+  }
 }

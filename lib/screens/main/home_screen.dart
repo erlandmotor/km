@@ -11,12 +11,12 @@ import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/favorite_menu_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/getme_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/google_account_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/running_text_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/artikel_data.dart";
-import "package:adamulti_mobile_clone_new/model/running_text_data.dart";
 import "package:adamulti_mobile_clone_new/services/auth_service.dart";
 import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
 import "package:adamulti_mobile_clone_new/services/secure_storage.dart";
@@ -55,7 +55,7 @@ class HomeScreen extends StatelessWidget {
         });
 
 
-        locator.get<BackOfficeService>().findFirstSettingApplikasi("MPN").then((value) {
+        locator.get<BackOfficeService>().findFirstSettingApplikasi("ADAMULTI").then((value) {
           locator.get<SettingApplikasiCubit>().updateState(value);
         });
 
@@ -81,7 +81,7 @@ class HomeScreen extends StatelessWidget {
                   clipper: CurveClipper(),
                   child: Container(
                     width: 100.w,
-                    height: 250,
+                    height: 240,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
@@ -199,10 +199,11 @@ class HomeScreen extends StatelessWidget {
                           builder: (_, stateSetting) {
                             return GestureDetector(
                               onTap: () {
-                                final Uri csWhatsApp = Uri.parse("https://wa.me/6287865811150/?text=${Uri.parse("Halo")}");
+                                final Uri csWhatsApp = Uri.parse("whatsapp://send/?phone=6287865811150&text=${Uri.parse("Halo ")}");
                                 launchUrl(csWhatsApp);
                               },
                               child: Container(
+                                alignment: Alignment.center,
                                 padding: const EdgeInsets.all(4),
                                 height: 36,
                                 decoration: BoxDecoration(
@@ -211,7 +212,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
                                       Icons.support_agent_sharp,
@@ -239,7 +240,7 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 16,),
+                const SizedBox(height: 8,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -290,10 +291,10 @@ class HomeScreen extends StatelessWidget {
                                 }
                               ),
                               SaldoActionComponent(
-                                icon: Iconsax.card_send5, 
-                                label: "Transfer", 
+                                icon: Iconsax.profile_2user5, 
+                                label: "Daftar Agen", 
                                 onTapAction: () {
-                                  context.pushNamed("transfer-main");
+                                  context.pushNamed("daftar-agen");
                                 }
                               ),
                               SaldoActionComponent(
@@ -317,82 +318,77 @@ class HomeScreen extends StatelessWidget {
                     }
                   ),
                 ),
-                // BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
-                //   bloc: locator.get<SettingApplikasiCubit>(),
-                //   builder: (_, stateSetting) {
-                //     return Container(
-                //       width: 100.w,
-                //       height: 30,
-                //       alignment: Alignment.center,
-                //       color: Colors.white,
-                //       child: Padding(
-                //         padding: const EdgeInsets.only(top: 4),
-                //         child: FutureBuilder<RunningTextData>(
-                //           future: locator.get<BackOfficeService>().findFirstRunningText("MPN"),
-                //           builder: (context, snapshot) {
-                //             if(snapshot.connectionState == ConnectionState.done) {
-                //               return Marquee(
-                //                 text: snapshot.data!.text!,
-                //                 style: GoogleFonts.openSans(
-                //                   fontSize: 14,
-                //                   fontWeight: FontWeight.w600,
-                //                   color: HexColor.fromHex(stateSetting.settingData.infoColor!)
-                //                 ),
-                //                 scrollAxis: Axis.horizontal,
-                //                 crossAxisAlignment: CrossAxisAlignment.start,
-                //                 blankSpace: 50.w,
-                //                 velocity: 25,
-                //                 pauseAfterRound: const Duration(seconds: 2),
-                //                 startPadding: 10.0,
-                //                 accelerationDuration: const Duration(seconds: 1),
-                //                 accelerationCurve: Curves.linear,
-                //                 decelerationDuration: const Duration(milliseconds: 500),
-                //                 decelerationCurve: Curves.easeOut,
-                //               );
-                //             } else {
-                //               return const SizedBox();
-                //             }
-                //           },
-                //         ),
-                //       ),
-                //     );
-                //   }
-                // ),
+                BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
+                  bloc: locator.get<SettingApplikasiCubit>(),
+                  builder: (_, stateSetting) {
+                    return Container(
+                      width: 100.w,
+                      height: 20,
+                      alignment: Alignment.center,
+                      color: HexColor.fromHex(stateSetting.settingData.indicatorColor!),
+                      child: BlocBuilder<RunningTextCubit, RunningTextState>(
+                        builder: (_, state) {
+                          if(state.dataList.isNotEmpty) {
+                            return Marquee(
+                              text: state.dataList[state.currentIndex].text!,
+                              style: GoogleFonts.openSans(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: HexColor.fromHex(stateSetting.settingData.mainColor1!)
+                              ),
+                              scrollAxis: Axis.horizontal,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              blankSpace: 100.w,
+                              velocity: 50,
+                              startPadding: 100.w,
+                              accelerationDuration: const Duration(seconds: 1),
+                              accelerationCurve: Curves.linear,
+                              decelerationDuration: const Duration(milliseconds: 500),
+                              decelerationCurve: Curves.easeOut,
+                              onDone: () {
+                              },
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        } 
+                      ),
+                    );
+                  }
+                ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8),
                   child: BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
                     bloc: locator.get<SettingApplikasiCubit>(),
                     builder: (_, settingState) {
                       return Card(
                         surfaceTintColor: HexColor.fromHex(settingState.settingData.surfaceColor!),
                         color: Colors.white,
-                        child: SizedBox(
+                        child: Container(
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.symmetric(vertical: 8),
                           width: 100.w,
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 12, bottom: 12, top: 8),
-                                child: Text("Produk Favorit", style: GoogleFonts.openSans(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: HexColor.fromHex(settingState.settingData.textColor!)
-                                ),),
-                              ),
+                              const SizedBox(height: 6,),
                               BlocBuilder<FavoriteMenuCubit, FavoriteMenuState>(
                                 builder: (_, state) {
                                   if(state.isLoading) {
-                                    return const MainMenuShimmer(dataLength: 12);
+                                    return const MainMenuShimmer(dataLength: 10);
                                   } else {
                                     return Wrap(
                                       alignment: WrapAlignment.start,
-                                      spacing: 1,
+                                      spacing: 2.w,
+                                      runSpacing: 12,
                                       children: [
                                         for(var i = 0; i < state.menuData.menulist!.length; i++) LayananComponent(
-                                          containerWidth: 48,
-                                          containerHeight: 48,
-                                          imageWidth: 32,
-                                          imageHeight: 32,
+                                          mainContainerWidth: 16.w,
+                                          containerWidth: 14.w,
+                                          containerHeight: 14.w,
+                                          imageWidth: 10.w,
+                                          imageHeight: 10.w,
                                           imageUrl: "$baseUrlAuth/files/menu-mobile/image/${state.menuData.menulist![i].icon!}", 
                                           label: state.menuData.menulist![i].name!, 
                                           onTapAction: () {
@@ -428,6 +424,13 @@ class HomeScreen extends StatelessWidget {
                                             
                                             if(state.menuData.menulist![i].type == "TRIPLE PPOB") {
                                               context.pushNamed("select-operator-backoffice", extra: {
+                                                "operatorName": state.menuData.menulist![i].name,
+                                                "operatorId": state.menuData.menulist![i].operatorid
+                                              });
+                                            }
+
+                                            if(state.menuData.menulist![i].type == "SINGLE PRODUCT") {
+                                              context.pushNamed("select-product-transaction", extra: {
                                                 "operatorName": state.menuData.menulist![i].name,
                                                 "operatorId": state.menuData.menulist![i].operatorid
                                               });

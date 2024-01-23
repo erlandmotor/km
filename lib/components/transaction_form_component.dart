@@ -2,9 +2,9 @@ import "package:adamulti_mobile_clone_new/components/check_text_field_component.
 import "package:adamulti_mobile_clone_new/components/dashed_separator.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
-import "package:adamulti_mobile_clone_new/components/regular_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/components/scan_barcode_component.dart";
 import "package:adamulti_mobile_clone_new/components/select_contact_component.dart";
+import "package:adamulti_mobile_clone_new/components/transaction_pin_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
@@ -124,13 +124,11 @@ class _TransactionFormComponentState extends State<TransactionFormComponent> {
                   ],
                 ),
                 const SizedBox(height: 8,),
-                RegularTextFieldComponent(
+                TransactionPinTextFieldComponent(
                   label: "PIN", 
-                  hint: "Masukkan PIN Anda.",
+                  hint: "Masukkan PIN Anda", 
                   controller: pinController, 
-                  validationMessage: "PIN Harus Diisi.",
-                  prefixIcon: Iconsax.key,
-                  isObsecure: true,
+                  validationMessage: "PIN Anda harus diisi sebelum melakukan transaksi."
                 ),
                 const SizedBox(height: 18,),
                 const DashedSeparator(),

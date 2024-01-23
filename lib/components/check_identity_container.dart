@@ -89,23 +89,12 @@ class CheckIdentityContainer extends StatelessWidget {
                         color: state.result.success! == true ? kKeteranganContainerColor : Colors.red,
                       ),
                       padding: const EdgeInsets.all(8),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(state.result.success! ? Iconsax.info_circle : Iconsax.warning_2, 
-                          color: state.result.success! ? Colors.black : Colors.white,
-                          size: 32,),
-                          const SizedBox(width: 12,),
-                          Flexible(
-                            child: Text(
-                              state.result.msg!, style: GoogleFonts.openSans(
-                                fontSize: state.result.success! == true ? 12 : 14,
-                                fontWeight: FontWeight.w600,
-                                color: state.result.success! ? Colors.black : Colors.white
-                              ),
-                            ),
-                          ),
-                        ],
+                      child: Text(
+                        state.result.msg!, style: GoogleFonts.robotoMono(
+                          fontSize: state.result.success! == true ? 12 : 14,
+                          fontWeight: FontWeight.w600,
+                          color: state.result.success! ? Colors.black : Colors.white
+                        ),
                       ),
                     ) : const SizedBox()
                   ],

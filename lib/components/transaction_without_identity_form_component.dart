@@ -1,7 +1,7 @@
 import "package:adamulti_mobile_clone_new/components/dashed_separator.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
-import "package:adamulti_mobile_clone_new/components/regular_textfield_component.dart";
+import "package:adamulti_mobile_clone_new/components/transaction_pin_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
@@ -86,13 +86,11 @@ class _TransactionPlnTokenFormComponentState extends State<TransactionWithoutIde
                 // const SizedBox(height: 8,),
                 // const DashedSeparator(),
                 const SizedBox(height: 18,),
-                RegularTextFieldComponent(
-                  label: "PIN",
-                  hint: "Masukkan PIN Anda.", 
+                TransactionPinTextFieldComponent(
+                  label: "PIN", 
+                  hint: "Masukkan PIN Anda", 
                   controller: pinController, 
-                  validationMessage: "PIN Harus Diisi.",
-                  prefixIcon: Iconsax.key,
-                  isObsecure: true,
+                  validationMessage: "PIN Anda harus diisi sebelum melakukan transaksi."
                 ),
                 const SizedBox(height: 18,),
                 const DashedSeparator(),

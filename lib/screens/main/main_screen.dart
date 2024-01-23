@@ -6,6 +6,7 @@ import "package:adamulti_mobile_clone_new/cubit/bottom_navigation_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/favorite_menu_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/getme_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/notification_count_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/running_text_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
@@ -53,6 +54,8 @@ class _MainScreenState extends State<MainScreen> {
     final now = DateTime.now();
     final yesterday = DateTime.now().add(const Duration(days: -3));
 
+    final runningTextCubit = context.read<RunningTextCubit>();
+
     locator.get<NotificationService>().countTotalNotification("${yesterday.year}-${yesterday.month}-${yesterday.day + 1}", 
       "${now.year}-${now.month}-${now.day + 1}"
     ).then((value) {
@@ -96,6 +99,10 @@ class _MainScreenState extends State<MainScreen> {
       });
     });
 
+    locator.get<BackOfficeService>().findManyRunningText("ADAMULTI").then((value) {
+      runningTextCubit.updateState(value, 0, 0);
+    });
+
     socket.connect();
 
     socket.on('inbox', (data) {
@@ -109,6 +116,7 @@ class _MainScreenState extends State<MainScreen> {
         body: data
       );
     });
+
     super.initState();
   }
 
@@ -143,7 +151,7 @@ class _MainScreenState extends State<MainScreen> {
             data: NavigationBarThemeData(
               elevation: 5,
               backgroundColor: Colors.white,
-              surfaceTintColor: Colors.white,
+              surfaceTintColor: HexColor.fromHex(stateSetting.settingData.surfaceColor!),
               height: 60,
               labelTextStyle: MaterialStatePropertyAll(
                 GoogleFonts.openSans(
@@ -210,14 +218,14 @@ class _MainScreenState extends State<MainScreen> {
                           state.navigationIndex == 2 ? Iconsax.document_text5 : Iconsax.document_text,
                           color: state.navigationIndex == 2 ? HexColor.fromHex(stateSetting.settingData.mainColor1!) : HexColor.fromHex(stateSetting.settingData.lightTextColor!),
                         ), 
-                        label: "Riwayat",
+                        label: "History",
                       ),
                       NavigationDestination(
                         icon: Icon(
                           state.navigationIndex == 3 ? Iconsax.tag_user5 : Iconsax.tag_user,
                           color: state.navigationIndex == 3 ? HexColor.fromHex(stateSetting.settingData.mainColor1!) : HexColor.fromHex(stateSetting.settingData.lightTextColor!),
                         ), 
-                        label: "Akun",
+                        label: "Account",
                       ),
                     ]
                   );

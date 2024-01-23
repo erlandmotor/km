@@ -11,7 +11,6 @@ import "package:buttons_tabbar/buttons_tabbar.dart";
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:iconsax/iconsax.dart";
-import "package:responsive_sizer/responsive_sizer.dart";
 
 class RewardMainScreen extends StatelessWidget {
   const RewardMainScreen({ super.key });
@@ -36,7 +35,7 @@ class RewardMainScreen extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const CustomContainerAppBar(title: "Poin", height: 80,),
+                  CustomContainerAppBar(title: "Total Poin : ${locator.get<GetmeCubit>().state.data.data!.poin.toString()}", height: 80,),
                   Expanded(
                     child: DefaultTabController(
                       length: 2,
@@ -93,31 +92,6 @@ class RewardMainScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              Positioned(
-                bottom: 0,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
-                  width: 100.w,
-                  height: 50,
-                  color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Total Poin", style: GoogleFonts.openSans(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white
-                      ),),
-                      Text(locator.get<GetmeCubit>().state.data.data!.poin.toString(), style: GoogleFonts.openSans(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white
-                      ),)
-                    ],
-                  ),
-                )
-              )
             ],
           )
         )

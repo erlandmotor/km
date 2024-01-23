@@ -25,20 +25,6 @@ class _TopupSaldoHistoryTabState extends State<TopupSaldoHistoryTab> {
   void initState() {
     final historyTopupSaldoCubit = context.read<HistoryTopupSaldoCubit>();
     
-    locator.get<HistoryService>().getHistoryTopup(
-      locator.get<UserAppidCubit>().state.userAppId.appId, 
-      "10", 
-      historyTopupSaldoCubit.term, 
-      historyTopupSaldoCubit.currentPage.toString(), 
-      DateFormat("y-MM-dd").format(historyTopupSaldoCubit.listOfCurrentDateTime[0]!), 
-      DateFormat("y-MM-dd").format(historyTopupSaldoCubit.listOfCurrentDateTime[1]!)
-    ).then((value) {
-      historyTopupSaldoCubit.updateState(
-        value.data!, 
-        false
-      );
-    });
-
     scrollController.addListener(() {
       if(scrollController.position.maxScrollExtent == scrollController.offset) {
         historyTopupSaldoCubit.currentPage += 1;

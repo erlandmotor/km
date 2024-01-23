@@ -4,14 +4,11 @@ import "package:adamulti_mobile_clone_new/components/shimmer_list_component.dart
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/rekap_transaksi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
-import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
-import "package:adamulti_mobile_clone_new/services/history_service.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
-import "package:intl/intl.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
 
 class RekapTransaksiTab extends StatefulWidget {
@@ -28,18 +25,6 @@ class _RekapTransaksiTabState extends State<RekapTransaksiTab> {
 
   @override
   void initState() {
-    final rekapTransaksiCubit = context.read<RekapTransaksiCubit>();
-
-    locator.get<HistoryService>().getRekapTransaksi(
-      locator.get<UserAppidCubit>().state.userAppId.appId, 
-      DateFormat("y-MM-dd").format(rekapTransaksiCubit.listOfCurrentDateTime[0]!), 
-      DateFormat("y-MM-dd").format(rekapTransaksiCubit.listOfCurrentDateTime[1]!)
-    ).then((value) {
-      rekapTransaksiCubit.updateState(
-        value.data!, 
-        false
-      );
-    });
     super.initState();
   }
 

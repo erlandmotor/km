@@ -66,7 +66,7 @@ class HomeCarousel extends StatelessWidget {
                                   width: 15,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
-                                    color: state.indicatorIndex != i ? Colors.white.withOpacity(0.4) : HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
+                                    color: state.indicatorIndex != i ? HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightTextColor!).withOpacity(0.4) : HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
                                   ),
                                 );
                               },

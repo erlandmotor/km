@@ -38,7 +38,7 @@ class MoreScreenShimmer extends StatelessWidget {
               spacing: 2.w,
               runSpacing: 12,
               children: const [
-                MainMenuShimmer(dataLength: 8)
+                MainMenuShimmer(dataLength: 10)
               ],
             )
           ],

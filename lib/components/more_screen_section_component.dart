@@ -20,11 +20,12 @@ class MoreScreenSectionComponent extends StatelessWidget {
       color: Colors.white,
       surfaceTintColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.surfaceColor!),
       child: Container(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        alignment: Alignment.center,
         width: 100.w,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -37,19 +38,20 @@ class MoreScreenSectionComponent extends StatelessWidget {
                 )),
               ],
             ),
-            const SizedBox(height: 2,),
+            const SizedBox(height: 6,),
             const Divider(),
-            const SizedBox(height: 2,),
+            const SizedBox(height: 6,),
             Wrap(
               alignment: WrapAlignment.start,
               spacing: 2.w,
               runSpacing: 12,
               children: [
                 for(var i = 0; i < sectionData.menulist!.length; i++) LayananComponent(
-                  containerWidth: 48,
-                  containerHeight: 48,
-                  imageWidth: 36,
-                  imageHeight: 36,
+                  mainContainerWidth: 16.w,
+                  containerWidth: 14.w,
+                  containerHeight: 14.w,
+                  imageWidth: 10.w,
+                  imageHeight: 10.w,
                   imageUrl: "$baseUrlAuth/files/menu-mobile/image/${sectionData.menulist![i].icon!}", 
                   label: sectionData.menulist![i].name!, 
                   onTapAction: () {
@@ -64,38 +66,45 @@ class MoreScreenSectionComponent extends StatelessWidget {
                         "url": sectionData.menulist![i].url
                       });
                     }
-    
+                
                     if(sectionData.menulist![i].type == "PLN") {
                       context.pushNamed("pln-main");
                     }
-    
+                
                     if(sectionData.menulist![i].type == "SINGLE PPOB") {
                       context.pushNamed("check-before-transaction", extra: {
                         "operatorName": sectionData.menulist![i].name,
                         "kodeproduk": sectionData.menulist![i].operatorid
                       });
                     }
-    
+                
                     if(sectionData.menulist![i].type == "DOUBLE PPOB") {
                       context.pushNamed("select-product-ppob", extra: {
                         "operatorName": sectionData.menulist![i].name,
                         "operatorId": sectionData.menulist![i].operatorid
                       });
                     }
-    
+                
                     if(sectionData.menulist![i].type == "TRIPLE PPOB") {
                       context.pushNamed("select-operator-backoffice", extra: {
                         "operatorName": sectionData.menulist![i].name,
                         "operatorId": sectionData.menulist![i].operatorid
                       });
                     }
-    
+
+                    if(sectionData.menulist![i].type == "SINGLE PRODUCT") {
+                      context.pushNamed("select-product-transaction", extra: {
+                        "operatorName": sectionData.menulist![i].name,
+                        "operatorId": sectionData.menulist![i].operatorid
+                      });
+                    }
+                
                     if(sectionData.menulist![i].type == "DOUBLE PRODUCT") {
                       context.pushNamed("select-operator", extra: {
                         "operatorName": sectionData.menulist![i].operatorid
                       });
                     }
-    
+                
                     if(sectionData.menulist![i].type == "PLN TOKEN") {
                       context.pushNamed("pln-token", extra: {
                         "operatorName": sectionData.menulist![i].name!,

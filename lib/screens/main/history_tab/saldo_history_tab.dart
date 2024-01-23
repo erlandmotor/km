@@ -24,19 +24,21 @@ class _SaldoHistoryTabState extends State<SaldoHistoryTab> {
   @override
   void initState() {
     final historySaldoCubit = context.read<HistorySaldoCubit>();
-    locator.get<HistoryService>().getHistorySaldo(
-      locator.get<UserAppidCubit>().state.userAppId.appId, 
-      "10", 
-      historySaldoCubit.term, 
-      historySaldoCubit.currentPage.toString(), 
-      DateFormat("y-MM-dd").format(historySaldoCubit.listOfCurrentDateTime[0]!), 
-      DateFormat("y-MM-dd").format(historySaldoCubit.listOfCurrentDateTime[1]!)
-    ).then((value) {
-      historySaldoCubit.updateState(
-        value.data!, 
-        false
-      );
-    });
+
+    // locator.get<HistoryService>().getHistorySaldo(
+    //   locator.get<UserAppidCubit>().state.userAppId.appId, 
+    //   "10", 
+    //   historySaldoCubit.term, 
+    //   historySaldoCubit.currentPage.toString(), 
+    //   DateFormat("y-MM-dd").format(historySaldoCubit.listOfCurrentDateTime[0]!), 
+    //   DateFormat("y-MM-dd").format(historySaldoCubit.listOfCurrentDateTime[1]!)
+    // ).then((value) {
+    //   print(value.toJson());
+    //   historySaldoCubit.updateState(
+    //     value.data!, 
+    //     false
+    //   );
+    // });
 
     scrollController.addListener(() {
       if(scrollController.position.maxScrollExtent == scrollController.offset) {

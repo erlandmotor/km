@@ -25,20 +25,7 @@ class _TransaksiHistoryTabState extends State<TransaksiHistoryTab> {
   @override
   void initState() {
     final historyTransaksiCubit = context.read<HistoryTransaksiCubit>();
-    locator.get<HistoryService>().getHistoryTransaksi(
-      locator.get<UserAppidCubit>().state.userAppId.appId, 
-      "10", 
-      historyTransaksiCubit.term, 
-      historyTransaksiCubit.currentPage.toString(), 
-      DateFormat("y-MM-dd").format(historyTransaksiCubit.listOfCurrentDateTime[0]!), 
-      DateFormat("y-MM-dd").format(historyTransaksiCubit.listOfCurrentDateTime[1]!)
-    ).then((value) {
-      historyTransaksiCubit.updateState(
-        value.data!, 
-        false
-      );
-    });
-
+    // historyTransaksiCubit.refresh();
     scrollController.addListener(() {
       if(scrollController.position.maxScrollExtent == scrollController.offset) {
         historyTransaksiCubit.currentPage += 1;

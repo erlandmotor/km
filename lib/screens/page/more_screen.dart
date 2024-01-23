@@ -50,7 +50,7 @@ class MoreScreen extends StatelessWidget {
         builder: (context, snapshot) {
           if(snapshot.connectionState == ConnectionState.done) {
             return ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 18),
+              padding: const EdgeInsets.all(8),
               itemBuilder: (context, index) {
                 if(snapshot.data![index].menulist!.isEmpty) {
                   return const SizedBox(height: 0,);
@@ -59,18 +59,18 @@ class MoreScreen extends StatelessWidget {
                 }
               }, 
               separatorBuilder: (context, index) {
-                return const SizedBox(height: 10,);
+                return const SizedBox(height: 8,);
               }, 
               itemCount: snapshot.data!.length
             );
           } else {
             return ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 18),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               itemBuilder: (context, index) {
                 return const MoreScreenShimmer();
               }, 
               separatorBuilder: (context, index) {
-                return const SizedBox(height: 10,);
+                return const SizedBox(height: 8,);
               }, 
               itemCount: 6
             );

@@ -51,9 +51,7 @@ class RekapTransaksiItemComponent extends StatelessWidget {
                     child: CachedNetworkImage(
                       progressIndicatorBuilder: (context, _, __) => const CircularProgressIndicator(),
                       imageUrl: imageUrl,
-                      width: 42,
-                      height: 42,
-                      fit: BoxFit.contain,
+                      fit: BoxFit.cover,
                     ),
                   ),
                   const SizedBox(width: 12,),

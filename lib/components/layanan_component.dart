@@ -6,13 +6,14 @@ import "package:google_fonts/google_fonts.dart";
 class LayananComponent extends StatelessWidget {
 
   const LayananComponent({ super.key, required this.imageUrl, required this.label, 
-  required this.onTapAction, required this.menuColor, required this.containerWidth, required this.containerHeight,
+  required this.onTapAction, required this.menuColor, required this.mainContainerWidth, required this.containerWidth, required this.containerHeight,
   required this.imageHeight, required this.imageWidth, required this.containerBorderRadius });
 
   final String imageUrl;
   final String label;
   final Function onTapAction;
   final Color menuColor;
+  final double mainContainerWidth;
   final double containerWidth;
   final double containerHeight;
   final double imageWidth;
@@ -22,9 +23,8 @@ class LayananComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Container(
-      width: 64,
-      padding: const EdgeInsets.all(6),
+    return SizedBox(
+      width: mainContainerWidth,
       child: GestureDetector(
         onTap: () {
           onTapAction();

@@ -153,7 +153,8 @@ class _SelectProductTransactionScreenState extends State<SelectProductTransactio
                           itemBuilder: (context, index) {
                             return ProductItemComponent(
                               operatorName: widget.operatorName, 
-                              imageUrl: state.dataList[index].imgurloperator!, 
+                              imageUrl: state.dataList[index].imgurloperator != null ?
+                              state.dataList[index].imgurloperator! : state.dataList[index].imgurl!, 
                               title: widget.operatorName,
                               productName: state.dataList[index].namaproduk!,
                               surfaceColor: index % 2 == 0 ? HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.surfaceColor!) : Colors.white, 

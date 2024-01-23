@@ -4,9 +4,11 @@ import "package:adamulti_mobile_clone_new/components/light_decoration_container_
 import "package:adamulti_mobile_clone_new/components/loading_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/regular_textfield_without_validators_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/history_calendar_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_transaksi_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/history_transfer_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/rekap_transaksi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/search_history_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
@@ -36,24 +38,89 @@ class HistoryScreen extends StatefulWidget {
   State<HistoryScreen> createState() => _HistoryScreenState();
 }
 
-class _HistoryScreenState extends State<HistoryScreen> {
+class _HistoryScreenState extends State<HistoryScreen> with SingleTickerProviderStateMixin {
 
   final popupMenuController = CustomPopupMenuController();
 
   final searchController = TextEditingController();
   final searchDateRangeController = TextEditingController();
 
-  var listOfCurrentDateTime = <DateTime?>[DateTime.now()];
+  late final TabController tabController;
+
+  var listOfCurrentDateTime = <DateTime?>[DateTime.now(), DateTime.now()];
 
   var currentTabIndex = 0;
 
   @override
   void initState() {
+    tabController = TabController(length: 5, vsync: this);
+
+    final historyTransaksiCubit = context.read<HistoryTransaksiCubit>();
+    historyTransaksiCubit.refresh(listOfCurrentDateTime);
+    
+    final historySaldoCubit = context.read<HistorySaldoCubit>();
+    final rekapTransaksiCubit = context.read<RekapTransaksiCubit>();
+    final historyTopupSaldoCubit = context.read<HistoryTopupSaldoCubit>();
+    final historyTransferCubit = context.read<HistoryTransferCubit>();
+    
+    final searchHistoryCubit = context.read<SearchHistoryCubit>();
+
+    tabController.addListener(() { 
+      if(!tabController.indexIsChanging) {
+        currentTabIndex = tabController.index;
+
+        searchHistoryCubit.updateState(false, currentTabIndex);
+        if(currentTabIndex == 0) {
+          historyTransaksiCubit.refresh(listOfCurrentDateTime);
+
+          historySaldoCubit.updateState([], true);
+          rekapTransaksiCubit.updateState([], true);
+          historyTopupSaldoCubit.updateState([], true);
+          historyTransferCubit.updateState([], true);
+        }
+        if(currentTabIndex == 1) {
+          historySaldoCubit.refresh(listOfCurrentDateTime);
+
+          historyTransaksiCubit.updateState([], true);
+          rekapTransaksiCubit.updateState([], true);
+          historyTopupSaldoCubit.updateState([], true);
+          historyTransferCubit.updateState([], true);
+        }
+
+        if(currentTabIndex == 2) {
+          rekapTransaksiCubit.refresh(listOfCurrentDateTime);
+
+          historySaldoCubit.updateState([], true);
+          historyTransaksiCubit.updateState([], true);
+          historyTopupSaldoCubit.updateState([], true);
+          historyTransferCubit.updateState([], true);
+        }
+
+        if(currentTabIndex == 3) {
+          historyTopupSaldoCubit.refresh(listOfCurrentDateTime);
+
+          historySaldoCubit.updateState([], true);
+          rekapTransaksiCubit.updateState([], true);
+          historyTransaksiCubit.updateState([], true);
+          historyTransferCubit.updateState([], true);
+        }
+
+        if(currentTabIndex == 4) {
+          historyTransferCubit.refresh(listOfCurrentDateTime);
+
+          historySaldoCubit.updateState([], true);
+          rekapTransaksiCubit.updateState([], true);
+          historyTopupSaldoCubit.updateState([], true);
+          historyTransaksiCubit.updateState([], true);
+        }
+      }
+    });
     super.initState();
   }
 
   @override
   void dispose() {
+    tabController.dispose();
     popupMenuController.dispose();
     searchController.dispose();
     searchDateRangeController.dispose();
@@ -62,6 +129,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
   
   @override
   Widget build(BuildContext context) {
+    final historyCalendarCubit = context.read<HistoryCalendarCubit>();
+
     return ContainerGradientBackground(
       child: Stack(
         children: [
@@ -125,17 +194,74 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(18.0),
-                                  child: Text("Pilih Tanggal", style: GoogleFonts.openSans(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500
-                                  ),),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      BlocBuilder<HistoryCalendarCubit, HistoryCalendarState>(
+                                        bloc: historyCalendarCubit,
+                                        builder: (_, state) {
+                                          return Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text("Tanggal Awal", style: GoogleFonts.openSans(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightTextColor!)
+                                                  ),),
+                                                  const SizedBox(height: 2,),
+                                                  Text(DateFormat("dd MMM yyyy").format(state.selectedDateTimes[0]!), style: GoogleFonts.openSans(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!)
+                                                  ),),
+                                                ],
+                                              ),
+                                              const SizedBox(width: 8,),
+                                              Column(
+                                                children: [
+                                                  const SizedBox(height: 18,),
+                                                  Text("-", style: GoogleFonts.openSans(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!)
+                                                  ),),
+                                                ],
+                                              ),
+                                              const SizedBox(width: 8,),
+                                              Column(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text("Tanggal Akhir", style: GoogleFonts.openSans(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightTextColor!)
+                                                  ),),
+                                                  const SizedBox(height: 2,),
+                                                  if(state.selectedDateTimes.length > 1) Text(DateFormat("dd MMM yyyy").format(state.selectedDateTimes[1]!), style: GoogleFonts.openSans(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!)
+                                                  ),),
+                                                ],
+                                              ),
+                                            ],
+                                          );
+                                        } 
+                                      )
+                                    ],
+                                  ),
                                 ),
                                 CalendarDatePicker2(
                                   config: CalendarDatePicker2Config(
-                                    calendarType: CalendarDatePicker2Type.range
+                                    calendarType: CalendarDatePicker2Type.range,
                                   ), 
                                   value: listOfCurrentDateTime,
                                   onValueChanged: (value) {
+                                    historyCalendarCubit.updateState(value);
                                     listOfCurrentDateTime = value;
                                     if(currentTabIndex == 0) {
                                       final historyTransaksiCubit = context.read<HistoryTransaksiCubit>();
@@ -170,12 +296,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                         buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                                         onPressed: () {                 
                                           if(listOfCurrentDateTime.length < 2) {
-                                            popupMenuController.hideMenu();
                                             showDynamicSnackBar(
                                               context,
                                               Iconsax.warning_2,
                                               "ERROR",
-                                              "Tanggal Harus Dipilih Terlebih Dahulu.",
+                                              "Tanggal Awal dan Tanggal Tujuan Harus Dipilih.",
                                               HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                             );
                                           } else {
@@ -196,15 +321,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                 DateFormat("y-MM-dd").format(historyTransaksiCubit.listOfCurrentDateTime[0]!), 
                                                 DateFormat("y-MM-dd").format(historyTransaksiCubit.listOfCurrentDateTime[1]!)
                                               ).then((value) {
-                                                listOfCurrentDateTime = <DateTime?>[DateTime.now()];       
+                                                // listOfCurrentDateTime = <DateTime?>[DateTime.now()];       
                                                 popupMenuController.hideMenu();
                                                 searchHistoryCubit.updateState(false, searchHistoryCubit.state.currentIndex);
                                                 historyTransaksiCubit.updateState(
                                                   value.data!, 
                                                   false
                                                 );
+                                                // historyCalendarCubit.updateState([DateTime.now()]);
                                               }).catchError((e) {
-                                                listOfCurrentDateTime = <DateTime?>[DateTime.now()];
+                                                // listOfCurrentDateTime = <DateTime?>[DateTime.now()];
                                                 popupMenuController.hideMenu();
                                                 searchHistoryCubit.updateState(false, searchHistoryCubit.state.currentIndex);
                                                 showDynamicSnackBar(
@@ -214,6 +340,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                   e.toString(),
                                                   HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                                 );  
+                                                // historyCalendarCubit.updateState([DateTime.now()]);
                                               });
                                             }
                                 
@@ -231,15 +358,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                 DateFormat("y-MM-dd").format(historySaldoCubit.listOfCurrentDateTime[0]!), 
                                                 DateFormat("y-MM-dd").format(historySaldoCubit.listOfCurrentDateTime[1]!)
                                               ).then((value) {
-                                                listOfCurrentDateTime = <DateTime?>[DateTime.now()];
+                                                // listOfCurrentDateTime = <DateTime?>[DateTime.now()];
                                                 searchHistoryCubit.updateState(false, searchHistoryCubit.state.currentIndex);
                                                 popupMenuController.hideMenu();
                                                 historySaldoCubit.updateState(
                                                   value.data!, 
                                                   false
                                                 );
+                                                // historyCalendarCubit.updateState([DateTime.now()]);
                                               }).catchError((e) {
-                                                listOfCurrentDateTime = <DateTime?>[DateTime.now()];
+                                                // listOfCurrentDateTime = <DateTime?>[DateTime.now()];
                                                 searchHistoryCubit.updateState(false, searchHistoryCubit.state.currentIndex);
                                                 popupMenuController.hideMenu();
                                                 showDynamicSnackBar(
@@ -248,7 +376,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                   "ERROR",
                                                   e.toString(),
                                                   HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
-                                                );  
+                                                );
+                                                // historyCalendarCubit.updateState([DateTime.now()]);  
                                               });
                                             }
                                 
@@ -262,15 +391,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                 DateFormat("y-MM-dd").format(rekapTransaksiCubit.listOfCurrentDateTime[0]!), 
                                                 DateFormat("y-MM-dd").format(rekapTransaksiCubit.listOfCurrentDateTime[1]!)
                                               ).then((value) {
-                                                listOfCurrentDateTime = <DateTime?>[DateTime.now()];
+                                                // listOfCurrentDateTime = <DateTime?>[DateTime.now()];
                                                 searchHistoryCubit.updateState(false, searchHistoryCubit.state.currentIndex);
                                                 popupMenuController.hideMenu();
                                                 rekapTransaksiCubit.updateState(
                                                   value.data!, 
                                                   false
                                                 );
+                                                // historyCalendarCubit.updateState([DateTime.now()]);
                                               }).catchError((e) {
-                                                listOfCurrentDateTime = <DateTime?>[DateTime.now()];
+                                                // listOfCurrentDateTime = <DateTime?>[DateTime.now()];
                                                 searchHistoryCubit.updateState(false, searchHistoryCubit.state.currentIndex);
                                                 popupMenuController.hideMenu();
                                                 showDynamicSnackBar(
@@ -279,7 +409,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                   "ERROR",
                                                   e.toString(),
                                                   HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
-                                                );  
+                                                );
+                                                // historyCalendarCubit.updateState([DateTime.now()]);  
                                               });
                                             }
                                 
@@ -297,15 +428,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                 DateFormat("y-MM-dd").format(historyTopupSaldoCubit.listOfCurrentDateTime[0]!), 
                                                 DateFormat("y-MM-dd").format(historyTopupSaldoCubit.listOfCurrentDateTime[1]!)
                                               ).then((value) {
-                                                listOfCurrentDateTime = <DateTime?>[DateTime.now()];
+                                                // listOfCurrentDateTime = <DateTime?>[DateTime.now()];
                                                 searchHistoryCubit.updateState(false, searchHistoryCubit.state.currentIndex);
                                                 popupMenuController.hideMenu();
                                                 historyTopupSaldoCubit.updateState(
                                                   value.data!, 
                                                   false
                                                 );
+                                                // historyCalendarCubit.updateState([DateTime.now()]);
                                               }).catchError((e) {
-                                                listOfCurrentDateTime = <DateTime?>[DateTime.now()];
+                                                // listOfCurrentDateTime = <DateTime?>[DateTime.now()];
                                                 searchHistoryCubit.updateState(false, searchHistoryCubit.state.currentIndex);
                                                 popupMenuController.hideMenu();
                                                 showDynamicSnackBar(
@@ -314,7 +446,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                   "ERROR",
                                                   e.toString(),
                                                   HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
-                                                );  
+                                                );
+                                                // historyCalendarCubit.updateState([DateTime.now()]);  
                                               });
                                             }
                                           }
@@ -345,101 +478,100 @@ class _HistoryScreenState extends State<HistoryScreen> {
               ),
               const SizedBox(height: 22,),
               Expanded(
-                child: DefaultTabController(
-                  length: 5, 
-                  child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Column(
-                      children: [
-                        BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
-                          bloc: locator.get<SettingApplikasiCubit>(),
-                          builder: (_, state) {
-                            return ButtonsTabBar(
-                              onTap: (index) {
-                                currentTabIndex = index;
-                                final searchHistoryCubit = context.read<SearchHistoryCubit>();
-                                searchHistoryCubit.updateState(false, index);
-                                
-                                if(index == 0) {
-                                  final historyTransaksiCubit = context.read<HistoryTransaksiCubit>();
-                                  historyTransaksiCubit.resetState();
-                                }
-                                if(index == 1) {
-                                  final historySaldoCubit = context.read<HistorySaldoCubit>();
-                                  historySaldoCubit.resetState();
-                                }
+                child: Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: Column(
+                    children: [
+                      BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
+                        bloc: locator.get<SettingApplikasiCubit>(),
+                        builder: (_, state) {
+                          return ButtonsTabBar(
+                            controller: tabController,
+                            onTap: (index) {
+                              // currentTabIndex = index;
+                              // final searchHistoryCubit = context.read<SearchHistoryCubit>();
+                              // searchHistoryCubit.updateState(false, index);
+                              
+                              // if(index == 0) {
+                              //   final historyTransaksiCubit = context.read<HistoryTransaksiCubit>();
+                              //   historyTransaksiCubit.resetState();
+                              // }
+                              // if(index == 1) {
+                              //   final historySaldoCubit = context.read<HistorySaldoCubit>();
+                              //   historySaldoCubit.resetState();
+                              // }
 
-                                if(index == 2) {
-                                  final rekapTransaksiCubit = context.read<RekapTransaksiCubit>();
-                                  rekapTransaksiCubit.resetState();
-                                }
+                              // if(index == 2) {
+                              //   final rekapTransaksiCubit = context.read<RekapTransaksiCubit>();
+                              //   rekapTransaksiCubit.resetState();
+                              // }
 
-                                if(index == 3) {
-                                  final historyTopupSaldoCubit = context.read<HistoryTopupSaldoCubit>();
-                                  historyTopupSaldoCubit.resetState();
-                                }
-                              },
-                              radius: 18,
-                              contentPadding: const EdgeInsets.all(8),
-                              height: 46,
-                              labelSpacing: 4,
-                              buttonMargin: const EdgeInsets.symmetric(horizontal: 8),
-                              backgroundColor: HexColor.fromHex(state.settingData.secondaryColor!),
-                              unselectedBackgroundColor: HexColor.fromHex(state.settingData.lightColor!),
-                              borderColor: HexColor.fromHex(state.settingData.secondaryColor!),
-                              borderWidth: 0,
-                              unselectedBorderColor: HexColor.fromHex(state.settingData.secondaryColor!),
-                              labelStyle: GoogleFonts.openSans(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
+                              // if(index == 3) {
+                              //   final historyTopupSaldoCubit = context.read<HistoryTopupSaldoCubit>();
+                              //   historyTopupSaldoCubit.resetState();
+                              // }
+                            },
+                            radius: 18,
+                            contentPadding: const EdgeInsets.all(8),
+                            height: 46,
+                            labelSpacing: 4,
+                            buttonMargin: const EdgeInsets.symmetric(horizontal: 8),
+                            backgroundColor: HexColor.fromHex(state.settingData.secondaryColor!),
+                            unselectedBackgroundColor: HexColor.fromHex(state.settingData.lightColor!),
+                            borderColor: HexColor.fromHex(state.settingData.secondaryColor!),
+                            borderWidth: 0,
+                            unselectedBorderColor: HexColor.fromHex(state.settingData.secondaryColor!),
+                            labelStyle: GoogleFonts.openSans(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white
+                            ),
+                            unselectedLabelStyle: GoogleFonts.openSans(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: HexColor.fromHex(state.settingData.textColor!)
+                            ),
+                            tabs: const [
+                              Tab(
+                                icon: Icon(Iconsax.money_tick),
+                                text: 'Transaksi',
                               ),
-                              unselectedLabelStyle: GoogleFonts.openSans(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: HexColor.fromHex(state.settingData.textColor!)
+                              Tab(
+                                icon: Icon(Iconsax.wallet_money),
+                                text: 'Saldo',
                               ),
-                              tabs: const [
-                                Tab(
-                                  icon: Icon(Iconsax.money_tick),
-                                  text: 'Transaksi',
-                                ),
-                                Tab(
-                                  icon: Icon(Iconsax.wallet_money),
-                                  text: 'Saldo',
-                                ),
-                                Tab(
-                                  icon: Icon(Iconsax.receipt_edit),
-                                  text: 'Rekap Transaksi',
-                                ),
-                                Tab(
-                                  icon: Icon(Iconsax.empty_wallet_add),
-                                  text: 'Topup Saldo',
-                                ),
-                                Tab(
-                                  icon: Icon(Iconsax.card_send),
-                                  text: 'Transfer Saldo',
-                                ),
-                              ],
-                            );
-                          }
-                        ),
-                        const SizedBox(height: 30,),
-                        const Expanded(
-                          child: TabBarView(
-                            children: [                              
-                              TransaksiHistoryTab(),
-                              SaldoHistoryTab(),
-                              RekapTransaksiTab(),
-                              TopupSaldoHistoryTab(),
-                              TransferSaldoHistoryTab(),
+                              Tab(
+                                icon: Icon(Iconsax.receipt_edit),
+                                text: 'Rekap Transaksi',
+                              ),
+                              Tab(
+                                icon: Icon(Iconsax.empty_wallet_add),
+                                text: 'Topup Saldo',
+                              ),
+                              Tab(
+                                icon: Icon(Iconsax.card_send),
+                                text: 'Transfer Saldo',
+                              ),
                             ],
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                ),
+                          );
+                        }
+                      ),
+                      const SizedBox(height: 30,),
+                      Expanded(
+                        child: TabBarView(
+                          controller: tabController,
+                          children: const [                              
+                            TransaksiHistoryTab(),
+                            SaldoHistoryTab(),
+                            RekapTransaksiTab(),
+                            TopupSaldoHistoryTab(),
+                            TransferSaldoHistoryTab(),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                )
               )
             ],
           )

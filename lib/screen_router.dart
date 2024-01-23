@@ -2,6 +2,7 @@ import "package:adamulti_mobile_clone_new/cubit/bottom_navigation_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/downline_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/favorite_menu_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/history_calendar_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_transaksi_cubit.dart";
@@ -11,6 +12,7 @@ import "package:adamulti_mobile_clone_new/cubit/notifications_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/pricelist_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/pulsa_and_data_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/rekap_transaksi_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/running_text_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/search_history_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/select_operator_backoffice_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/select_operator_cubit.dart";
@@ -196,6 +198,8 @@ GoRouter screenRouter(String? token) {
               BlocProvider(create: (_) => HistoryTransferCubit()),
               BlocProvider(create: (_) => FavoriteMenuCubit()),
               BlocProvider(create: (_) => NotificationsCubit()),
+              BlocProvider(create: (_) => RunningTextCubit()),
+              BlocProvider(create: (_) => HistoryCalendarCubit())
             ], 
             child: const MainScreen()
           );

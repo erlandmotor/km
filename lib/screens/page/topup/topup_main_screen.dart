@@ -102,92 +102,90 @@ class _TopupMainScreenState extends State<TopupMainScreen> {
                                             ).then((response) {
                                               topupSaldoCubit.updateState(false, response);
                                               showModalBottomSheet(
+                                                isScrollControlled: true,
                                                 context: context, 
                                                 builder: (context) {
-                                                  return Padding(
-                                                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                                                    child: Container(
-                                                      decoration: const BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius: BorderRadius.only(
-                                                          topLeft: Radius.circular(18),
-                                                          topRight: Radius.circular(18)
-                                                        )
-                                                      ),
-                                                      padding: const EdgeInsets.all(18),
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        mainAxisSize: MainAxisSize.min,
-                                                        children: [
-                                                          Row(
-                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                  return Container(
+                                                    height: 100.h,
+                                                    decoration: const BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius: BorderRadius.only(
+                                                        topLeft: Radius.circular(18),
+                                                        topRight: Radius.circular(18)
+                                                      )
+                                                    ),
+                                                    padding: const EdgeInsets.all(18),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          children: [
+                                                            Text("Informasi Deposit Bank", style: GoogleFonts.openSans(
+                                                              fontSize: 16,
+                                                              fontWeight: FontWeight.w600
+                                                            ),),
+                                                            IconButton(
+                                                              onPressed: () {
+                                                                Navigator.pop(context);
+                                                              }, 
+                                                              icon: const Icon(Icons.close, color: Colors.black,)
+                                                            )
+                                                          ],
+                                                        ),
+                                                        const SizedBox(height: 18,),
+                                                        Container(
+                                                          padding: const EdgeInsets.all(18),
+                                                          width: 100.w,
+                                                          decoration: BoxDecoration(
+                                                            gradient: LinearGradient(
+                                                              colors: [
+                                                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
+                                                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor2!),
+                                                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor3!),
+                                                              ],
+                                                              stops: const [0, 0.4, 0.8],
+                                                              begin: Alignment.topCenter,
+                                                              end: Alignment.bottomCenter,
+                                                            ),
+                                                            borderRadius: BorderRadius.circular(18)
+                                                          ),
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
                                                             children: [
-                                                              Text("Informasi Deposit Bank", style: GoogleFonts.openSans(
-                                                                fontSize: 16,
-                                                                fontWeight: FontWeight.w600
+                                                              Text("Jumlah Transfer", style: GoogleFonts.openSans(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: Colors.white
                                                               ),),
-                                                              IconButton(
-                                                                onPressed: () {
-                                                                  Navigator.pop(context);
-                                                                }, 
-                                                                icon: const Icon(Icons.close, color: Colors.black,)
-                                                              )
+                                                              const SizedBox(height: 12,),
+                                                              Text(FormatCurrency.convertToIdr(response.jumlah!, 0), style: GoogleFonts.openSans(
+                                                                fontSize: 20,
+                                                                fontWeight: FontWeight.w700,
+                                                                color: Colors.white
+                                                              ),)
                                                             ],
                                                           ),
-                                                          const SizedBox(height: 18,),
-                                                          Container(
-                                                            padding: const EdgeInsets.all(18),
+                                                        ),
+                                                        const SizedBox(height: 18,),
+                                                        Expanded(
+                                                          child: Container(
                                                             width: 100.w,
                                                             decoration: BoxDecoration(
-                                                              gradient: LinearGradient(
-                                                                colors: [
-                                                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
-                                                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor2!),
-                                                                  HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor3!),
-                                                                ],
-                                                                stops: const [0, 0.4, 0.8],
-                                                                begin: Alignment.topCenter,
-                                                                end: Alignment.bottomCenter,
-                                                              ),
-                                                              borderRadius: BorderRadius.circular(18)
+                                                              borderRadius: BorderRadius.circular(18),
+                                                              color: const Color(0xffc8d6e5)
                                                             ),
-                                                            child: Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              children: [
-                                                                Text("Jumlah Transfer", style: GoogleFonts.openSans(
-                                                                  fontSize: 14,
-                                                                  fontWeight: FontWeight.w500,
-                                                                  color: Colors.white
-                                                                ),),
-                                                                const SizedBox(height: 12,),
-                                                                Text(FormatCurrency.convertToIdr(response.jumlah!, 0), style: GoogleFonts.openSans(
-                                                                  fontSize: 20,
-                                                                  fontWeight: FontWeight.w700,
-                                                                  color: Colors.white
-                                                                ),)
-                                                              ],
-                                                            ),
+                                                            padding: const EdgeInsets.all(18),
+                                                            child: AutoSizeText(response.msg!, 
+                                                              maxFontSize: 14,
+                                                              style: GoogleFonts.robotoMono(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w600
+                                                            ),),
                                                           ),
-                                                          const SizedBox(height: 18,),
-                                                          Expanded(
-                                                            child: Container(
-                                                              width: 100.w,
-                                                              decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius.circular(18),
-                                                                color: const Color(0xffc8d6e5)
-                                                              ),
-                                                              padding: const EdgeInsets.all(18),
-                                                              child: AutoSizeText(response.msg!, 
-                                                                maxFontSize: 14,
-                                                                style: GoogleFonts.openSans(
-                                                                fontSize: 14,
-                                                                fontWeight: FontWeight.w600
-                                                              ),),
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
+                                                        )
+                                                      ],
                                                     ),
                                                   );
                                                 }

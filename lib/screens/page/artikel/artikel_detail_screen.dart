@@ -75,6 +75,7 @@ class ArtikelDetailScreen extends StatelessWidget {
                 ),
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
+                    childCount: 1,
                     (context, index) {
                       return Padding(
                         padding: const EdgeInsets.all(18.0),

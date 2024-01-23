@@ -65,7 +65,11 @@ class ArtikelComponent extends StatelessWidget {
                                   fixedSize: const Size(140, 15),
                                   backgroundColor: HexColor.fromHex(state.settingData.secondaryColor!)
                                 ),
-                                onPressed: () {}, 
+                                onPressed: () {
+                                  context.pushNamed("artikel-detail", extra: {
+                                    "artikelId": artikelData[index].id!
+                                  });
+                                }, 
                                 child: Text("Selengkapnya", style: GoogleFonts.openSans(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,

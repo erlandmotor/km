@@ -13,14 +13,14 @@ class MainMenuShimmer extends StatelessWidget {
     
     return Wrap(
       alignment: WrapAlignment.start,
-      spacing: 4.w,
+      spacing: 1.w,
       runSpacing: 12,
       children: [
         for(var i = 0; i < dataLength; i++) Shimmer.fromColors(
           baseColor: Colors.grey[400]!, 
           highlightColor: Colors.grey[100]!,
           child: Container(
-            width: 20.w,
+            width: 16.w,
             padding: const EdgeInsets.all(6),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -28,8 +28,8 @@ class MainMenuShimmer extends StatelessWidget {
               children: [
                 Container(
                   alignment: Alignment.center,
-                  width: 48,
-                  height: 48,
+                  width: 14.w,
+                  height: 14.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(18),
                     color: Colors.grey

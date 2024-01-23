@@ -124,17 +124,30 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                             const SizedBox(width: 6,),
                             ScanBarcodeComponent(
                               onScanResult: (String scanResult) {
-                                final parsedPhoneNumber = scanResult.replaceAll("tel:", "").replaceAll("+62", "0");
-                                identityController.text = parsedPhoneNumber;
+                                if(scanResult.length > 3) {
+                                  final parsedPhoneNumber = scanResult.replaceAll("tel:", "").replaceAll("+62", "0");
+                                  identityController.text = parsedPhoneNumber;
 
-                                pulsaAndDataCubit.updateState(true, GetProductByTujuanResponse());
+                                  pulsaAndDataCubit.updateState(true, GetProductByTujuanResponse());
 
-                                locator.get<ProductService>().getProductByTujuan(
-                                  locator.get<UserAppidCubit>().state.userAppId.appId, 
-                                  identityController.text
-                                ).then((result) {
-                                  if(result.succes == false) {
-                                    pulsaAndDataCubit.updateState(false, GetProductByTujuanResponse());
+                                  locator.get<ProductService>().getProductByTujuan(
+                                    locator.get<UserAppidCubit>().state.userAppId.appId, 
+                                    identityController.text
+                                  ).then((result) {
+                                    if(result.succes == false) {
+                                      pulsaAndDataCubit.updateState(false, GetProductByTujuanResponse());
+                                      showDynamicSnackBar(
+                                        context, 
+                                        Iconsax.warning_2, 
+                                        "ERROR", 
+                                        "Terjadi Kesalahan Ketika Mendapatkan Data Produk, Silahkan Coba Lagi untuk Memasukkan No. HP Pelanggan.", 
+                                        HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
+                                      );
+                                    } else {
+                                      FocusManager.instance.primaryFocus?.unfocus();
+                                      pulsaAndDataCubit.updateState(false, result);
+                                    }
+                                  }).catchError((_) {
                                     showDynamicSnackBar(
                                       context, 
                                       Iconsax.warning_2, 
@@ -142,19 +155,8 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                       "Terjadi Kesalahan Ketika Mendapatkan Data Produk, Silahkan Coba Lagi untuk Memasukkan No. HP Pelanggan.", 
                                       HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                     );
-                                  } else {
-                                    FocusManager.instance.primaryFocus?.unfocus();
-                                    pulsaAndDataCubit.updateState(false, result);
-                                  }
-                                }).catchError((_) {
-                                  showDynamicSnackBar(
-                                    context, 
-                                    Iconsax.warning_2, 
-                                    "ERROR", 
-                                    "Terjadi Kesalahan Ketika Mendapatkan Data Produk, Silahkan Coba Lagi untuk Memasukkan No. HP Pelanggan.", 
-                                    HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
-                                  );
-                                });
+                                  });
+                                }
                               }
                             ),
                             const SizedBox(width: 6,),

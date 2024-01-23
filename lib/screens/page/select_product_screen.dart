@@ -150,7 +150,7 @@ class _SelectProductScreenState extends State<SelectProductScreen> {
                           itemBuilder: (context, index) {
                             return ProductItemComponent(
                               operatorName: widget.operatorName, 
-                              imageUrl: widget.operatorName.contains("PDAM") ? state.dataList[index].imgurloperator! 
+                              imageUrl: state.dataList[index].imgurloperator != null ? state.dataList[index].imgurloperator!
                               : state.dataList[index].imgurl!, 
                               title: widget.operatorName,
                               productName: state.dataList[index].namaproduk!, 

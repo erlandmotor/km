@@ -23,19 +23,6 @@ class _TransferSaldoHistoryTabState extends State<TransferSaldoHistoryTab> {
   @override
   void initState() {
     final historyTransferCubit = context.read<HistoryTransferCubit>();
-    locator.get<HistoryService>().getHistoryTransfer(
-      locator.get<UserAppidCubit>().state.userAppId.appId, 
-      "10", 
-      historyTransferCubit.term, 
-      historyTransferCubit.currentPage.toString(), 
-      DateFormat("y-MM-dd").format(historyTransferCubit.listOfCurrentDateTime[0]!), 
-      DateFormat("y-MM-dd").format(historyTransferCubit.listOfCurrentDateTime[1]!)
-    ).then((value) {
-      historyTransferCubit.updateState(
-        value.data!, 
-        false
-      );
-    });
 
     scrollController.addListener(() {
       if(scrollController.position.maxScrollExtent == scrollController.offset) {
