@@ -11,38 +11,33 @@ class PopupImageDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      child: Container(
-        width: 256,
-        height: 256,
-        decoration: BoxDecoration(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
-          image: DecorationImage(
-            fit: BoxFit.fill,
-            image: CachedNetworkImageProvider(
-              imageUrl,
-            )
-          )
-        ),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.of(context).pop();
-          },
-          child: Transform.translate(
-            offset: const Offset(20, -25),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CircleAvatar(
+      alignment: Alignment.center,
+      surfaceTintColor: Colors.transparent,
+      backgroundColor: Colors.transparent,
+      child: Stack(
+        children: [
+          InteractiveViewer(
+            maxScale: 2.0,
+            minScale: 0.5,
+            child: CachedNetworkImage(imageUrl: imageUrl)
+          ),
+          Positioned(
+            right: 0,
+            child: Transform.translate(
+              offset: const Offset(10, -10),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: CircleAvatar(
                   radius: 12,
                   backgroundColor: const Color(0xff353b48).withOpacity(0.8),
-                  child: const Icon(Iconsax.close_circle, color: Colors.white, size: 18,),
-                )
-              ],
+                  child: const Icon(Iconsax.close_circle5, color: Colors.white, size: 18,),
+                ),
+              ),
             ),
-          ),
-        ),
+          )
+        ],
       ),
     );
   }

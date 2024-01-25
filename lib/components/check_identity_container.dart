@@ -86,14 +86,14 @@ class CheckIdentityContainer extends StatelessWidget {
                       width: 100.w,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: state.result.success! == true ? kKeteranganContainerColor : Colors.red,
+                        color: state.result.success! == true ? kKeteranganContainerColor : HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!),
                       ),
                       padding: const EdgeInsets.all(8),
                       child: Text(
                         state.result.msg!, style: GoogleFonts.robotoMono(
                           fontSize: state.result.success! == true ? 12 : 14,
                           fontWeight: FontWeight.w600,
-                          color: state.result.success! ? Colors.black : Colors.white
+                          color: state.result.success! ? HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.textColor!) : Colors.white
                         ),
                       ),
                     ) : const SizedBox()

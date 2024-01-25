@@ -470,7 +470,7 @@ class HomeScreen extends StatelessWidget {
                     builder: (_, stateSetting) {
                       return Card(
                         surfaceTintColor: HexColor.fromHex(stateSetting.settingData.surfaceColor!),
-                        color: Colors.white.withOpacity(0.9),
+                        color: Colors.white.withOpacity(1),
                         child: Container(
                           padding: const EdgeInsets.all(8),
                           width: 100.w,
@@ -500,12 +500,12 @@ class HomeScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 8,),
                               SizedBox(
-                                height: 280,
+                                height: 180,
                                 child: FutureBuilder<List<ArtikelData>>(
-                                  future: locator.get<BackOfficeService>().findManyArtikelByStatus(1),
+                                  future: locator.get<BackOfficeService>().findManyArtikelByKategoriAndCount("ADAMULTI", 5),
                                   builder: (context, snapshot) {
                                     if(snapshot.connectionState == ConnectionState.done) {
-                                      return ArtikelComponent(artikelData: snapshot.data!);
+                                      return ArtikelComponent(artikelData: snapshot.data!, surfaceColor: HexColor.fromHex(stateSetting.settingData.surfaceColor!),);
                                     } else {
                                       return const SizedBox();
                                     }

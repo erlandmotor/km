@@ -5,10 +5,12 @@ import 'package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/connect_printer_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/getme_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/google_account_cubit.dart';
+import 'package:adamulti_mobile_clone_new/cubit/inbox_schema_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart';
 import 'package:adamulti_mobile_clone_new/firebase_options.dart';
 import 'package:adamulti_mobile_clone_new/locator.dart';
+import 'package:adamulti_mobile_clone_new/schema/inbox_schema.dart';
 import 'package:adamulti_mobile_clone_new/screen_router.dart';
 import 'package:adamulti_mobile_clone_new/services/auth_service.dart';
 import 'package:adamulti_mobile_clone_new/services/backoffice_service.dart';
@@ -18,12 +20,23 @@ import 'package:adamulti_mobile_clone_new/services/secure_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
+
+  await Hive.initFlutter();
+
+  Hive.registerAdapter(InboxSchemaAdapter());
+
+  final inboxSchemaBox = await Hive.openBox<InboxSchema>("inboxSchema");
+
+  locator.get<InboxSchemaCubit>().updateState(inboxSchemaBox);
+
+  // await Future.delayed(const Duration(seconds: 1));
 
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
@@ -100,6 +113,7 @@ class _MyAppState extends State<MyApp> {
     locator.get<UserAppidCubit>().close();
     locator.get<ConnectPrinterCubit>().close();
     locator.get<GoogleAccountCubit>().close();
+    locator.get<InboxSchemaCubit>().close();
     super.dispose();
   }
 

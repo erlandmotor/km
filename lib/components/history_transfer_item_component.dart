@@ -29,72 +29,67 @@ class HistoryTransferItemComponent extends StatelessWidget {
           borderRadius: BorderRadius.circular(18)
         ),
         width: 100.w,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            Container(
+              alignment: Alignment.center,
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(18),
+                color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!).withOpacity(0.2)
+              ),
+              child: Icon(
+                Iconsax.card_send5,
+                size: 32,
+                color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!),
+              ),
+            ),
+            const SizedBox(width: 12,),
+            Expanded(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    alignment: Alignment.center,
-                    width: 48,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18),
-                      color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!).withOpacity(0.2)
-                    ),
-                    child: Icon(
-                      Iconsax.card_send5,
-                      size: 32,
-                      color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!),
-                    ),
-                  ),
-                  const SizedBox(width: 12,),
                   Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(idreseller, style: GoogleFonts.openSans(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400
-                              ),),
-                              const SizedBox(height: 2,),
-                              Text(namaReseller, style: GoogleFonts.openSans(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600
-                              ),),
-                              const SizedBox(height: 2,),
-                              Text(waktu, style: GoogleFonts.openSans(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400
-                                ),
-                              ),
-                            ],
+                        Text(idreseller, style: GoogleFonts.openSans(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.textColor!),
+                        ),),
+                        const SizedBox(height: 2,),
+                        Text(namaReseller, style: GoogleFonts.openSans(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.textColor!),
+                        ),),
+                        const SizedBox(height: 2,),
+                        Text(waktu, style: GoogleFonts.openSans(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.textColor!),
                           ),
                         ),
-                        const SizedBox(width: 8,),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            AutoSizeText(FormatCurrency.convertToIdr(jumlah, 0), 
-                              maxFontSize: 16,
-                              maxLines: 1,
-                              style: GoogleFonts.openSans(
-                                color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
-                                fontWeight: FontWeight.w700
-                              ),
-                            ),
-                          ],
-                        )
                       ],
                     ),
+                  ),
+                  const SizedBox(width: 8,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      AutoSizeText(FormatCurrency.convertToIdr(jumlah, 0), 
+                        maxFontSize: 16,
+                        maxLines: 1,
+                        style: GoogleFonts.openSans(
+                          color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
+                          fontWeight: FontWeight.w700
+                        ),
+                      ),
+                    ],
                   )
                 ],
               ),

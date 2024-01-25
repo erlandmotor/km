@@ -37,7 +37,7 @@ class NotificationItemComponent extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(Iconsax.sms_notification5, color: iconColor, size: 48,),
+                    Icon(Iconsax.sms_star5, color: iconColor, size: 48,),
                     const SizedBox(width: 18,),
                     Expanded(
                       child: Column(

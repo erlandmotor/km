@@ -3,12 +3,10 @@ import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/artikel_data.dart";
 import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
-import "package:auto_size_text/auto_size_text.dart";
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:go_router/go_router.dart";
-import "package:google_fonts/google_fonts.dart";
 import "package:flutter_html/flutter_html.dart";
 import "package:iconsax/iconsax.dart";
 
@@ -52,21 +50,14 @@ class ArtikelDetailScreen extends StatelessWidget {
                   flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
                     titlePadding: const EdgeInsets.only(bottom: 22, left: 18),
-                    title: Row(
-                      children: [
-                        const SizedBox(width: 38,),
-                        Expanded(
-                          child: AutoSizeText(
-                            snapshot.data!.title!, 
-                            maxFontSize: 16,
-                            maxLines: 1,
-                            style: GoogleFonts.openSans(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600
-                          ),),
-                        ),
-                      ],
-                    ),
+                    // title: Row(
+                    //   children: [
+                    //     const SizedBox(width: 38,),
+                    //     Expanded(
+                    //       child: ,
+                    //     ),
+                    //   ],
+                    // ),
                     background: CachedNetworkImage(
                       imageUrl: "$baseUrlAuth/files/berita/image/${snapshot.data!.coverImage!}",
                       fit: BoxFit.cover,

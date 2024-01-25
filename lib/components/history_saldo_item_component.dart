@@ -30,84 +30,79 @@ class HistorySaldoItemComponent extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18)
         ),
+        padding: const EdgeInsets.all(6),
         width: 100.w,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            Container(
+              alignment: Alignment.center,
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(18),
+                color: jumlah < 0 ?
+                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!).withOpacity(0.2) :
+                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!).withOpacity(0.2)
+              ),
+              child: Icon(
+                jumlah < 0 ? 
+                Iconsax.empty_wallet_remove5 :
+                Iconsax.empty_wallet_add5,
+                color: jumlah < 0 ?
+                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!) :
+                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
+                size: 32,
+              ),
+            ),
+            const SizedBox(width: 12,),
+            Expanded(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    alignment: Alignment.center,
-                    width: 48,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18),
-                      color: jumlah < 0 ?
-                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!).withOpacity(0.2) :
-                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!).withOpacity(0.2)
-                    ),
-                    child: Icon(
-                      jumlah < 0 ? 
-                      Iconsax.empty_wallet_remove5 :
-                      Iconsax.empty_wallet_add5,
-                      color: jumlah < 0 ?
-                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!) :
-                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
-                      size: 32,
-                    ),
-                  ),
-                  const SizedBox(width: 12,),
                   Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(keterangan, style: GoogleFonts.openSans(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600
-                              ),),
-                              const SizedBox(height: 2,),
-                              Text(waktu, style: GoogleFonts.openSans(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400
-                                ),
-                              ),
-                            ],
+                        Text(keterangan, style: GoogleFonts.openSans(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.textColor!),
+                        ),),
+                        const SizedBox(height: 2,),
+                        Text(waktu, style: GoogleFonts.openSans(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.textColor!),
                           ),
                         ),
-                        const SizedBox(width: 8,),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            AutoSizeText(FormatCurrency.convertToIdr(sisaSaldo, 0), 
-                              maxFontSize: 16,
-                              maxLines: 1,
-                              style: GoogleFonts.openSans(
-                                color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
-                                fontWeight: FontWeight.w700
-                              ),
-                            ), const SizedBox(height: 2,),
-                            AutoSizeText(FormatCurrency.convertToIdr(jumlah, 0), 
-                              maxFontSize: 12,
-                              maxLines: 1,
-                              style: GoogleFonts.openSans(
-                                color: jumlah < 0 ? 
-                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!) : 
-                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.successColor!),
-                                fontWeight: FontWeight.w700
-                              ),
-                            ), 
-                          ],
-                        )
                       ],
                     ),
+                  ),
+                  const SizedBox(width: 8,),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      AutoSizeText(FormatCurrency.convertToIdr(sisaSaldo, 0), 
+                        maxFontSize: 16,
+                        maxLines: 1,
+                        style: GoogleFonts.openSans(
+                          color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
+                          fontWeight: FontWeight.w700
+                        ),
+                      ), const SizedBox(height: 2,),
+                      AutoSizeText(FormatCurrency.convertToIdr(jumlah, 0), 
+                        maxFontSize: 12,
+                        maxLines: 1,
+                        style: GoogleFonts.openSans(
+                          color: jumlah < 0 ? 
+                          HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!) : 
+                          HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.successColor!),
+                          fontWeight: FontWeight.w700
+                        ),
+                      ), 
+                    ],
                   )
                 ],
               ),

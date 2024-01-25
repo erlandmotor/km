@@ -8,11 +8,13 @@ import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
 import 'package:adamulti_mobile_clone_new/components/transaction_without_identity_form_component.dart';
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/inbox_schema_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/product_response.dart";
+import "package:adamulti_mobile_clone_new/schema/inbox_schema.dart";
 import "package:adamulti_mobile_clone_new/services/local_notification_service.dart";
 import "package:adamulti_mobile_clone_new/services/product_service.dart";
 import "package:adamulti_mobile_clone_new/services/transaction_service.dart";
@@ -84,6 +86,35 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                             "5", 
                             locator.get<UserAppidCubit>().state.userAppId.appId
                           ).then((value) {
+                            if(value.success!) {
+                              locator.get<InboxSchemaCubit>().state.inboxSchemaBox!.add(
+                                InboxSchema(
+                                  title: widget.operatorName, 
+                                  content: value.msg!, 
+                                  status: 1, 
+                                  date: DateTime.now()
+                                )
+                              );
+
+                              locator.get<LocalNotificationService>().showLocalNotification(
+                                title: "✅ Check ID Pelanggan ${value.produk!}", 
+                                body: value.msg!
+                              );
+                            } else {
+                              locator.get<InboxSchemaCubit>().state.inboxSchemaBox!.add(
+                                InboxSchema(
+                                  title: widget.operatorName, 
+                                  content: value.msg!, 
+                                  status: 0, 
+                                  date: DateTime.now()
+                                )
+                              );
+
+                              locator.get<LocalNotificationService>().showLocalNotification(
+                                title: "❌ Gagal Check ID Pelanggan ${value.produk!}", 
+                                body: value.msg!
+                              );
+                            }
                             FocusManager.instance.primaryFocus?.unfocus();
                             checkIdentityCubit.updateState(false, value);
                           }).catchError((e) {
@@ -168,6 +199,14 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                                                         body: "Transaksi ${snapshot.data!.data![index].namaproduk} berhasil dilakukan."
                                                       );
 
+                                                      locator.get<InboxSchemaCubit>().state.inboxSchemaBox!.add(
+                                                        InboxSchema(title: widget.operatorName, 
+                                                          content: value.msg!, 
+                                                          status: 0, 
+                                                          date: DateTime.now()
+                                                        )
+                                                      );
+
                                                       locator.get<TransactionService>().findLastTransaction(generatedIdTrx).then((trx) {
                                                         context.pushNamed("transaction-detail", extra: {
                                                           'idtrx': trx.idtransaksi!,
@@ -186,6 +225,14 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                                                     } else {
                                                       locator.get<LocalNotificationService>().showLocalNotification(title: "❌ Gagal : Transaksi ${snapshot.data!.data![index].namaproduk}", 
                                                       body: value.msg!);
+
+                                                      locator.get<InboxSchemaCubit>().state.inboxSchemaBox!.add(
+                                                        InboxSchema(title: widget.operatorName, 
+                                                          content: value.msg!, 
+                                                          status: 0, 
+                                                          date: DateTime.now()
+                                                        )
+                                                      );
                                                       context.pop();
                                                     }
                                                   }).catchError((e) {

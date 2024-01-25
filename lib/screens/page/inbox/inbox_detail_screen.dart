@@ -40,7 +40,7 @@ class InboxDetailScreen extends StatelessWidget {
             systemNavigationBarIconBrightness: Brightness.light,
             systemNavigationBarDividerColor: Colors.white),
         title: Text(
-          "Detail Inbox",
+          "Detail Notifikasi",
           style: GoogleFonts.openSans(
               fontSize: 16, 
               fontWeight: FontWeight.w600, 
@@ -57,7 +57,6 @@ class InboxDetailScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(snapshot.data!.title!, style: GoogleFonts.openSans(
                       fontSize: 16,

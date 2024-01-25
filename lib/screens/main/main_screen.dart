@@ -74,7 +74,7 @@ class _MainScreenState extends State<MainScreen> {
       );
     });
 
-    locator.get<BackOfficeService>().getPopupImage().then((value) {
+    locator.get<BackOfficeService>().getPopupImage("ADAMULTI").then((value) {
       if(value.status! == 1) {
         showDialog(
           context: context, 

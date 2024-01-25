@@ -10,12 +10,14 @@ import "package:adamulti_mobile_clone_new/components/show_loading_submit.dart";
 import "package:adamulti_mobile_clone_new/components/textfield_with_event_component.dart";
 import "package:adamulti_mobile_clone_new/components/transaction_without_identity_form_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
+import "package:adamulti_mobile_clone_new/cubit/inbox_schema_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/pulsa_and_data_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/get_product_by_tujuan_response.dart";
+import "package:adamulti_mobile_clone_new/schema/inbox_schema.dart";
 import "package:adamulti_mobile_clone_new/services/local_notification_service.dart";
 import "package:adamulti_mobile_clone_new/services/product_service.dart";
 import "package:adamulti_mobile_clone_new/services/transaction_service.dart";
@@ -315,6 +317,14 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                                                     body: "Transaksi ${data.produk![index].namaproduk} berhasil dilakukan."
                                                                   );
 
+                                                                  locator.get<InboxSchemaCubit>().state.inboxSchemaBox!.add(
+                                                                    InboxSchema(title: data.produk![index].namaproduk!, 
+                                                                      content: value.msg!, 
+                                                                      status: 1, 
+                                                                      date: DateTime.now()
+                                                                    )
+                                                                  );
+
                                                                   locator.get<TransactionService>().findLastTransaction(generatedIdTrx).then((trx) {
                                                                     context.pushNamed("transaction-detail", extra: {
                                                                       'idtrx': trx.idtransaksi!,
@@ -333,6 +343,14 @@ class _PulsaAndDataMainScreenState extends State<PulsaAndDataMainScreen> {
                                                                 } else {
                                                                   locator.get<LocalNotificationService>().showLocalNotification(title: "❌ Gagal : Transaksi ${data.produk![index].namaproduk}", 
                                                                   body: value.msg!);
+
+                                                                  locator.get<InboxSchemaCubit>().state.inboxSchemaBox!.add(
+                                                                    InboxSchema(title: data.produk![index].namaproduk!, 
+                                                                      content: value.msg!, 
+                                                                      status: 0, 
+                                                                      date: DateTime.now()
+                                                                    )
+                                                                  );
                                                                   context.pop();
                                                                 }
                                                               }).catchError((e) {

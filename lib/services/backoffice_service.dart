@@ -15,10 +15,10 @@ import 'package:dio/dio.dart';
 class BackOfficeService {
   final _dio = Dio();
 
-  Future<List<ArtikelData>> findManyArtikel() async {
+  Future<List<ArtikelData>> findManyArtikel(String kategori) async {
     final token = await locator.get<SecureStorageService>().readSecureData("jwt");
 
-    final response = await _dio.get("$baseUrlAuth/berita/many", options: Options(
+    final response = await _dio.get("$baseUrlAuth/berita/many-kategori/$kategori", options: Options(
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${token!}'
@@ -40,6 +40,20 @@ class BackOfficeService {
 
     return (response.data as List).map((e) => ArtikelData.fromJson(e)).toList();
   }
+
+  Future<List<ArtikelData>> findManyArtikelByKategoriAndCount(String kategori, int count) async {
+    final token = await locator.get<SecureStorageService>().readSecureData("jwt");
+
+    final response = await _dio.get("$baseUrlAuth/berita/many-count?kategori=$kategori&count=$count", options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${token!}'
+      }
+    ));
+
+    return (response.data as List).map((e) => ArtikelData.fromJson(e)).toList();
+  }
+  
 
   Future<ArtikelData> findUniqueArtikel(int id) async {
     final token = await locator.get<SecureStorageService>().readSecureData("jwt");
@@ -121,10 +135,10 @@ class BackOfficeService {
     return (response.data as List).map((e) => KategoriWithMenuResponse.fromJson(e)).toList();
   }
 
-  Future<PopupResponse> getPopupImage() async {
+  Future<PopupResponse> getPopupImage(String kategori) async {
     final token = await locator.get<SecureStorageService>().readSecureData("jwt");
 
-    final response = await _dio.get("$baseUrlAuth/setting-popup/1", options: Options(
+    final response = await _dio.get("$baseUrlAuth/setting-popup/first/$kategori", options: Options(
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${token!}'

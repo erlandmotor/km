@@ -23,6 +23,7 @@ import "package:adamulti_mobile_clone_new/cubit/select_region_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/transaction_detail_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/transfer_cubit.dart";
+import "package:adamulti_mobile_clone_new/schema/inbox_schema.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/input_phone_number_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/input_pin_already_registered_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/input_pin_screen.dart";
@@ -41,6 +42,7 @@ import "package:adamulti_mobile_clone_new/screens/page/check_before_transaction_
 import "package:adamulti_mobile_clone_new/screens/page/daftar_agen/daftar_agen_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/daftar_agen/markup_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/daftar_agen/register_agen_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/inbox/inbox_activity_detail_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/inbox/inbox_detail_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/komisi/komisi_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/more_screen.dart";
@@ -503,6 +505,16 @@ GoRouter screenRouter(String? token) {
               final notificationId = extra["notificationId"] as int;
 
               return InboxDetailScreen(notificationId: notificationId);
+            }
+          ),
+          GoRoute(
+            path: "inbox-activity-detail",
+            name: "inbox-activity-detail",
+            builder: (context, state) {
+              final extra = state.extra as Map<dynamic, dynamic>;
+              final data = extra["data"] as InboxSchema;
+
+              return InboxActivityDetailScreen(data: data,);
             }
           ),
           GoRoute(

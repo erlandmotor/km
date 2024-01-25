@@ -34,7 +34,7 @@ class ArtikelMainScreen extends StatelessWidget {
                   const CustomContainerAppBar(title: "Artikel", height: 80,),
                   Expanded(
                     child: FutureBuilder<List<ArtikelData>>(
-                      future: locator.get<BackOfficeService>().findManyArtikel(),
+                      future: locator.get<BackOfficeService>().findManyArtikel("ADAMULTI"),
                       builder: (context, snapshot) {
                         if(snapshot.connectionState == ConnectionState.done) {
                           return ListView.separated(
