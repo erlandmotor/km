@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:adamulti_mobile_clone_new/constant/constant.dart';
 import 'package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart';
+import 'package:adamulti_mobile_clone_new/cubit/bottom_navigation_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/connect_printer_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/getme_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/google_account_cubit.dart';
@@ -114,6 +115,7 @@ class _MyAppState extends State<MyApp> {
     locator.get<ConnectPrinterCubit>().close();
     locator.get<GoogleAccountCubit>().close();
     locator.get<InboxSchemaCubit>().close();
+    locator.get<BottomNavigationCubit>().close();
     super.dispose();
   }
 

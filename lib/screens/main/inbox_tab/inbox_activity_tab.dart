@@ -14,6 +14,9 @@ class InboxActivityTab extends StatelessWidget {
     return ValueListenableBuilder(
       valueListenable: locator.get<InboxSchemaCubit>().state.inboxSchemaBox!.listenable(), 
       builder: (context, value, child) {
+        final convertedValueToList = value.values.toList();
+        final sortedValue = value.values.toList()..sort((b, a) => a.date.compareTo(b.date));
+        
         if(value.isEmpty) {
           return const NoNotificationComponent(label: "Tidak Ada Data Inbox Aktifitas");
         } else {
@@ -22,24 +25,24 @@ class InboxActivityTab extends StatelessWidget {
             shrinkWrap: true,
             itemBuilder: (context, index) {
               final box = value;
-              final getData = box.getAt(index);
 
               return InboxApplikasiItemComponent(
-                data: getData!, 
+                data: sortedValue[index], 
                 onTapAction: () {
                   context.pushNamed("inbox-activity-detail", extra: {
-                    "data": getData
+                    "data": sortedValue[index]
                   });
                 },
                 onDeleteAction: () {
-                  box.deleteAt(index);
+                  final findIndex = convertedValueToList.indexWhere((element) => element.date == sortedValue[index].date);
+                  box.deleteAt(findIndex);
                 },
               );
             }, 
             separatorBuilder: (context, index) {
               return const SizedBox(height: 6,);
             }, 
-            itemCount: value.length
+            itemCount: sortedValue.length
           );
         }
       }

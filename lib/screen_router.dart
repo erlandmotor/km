@@ -23,6 +23,8 @@ import "package:adamulti_mobile_clone_new/cubit/select_region_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/transaction_detail_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/transfer_cubit.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
+import "package:adamulti_mobile_clone_new/model/topup_reply_response.dart";
 import "package:adamulti_mobile_clone_new/schema/inbox_schema.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/input_phone_number_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/input_pin_already_registered_screen.dart";
@@ -61,11 +63,14 @@ import "package:adamulti_mobile_clone_new/screens/page/select_operator_triple_pp
 import "package:adamulti_mobile_clone_new/screens/page/select_product_ppob_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/select_product_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/select_product_transaction_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/topup/topup_bank_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/topup/topup_main_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/topup/topup_metode_pembayaran_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/transaction/transaction_detail_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/transfer/transfer_dynamic_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/transfer/transfer_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/webview_screen.dart";
+import "package:adamulti_mobile_clone_new/services/local_notification_service.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
@@ -73,6 +78,7 @@ import "package:go_router/go_router.dart";
 GoRouter screenRouter(String? token) {
 
   return GoRouter(
+    navigatorKey: locator.get<LocalNotificationService>().globalNavigatorKey,
     initialLocation: token != null ? "/main" : "/select-google-account",
     routes: [
       GoRoute(
@@ -365,6 +371,25 @@ GoRouter screenRouter(String? token) {
                 create: (_) => TopupSaldoCubit(),
                 child: const TopupMainScreen(),
               ); 
+            }
+          ),
+          GoRoute(
+            path: "topup-metode-pembayaran",
+            name: "topup-metode-pembayaran",
+            builder: (context, state) {
+              final extra = state.extra as Map<dynamic, dynamic>;
+              final amount = extra["amount"] as int;
+              return TopupMetodePembayaranScreen(amount: amount);
+            }
+          ),
+          GoRoute(
+            path: "topup-bank",
+            name: "topup-bank",
+            builder: (context, state) {
+              final extra = state.extra as Map<dynamic, dynamic>;
+              final data = extra["data"] as TopupReplyResponse;
+
+              return TopupBankScreen(data: data);
             }
           ),
           GoRoute(

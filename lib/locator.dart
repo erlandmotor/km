@@ -1,4 +1,5 @@
 import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/bottom_navigation_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/connect_printer_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/getme_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/google_account_cubit.dart";
@@ -28,6 +29,7 @@ void setupLocator() {
   locator.registerLazySingleton(() => AuthService());
   locator.registerLazySingleton(() => BackOfficeService());
   locator.registerLazySingleton(() => SecureStorageService());
+  locator.registerSingleton(BottomNavigationCubit());
   locator.registerSingleton(InboxSchemaCubit());
   locator.registerSingleton(AuthenticatedCubit());
   locator.registerSingleton(UserAppidCubit());

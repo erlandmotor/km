@@ -1,7 +1,12 @@
 import "package:flutter_local_notifications/flutter_local_notifications.dart";
+import "package:flutter/material.dart";
+import "package:go_router/go_router.dart";
 
 class LocalNotificationService {
   final FlutterLocalNotificationsPlugin localNotificationPlugin = FlutterLocalNotificationsPlugin();
+
+  final globalNavigatorKey = GlobalKey<NavigatorState>(debugLabel: "Main Navigator");
+
 
   Future<void> initLocalNotification() async {
     AndroidInitializationSettings initializationSettingsAndroid = const AndroidInitializationSettings("adalogo");
@@ -10,7 +15,7 @@ class LocalNotificationService {
       requestAlertPermission: true,
       requestBadgePermission: true,
       requestSoundPermission: true,
-      onDidReceiveLocalNotification: (int id, String? title, String? body, String? payload) async {}
+      onDidReceiveLocalNotification: (int id, String? title, String? body, String? payload) async {},
     );
 
     final initializationSettings = InitializationSettings(
@@ -18,9 +23,18 @@ class LocalNotificationService {
       iOS: initializationSettingsIOS
     );
 
-    await localNotificationPlugin.initialize(initializationSettings, onDidReceiveNotificationResponse: 
+    await localNotificationPlugin.initialize(initializationSettings, 
+    onDidReceiveNotificationResponse: 
     (NotificationResponse notificationResponse) async {
+      switch (notificationResponse.notificationResponseType) {
+        case NotificationResponseType.selectedNotification:
+          // final context = globalNavigatorKey.currentContext!;
+          // context.goNamed("main");
 
+        case NotificationResponseType.selectedNotificationAction:
+          // Perhaps this section is for custom action with notification
+          break;
+      }
     });
   }
 

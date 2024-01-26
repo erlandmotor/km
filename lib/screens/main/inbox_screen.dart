@@ -1,6 +1,5 @@
 import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
-import "package:adamulti_mobile_clone_new/cubit/notification_count_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/notifications_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
@@ -12,7 +11,6 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:intl/intl.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
-import 'package:badges/badges.dart' as badges;
 
 class InboxScreen extends StatefulWidget {
 

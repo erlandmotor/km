@@ -3,10 +3,7 @@
     <item>
         <bitmap android:gravity="fill" android:src="@drawable/background"/>
     </item>
-    <item>
+    <!-- <item>
         <bitmap android:gravity="fill" android:src="@drawable/splash"/>
-    </item>
-    <item>
-        <bitmap android:gravity="bottom" android:src="@drawable/branding"/>
-    </item>
+    </item> -->
 </layer-list>

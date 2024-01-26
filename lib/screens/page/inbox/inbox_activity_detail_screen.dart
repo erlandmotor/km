@@ -1,4 +1,5 @@
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_outlined_icon_component.dart";
+import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
@@ -9,6 +10,8 @@ import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
+import 'package:clipboard/clipboard.dart';
+import "package:share_plus/share_plus.dart";
 
 class InboxActivityDetailScreen extends StatelessWidget {
 
@@ -81,7 +84,9 @@ class InboxActivityDetailScreen extends StatelessWidget {
                   DynamicSizeButtonOutlinedIconComponent(
                     label: "Share", 
                     buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
-                    onPressed: () {}, 
+                    onPressed: () {
+                      Share.share(data.content);
+                    }, 
                     width: 30.w, 
                     height: 30, 
                     icon: Iconsax.share5
@@ -90,7 +95,17 @@ class InboxActivityDetailScreen extends StatelessWidget {
                   DynamicSizeButtonOutlinedIconComponent(
                     label: "Salin Text", 
                     buttonColor: Colors.black, 
-                    onPressed: () {}, 
+                    onPressed: () {
+                      FlutterClipboard.copy(data.content).then((_) {
+                        showDynamicSnackBar(
+                          context, 
+                          Icons.check, 
+                          "Salin Text", 
+                          "Text Keterangan Berhasil di Salin.", 
+                          HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!)
+                        );
+                      });
+                    }, 
                     width: 150, 
                     height: 30, 
                     icon: Iconsax.copy5

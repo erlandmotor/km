@@ -9,15 +9,12 @@ import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart";
-import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/topup_history_response.dart";
-import "package:adamulti_mobile_clone_new/model/topup_reply_response.dart";
 import "package:adamulti_mobile_clone_new/services/topup_service.dart";
-import "package:auto_size_text/auto_size_text.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import "package:google_fonts/google_fonts.dart";
+import "package:go_router/go_router.dart";
 import "package:iconsax/iconsax.dart";
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -93,111 +90,8 @@ class _TopupMainScreenState extends State<TopupMainScreen> {
                                               HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
                                             );
                                           } else {
-                                            FocusManager.instance.primaryFocus?.unfocus();
-                                            final topupSaldoCubit = context.read<TopupSaldoCubit>();
-                                            topupSaldoCubit.updateState(true, TopupReplyResponse());
-                                            locator.get<TopupService>().proceedDepositTiket(
-                                              locator.get<UserAppidCubit>().state.userAppId.appId,
-                                              amount
-                                            ).then((response) {
-                                              topupSaldoCubit.updateState(false, response);
-                                              showModalBottomSheet(
-                                                isScrollControlled: true,
-                                                context: context, 
-                                                builder: (context) {
-                                                  return Container(
-                                                    height: 100.h,
-                                                    decoration: const BoxDecoration(
-                                                      color: Colors.white,
-                                                      borderRadius: BorderRadius.only(
-                                                        topLeft: Radius.circular(18),
-                                                        topRight: Radius.circular(18)
-                                                      )
-                                                    ),
-                                                    padding: const EdgeInsets.all(18),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                          children: [
-                                                            Text("Informasi Deposit Bank", style: GoogleFonts.openSans(
-                                                              fontSize: 16,
-                                                              fontWeight: FontWeight.w600
-                                                            ),),
-                                                            IconButton(
-                                                              onPressed: () {
-                                                                Navigator.pop(context);
-                                                              }, 
-                                                              icon: const Icon(Icons.close, color: Colors.black,)
-                                                            )
-                                                          ],
-                                                        ),
-                                                        const SizedBox(height: 18,),
-                                                        Container(
-                                                          padding: const EdgeInsets.all(18),
-                                                          width: 100.w,
-                                                          decoration: BoxDecoration(
-                                                            gradient: LinearGradient(
-                                                              colors: [
-                                                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
-                                                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor2!),
-                                                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor3!),
-                                                              ],
-                                                              stops: const [0, 0.4, 0.8],
-                                                              begin: Alignment.topCenter,
-                                                              end: Alignment.bottomCenter,
-                                                            ),
-                                                            borderRadius: BorderRadius.circular(18)
-                                                          ),
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text("Jumlah Transfer", style: GoogleFonts.openSans(
-                                                                fontSize: 14,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.white
-                                                              ),),
-                                                              const SizedBox(height: 12,),
-                                                              Text(FormatCurrency.convertToIdr(response.jumlah!, 0), style: GoogleFonts.openSans(
-                                                                fontSize: 20,
-                                                                fontWeight: FontWeight.w700,
-                                                                color: Colors.white
-                                                              ),)
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        const SizedBox(height: 18,),
-                                                        Expanded(
-                                                          child: Container(
-                                                            width: 100.w,
-                                                            decoration: BoxDecoration(
-                                                              borderRadius: BorderRadius.circular(18),
-                                                              color: const Color(0xffc8d6e5)
-                                                            ),
-                                                            padding: const EdgeInsets.all(18),
-                                                            child: AutoSizeText(response.msg!, 
-                                                              maxFontSize: 14,
-                                                              style: GoogleFonts.robotoMono(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w600
-                                                            ),),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  );
-                                                }
-                                              );
-                                            }).catchError((e) {
-                                              showDynamicSnackBar(
-                                                context, 
-                                                Iconsax.warning_2, 
-                                                "ERROR", 
-                                                "Nominal Topup Minimal Harus Rp. 50.000.", 
-                                                HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
-                                              );
+                                            context.pushNamed("topup-metode-pembayaran", extra: {
+                                              "amount": int.parse(amount)
                                             });
                                           }                                          
                                         }, 
