@@ -8,6 +8,7 @@ import 'package:adamulti_mobile_clone_new/model/main_menu_mobile.dart';
 import 'package:adamulti_mobile_clone_new/model/popup_response.dart';
 import 'package:adamulti_mobile_clone_new/model/running_text_data.dart';
 import 'package:adamulti_mobile_clone_new/model/setting_applikasi_response.dart';
+import 'package:adamulti_mobile_clone_new/model/setting_irma.dart';
 import 'package:adamulti_mobile_clone_new/model/setting_kategori_response.dart';
 import 'package:adamulti_mobile_clone_new/services/secure_storage.dart';
 import 'package:dio/dio.dart';
@@ -194,5 +195,17 @@ class BackOfficeService {
     ));
 
     return (response.data as List).map((e) => RunningTextData.fromJson(e)).toList();
+  }
+
+  Future<SettingIrma> findFirstSettingIrma() async {
+    final token = await locator.get<SecureStorageService>().readSecureData("jwt");
+    final response = await _dio.get("$baseUrlAuth/setting-irma/first", options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${token!}'
+      }
+    ));
+
+    return SettingIrma.fromJson(response.data);
   }
 }

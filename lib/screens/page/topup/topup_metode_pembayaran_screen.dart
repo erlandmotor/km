@@ -67,8 +67,8 @@ class TopupMetodePembayaranScreen extends StatelessWidget {
                                             HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor3!),
                                           ],
                                           stops: const [0, 0.4, 0.8],
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
+                                          begin: Alignment.centerLeft,
+                                          end: Alignment.centerRight,
                                         ),
                                         borderRadius: BorderRadius.circular(18)
                                       ),
@@ -141,7 +141,11 @@ class TopupMetodePembayaranScreen extends StatelessWidget {
                               surfaceColor: Colors.white,
                               isImage: true,
                               imageUrl: "https://res.cloudinary.com/ada-multi/image/upload/v1611653453/OVO_LOGO-min_zygtwe.png", 
-                              onTapAction: () {}
+                              onTapAction: () {
+                                context.pushNamed("topup-ovo", extra: {
+                                  "amount": amount
+                                });
+                              }
                             ),
                             const SizedBox(height: 8,),
                             MetodePembayaranItemComponent(
@@ -153,7 +157,27 @@ class TopupMetodePembayaranScreen extends StatelessWidget {
                               surfaceColor: Colors.white,
                               isImage: true,
                               imageUrl: "https://res.cloudinary.com/ada-multi/image/upload/v1706236597/alfamart-min_fmspkk.png", 
-                              onTapAction: () {}
+                              onTapAction: () {
+                                showLoadingSubmit(context, "Proses Mengajukan Deposit, Silahkan Tunggu...");
+                                locator.get<TopupService>().proceedDepositTiketAlfamart(
+                                  locator.get<UserAppidCubit>().state.userAppId.appId, 
+                                  amount.toString()
+                                ).then((value) {
+                                  context.pop();
+                                  context.pushNamed("topup-alfamart", extra: {
+                                    "response": value
+                                  });
+                                }).catchError((e) {
+                                  context.pop();
+                                  showDynamicSnackBar(
+                                    context, 
+                                    Iconsax.warning_2, 
+                                    "ERROR", 
+                                    e.toString(), 
+                                    HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
+                                  );
+                                });
+                              }
                             ),
                             const SizedBox(height: 8,),
                             MetodePembayaranItemComponent(

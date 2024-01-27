@@ -8,6 +8,7 @@ import "package:adamulti_mobile_clone_new/services/auth_service.dart";
 import "package:cached_network_image/cached_network_image.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:iconsax/iconsax.dart";
@@ -31,6 +32,18 @@ class _SelectGoogleAccountScreenState extends State<SelectGoogleAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        toolbarHeight: 0,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.mainColor1!),
+          systemNavigationBarColor: Colors.white,
+          statusBarBrightness: Brightness.dark,
+          statusBarIconBrightness: Brightness.light,
+          systemNavigationBarIconBrightness: Brightness.light,
+          systemNavigationBarDividerColor: Colors.white
+        ),
+      ),
       backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightColor!),
       body: SafeArea(
         child: Stack(

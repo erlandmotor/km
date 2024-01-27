@@ -24,6 +24,7 @@ import "package:adamulti_mobile_clone_new/cubit/topup_saldo_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/transaction_detail_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/transfer_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
+import "package:adamulti_mobile_clone_new/model/alfamart_payment_response.dart";
 import "package:adamulti_mobile_clone_new/model/topup_reply_response.dart";
 import "package:adamulti_mobile_clone_new/schema/inbox_schema.dart";
 import "package:adamulti_mobile_clone_new/screens/auth/input_phone_number_screen.dart";
@@ -63,9 +64,11 @@ import "package:adamulti_mobile_clone_new/screens/page/select_operator_triple_pp
 import "package:adamulti_mobile_clone_new/screens/page/select_product_ppob_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/select_product_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/select_product_transaction_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/topup/topup_alfamart_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/topup/topup_bank_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/topup/topup_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/topup/topup_metode_pembayaran_screen.dart";
+import "package:adamulti_mobile_clone_new/screens/page/topup/topup_ovo_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/transaction/transaction_detail_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/transfer/transfer_dynamic_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/transfer/transfer_main_screen.dart";
@@ -390,6 +393,24 @@ GoRouter screenRouter(String? token) {
               final data = extra["data"] as TopupReplyResponse;
 
               return TopupBankScreen(data: data);
+            }
+          ),
+          GoRoute(
+            path: "topup-ovo",
+            name: "topup-ovo",
+            builder: (context, state) {
+              final extra = state.extra as Map<dynamic, dynamic>;
+              final amount = extra["amount"] as int;
+              return TopupOvoScreen(amount: amount);
+            }
+          ),
+          GoRoute(
+            path: "topup-alfamart",
+            name: "topup-alfamart",
+            builder: (context, state) {
+              final extra = state.extra as Map<dynamic, dynamic>;
+              final data = extra["response"] as AlfamartPaymentResponse;
+              return TopupAlfamartScreen(response: data,);
             }
           ),
           GoRoute(

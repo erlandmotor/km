@@ -55,7 +55,7 @@ class AuthService {
     if(currentSigning != null) {
       currentSigning.clearAuthCache();
       _googleSignIn.signOut();
-      _googleSignIn.disconnect();
+      // _googleSignIn.disconnect();
     }
   }
 
@@ -157,10 +157,15 @@ class AuthService {
   }
 
   Future<LastOtpResponse> findLastOtp(String idreseller, String kode) async {
-    final response = await _dio.post("$baseUrlAuth/auth/otp/last", data: {
+    final response = await _dio.post("$baseUrlAuth/auth/otp/last", 
+    data: {
       "email": idreseller,
       "kode": kode
-    });
+    }, options: (Options(
+      validateStatus: (status) {
+        return status !< 500;
+      }
+    )));
 
     return LastOtpResponse.fromJson(response.data);
   }
