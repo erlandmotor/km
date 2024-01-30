@@ -131,6 +131,19 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                     checkIdentityCubit.updateState(
                                         false, value);
                                     if (value.success!) {
+                                        locator.get<LocalNotificationService>().showLocalNotification(
+                                          title: "✅ Cek Tagihan Pelanggan : ${value.produk!}",
+                                          body: "Transaksi ${value.produk!} berhasil dilakukan."
+                                        );
+
+                                        locator.get<InboxSchemaCubit>().state.inboxSchemaBox!.add(
+                                          InboxSchema(title: widget.title, 
+                                            content: value.msg!, 
+                                            status: 1, 
+                                            date: DateTime.now()
+                                          )
+                                        );
+
                                       popupMenuController.hideMenu();
                                       var totalPay = 0;
                                       
@@ -236,7 +249,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                       );
                                     } else {
                                       locator.get<LocalNotificationService>().showLocalNotification(
-                                        title: "❌ Gagal : Transaksi ${value.produk!}",
+                                        title: "❌ Gagal : Produk ${value.produk!}",
                                         body: value.msg!
                                       );
 

@@ -1,21 +1,15 @@
-import "dart:convert";
-
 import "package:adamulti_mobile_clone_new/components/container_gradient_background.dart";
 import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
-import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
-import "package:adamulti_mobile_clone_new/cubit/connect_printer_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
-import "package:adamulti_mobile_clone_new/services/secure_storage.dart";
-import "package:blue_thermal_printer/blue_thermal_printer.dart";
 import "package:flutter/material.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:iconsax/iconsax.dart";
 import "package:responsive_sizer/responsive_sizer.dart";
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 class ConnectPrinterScreen extends StatefulWidget {
 
@@ -27,30 +21,8 @@ class ConnectPrinterScreen extends StatefulWidget {
 
 class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
 
-  final blueThermalPrinter = BlueThermalPrinter.instance;
-
   @override
   void initState() {
-    blueThermalPrinter.isOn.then((isOn) {
-      if(isOn!) {
-        blueThermalPrinter.isConnected.then((value) {
-          if(value == false) {
-            locator.get<SecureStorageService>().readSecureData("printer").then((value) {
-              if(value != null) {
-                final deviceObject = jsonDecode(value);
-                final device = BluetoothDevice.fromMap(deviceObject);
-                blueThermalPrinter.connect(device);
-                locator.get<ConnectPrinterCubit>().updateState(
-                  [],
-                  device,
-                  false
-                );
-              }
-            });
-          }
-        });
-      }
-    });
     super.initState();
   }
 
@@ -100,44 +72,24 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                     color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.lightTextColor!)
                                   )
                                 ),
-                                child: StreamBuilder<int?>(
-                                  stream: blueThermalPrinter.onStateChanged(),
+                                child: StreamBuilder<BluetoothAdapterState>(
+                                  stream: FlutterBluePlus.adapterState,
                                   builder: (context, snapshot) {
-                                    if(snapshot.data == BlueThermalPrinter.STATE_OFF) {
-                                      locator.get<ConnectPrinterCubit>().updateState(
-                                        [], 
-                                        locator.get<ConnectPrinterCubit>().state.selectedDevice, 
-                                        false
-                                      );
-                                    } else {
-                                      locator.get<SecureStorageService>().readSecureData("print").then((value) {
-                                        if(value != null) {
-                                          final deviceObject = jsonDecode(value);
-                                          final device = BluetoothDevice.fromMap(deviceObject);
-                                          locator.get<ConnectPrinterCubit>().updateState(
-                                            [],
-                                            device,
-                                            false
-                                          );
-                                        }
-                                      });
-                                    }
-                                    return Row(
+                                    return Column(
                                       children: [
-                                        CircleAvatar(
-                                          backgroundColor: snapshot.data == BlueThermalPrinter.STATE_OFF ? 
-                                          HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!) : const Color(0xff0a3b8c),
-                                          child: const Icon(Iconsax.bluetooth, color: Colors.white,),
-                                        ),
-                                        const SizedBox(width: 12,),
-                                        BlocBuilder<ConnectPrinterCubit, ConnectPrinterState>(
-                                          bloc: locator.get<ConnectPrinterCubit>(),
-                                          builder: (_, state) {
-                                            return Column(
+                                        Row(
+                                          children: [
+                                            CircleAvatar(
+                                              backgroundColor: snapshot.data == BluetoothAdapterState.off ? 
+                                              HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!) : const Color(0xff0a3b8c),
+                                              child: const Icon(Iconsax.bluetooth, color: Colors.white,),
+                                            ),
+                                            const SizedBox(width: 12,),
+                                            Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  snapshot.data == BlueThermalPrinter.STATE_OFF ?
+                                                  snapshot.data == BluetoothAdapterState.off ?
                                                   "Bluetooth Tidak Aktif"
                                                   : "Bluetooth Aktif", style: GoogleFonts.openSans(
                                                   fontSize: 14,
@@ -145,175 +97,30 @@ class _ConnectPrinterScreenState extends State<ConnectPrinterScreen> {
                                                   color: Colors.black
                                                 ),),
                                                 const SizedBox(height: 4,),
-                                                Text(snapshot.data == BlueThermalPrinter.STATE_OFF ? 
+                                                Text(snapshot.data == BluetoothAdapterState.off ? 
                                                   "Nyalakan Bluetooth Anda." : 
-                                                  snapshot.data == BlueThermalPrinter.CONNECTED ? 
-                                                  state.selectedDevice.name! :
-                                                   "Pilih Device Printer Anda", style: GoogleFonts.openSans(
+                                                  snapshot.data == BluetoothAdapterState.unknown ? 
+                                                  "Terconnect ke Printer" :
+                                                    "Pilih Device Printer Anda", style: GoogleFonts.openSans(
                                                   fontSize: 12,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.w400
                                                 ),)
                                               ],
-                                            );
-                                          },
-                                        )
+                                            )
+                                          ],
+                                        ),
+                                        if(snapshot.data == BluetoothAdapterState.on) DynamicSizeButtonComponent(
+                                          label: "Scan Device", 
+                                          buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
+                                          onPressed: () {
+                                            
+                                          }, 
+                                          width: 100.w, 
+                                          height: 50
+                                        ),
                                       ],
                                     );
-                                  }
-                                ),
-                              ),
-                              const SizedBox(height: 18,),
-                              DynamicSizeButtonComponent(
-                                label: "Scan Device", 
-                                buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
-                                onPressed: () {
-                                  blueThermalPrinter.isOn.then((isOn) {
-                                    if(isOn == true) {
-                                      locator.get<ConnectPrinterCubit>().updateState(
-                                        locator.get<ConnectPrinterCubit>().state.deviceList, 
-                                        locator.get<ConnectPrinterCubit>().state.selectedDevice, 
-                                        true
-                                      );
-                                        
-                                      blueThermalPrinter.getBondedDevices().then((value) {
-                                        locator.get<ConnectPrinterCubit>().updateState(
-                                          value, 
-                                          locator.get<ConnectPrinterCubit>().state.selectedDevice, 
-                                          false
-                                        );
-                                      }).catchError((e) {
-                                        showDynamicSnackBar(
-                                          context, 
-                                          Iconsax.warning_2, 
-                                          "ERROR", 
-                                          "Terjadi Kesalahan dengan Bluetooth", 
-                                          HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
-                                        );
-                                      });
-                                    } else {
-                                      showDynamicSnackBar(
-                                        context, 
-                                        Iconsax.warning_2, 
-                                        "ERROR", 
-                                        "Nyalakan Bluetooth Anda Terlebih Dahulu", 
-                                        HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
-                                      );
-                                    }
-                                  });
-                                  
-                                }, 
-                                width: 100.w, 
-                                height: 50
-                              ),
-                              const SizedBox(height: 18,),
-                              Expanded(
-                                child: BlocBuilder<ConnectPrinterCubit, ConnectPrinterState>(
-                                  bloc: locator.get<ConnectPrinterCubit>(),
-                                  builder: (_, state) {
-                                    if(state.isLoading) {
-                                      return const Center(
-                                        child: CircularProgressIndicator(),
-                                      );
-                                    } else {
-                                      return ListView.separated(
-                                        itemBuilder: (context, index) {
-                                          return ListTile(
-                                            leading: CircleAvatar(
-                                              backgroundColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
-                                              child: const Icon(Iconsax.printer, color: Colors.white,),
-                                            ),
-                                            title: Text(
-                                              state.deviceList[index].name!,
-                                              style: GoogleFonts.openSans(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.black
-                                              ),
-                                            ),
-                                            onTap: () {
-                                              blueThermalPrinter.isConnected.then((isConnected) {
-                                                if(isConnected! == false) {
-                                                  blueThermalPrinter.connect(state.deviceList[index]).then((_) {
-                                                    locator.get<ConnectPrinterCubit>().updateState(
-                                                      locator.get<ConnectPrinterCubit>().state.deviceList, 
-                                                      state.deviceList[index], 
-                                                      false
-                                                    );
-                                        
-                                                    locator.get<SecureStorageService>().writeSecureData("printer", jsonEncode(state.deviceList[index].toMap()));
-                                        
-                                                    showDynamicSnackBar(context, 
-                                                      Iconsax.info_circle, 
-                                                      "Koneksi Perangkat Bluetooth", 
-                                                      "Berhasil terhubung dengan perangkat ${state.deviceList[index].name}", 
-                                                      Colors.blue
-                                                    );
-                                                  }).catchError((_) {
-                                                    showDynamicSnackBar(
-                                                      context, 
-                                                      Iconsax.warning_2, 
-                                                      "ERROR", 
-                                                      "Gagal Menghubungkan Printer", 
-                                                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
-                                                    );
-                                                  });
-                                                } else {
-                                                  blueThermalPrinter.disconnect();
-                                        
-                                                  blueThermalPrinter.connect(state.deviceList[index]).then((_) {
-                                                    locator.get<ConnectPrinterCubit>().updateState(
-                                                      locator.get<ConnectPrinterCubit>().state.deviceList, 
-                                                      state.deviceList[index], 
-                                                      false
-                                                    );
-                                        
-                                                    locator.get<SecureStorageService>().writeSecureData("printer", jsonEncode(state.deviceList[index].toMap()));
-                                                    
-                                                    showDynamicSnackBar(context, 
-                                                      Iconsax.info_circle, 
-                                                      "Koneksi Perangkat Bluetooth", 
-                                                      "Berhasil terhubung dengan perangkat ${state.deviceList[index].name}", 
-                                                      Colors.blue
-                                                    );
-                                                  }).catchError((_) {
-                                                    showDynamicSnackBar(
-                                                      context, 
-                                                      Iconsax.warning_2, 
-                                                      "ERROR", 
-                                                      "Gagal Menghubungkan Printer", 
-                                                      HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
-                                                    );
-                                                  });
-                                                }
-                                              });
-                                            },
-                                            subtitle: Text(
-                                              state.deviceList[index].address!,
-                                              style: GoogleFonts.openSans(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                                color: Colors.black
-                                              ),
-                                            ),
-                                            trailing: BlocBuilder<ConnectPrinterCubit, ConnectPrinterState>(
-                                              bloc: locator.get<ConnectPrinterCubit>(),
-                                              builder: (_, state) {
-                                                return SizedBox(
-                                                  child: state.deviceList.isNotEmpty && 
-                                                  state.deviceList[index] == state.selectedDevice ? 
-                                                  const Icon(Iconsax.tick_circle, color: Colors.green,) : null,
-                                                );
-                                              },
-                                            ),
-                                          );
-                                        }, 
-                                        separatorBuilder: (context, index) {
-                                          return const Divider();
-                                        }, 
-                                        itemCount: state.deviceList.length
-                                      );
-                                    }
                                   },
                                 )
                               )

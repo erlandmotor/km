@@ -19,7 +19,9 @@ class ScanBarcodeComponent extends StatelessWidget {
       onTap: () {
         try {
           FlutterBarcodeScanner.scanBarcode("#ff6666", "Cancel", false, ScanMode.DEFAULT).then((scanResult)  {
-            onScanResult(scanResult);
+            if(scanResult != "-1") {
+              onScanResult(scanResult);
+            }
           });
         } on PlatformException {
           showDynamicSnackBar(

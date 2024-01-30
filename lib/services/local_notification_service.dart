@@ -1,3 +1,5 @@
+import "package:adamulti_mobile_clone_new/cubit/bottom_navigation_cubit.dart";
+import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:flutter_local_notifications/flutter_local_notifications.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
@@ -28,8 +30,9 @@ class LocalNotificationService {
     (NotificationResponse notificationResponse) async {
       switch (notificationResponse.notificationResponseType) {
         case NotificationResponseType.selectedNotification:
-          // final context = globalNavigatorKey.currentContext!;
-          // context.goNamed("main");
+          final context = globalNavigatorKey.currentContext!;
+          locator.get<BottomNavigationCubit>().changeNavigationIndex(1);
+          context.goNamed("main");
 
         case NotificationResponseType.selectedNotificationAction:
           // Perhaps this section is for custom action with notification

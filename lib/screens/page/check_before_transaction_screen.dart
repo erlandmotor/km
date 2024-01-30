@@ -130,7 +130,7 @@ class _CheckBeforeTransactionScreenState extends State<CheckBeforeTransactionScr
 
                                       if(value.success!) {
                                         locator.get<LocalNotificationService>().showLocalNotification(
-                                          title: "✅ Check ID Pelanggan ${value.produk!}", 
+                                          title: "✅ Cek Tagihan Pelanggan ${value.produk!}", 
                                           body: value.msg!
                                         );
 

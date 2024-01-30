@@ -22,6 +22,8 @@
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
 
+    <!-- Tell Google Play Store that your app uses Bluetooth LE
+     Set android:required="true" if bluetooth is necessary -->
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="false" />
 
     <!-- New Bluetooth permissions in Android 12
@@ -36,9 +38,6 @@
 
     <!-- legacy for Android 9 or lower -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:maxSdkVersion="28" />
-    <!-- Needed only if your app makes the device discoverable to Bluetooth
-        devices. -->
-    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
     
     <application
         android:label="Adamulti Clone"

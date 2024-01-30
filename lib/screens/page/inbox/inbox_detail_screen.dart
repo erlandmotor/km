@@ -9,6 +9,7 @@ import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
 import "package:flutter_html/flutter_html.dart";
 import "package:iconsax/iconsax.dart";
+import "package:url_launcher/url_launcher.dart";
 
 class InboxDetailScreen extends StatelessWidget {
 
@@ -68,7 +69,13 @@ class InboxDetailScreen extends StatelessWidget {
                     Html(
                       data: """
                           ${snapshot.data!.content!}
-                      """
+                      """,
+                      onLinkTap: (url, attributes, element) {
+                        if(url != null) {
+                          final parsedUrl = Uri.parse(url);
+                          launchUrl(parsedUrl);
+                        }
+                      },
                     )
                   ],
                 ),

@@ -194,9 +194,7 @@ GoRouter screenRouter(String? token) {
         builder: (context, state) {
           return MultiBlocProvider(
             providers: [
-              BlocProvider(
-                create: (_) => BottomNavigationCubit(),
-              ),
+              BlocProvider.value(value: locator.get<BottomNavigationCubit>()),
               BlocProvider(
                 create: (_) => HistoryTransaksiCubit()
               ),

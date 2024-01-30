@@ -164,6 +164,7 @@ class _MainScreenState extends State<MainScreen> {
             child: DoubleBackToCloseApp(
               snackBar: const SnackBar(content: Text("Tekan Sekali Lagi untuk Keluar")),
               child: BlocBuilder<BottomNavigationCubit, BottomNavigationState>(
+                bloc: bottomNavigationCubit,
                 builder: (_, state) {
                   return NavigationBar(
                     indicatorColor: HexColor.fromHex(stateSetting.settingData.indicatorColor!),

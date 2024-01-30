@@ -3,13 +3,13 @@ import 'dart:ui';
 import 'package:adamulti_mobile_clone_new/constant/constant.dart';
 import 'package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/bottom_navigation_cubit.dart';
-import 'package:adamulti_mobile_clone_new/cubit/connect_printer_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/getme_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/google_account_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/inbox_schema_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart';
 import 'package:adamulti_mobile_clone_new/cubit/user_appid_cubit.dart';
 import 'package:adamulti_mobile_clone_new/firebase_options.dart';
+import 'package:adamulti_mobile_clone_new/function/custom_function.dart';
 import 'package:adamulti_mobile_clone_new/locator.dart';
 import 'package:adamulti_mobile_clone_new/schema/inbox_schema.dart';
 import 'package:adamulti_mobile_clone_new/screen_router.dart';
@@ -36,6 +36,19 @@ Future<void> main() async {
   final inboxSchemaBox = await Hive.openBox<InboxSchema>("inboxSchema");
 
   locator.get<InboxSchemaCubit>().updateState(inboxSchemaBox);
+
+  final convertedBoxValuesToList = inboxSchemaBox.values.toList();
+
+  final expiredInboxDateList = convertedBoxValuesToList.where((element) {
+    return daysBetween(element.date, DateTime.now()) >= 30;
+  }).toList();
+
+  if(expiredInboxDateList.isNotEmpty) {
+    for(var i = 0; i < expiredInboxDateList.length; i++) {
+      final findIndex = convertedBoxValuesToList.indexWhere((element) => element.date == expiredInboxDateList[i].date);
+      inboxSchemaBox.deleteAt(findIndex);
+    }
+  }
 
   // await Future.delayed(const Duration(seconds: 1));
 
@@ -112,7 +125,6 @@ class _MyAppState extends State<MyApp> {
     locator.get<AuthenticatedCubit>().close();
     locator.get<GetmeCubit>().close();
     locator.get<UserAppidCubit>().close();
-    locator.get<ConnectPrinterCubit>().close();
     locator.get<GoogleAccountCubit>().close();
     locator.get<InboxSchemaCubit>().close();
     locator.get<BottomNavigationCubit>().close();

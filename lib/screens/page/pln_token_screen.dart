@@ -97,7 +97,7 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                               );
 
                               locator.get<LocalNotificationService>().showLocalNotification(
-                                title: "✅ Check ID Pelanggan ${value.produk!}", 
+                                title: "✅ Cek ID Pelanggan ${value.produk!}", 
                                 body: value.msg!
                               );
                             } else {
@@ -111,7 +111,7 @@ class _PlnTokenScreenState extends State<PlnTokenScreen> {
                               );
 
                               locator.get<LocalNotificationService>().showLocalNotification(
-                                title: "❌ Gagal Check ID Pelanggan ${value.produk!}", 
+                                title: "❌ Gagal Cek ID Pelanggan ${value.produk!}", 
                                 body: value.msg!
                               );
                             }
