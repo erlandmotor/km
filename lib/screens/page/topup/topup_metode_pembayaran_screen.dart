@@ -131,66 +131,66 @@ class TopupMetodePembayaranScreen extends StatelessWidget {
                                 });
                               }
                             ),
-                            const SizedBox(height: 8,),
-                            MetodePembayaranItemComponent(
-                              title: "OVO", 
-                              description: "Biaya Admin Rp. 5000", 
-                              icon: Iconsax.card_send5, 
-                              iconColor: Colors.purple, 
-                              containerIconColor: Colors.purple.withOpacity(0.2), 
-                              surfaceColor: Colors.white,
-                              isImage: true,
-                              imageUrl: "https://res.cloudinary.com/ada-multi/image/upload/v1611653453/OVO_LOGO-min_zygtwe.png", 
-                              onTapAction: () {
-                                context.pushNamed("topup-ovo", extra: {
-                                  "amount": amount
-                                });
-                              }
-                            ),
-                            const SizedBox(height: 8,),
-                            MetodePembayaranItemComponent(
-                              title: "Alfamart", 
-                              description: "Biaya Admin Rp. 5000", 
-                              icon: Iconsax.card_send5, 
-                              iconColor: Colors.red, 
-                              containerIconColor: Colors.red.withOpacity(0.2), 
-                              surfaceColor: Colors.white,
-                              isImage: true,
-                              imageUrl: "https://res.cloudinary.com/ada-multi/image/upload/v1706236597/alfamart-min_fmspkk.png", 
-                              onTapAction: () {
-                                showLoadingSubmit(context, "Proses Mengajukan Deposit, Silahkan Tunggu...");
-                                locator.get<TopupService>().proceedDepositTiketAlfamart(
-                                  locator.get<UserAppidCubit>().state.userAppId.appId, 
-                                  amount.toString()
-                                ).then((value) {
-                                  context.pop();
-                                  context.pushNamed("topup-alfamart", extra: {
-                                    "response": value
-                                  });
-                                }).catchError((e) {
-                                  context.pop();
-                                  showDynamicSnackBar(
-                                    context, 
-                                    Iconsax.warning_2, 
-                                    "ERROR", 
-                                    e.toString(), 
-                                    HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
-                                  );
-                                });
-                              }
-                            ),
-                            const SizedBox(height: 8,),
-                            MetodePembayaranItemComponent(
-                              title: "Indomart", 
-                              description: "Biaya Admin Rp. 5000", 
-                              icon: Iconsax.card_send5, 
-                              iconColor: Colors.red, 
-                              containerIconColor: Colors.yellow.withOpacity(0.2), 
-                              surfaceColor: Colors.white,
-                              isImage: true,
-                              imageUrl: "https://res.cloudinary.com/ada-multi/image/upload/v1706236597/indomart-min_xfx86q.png", 
-                              onTapAction: () {}
-                            ),
+                            // const SizedBox(height: 8,),
+                            // MetodePembayaranItemComponent(
+                            //   title: "OVO", 
+                            //   description: "Biaya Admin Rp. 5000", 
+                            //   icon: Iconsax.card_send5, 
+                            //   iconColor: Colors.purple, 
+                            //   containerIconColor: Colors.purple.withOpacity(0.2), 
+                            //   surfaceColor: Colors.white,
+                            //   isImage: true,
+                            //   imageUrl: "https://res.cloudinary.com/ada-multi/image/upload/v1611653453/OVO_LOGO-min_zygtwe.png", 
+                            //   onTapAction: () {
+                            //     context.pushNamed("topup-ovo", extra: {
+                            //       "amount": amount
+                            //     });
+                            //   }
+                            // ),
+                            // const SizedBox(height: 8,),
+                            // MetodePembayaranItemComponent(
+                            //   title: "Alfamart", 
+                            //   description: "Biaya Admin Rp. 5000", 
+                            //   icon: Iconsax.card_send5, 
+                            //   iconColor: Colors.red, 
+                            //   containerIconColor: Colors.red.withOpacity(0.2), 
+                            //   surfaceColor: Colors.white,
+                            //   isImage: true,
+                            //   imageUrl: "https://res.cloudinary.com/ada-multi/image/upload/v1706236597/alfamart-min_fmspkk.png", 
+                            //   onTapAction: () {
+                            //     showLoadingSubmit(context, "Proses Mengajukan Deposit, Silahkan Tunggu...");
+                            //     locator.get<TopupService>().proceedDepositTiketAlfamart(
+                            //       locator.get<UserAppidCubit>().state.userAppId.appId, 
+                            //       amount.toString()
+                            //     ).then((value) {
+                            //       context.pop();
+                            //       context.pushNamed("topup-alfamart", extra: {
+                            //         "response": value
+                            //       });
+                            //     }).catchError((e) {
+                            //       context.pop();
+                            //       showDynamicSnackBar(
+                            //         context, 
+                            //         Iconsax.warning_2, 
+                            //         "ERROR", 
+                            //         e.toString(), 
+                            //         HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
+                            //       );
+                            //     });
+                            //   }
+                            // ),
+                            // const SizedBox(height: 8,),
+                            // MetodePembayaranItemComponent(
+                            //   title: "Indomart", 
+                            //   description: "Biaya Admin Rp. 5000", 
+                            //   icon: Iconsax.card_send5, 
+                            //   iconColor: Colors.red, 
+                            //   containerIconColor: Colors.yellow.withOpacity(0.2), 
+                            //   surfaceColor: Colors.white,
+                            //   isImage: true,
+                            //   imageUrl: "https://res.cloudinary.com/ada-multi/image/upload/v1706236597/indomart-min_xfx86q.png", 
+                            //   onTapAction: () {}
+                            // ),
                           ],
                         ),
                       ),

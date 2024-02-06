@@ -1,5 +1,6 @@
 import "package:adamulti_mobile_clone_new/cubit/bottom_navigation_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/check_identity_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/connected_devices_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/downline_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/favorite_menu_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/history_calendar_cubit.dart";
@@ -74,16 +75,25 @@ import "package:adamulti_mobile_clone_new/screens/page/transfer/transfer_dynamic
 import "package:adamulti_mobile_clone_new/screens/page/transfer/transfer_main_screen.dart";
 import "package:adamulti_mobile_clone_new/screens/page/webview_screen.dart";
 import "package:adamulti_mobile_clone_new/services/local_notification_service.dart";
+import "package:adamulti_mobile_clone_new/splash_screen.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 
 GoRouter screenRouter(String? token) {
 
+// token != null ? "/main" : "/select-google-account"
   return GoRouter(
     navigatorKey: locator.get<LocalNotificationService>().globalNavigatorKey,
-    initialLocation: token != null ? "/main" : "/select-google-account",
+    initialLocation: "/splash-screen",
     routes: [
+      GoRoute(
+        path: "/splash-screen",
+        name: "splash-screen",
+        builder: (context, state) {
+          return SplashScreen(token: token);
+        }
+      ),
       GoRoute(
         path: "/select-google-account",
         name: "select-google-account",
@@ -531,7 +541,10 @@ GoRouter screenRouter(String? token) {
             path: "connect-printer",
             name: "connect-printer",
             builder: (context, state) {
-              return const ConnectPrinterScreen();
+              return BlocProvider(
+                create: (_) => ConnectedDevicesCubit(),
+                child: const ConnectPrinterScreen(),
+              );
             }
           ),
           GoRoute(

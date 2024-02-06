@@ -6,6 +6,7 @@ import "package:adamulti_mobile_clone_new/components/home_carousel.dart";
 import "package:adamulti_mobile_clone_new/components/layanan_component.dart";
 import "package:adamulti_mobile_clone_new/components/main_menu_shimmer.dart";
 import "package:adamulti_mobile_clone_new/components/saldo_action_component.dart";
+import "package:adamulti_mobile_clone_new/components/social_item_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/favorite_menu_cubit.dart";
@@ -22,6 +23,7 @@ import "package:adamulti_mobile_clone_new/services/backoffice_service.dart";
 import "package:adamulti_mobile_clone_new/services/secure_storage.dart";
 import "package:auto_size_text/auto_size_text.dart";
 import "package:cached_network_image/cached_network_image.dart";
+import "package:custom_pop_up_menu/custom_pop_up_menu.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:google_fonts/google_fonts.dart";
@@ -197,11 +199,107 @@ class HomeScreen extends StatelessWidget {
                         child: BlocBuilder<SettingApplikasiCubit, SettingApplikasiState>(
                           bloc: locator.get<SettingApplikasiCubit>(),
                           builder: (_, stateSetting) {
-                            return GestureDetector(
-                              onTap: () {
-                                final Uri csWhatsApp = Uri.parse("whatsapp://send/?phone=6287865811150&text=${Uri.parse("Halo ")}");
-                                launchUrl(csWhatsApp);
-                              },
+                            return CustomPopupMenu(
+                              menuBuilder: () {
+                                return Container(
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8)
+                                  ),
+                                  padding: const EdgeInsets.all(8),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      SocialItemComponent(
+                                        imageUrl: "https://res.cloudinary.com/ada-multi/image/upload/v1706930937/logo-whatsapp_covom4.png", 
+                                        label: "Whatsapp", 
+                                        onTapAction: () {
+                                          final Uri csWhatsApp = Uri.parse("whatsapp://send/?phone=6287865811150&text=${Uri.parse("Halo ")}");
+                                          launchUrl(csWhatsApp);
+                                        }, 
+                                        menuColor: Colors.green.withOpacity(0.1), 
+                                        mainContainerWidth: 56, 
+                                        containerWidth: 48, 
+                                        containerHeight: 48, 
+                                        imageHeight: 36, 
+                                        imageWidth: 36, 
+                                        containerBorderRadius: 8
+                                      ),
+                                      // const Divider(),
+                                      // SocialItemComponent(
+                                      //   imageUrl: "https://res.cloudinary.com/ada-multi/image/upload/v1706930937/logo-instagram_lpbfcu.png", 
+                                      //   label: "Instagram", 
+                                      //   onTapAction: () {
+                                      //     final Uri instagramLink = Uri.parse("https://www.instagram.com/mitrapulsa.nusantara/");
+                                      //     launchUrl(instagramLink);
+                                      //   }, 
+                                      //   menuColor: const Color(0xff5045a2).withOpacity(0.2), 
+                                      //   mainContainerWidth: 56, 
+                                      //   containerWidth: 48, 
+                                      //   containerHeight: 48, 
+                                      //   imageHeight: 36, 
+                                      //   imageWidth: 36, 
+                                      //   containerBorderRadius: 8
+                                      // ),
+                                      const Divider(),
+                                      SocialItemComponent(
+                                        imageUrl: "https://res.cloudinary.com/ada-multi/image/upload/v1706930936/logo-facebook_q1nrpf.png", 
+                                        label: "Facebook", 
+                                        onTapAction: () {
+                                          final Uri facebookLink = Uri.parse("fb://facewebmodal/f?href=https://www.facebook.com/adamultipulsa/");
+                                          launchUrl(facebookLink);
+                                        }, 
+                                        menuColor: const Color(0xff3a579b).withOpacity(0.2), 
+                                        mainContainerWidth: 56, 
+                                        containerWidth: 48, 
+                                        containerHeight: 48, 
+                                        imageHeight: 36, 
+                                        imageWidth: 36, 
+                                        containerBorderRadius: 8
+                                      ),
+                                      // const Divider(),
+                                      // SocialItemComponent(
+                                      //   imageUrl: "https://res.cloudinary.com/ada-multi/image/upload/v1706930938/logo-youtube_xh7uqe.png", 
+                                      //   label: "Youtube", 
+                                      //   onTapAction: () {
+                                      //     final Uri youtubeLink = Uri.parse("https://www.youtube.com/channel/UC61vAKISPistmY_DpROYXrQ");
+                                      //     launchUrl(youtubeLink);
+                                      //   }, 
+                                      //   menuColor: const Color(0xffc0392b).withOpacity(0.2), 
+                                      //   mainContainerWidth: 56, 
+                                      //   containerWidth: 48, 
+                                      //   containerHeight: 48, 
+                                      //   imageHeight: 36, 
+                                      //   imageWidth: 36, 
+                                      //   containerBorderRadius: 8
+                                      // ),
+                                      const Divider(),
+                                      SocialItemComponent(
+                                        imageUrl: "https://res.cloudinary.com/ada-multi/image/upload/v1706930939/logo-chrome_rlwwfg.png", 
+                                        label: "Website", 
+                                        onTapAction: () {
+                                          final Uri websiteUri = Uri.parse("https://www.adamulti.com/");
+                                          launchUrl(websiteUri);
+                                        }, 
+                                        menuColor: const Color(0xfffed14b).withOpacity(0.2), 
+                                        mainContainerWidth: 56, 
+                                        containerWidth: 48, 
+                                        containerHeight: 48, 
+                                        imageHeight: 36, 
+                                        imageWidth: 36, 
+                                        containerBorderRadius: 8
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }, 
+                              pressType: PressType.singleClick,
+                              verticalMargin: 10,
+                              horizontalMargin: 10,
+                              arrowColor: Colors.white,
+                              barrierColor: Colors.black54,
+                              showArrow: true,
                               child: Container(
                                 alignment: Alignment.center,
                                 padding: const EdgeInsets.all(4),

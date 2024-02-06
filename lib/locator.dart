@@ -1,5 +1,6 @@
 import "package:adamulti_mobile_clone_new/cubit/authenticated_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/bottom_navigation_cubit.dart";
+import "package:adamulti_mobile_clone_new/cubit/connected_devices_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/getme_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/google_account_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/inbox_schema_cubit.dart";
@@ -36,6 +37,7 @@ void setupLocator() {
   locator.registerSingleton(GoogleAccountCubit());
   locator.registerSingleton(NotificationCountCubit());
   locator.registerSingleton(SettingApplikasiCubit());
+  locator.registerSingleton(ConnectedDevicesCubit());
   locator.registerLazySingleton(() => JwtService());
   locator.registerLazySingleton(() => ProductService());
   locator.registerLazySingleton(() => TransactionService());

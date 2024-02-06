@@ -31,7 +31,7 @@ class _PrinterSettingScreenState extends State<PrinterSettingScreen> {
   final namaTokoController = TextEditingController();
   final alamatTokoController = TextEditingController();
   final footerStrukController = TextEditingController();
-  final markupController = TextEditingController(text: "Rp. 1.000");
+  final markupController = TextEditingController(text: "Rp. 2.000");
 
   @override
   void initState() {

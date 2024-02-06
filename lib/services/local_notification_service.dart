@@ -11,7 +11,7 @@ class LocalNotificationService {
 
 
   Future<void> initLocalNotification() async {
-    AndroidInitializationSettings initializationSettingsAndroid = const AndroidInitializationSettings("adalogo");
+    AndroidInitializationSettings initializationSettingsAndroid = const AndroidInitializationSettings("@mipmap/launcher_icon");
 
     final initializationSettingsIOS = DarwinInitializationSettings(
       requestAlertPermission: true,

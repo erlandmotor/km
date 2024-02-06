@@ -30,17 +30,20 @@ class PrintMarkupContainerComponent extends StatefulWidget {
 
 class _PrintMarkupContainerComponentState extends State<PrintMarkupContainerComponent> {
 
-  final markupController = TextEditingController(text: "Rp. 1.000");
+  final markupController = TextEditingController(text: "Rp. 2.000");
   
   @override
   void initState() {
+    final transactionDetailCubit = context.read<TransactionDetailCubit>();   
     locator.get<SecureStorageService>().readSecureData("struk").then((value) {
-      if(value != null) {
-        final transactionDetailCubit = context.read<TransactionDetailCubit>();      
+      if(value != null) {   
         
         final struk = StrukModel.fromJson(jsonDecode(value));
         final markup = int.parse(struk.markup!.replaceAll(RegExp(r"\D"), ""));
         markupController.text = struk.markup!;
+        transactionDetailCubit.updateState(transactionDetailCubit.state.isPrinting, FormatCurrency.convertToIdr(widget.total + markup, 0));
+      } else {
+        final markup = int.parse(markupController.text.replaceAll(RegExp(r"\D"), ""));
         transactionDetailCubit.updateState(transactionDetailCubit.state.isPrinting, FormatCurrency.convertToIdr(widget.total + markup, 0));
       }
     });
@@ -93,7 +96,7 @@ class _PrintMarkupContainerComponentState extends State<PrintMarkupContainerComp
                   },
                 ),
                 const SizedBox(height: 18,),
-                                Container(
+                Container(
                   width: 100.w,
                   padding: const EdgeInsets.all(18),
                   decoration: BoxDecoration(
