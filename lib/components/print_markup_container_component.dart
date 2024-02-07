@@ -1,14 +1,11 @@
-import "dart:convert";
-
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
+import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/markup_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/transaction_detail_cubit.dart";
 import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
-import "package:adamulti_mobile_clone_new/model/struk_model.dart";
-import "package:adamulti_mobile_clone_new/services/secure_storage.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:google_fonts/google_fonts.dart";
@@ -30,29 +27,20 @@ class PrintMarkupContainerComponent extends StatefulWidget {
 
 class _PrintMarkupContainerComponentState extends State<PrintMarkupContainerComponent> {
 
-  final markupController = TextEditingController(text: "Rp. 2.000");
+  final sellingPriceController = TextEditingController(text: "Rp. 0");
   
   @override
   void initState() {
-    final transactionDetailCubit = context.read<TransactionDetailCubit>();   
-    locator.get<SecureStorageService>().readSecureData("struk").then((value) {
-      if(value != null) {   
-        
-        final struk = StrukModel.fromJson(jsonDecode(value));
-        final markup = int.parse(struk.markup!.replaceAll(RegExp(r"\D"), ""));
-        markupController.text = struk.markup!;
-        transactionDetailCubit.updateState(transactionDetailCubit.state.isPrinting, FormatCurrency.convertToIdr(widget.total + markup, 0));
-      } else {
-        final markup = int.parse(markupController.text.replaceAll(RegExp(r"\D"), ""));
-        transactionDetailCubit.updateState(transactionDetailCubit.state.isPrinting, FormatCurrency.convertToIdr(widget.total + markup, 0));
-      }
-    });
+    final transactionDetailCubit = context.read<TransactionDetailCubit>();
+    final sellingPrice = int.parse(sellingPriceController.text.replaceAll(RegExp(r"\D"), ""));              
+
+    transactionDetailCubit.updateState(transactionDetailCubit.state.isPrinting, FormatCurrency.convertToIdr(sellingPrice, 0));
     super.initState();
   }
 
   @override
   void dispose() {
-    markupController.dispose();
+    sellingPriceController.dispose();
     super.dispose();
   }
 
@@ -80,20 +68,41 @@ class _PrintMarkupContainerComponentState extends State<PrintMarkupContainerComp
               mainAxisSize: MainAxisSize.min,
               children: [
                 MarkupTextFieldComponent(
-                  label: "Jasa Loket / Markup", 
-                  hint: "Contoh : Rp. 2.000", 
-                  controller: markupController,
+                  label: "Atur Harga Jual", 
+                  hint: "Harga jual harus lebih besar dari harga beli.", 
+                  controller: sellingPriceController,
                   prefixIcon: Iconsax.money_tick,
                   onChangedAction: (String value) {
                     final transactionDetailCubit = context.read<TransactionDetailCubit>();
-                    final markup = int.parse(value.replaceAll(RegExp(r"\D"), ""));              
+                    final sellingPrice = int.parse(value.replaceAll(RegExp(r"\D"), ""));              
     
-                    if(markup == 0) {
-                      transactionDetailCubit.updateState(transactionDetailCubit.state.isPrinting, FormatCurrency.convertToIdr(widget.total, 0));
-                    } else {
-                      transactionDetailCubit.updateState(transactionDetailCubit.state.isPrinting, FormatCurrency.convertToIdr(widget.total + markup, 0));
-                    }
+                    transactionDetailCubit.updateState(transactionDetailCubit.state.isPrinting, FormatCurrency.convertToIdr(sellingPrice, 0));
                   },
+                ),
+                const SizedBox(height: 18,),
+                Container(
+                  width: 100.w,
+                  padding: const EdgeInsets.all(18),
+                  decoration: BoxDecoration(
+                    color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!),
+                    borderRadius: BorderRadius.circular(8)
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Harga Beli : ", style: GoogleFonts.openSans(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white
+                      ),),
+                      const SizedBox(height: 4,),
+                      Text(FormatCurrency.convertToIdr(widget.total, 0), style: GoogleFonts.openSans(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white
+                      ),),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 18,),
                 Container(
@@ -106,7 +115,7 @@ class _PrintMarkupContainerComponentState extends State<PrintMarkupContainerComp
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Total Bayar : ", style: GoogleFonts.openSans(
+                      Text("Harga Jual : ", style: GoogleFonts.openSans(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                         color: Colors.white
@@ -130,9 +139,21 @@ class _PrintMarkupContainerComponentState extends State<PrintMarkupContainerComp
                   label: widget.buttonLabel, 
                   buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
                   onPressed: () {
-                    final transactionDetailCubit = context.read<TransactionDetailCubit>();
+                    final sellingPrice = int.parse(sellingPriceController.text.replaceAll(RegExp(r"\D"), ""));
+
+                    if(widget.total > sellingPrice) {
+                      showDynamicSnackBar(
+                        context, 
+                        Iconsax.warning_2, 
+                        "ERROR", 
+                        "Harga Jual harus lebih besar dari Harga Beli.", 
+                        HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.errorColor!)
+                      );
+                    } else {
+                      final transactionDetailCubit = context.read<TransactionDetailCubit>();
     
-                    widget.onSubmitAction(transactionDetailCubit.state.totalReceipt, markupController.text);
+                      widget.onSubmitAction(transactionDetailCubit.state.totalReceipt, sellingPriceController.text);
+                    }
                   }, 
                   width: 100.w, 
                   height: 50

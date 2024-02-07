@@ -268,7 +268,7 @@ class ReceiptContainerComponent extends StatelessWidget {
                             return Text(state.totalReceipt, style: GoogleFonts.openSans(
                               fontSize: 18,
                               fontWeight: FontWeight.w800,
-                              color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.infoColor!)
+                              color: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!)
                             ),);
                           }
                         )

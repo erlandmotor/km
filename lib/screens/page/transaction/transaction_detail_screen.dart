@@ -10,7 +10,6 @@ import "package:adamulti_mobile_clone_new/components/receipt_container_component
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
 import "package:adamulti_mobile_clone_new/cubit/setting_applikasi_cubit.dart";
 import "package:adamulti_mobile_clone_new/cubit/transaction_detail_cubit.dart";
-import "package:adamulti_mobile_clone_new/function/custom_function.dart";
 import "package:adamulti_mobile_clone_new/locator.dart";
 import "package:adamulti_mobile_clone_new/model/cetak_mobile_response.dart";
 import "package:adamulti_mobile_clone_new/model/connected_bluetooth_data.dart";
@@ -56,9 +55,6 @@ class _TransactionDetailScreenState extends State<TransactionDetailScreen> {
     //   print("ENABLED : ");
     //   print(enabled);
     // });
-
-    final transactionDetailCubit = context.read<TransactionDetailCubit>();
-    transactionDetailCubit.updateState(transactionDetailCubit.state.isPrinting, FormatCurrency.convertToIdr(widget.total, 0));
 
     super.initState();
   }

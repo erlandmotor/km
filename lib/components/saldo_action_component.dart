@@ -31,7 +31,7 @@ class SaldoActionComponent extends StatelessWidget {
               return Icon(
                 icon,
                 size: 28,
-                color: HexColor.fromHex(state.settingData.infoColor!),
+                color: HexColor.fromHex(state.settingData.secondaryColor!),
               );
             },
           ),

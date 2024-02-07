@@ -5,7 +5,6 @@ import "package:adamulti_mobile_clone_new/components/custom_container_appbar.dar
 import "package:adamulti_mobile_clone_new/components/dynamic_size_button_component.dart";
 import "package:adamulti_mobile_clone_new/components/dynamic_snackbar.dart";
 import "package:adamulti_mobile_clone_new/components/light_decoration_container_component.dart";
-import "package:adamulti_mobile_clone_new/components/markup_textfield_component.dart";
 import "package:adamulti_mobile_clone_new/components/regular_textarea_component.dart";
 import "package:adamulti_mobile_clone_new/components/regular_textfield_without_icon_component.dart";
 import "package:adamulti_mobile_clone_new/constant/constant.dart";
@@ -31,7 +30,6 @@ class _PrinterSettingScreenState extends State<PrinterSettingScreen> {
   final namaTokoController = TextEditingController();
   final alamatTokoController = TextEditingController();
   final footerStrukController = TextEditingController();
-  final markupController = TextEditingController(text: "Rp. 2.000");
 
   @override
   void initState() {
@@ -42,7 +40,6 @@ class _PrinterSettingScreenState extends State<PrinterSettingScreen> {
         namaTokoController.text = struk.nama!;
         alamatTokoController.text = struk.alamat!;
         footerStrukController.text = struk.footer!;
-        markupController.text = struk.markup!;
       }
     });
     super.initState();
@@ -53,7 +50,6 @@ class _PrinterSettingScreenState extends State<PrinterSettingScreen> {
     namaTokoController.dispose();
     alamatTokoController.dispose();
     footerStrukController.dispose();
-    markupController.dispose();
     super.dispose();
   }
 
@@ -110,15 +106,6 @@ class _PrinterSettingScreenState extends State<PrinterSettingScreen> {
                                   validationMessage: "*Footer struk harus diisi."
                                 ),
                                 const SizedBox(height: 18,),
-                                MarkupTextFieldComponent(
-                                  label: "Default Markup", 
-                                  hint: "Contoh : Rp. 2.000", 
-                                  controller: markupController,
-                                  prefixIcon: Iconsax.money_tick,
-                                  onChangedAction: (String value) {
-                                  }
-                                ),
-                                const SizedBox(height: 18,),
                                 DynamicSizeButtonComponent(
                                   label: "Simpan", 
                                   buttonColor: HexColor.fromHex(locator.get<SettingApplikasiCubit>().state.settingData.secondaryColor!), 
@@ -129,7 +116,6 @@ class _PrinterSettingScreenState extends State<PrinterSettingScreen> {
                                           nama: namaTokoController.text, 
                                           alamat: alamatTokoController.text, 
                                           footer: footerStrukController.text,
-                                          markup: markupController.text
                                         ).toJson())
                                       );
                       
